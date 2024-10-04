@@ -1,0 +1,105 @@
+@charset "UTF-8";
+/*타이틀*/
+#top-title p{
+    font-size: 11px;
+    float: right;
+    /*background-color: #85cbd2;*/
+    margin-top: 18px;
+}
+#top-title{
+    width: 940px;
+    /* background-color: aquamarine; */
+}
+
+/*사용중인이용권*/
+#select-usePayment{
+    background-color: #fafafa;
+    padding: 23px 20px;
+    border-top: 2px #cacad0 solid;
+    border-bottom: 2px #cacad0 solid;
+}
+#use-payment-my{
+    border: 1px #D5D5D5 solid;
+    font-size: 13px;
+    border-radius: 13px;
+    padding: 3px 12px;
+    background-color: #f7f7f7;
+}
+#select-usePayment span{
+    color: #0096ff;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#select-usePayment p{
+    font-size: 11px;
+    font-weight: bold;
+    color: #979bb1;
+    margin-top: 5px;
+    margin-left: 132px;
+}
+#delete-move-button{
+    border: 1px #000000 solid;
+    font-weight: bold;
+    padding: 10px 30px;
+    margin-top: 14px;
+    margin-left: 132px;
+    background-color: #3e486e;
+    color: #e7e7e7;
+}
+
+/*이용권 공간*/
+
+
+
+/*이용권*/
+.product-back-div{
+    background-image: url(https://cdnimg.melon.co.kr/resource/image/web/cm/bg-gradiant-top.png);
+    width: 900px;
+    background-size: 100%;
+    margin-left: 13px;
+    border-radius: 8px;
+
+}
+.product-title{
+    font-size: 25px;
+    font-weight: bold;
+    padding-left: 20px;
+    margin-bottom: 5px;
+}
+
+#all-product-area{
+    /* background-color: blue; */
+    padding: 25px 0px;
+}
+
+/*이용권 타이틀*/
+.product-back-div .product-name-date{
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-left: 15px;
+    color: #ffffff;
+}
+
+/*금액, 구매하기버튼*/
+.product-back-div .product-float{
+    float: right;
+    font-size: 25px;
+    
+    padding: 7px 33px;
+    border-radius: 50px;
+    margin-right: 40px;
+    margin-bottom: 25px;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.product-back-div .float-p{
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    margin-right: 40px;
+    padding-top: 7px;
+    color: #ffffff;
+}

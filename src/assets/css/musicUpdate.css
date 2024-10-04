@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+
+
+/* ################################################# */
+/* MusicUpdate */
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+.container {
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: white;
+}
+h2 {
+	text-align: center;
+	color: #333;
+}
+label {
+	font-weight: bold;
+	margin-top: 10px;
+	display: block;
+}
+input[type="text"], input[type="date"], input[type="time"], input[type="file"], select {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+button {
+	width: 100%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+button:hover {
+	background-color: #45a049;
+}
+.back-btn {
+	background-color: #555;
+	margin-top: 10px;
+}
+.back-btn:hover {
+	background-color: #333;
+}

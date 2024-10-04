@@ -1,0 +1,156 @@
+@charset "UTF-8";
+
+/*타이틀*/
+#top-title p{
+    font-size: 11px;
+    float: right;
+    /*background-color: #85cbd2;*/
+    margin-top: 18px;
+}
+#top-title{
+    width: 940px;
+    /* background-color: aquamarine; */
+    border-bottom: 2px #cacad0 solid;
+}
+
+/*결제 정보 창*/
+#smart-music-listen #pay-total-list{
+    text-align: center;
+    margin: 0px auto;
+    margin-top: 40px;
+    border: 1px #cacad0 solid;
+    /* border-radius: 20px; */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+#smart-music-listen #pay-total-list td{
+    padding: 8px 0px;
+}
+
+#smart-music-listen #pay-total-list .tb-total{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 15px;
+    border-bottom: 1px #cacad0 solid;
+}
+/*테이블별 글꼴*/
+#smart-music-listen #pay-total-list .tb-one{
+    color: black;
+    text-align: left;
+    
+}
+#smart-music-listen #pay-total-list .tb-two{
+    color: rgb(255, 0, 0);
+    text-align: left;
+}
+#smart-music-listen #pay-total-list .tb-three{
+    color: rgb(33, 33, 255);
+    text-align: left;
+    
+}
+
+/*금액모음*/
+#smart-music-listen #pay-total-list .pay-one-two{
+    /* font-weight: bold; */
+    font-size: 20px;
+}
+#smart-music-listen #pay-total-list .pay-two-two{
+    /* font-weight: bold; */
+    font-size: 20px;
+}
+#smart-music-listen #pay-total-list .pay-three-two{
+    /* font-weight: bold; */
+    font-size: 20px;
+}
+#smart-music-listen #pay-total-list .pay-three-one{
+    border-top: 1px #cacad0 solid;
+}
+#smart-music-listen #pay-total-list .pay-three-two{
+    border-top: 1px #cacad0 solid;
+}
+/*금액 이름 모음*/
+#smart-music-listen #pay-total-list .pay-one-one{
+    padding-left: 20px;
+}
+#smart-music-listen #pay-total-list .pay-two-one{
+    padding-left: 20px;
+}
+#smart-music-listen #pay-total-list .pay-three-one{
+    padding-left: 20px;
+}
+
+
+/*결제버튼*/
+#total-price-btn{
+    padding: 10px 60px;
+    font-size: 20px;
+    margin-top: 25px;
+    background-color: rgb(37, 146, 255);
+    border: none;
+    border-radius: 3px;
+    color: azure;
+    margin-left: 370px;
+    transition: transform 0.1s ease, box-shadow 0.1s ease; /* 클릭 시 애니메이션 효과 추가 */
+}
+#total-price-btn:active {
+    transform: scale(0.95); /* 눌렸을 때 약간 작아지게 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 변경 */
+}
+
+
+/*결제수단선택*/
+#pay-choose-box{
+    border: 1px #cacad0 solid;
+    width: 405px;
+    margin: 0px auto;
+    margin-top: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+#pay-choose-box p{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 15px;
+    border-bottom: 1px #cacad0 solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+#pay-choose-radio-box{
+    padding-left: 30px;
+    /* background-color: blue; */
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+#pay-choose-radio-box input{
+    margin-right: 5px;
+}
+
+/*스크립트부분*/
+
+.box{
+    display: none;
+    /* height: 0; */
+    transition: max-height 0.5s ease, opacity 0.5s ease; /* 애니메이션 효과 */
+    /* overflow: hidden; 내용 넘치지 않게 */
+    /* max-height: 0; 초기 최대 높이 */
+    /* opacity: 0; 초기 투명도 */
+} 
+/* .box .show{ */
+    /* display: flex; */
+    /* max-height: 200px; 최대 높이 */
+    /* opacity: 1; 완전 불투명 */
+/* } */
+
+.kkk{
+    width: 20px;
+}
+
+.lll{
+    opacity: 0.5;
+    border: none;
+    width: 100px;
+    border-radius: 20px;
+    margin-left: 100px;
+    margin-top: 20px;
+}

@@ -1,0 +1,204 @@
+@charset "utf-8";
+
+#wrap-maincontent {
+    width: 694px;
+
+    margin-top: 20px;
+} 
+
+/* 네비게이션 Breadcrumbs 스타일 */
+.userinfotitle {
+    display: flex;
+    align-items: center;
+}
+
+.Breadcrumbs {
+    display: flex;
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 14px;
+    float: left;
+    right: 0;
+    position: absolute;
+}
+
+.Breadcrumbs li {
+    margin-right: 5px;
+}
+
+.Breadcrumbs li:last-child {
+    font-weight: bold;
+}
+
+/**/
+#top-ct-list>ul>.hidden {
+    display: none;
+}
+
+#top-ct-list>ul>#custom-confirm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(55, 55, 50, 55);
+    z-index: 1000;
+}
+
+
+#top-ct-list>ul>#custom-confirm>.confirm-content {
+    background-color: #fff;
+    text-align: center;
+}
+
+#top-ct-list>ul>#custom-confirm>.confirm-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #000;
+    font-weight: bolder;
+}
+
+#top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-yes {
+    background-color: #7DD848;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-no {
+    background-color: #D9D9D9;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#top-ct-list>ul>#custom-confirm>.confirm-content>.confirm-btn:hover {
+    background-color: #b38e2c; /* hover시 조금 더 어두운 골드 */
+}
+
+
+
+
+
+
+
+
+/* info table 스타일 */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: solid 2px #000000;
+}
+
+.info-table>thead>tr {
+    height: 100px;
+}
+
+.info-table>thead>tr>td>input {
+    padding: 3px 10px 4px;
+    height: 15px;
+    border-radius: 4px;
+    line-height: 15px;
+    background-color: #fff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #babcbd #d9d9d9 #d9d9d9 #babcbd;
+    box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .05);
+}
+
+.info-table>thead>tr>td>#username {
+    border: none !important;
+    box-shadow:none !important;
+}
+
+.info-table>thead>tr>td>#address {
+    width: 374px;
+}
+
+.info-table>thead>tr>td>#postalcode {
+    margin-bottom: 15px;
+}
+
+.info-table th, .info-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.info-table th {
+    width: 30%;
+    text-align: left;
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.info-table td {
+    text-align: left;
+    background-color: #fff;
+}
+
+
+
+.change-btn, .email-verify-btn, #findpostalcode {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #5F95F7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.change-btn:hover, .email-verify-btn:hover, #findpostalcode:hover {
+    background-color: #4a7bc1;
+}
+
+.profile-photo {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.profile-photo img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 1px solid #ddd;
+}
+
+.submit-section {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.btn-submit, .btn-cancel {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #5F95F7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.btn-cancel {
+    background-color: #ccc;
+}
+
+.btn-submit:hover {
+    background-color: #4a7bc1;
+}
+
+.btn-cancel:hover {
+    background-color: #999;
+}

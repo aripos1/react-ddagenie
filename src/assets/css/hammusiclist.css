@@ -1,0 +1,180 @@
+@charset "utf-8";
+/* hammusiclist.css */
+
+.musiclist {
+    width: 100%;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* 네비게이션 Breadcrumbs 스타일 */
+.listTitle {
+    display: flex;
+    align-items: center;
+}
+
+.listTitle {
+    width:700px;
+    margin-left: 20px;
+    padding-top: 30px;
+}
+
+
+.Breadcrumbs {
+    display: flex;
+    list-style-type: none;
+    padding-left: 700px;
+    font-size: 14px;
+    float: left;
+    position: absolute;
+}
+
+.Breadcrumbs li {
+    margin-right: 5px;
+}
+
+.Breadcrumbs li:last-child {
+    font-weight: bold;
+}
+
+/*테이블 크기*/
+
+#list-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/*툴바 세팅*/
+
+/* 체크박스 */
+.music-list-wrap .option-toolbar {
+    position: relative;
+    height: 31px;
+    padding: 7px 0 0 15px;
+    border: 1px solid #f7f9fc;
+    background-color: #f7f9fc;
+}
+
+.music-list-wrap>.option-toolbar input {
+    font-weight: normal;
+    color: #444;
+    font-family: inherit;
+    font-size: inherit;
+    vertical-align: middle;
+}
+
+input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.music-list-wrap .all-check {
+    width: 17px;
+    height: 17px;
+}
+
+.music-list-wrap .option-toolbar .all-check {
+    margin-right: 12px;
+}
+
+/* 툴바 공통 설정 */
+
+.music-list-wrap .option-toolbar .btn {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    height: 24px;
+    margin-right: 1px;
+    padding: 0 6px 0 26px;
+    border: 1px solid #a6afb6;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 23px;
+    color: #27282d;
+    background-color: #fff;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.music-list-wrap .option-toolbar .btn:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 17px;
+    height: 16px;
+    background: url(../images/iconImg/list_180122.png) no-repeat 0 0;
+}
+/*추가버튼*/
+.music-list-wrap .option-toolbar .btn-add:before {
+    background-position: -21px 0;
+}
+
+button, input[type="reset"], input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+.music-list-wrap .option-toolbar .btns {
+    display: inline-block;
+    float: right;
+    position: relative;
+    padding: 0 14px 0 17px;
+}
+
+.music-list-wrap .option-toolbar .btns:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 1px;
+    height: 12px;
+    background-color: #bcc8d0;
+}
+
+/* ul의 기본 패딩 및 마진 제거 */
+/* ul에 flexbox 적용 */
+#top-ct-list ul {
+    display: flex; /* flexbox로 ul 내부 li를 가로로 배치 */
+    justify-content: space-between; /* li 간 간격을 균등하게 배치 */
+    list-style: none; /* 기본 ul 스타일 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* li 스타일 */
+#top-ct-list ul li {
+    flex: 1; /* 각 li가 동일한 비율로 배치되도록 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    font-weight: bold;
+    padding: 12px;
+    background-color: #f9f9f9;
+    margin-right: 10px; /* li 간격 설정 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+/* 마지막 li의 오른쪽 간격 제거 */
+#top-ct-list ul li:last-child {
+    margin-right: 0;
+}
+
+/* li hover 시 색상 변경 */
+#top-ct-list ul li:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* li 내부 a 태그 */
+#top-ct-list ul li a {
+    display: block; /* a 태그가 li 전체를 차지하게 설정 */
+    width: 100%;
+    text-decoration: none;
+    color: #333;
+}

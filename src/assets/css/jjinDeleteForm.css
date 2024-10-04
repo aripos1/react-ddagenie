@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+
+
+/* 이용권 상세내역, 취소신청 카테고리*/
+#top-title p{
+    font-size: 11px;
+    float: right;
+    /*background-color: #85cbd2;*/
+    margin-top: 18px;
+}
+#top-ct-list div{
+    background-color: darkkhaki;
+}
+
+#top-ct-list{
+    /* background-color: darkkhaki; */
+    /* border-top: 2px #656565 solid; */
+}
+#top-ct-list li{
+    float: left;
+    border-right: 1px #D5D5D5 solid;
+    border-bottom: 1px #D5D5D5 solid;
+    text-align: center;
+    font-weight: bold;
+    padding: 12px 17px;
+    margin-bottom: 30px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* 해지신청표*/
+#delete-list-table{
+    border-top: 1px #D5D5D5 solid;
+    border-bottom: 1px #D5D5D5 solid;
+    text-align: center;
+    font-size: 13px;
+    padding-bottom: 40px;
+}
+/*줄 칸색*/
+table tbody tr{
+    background-color: #f4f4f4;
+}
+.not-background{
+    background-color: #ffffff;
+}
+.sy-btn-delete{
+    background-color: #ffffff;
+    width: 90px;
+    padding: 4px 2px;
+    border-radius: 3px;
+    border: 1px solid rgba(216, 216, 216, 0.5);
+    font-size: 13px;
+    transform: scale(0.95); /* 눌렸을 때 약간 작아지게 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+#delete-list-table td{
+    padding: 7px 0px;
+}
+#delete-list-table th{
+    border-bottom: 1px #D5D5D5 solid;
+    padding:3px 0px;
+    font-weight: bold;
+    font-size: 14px;
+}
+/*안내사항*/
+#guidelines-box{
+    background-color: #f9f9f9;
+    padding: 20px 20px;
+    border: 1px #D5D5D5 solid;
+    margin-top: 40px;
+}
+#guidelines-box h3{
+    color: #656565;
+}
+#guidelines-box ul{
+    list-style-type: disc;
+    padding-left: 15px;
+    padding-top: 3px;
+}
+#guidelines-box li{
+    font-size: 10px;
+    color: #656565
+    
+}
+
+

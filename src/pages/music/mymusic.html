@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../../assets/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link href="../../assets/css/footer.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/playlist.css">
+    <link href="../../assets/css/jjinUtilize.css" rel="stylesheet">
+
+    <title>플레이리스트</title>
+
+</head>
+
+<body>
+    <div id="wrap-main">
+        <div id="wrap-head">
+            <div id="wrap-header">
+                <div id="purchase-button">
+                    <img src="../../assets/images/wallet.png">
+                    <a href="">이용권구매</a>
+                </div>
+                <div class="header-main">
+                    <div class="header-left">
+                        <span class="logo">
+                            <img src="../../assets/images/cuteddagenie.png" alt="로고">
+                        </span>
+                        <div id="search-wrap">
+                            <input type="search" id="sc-fd" class="ipt-search" maxlength="200" autocomplete="off"
+                                placeholder="가을에 듣기 좋은 감성 발라드">
+                            <input type="submit" class="btn-submit" value="검색">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gnb" id="gnb">
+                    <ul class="menu clearfix">
+                        <li><a href="#" class="gnb-menu">지니차트</a></li>
+                        <li><a href="#" class="gnb-menu">최신음악</a></li>
+                        <li><a href="#" class="gnb-menu">장르음악</a></li>
+                    </ul>
+                    <div class="gnb-my">
+                        <button type="button" class="btn login-join-btn">로그인/회원가입</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wrap-body" class="clearfix">
+            <div id="wrap-side">
+                <div id="profile-box">
+                    <div class="profile-name">
+                        <span>
+                            <img src="../../assets/images/cuteddagenie.png">
+                        </span>
+                        <div class="profile-name-one">
+                            <p><a href="#"><strong>진소영</strong> 님</a></p>
+                            <a href="#">프로필수정</a>
+                        </div>
+                    </div>
+                    <div class="profile-edit">
+                        <a href="#" class="button-left"><span>내정보</span></a>
+                        <a href="#" class="button-right"><span>이용권내역</span></a>
+                    </div>
+                </div>
+                <!-- 마이뮤직 리스트 -->
+                <div id="profile-list">
+                    <a>
+                        <span>마이뮤직</span>
+                    </a>
+                    <div>
+                        <ul>
+                            <li><a href="#" class="menu-item" data-tab="playlist"><img
+                                        src="../../assets/images/search.png"> 플레이 리스트</a></li>
+                            <li><a href="#" class="menu-item" data-tab="likes"><img
+                                        src="../../assets/images/search.png"> 좋아요♥</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wrap-main">
+                <div id="top-title">
+                    <h2>마이뮤직</h2>
+                    <p>홈 > 마이뮤직 > 플레이리스트 > <strong>플레이리스트</strong></p>
+                </div>
+                <div id="top-ct-list" class="clearfix">
+                    <ul>
+                        <li><a href="#" class="top-menu-item" data-tab="playlist">플레이리스트</a></li>
+                        <li><a href="#" class="top-menu-item" data-tab="likes">좋아요♥</a></li>
+                    </ul>
+                </div>
+
+                <div id="wrap-main-content">
+                    <!-- 플레이리스트 섹션 -->
+                    <div id="wrap-playlist" style="display: block;">
+                        <table id="playlist-table">
+                            <colgroup>
+                                <col style="width: 50px">
+                                <col style="width: 50px">
+                                <col style="width: 200px">
+                                <col style="width: 75px">
+                                <col style="width: 75px">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th>번호</th>
+                                    <th>곡 정보</th>
+                                    <th>듣기</th>
+                                    <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>HAPPY</p>
+                                                <p>DAY6 (데이식스) | Fourever</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>2</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>Cruel Summer</p>
+                                                <p>Taylor Swift | Lover</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>Cruel Summer</p>
+                                                <p>Taylor Swift | Lover</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>4</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>Cruel Summer</p>
+                                                <p>Taylor Swift | Lover</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>Cruel Summer</p>
+                                                <p>Taylor Swift | Lover</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 페이지네이션 -->
+                        <div class="pagination">
+                            <span>&#60;</span>
+                            <span>1 / 5</span>
+                            <span>&#62;</span>
+                        </div>
+                        <!-- 테이블 아래 버튼들 -->
+                         <br/>
+                        <div class="action-buttons">
+                            <button>전체 듣기</button>
+                            <button>전체 삭제</button>
+                        </div>
+                    </div>
+
+                    <!-- 좋아요 리스트 섹션 -->
+                    <div id="wrap-likes" style="display: none;">
+
+                        <table id="likes-table">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>곡 정보</th>
+                                    <th>듣기</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>예시곡</p>
+                                                <p>가수명 | 앨범명</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>예시곡</p>
+                                                <p>가수명 | 앨범명</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>예시곡</p>
+                                                <p>가수명 | 앨범명</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <div class="song-info">
+                                            <img src="../../assets/images/햄을 구워요.webp" alt="앨범 커버">
+                                            <div>
+                                                <p>예시곡</p>
+                                                <p>가수명 | 앨범명</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><button>듣기</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- 페이지네이션 -->
+                        <div class="pagination">
+                            <span>&#60;</span>
+                            <span>1 / 5</span>
+                            <span>&#62;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wrap-foot" class="footer">
+            <div class="ft-head clearfix">
+                <ul>
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">청소년보호정책</a></li>
+                    <li><a href="#">위치기반서비스</a></li>
+                </ul>
+            </div>
+            <div class="ft-main clearfix">
+                <!-- 로고 이미지 -->
+                <div class="ft-logo">
+                    <img src="../../assets/images/logo.webp" alt="지니뮤직 로고">
+                </div>
+                <!-- 회사 정보 텍스트 -->
+                <div class="ft-info">
+                    <p>(주) 따지니뮤직</p>
+                    <p>대표이사 황일영 | 서울 서초구 강남대로 405 통영빌딩 8층 </p>
+                    <p>사업자등록번호: 777-77-01234 | 통신판매업신고 2013-서울강남-01302</p>
+                    <p>개인정보보호책임자: 임현성 | 서비스문의: 1577-5337 | 이메일: molddajini@hwak.ma</p>
+                    <p>COPYRIGHT©DDAGENIE MUSIC CORP ALL RIGHTS RESERVED.</p>
+                </div>
+            </div>
+            <div class="ft-sns">
+                <a href="#"><img src="../../assets/images/kakao.png" alt="카카오톡" /></a>
+                <a href="#"><img src="../../assets/images/facebook.png" alt="페이스북" /></a>
+                <a href="#"><img src="../../assets/images/insta.png" alt="인스타그램" /></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menuItems = document.querySelectorAll('.menu-item, .top-menu-item');
+        const playlistSection = document.getElementById('wrap-playlist');
+        const likesSection = document.getElementById('wrap-likes');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault(); // 클릭 시 페이지 이동 방지
+
+                const tab = this.getAttribute('data-tab');
+
+                // 모든 메뉴에서 active 클래스 제거
+                menuItems.forEach(i => i.classList.remove('active'));
+
+                // 클릭된 메뉴에 active 클래스 추가
+                this.classList.add('active');
+
+                // 선택된 섹션만 보이게 설정
+                if (tab === 'playlist') {
+                    playlistSection.style.display = 'block';
+                    likesSection.style.display = 'none';
+                } else if (tab === 'likes') {
+                    playlistSection.style.display = 'none';
+                    likesSection.style.display = 'block';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="KO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보</title>
+    <link href="../../assets/css/all.css" rel="stylesheet">
+    <link href="../../assets/css/header.css" rel="stylesheet">
+    <link href="../../assets/css/footer.css" rel="stylesheet">
+    <link href="../../assets/css/jjinUtilize.css" rel="stylesheet">
+    <link href="../../assets/css/userinfo.css" rel="stylesheet"> <!-- 새로 추가된 스타일 시트 -->
+</head>
+
+<body>
+    <div id="wrap-main">
+
+        <div id="wrap-head">
+            <!-- 헤더 -->
+            <div id="wrap-header">
+                <div id="purchase-button">
+                    <img src="../../assets/images/wallet.png">
+                    <a href="" class="headBuy">이용권구매</a>
+                </div>
+                <div class="header-main">
+                    <div class="header-left">
+                        <span class="logo">
+                            <img src="../../assets/images/공포 루피.jfif" alt="로고">
+                        </span>
+                        <div id="search-wrap">
+                            <input type="search" id="sc-fd" class="ipt-search" maxlength="200" autocomplete="off"
+                                placeholder="가을에 듣기 좋은 감성 발라드">
+                            <input type="submit" class="btn-submit" value="검색">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gnb" id="gnb">
+                    <ul class="menu clearfix">
+                        <li><a href="#" class="gnb-menu">따지니차트</a></li>
+                        <li><a href="#" class="gnb-menu">최신음악</a></li>
+                        <li><a href="#" class="gnb-menu">장르음악</a></li>
+                    </ul>
+                    <ul class="gnb-my">
+                        <li><a href="" class="btn login-join-btn">jji***님</a></li>
+                        <li><a href="" class="btn login-join-btn">마이뮤직</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="wrap-body" class="clearfix">
+            <!-- 사이드바 -->
+            <div id="wrap-side">
+                <div id="profile-box">
+                    <div class="profile-name">
+                        <span>
+                            <img src="../../assets/images/공포 루피.jfif">
+                        </span>
+                        <div class="profile-name-one">
+                            <p><a href="#"><strong>진소영</strong> 님</a></p>
+                            <a href="#">프로필수정</a>
+                        </div>
+                    </div>
+                    <div class="profile-edit">
+                        <a href="#" class="button-left"><span>내정보</span></a>
+                        <a href="#" class="button-right"><span>이용권내역</span></a>
+                    </div>
+                </div>
+                <div id="profile-list">
+                    <a>
+                        <span>마이뮤직</span>
+                    </a>
+                    <div>
+                        <ul>
+                            <li><a href="#"><img src="../../assets/images/search.png"> 플레이 리스트</a></li>
+                            <li><a href="#"><img src="../../assets/images/search.png"> 좋아요♥</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 메인 섹션 -->
+            <div id="wrap-main">
+                <div id="top-title" class="userinfotitle">
+                    <h2>내 정보</h2>
+                    <ul class="Breadcrumbs">
+                        <li><a href="#">홈</a> ></li>
+                        <li><a href="##">마이뮤직</a> ></li>
+                        <li><a href="">내정보</a> ></li>
+                        <li><strong><a href="#">기본정보 변경</a></strong></li>
+                    </ul>
+                </div>
+                <div id="top-ct-list">
+                    <ul>
+                        <li><a href="#">기본정보 변경</a></li>
+                        <li><a href="#" id="deleteAccountButton">회원 탈퇴</a></li>
+
+                        <!-- 커스텀 확인 팝업 -->
+                        <div id="custom-confirm" class="custom-confirm hidden">
+                            <div class="confirm-content">
+                                <p>정말 탈퇴 하시겠습니까?</p>
+                                <button id="confirm-yes" class="confirm-btn">확인</button>
+                                <button id="confirm-no" class="confirm-btn">취소</button>
+                            </div>
+                        </div>
+
+                    </ul>
+                </div>
+                <div id="wrap-maincontent">
+                    <form action="#" method="POST" enctype="multipart/form-data">
+                        <table class="info-table">
+                            <thead>
+                                <tr>
+                                    <th>아이디(ID)</th>
+                                    <td><input type="text" id="username" value="jji***" readonly></td>
+                                </tr>
+                                <tr>
+                                    <th>휴대폰 번호</th>
+                                    <td>
+                                        <input type="text" id="phone" name="phone" value="" placeholder="010-1234-5678">
+                                        <button type="button" class="change-btn">변경하기</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>이메일 주소</th>
+                                    <td>
+                                        <input type="text" id="email_id" placeholder="이메일 아이디" required>
+                                        @
+                                        <input type="text" id="email_domain" list="email_domains" placeholder="직접 입력"
+                                            required>
+                                        <datalist id="email_domains">
+                                            <option value="naver.com">
+                                            <option value="gmail.com">
+                                            <option value="kakao.com">
+                                            <option value="daum.net">
+                                            <option value="hanmail.net">
+                                            <option value="nate.com">
+                                        </datalist>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>주소</th>
+                                    <td>
+                                        <input type="text" id="postalcode" name="postalcode" value="" placeholder="우편번호">
+                                        <input type="text" id="address" name="address" value="" placeholder="서울시 강남구" >
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>프로필 사진</th>
+                                    <td>
+                                        <div class="profile-photo">
+                                            <img src="../../assets/images/default_profile.png" alt="프로필 사진">
+                                            <input type="file" name="profile_image">
+                                            <label>
+                                                <input type="checkbox" name="delete_profile_image"> 삭제
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- 제출 버튼 -->
+                        <div class="submit-section">
+                            <button type="submit" class="btn-submit">확인</button>
+                            <button type="button" class="btn-cancel">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="wrap-foot" class="footer">
+            <div class="ft-head clearfix">
+                <ul>
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">청소년보호정책</a></li>
+                    <li><a href="#">위치기반서비스</a></li>
+                </ul>
+            </div>
+            <div class="ft-main clearfix">
+                <div class="ft-logo">
+                    <img src="../../assets/images/cuteddagenie.png" alt="지니뮤직 로고">
+                </div>
+                <div class="ft-info">
+                    <p>(주) 따지니뮤직</p>
+                    <p>대표이사 황일영 | 서울 서초구 강남대로 405 통영빌딩 8층</p>
+                    <p>사업자등록번호: 777-77-01234</p>
+                    <p>개인정보보호책임자: 임현성</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("deleteAccountButton").addEventListener("click", function (event) {
+            event.preventDefault();  // 기본 링크 동작 방지
+            document.getElementById("custom-confirm").classList.remove("hidden");
+        });
+
+        document.getElementById("confirm-yes").addEventListener("click", function () {
+            // 탈퇴 처리 로직 (AJAX 요청 또는 form 제출)
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/deleteAccount";  // 실제 탈퇴 처리 URL
+            document.body.appendChild(form);
+            form.submit();  // 탈퇴 요청 제출
+
+            // 탈퇴 후 리다이렉트
+            window.location.href = "/home";  // 홈으로 이동
+        });
+
+        document.getElementById("confirm-no").addEventListener("click", function () {
+            // 팝업 닫기
+            document.getElementById("custom-confirm").classList.add("hidden");
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+@charset "utf-8";
+
+#wrap-header {
+    width: 940px;
+    background-color: #ffffff;
+    margin: 0 auto;
+    /* border-bottom: 2px #d2d2d2 solid; */
+}
+
+#wrap-header>#purchase-button {
+    padding: 0 5px 0 0;
+}
+
+#wrap-header>#purchase-button>.headBuy{
+    font-size: 12px;
+}
+
+#wrap-header>.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+#wrap-header>.header-main>.header-left {
+    display: flex;
+    align-items: center;
+}
+
+#wrap-header .logo img {
+    width: 44px;
+    /* 로고 크기 조절 */
+    height: auto;
+    margin: 5px
+}
+
+#wrap-header>.header-main>#search-wrap {
+    margin-left: 20px;
+}
+
+#wrap-header>.header-main>.header-left>#search-wrap>#sc-fd {
+    width: 300px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #0095FF;
+}
+
+#wrap-header>.header-main>.header-left>#search-wrap>.btn-submit {
+    float: right;
+    position: relative;
+    width: 43px;
+    height: 36px;
+    border: 0;
+    line-height: 0;
+    background-image: url(../images/search.png);
+    text-indent: -9999px;
+    /* 텍스트 숨김 */
+    cursor: pointer;
+}
+
+#wrap-header>.gnb>.gnb-my {
+    font-size: 14px;
+}
+
+#wrap-header>.gnb>.gnb-my>.login-join-btn {
+    background-color: transparent;
+    color: #333;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+#wrap-header>.gnb>.gnb-my {
+    float: right;  
+}
+
+#wrap-header>.gnb>.gnb-my>li {
+    float: left; margin: 25px 0px 0px 10px;
+}
+
+#wrap-header>.gnb>.gnb-my>li .login-join-btn {
+    padding: 4px 6px 4px 6px; font-size: 14px; 
+}
+
+#wrap-header>.gnb {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 0 10px;
+}
+
+#wrap-header>.gnb>.menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#wrap-header>.gnb>.menu>li {
+    margin-right: 30px;
+}
+
+#wrap-header>.gnb .gnb-menu {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+

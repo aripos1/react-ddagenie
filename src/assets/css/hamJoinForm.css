@@ -1,0 +1,316 @@
+@charset "utf-8";
+
+#headerbar {
+    height: 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+#headerbar>.logo, .join-nav {
+    margin: 30px 50px;
+}
+
+#headerbar>.logo img {
+    width: 60px; /* 로고 크기 조정 */
+    height: auto;
+}
+
+#headerbar>.join-nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#headerbar>.join-nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#headerbar>.join-nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+#headerbar>.join-nav ul li a {
+    text-decoration: none;
+    color: #252525; 
+    font-size: 14px;
+}
+
+#headerbar>.join-nav ul li a:hover {
+    color: #2C2A34; /* 어두운 보라색 */
+}
+
+/* 정보 입력 섹션 스타일 */
+.joinForm>.intro-text>h2 {
+    padding-top: 25px;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* 폼 컨테이너 */
+.joinForm>.joinform-container {
+    width: 400px;
+    margin: 5px auto 20px auto;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.joinForm>.joinform-container .joinform-group {
+    margin-bottom: 20px;
+}
+
+.joinForm>.joinform-container .joinform-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.joinForm>.joinform-container .joinform-group input {
+    width: 375px; 
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background-color: #fafafa;
+    color: #252525;
+}
+
+.joinForm>.joinform-container .joinform-group>.input-group {
+    display: flex;
+}
+
+.joinForm>.joinform-container .joinform-group>.input-group input {
+    flex-grow: 1;
+}
+
+.joinform-group>li, #tos{
+    width: 20px;
+    list-style-type: none;
+    margin-top: 10px;
+    display: flex;
+}
+
+.joinform-group>#agree>label{
+    padding-left: 15px;
+    flex: none;
+    height: 15px;
+    width: 200px;
+    margin-top: 14px;
+}
+
+/* 버튼 스타일 */
+.joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn {
+    padding: 12px;
+    background-color: #EEEEEF; 
+    color: #BCBCBC;
+    border: none;
+    border-radius: 10px;
+    cursor: default;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn:hover {
+    background-color: #e2e2e2; 
+}
+
+.joinForm>.joinform-container .joinform-group>.joinsubmit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #EEEEEF;
+    color: #bcbcbc;
+    border: none;
+    border-radius: 10px;
+    cursor: default;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.joinForm>.joinform-container .joinform-group>.joinsubmit-btn:hover {
+    background-color: #e2e2e2; 
+}
+
+.joinForm>.joinform-container .joinform-group>.title-welcome {
+    font-size: 20px;
+    padding: 20px, 0;
+    font-weight: 700;
+}
+
+.joinForm>.joinform-container .joinform-group>.desc {
+    font-size: 15px;
+}
+
+
+.joinForm>.joinform-container .joinform-group>.joinresult-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #5F95F7;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: default;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.joinForm>.joinform-container .joinform-group>.joinresult-btn:hover {
+    background-color: #74a4ff; 
+}
+
+
+
+/* 푸터 스타일 */
+
+footbar ul {
+    font-size: 12px;
+    list-style: none;
+    padding: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+footbar ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+footbar ul li a {
+    color: #252525; 
+    text-decoration: none;
+}
+
+footbar ul li a:hover {
+    color: #2C2A34;
+    cursor: default;
+}
+
+footbar p {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    padding-bottom: 30px;
+}
+
+/* 로그인 폼과 광고 배너를 포함하는 컨테이너 */
+.loginForm>.intro-text>h2 {
+    padding-top: 25px;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center;
+    margin: 50px auto;
+    max-width: 1000px; /* 전체 컨테이너 너비 설정 */
+}
+
+/* 로그인 폼과 광고 배너를 포함하는 내부 컨테이너 */
+.login-container-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 650px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 로그인 폼 */
+.login-container {
+    width: 48%; /* 좌측 폼 크기 */
+    padding-right: 35px;
+}
+
+.ad-banner {
+    width: 48%; /* 우측 광고 배너 크기 */
+}
+
+.ad-banner img {
+    width: 300px; /* 광고 배너 크기 조정 */
+    height: auto;
+}
+
+/* 로그인 그룹 스타일 */
+.login-group {
+    margin-bottom: 10px;
+}
+
+.login-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #333;
+    padding: 11px 33px;
+}
+
+.login-group input {
+    width: 288px; 
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 14px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background-color: #fafafa;
+    color: #252525;
+}
+
+/* 로그인 상태 유지 체크박스 */
+.checkbox-container {
+    position: relative;
+    padding-right: 30px;
+    vertical-align:auto;
+}
+
+.checkbox-container>.inp_check {
+    position: absolute;
+    left: 10px;
+    width: 14px;
+    height: 19px;
+    top: 1px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #558ABF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-btn:hover {
+    background-color: #2C2A34; /* 어두운 보라색 */
+}
+
+/* 소셜 로그인 아이콘 */
+.social-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-login a {
+    margin: 0 10px;
+}
+
+.social-login img {
+    width: 36px;
+    height: 36px;
+}

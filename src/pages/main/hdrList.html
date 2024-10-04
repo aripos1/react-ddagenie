@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genie Music</title>
+    <link rel="stylesheet" href="../../assets/css/all.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="stylesheet" href="../../assets/css/hammusiclist.css">
+</head>
+
+<body>
+    <div id="wrap-main">
+        <div id="wrap-head" class="listhead">
+            <div id="wrap-header">
+                <div id="purchase-button">
+                    <img src="../../assets/images/wallet.png">
+                    <a href="">이용권구매</a>
+                </div>
+                <div class="header-main">
+                    <div class="header-left">
+                        <span class="logo">
+                            <img src="../../assets/images/cuteddagenie.png" alt="로고">
+                        </span>
+                        <div id="search-wrap">
+                            <input type="search" id="sc-fd" class="ipt-search" maxlength="200" autocomplete="off"
+                                placeholder="가을에 듣기 좋은 감성 발라드">
+                            <input type="submit" class="btn-submit" value="검색">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gnb" id="gnb">
+                    <ul class="menu clearfix">
+                        <li><a href="#" class="gnb-menu">따지니차트</a></li>
+                        <li><a href="#" class="gnb-menu">최신음악</a></li>
+                        <li><a href="#" class="gnb-menu">장르음악</a></li>
+                    </ul>
+                    <div class="gnb-my">
+                        <button type="button" class="btn login-join-btn">로그인/회원가입</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="wrap-body" class="musiclist">
+            <div id="top-title" class="listTitle">
+                <h2 id="headtitle">인기차트</h2>
+                <ul class="Breadcrumbs">
+                    <li><a href="#">지니차트</a> ></li>
+                    <li><a href="#">TOP200</a> ></li>
+                    <li><a href="#">실시간</a> ></li>
+                </ul>
+            </div>
+            <div>
+                <div id="top-ct-list">
+                    <ul>
+                        <li><a href="#">TOP200</a></li>
+                        <li><a href="#" id="deleteAccountButton">장르별 차트</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="music-list-wrap">
+                <div class="option-toolbar">
+                    <input type="checkbox" id="" class="all-check" title="전체 선택">
+                    <a href="#" class="btn btn-listen" title="재생" onclick="fnPlayArrSong(1); return false;">듣기</a>
+                    <a href="#" class="btn btn-add" title="추가" onclick="fnPlayArrSong(3); return false;"><span
+                            class="hide">재생목록에 </span>추가</a>
+                    <div class="btns">
+                        <a href="#" class="btn btn-listen" title="TOP200 듣기"
+                            onclick="fnPlaySong(fnAllSongID() ,1); return false;">TOP200 듣기</a>
+                    </div>
+
+                    <div class="check-length" style="display: none;"><em>0</em>곡 선택</div>
+                </div>
+
+
+
+                <table id="list-table">
+                    <thead id="list-table-head">
+                        <tr>
+                            <th>번호</th>
+                            <th>곡 정보</th>
+                            <th>재생/추가/담기/다운</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--리스트 반복부분-->
+                        <tr class="mainplay">
+                            <td>1</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/kakao.png" alt="BOOMERANG" class="song-cover">
+                                    <div>
+                                        <div class="song-title">BOOMERANG</div>
+                                        <div>20WAVE | BOOMERANG</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="buttons">
+                                    <button class="btn play-btn"
+                                        onclick="openPlayerPopup('BOOMERANG', '20WAVE', 'cover1.jpg', 'song1.mp3')">
+                                        ▶재생</button>
+                                    <button class="btn">+ 추가</button>
+                                    <button class="btn">담기</button>
+                                    <button class="btn">⬇ 다운</button>
+                                </div>
+                            </td>
+                        </tr><!--리스트 반복부분 -->
+                        <tr class="mainplay">
+                            <td>2</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/kakao.png" alt="BOOMERANG" class="song-cover">
+                                    <div>
+                                        <div class="song-title">BOOMERANG</div>
+                                        <div>20WAVE | BOOMERANG</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="buttons">
+                                    <button class="btn play-btn"
+                                        onclick="openPlayerPopup('BOOMERANG', '20WAVE', 'cover1.jpg', 'song1.mp3')">
+                                        ▶재생</button>
+                                    <button class="btn">+ 추가</button>
+                                    <button class="btn">담기</button>
+                                    <button class="btn">⬇ 다운</button>
+                                </div>
+                            </td>
+                        </tr><!--리스트 반복부분 -->
+                        <tr class="mainplay">
+                            <td>3</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/kakao.png" alt="BOOMERANG" class="song-cover">
+                                    <div>
+                                        <div class="song-title">BOOMERANG</div>
+                                        <div>20WAVE | BOOMERANG</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="buttons">
+                                    <button class="btn play-btn"
+                                        onclick="openPlayerPopup('BOOMERANG', '20WAVE', 'cover1.jpg', 'song1.mp3')">
+                                        ▶재생</button>
+                                    <button class="btn">+ 추가</button>
+                                    <button class="btn">담기</button>
+                                    <button class="btn">⬇ 다운</button>
+                                </div>
+                            </td>
+                        </tr><!--리스트 반복부분 -->
+                        <tr class="mainplay">
+                            <td>4</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/kakao.png" alt="BOOMERANG" class="song-cover">
+                                    <div>
+                                        <div class="song-title">BOOMERANG</div>
+                                        <div>20WAVE | BOOMERANG</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="buttons">
+                                    <button class="btn play-btn"
+                                        onclick="openPlayerPopup('BOOMERANG', '20WAVE', 'cover1.jpg', 'song1.mp3')">
+                                        ▶재생</button>
+                                    <button class="btn">+ 추가</button>
+                                    <button class="btn">담기</button>
+                                    <button class="btn">⬇ 다운</button>
+                                </div>
+                            </td>
+                        </tr><!--리스트 반복부분 -->
+                        <tr class="mainplay">
+                            <td>5</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/kakao.png" alt="BOOMERANG" class="song-cover">
+                                    <div>
+                                        <div class="song-title">BOOMERANG</div>
+                                        <div>20WAVE | BOOMERANG</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="buttons">
+                                    <button class="btn play-btn"
+                                        onclick="openPlayerPopup('BOOMERANG', '20WAVE', 'cover1.jpg', 'song1.mp3')">
+                                        ▶재생</button>
+                                    <button class="btn">+ 추가</button>
+                                    <button class="btn">담기</button>
+                                    <button class="btn">⬇ 다운</button>
+                                </div>
+                            </td>
+                        </tr><!--리스트 반복부분 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="wrap-foot" class="footer">
+            <div class="ft-head clearfix">
+                <ul>
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a href="#">청소년보호정책</a></li>
+                    <li><a href="#">위치기반서비스</a></li>
+                </ul>
+            </div>
+            <div class="ft-main clearfix">
+                <!-- 로고 이미지 -->
+                <div class="ft-logo">
+                    <img src="../../assets/images/logo.webp" alt="지니뮤직 로고">
+                </div>
+                <!-- 회사 정보 텍스트 -->
+                <div class="ft-info">
+                    <p>(주) 따지니뮤직</p>
+                    <p>대표이사 황일영 | 서울 서초구 강남대로 405 통영빌딩 8층 </p>
+                    <p>사업자등록번호: 777-77-01234 | 통신판매업신고 2013-서울강남-01302</p>
+                    <p>개인정보보호책임자: 임현성 | 서비스문의: 1577-5337 | 이메일: molddajini@hwak.ma</p>
+                    <p>COPYRIGHT©DDAGENIE MUSIC CORP ALL RIGHTS RESERVED.</p>
+                </div>
+            </div>
+            <!-- sns 아이콘 빼두됨 -->
+            <div class="ft-sns">
+                <a href="#"><img src="../../assets/images/kakao.png" alt="카카오톡" /></a>
+                <a href="#"><img src="../../assets/images/facebook.png" alt="페이스북" /></a>
+                <a href="#"><img src="../../assets/images/insta.png" alt="인스타그램" /></a>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

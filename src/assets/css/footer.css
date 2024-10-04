@@ -1,0 +1,101 @@
+@charset "utf-8"; 
+
+#wrap-foot {
+    clear: both;
+    background-color: #f2f2f2;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #5E94F7;
+}
+
+#wrap-foot .ft-head {
+    margin-bottom: 10px;
+}
+
+#wrap-foot .ft-head ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#wrap-foot .ft-head ul li {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+#wrap-foot .ft-head ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+#wrap-foot .ft-head ul li a:hover {
+    text-decoration: underline;
+}
+
+/* 로고와 텍스트가 함께 있는 메인 푸터 */
+#wrap-foot .ft-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* 로고 섹션 */
+#wrap-foot .ft-logo {
+    margin-right: 20px;
+}
+
+#wrap-foot .ft-logo img {
+    width: 100px; /* 로고 크기 조절 */
+    height: auto;
+}
+
+/* 회사 정보 텍스트 */
+#wrap-foot .ft-info {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+#wrap-foot .ft-info p {
+    margin: 5px 0;
+}
+
+/* sns 관련부분 빼면 얘네는 무쓸모 */
+#wrap-foot .ft-sns {
+    margin-top: 10px;
+}
+
+#wrap-foot .ft-sns a {
+    margin: 0 5px;
+    display: inline-block;
+}
+
+#wrap-foot .ft-sns a img {
+    width: 24px;
+    height: 24px;
+}
+
+/* 반응형 디자인 gpt짱인뎀!*/
+@media (max-width: 768px) {
+    #wrap-foot .ft-head ul li {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    /* 로고와 텍스트가 세로로 배치되도록 조정 */
+    #wrap-foot .ft-main {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #wrap-foot .ft-logo {
+        margin-bottom: 10px;
+    }
+
+    #wrap-foot .ft-info {
+        text-align: center;
+    }
+}

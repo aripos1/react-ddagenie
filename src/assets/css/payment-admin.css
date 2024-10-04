@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+#top-title{
+    border-bottom: 2px #dedede solid;
+}
+
+#top-title p{
+    font-size: 11px;
+    float: right;
+    /*background-color: #85cbd2;*/
+    margin-top: 18px;
+}
+
+
+
+/*############################*/
+#admin-all-list-title{
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    
+}
+
+#admin-table-delete-list{
+    text-align: center;
+    margin-left: 13px;
+}
+
+#admin-table-delete-list th,td{
+    border: 1px #D5D5D5 solid;
+    padding: 5px 8px;
+}
+#admin-table-delete-list td button{
+    padding: 5px 15px;
+    background-color: #fc4d4d;
+    border: 1px #ffffff solid;
+    border-radius: 3px;
+    color: #ffffff;
+}
+
+#admin-table-delete-list th{
+    background-color: #D5D5D5;
+}

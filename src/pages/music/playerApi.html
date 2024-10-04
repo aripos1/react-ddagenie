@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Music Player with Jamendo API</title>
+    <link rel="stylesheet" href="../../assets/css/all.css">
+    <link rel="stylesheet" href="../../assets/css/player.css">
+    <style>
+        /* player.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2A2E24;
+            /* 어두운 올리브 */
+            margin: 0;
+            padding: 0;
+            color: #E7E9E7;
+            /* 연한 그레이 */
+            align-items: center;
+        }
+
+        .popup-player {
+            display: flex;
+            width: 700px;
+            height: 400px;
+            border: 1px solid #3F454C;
+            /* 짙은 그레이 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #2C2A34;
+            /* 어두운 보라색 */
+        }
+
+        .player-left {
+            flex: 1;
+            background-color: #3F454C;
+            /* 짙은 그레이 */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            text-align: left;
+            width: 100%;
+            font-weight: bold;
+            color: #558ABF;
+            /* 파란색 */
+        }
+
+        .album-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .info-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            /* 이 부분에서 제목과 좋아요 버튼이 같은 행에 위치 */
+        }
+
+
+        .album-cover {
+            width: 130px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #717578;
+            /* 중간 그레이 */
+        }
+
+        .track-details {
+            flex-grow: 1;
+            /* 제목과 가수 정보를 화면 너비에 맞게 확장 */
+            text-align: center;
+            /* 텍스트는 왼쪽 정렬 */
+            margin-bottom: 10px;
+        }
+
+        .track-details h2 {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #E7E9E7;
+            /* 연한 그레이 */
+        }
+
+        .track-details p {
+            font-size: 14px;
+            margin: 0;
+            color: #8C999C;
+            /* 연한 회색 */
+        }
+
+        .like-icon {
+            font-size: 40px;
+            color: #E7E9E7;
+            /* 기본 색 */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .like-icon.liked {
+            color: red;
+            /* 좋아요 클릭 시 빨간색으로 변경 */
+        }
+
+
+        .controls {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-buttons button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #E7E9E7;
+            /* 연한 그레이 */
+        }
+
+        .volume-control {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-control input {
+            margin-left: 10px;
+            width: 100px;
+            background-color: #6D7478;
+            /* 어두운 회색 */
+        }
+
+        .playlist-right {
+            flex: 1;
+            background-color: #E7E9E7;
+            /* 연한 그레이 */
+            border-left: 1px solid #3F454C;
+            /* 짙은 그레이 */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            padding: 10px 5px 0px 5px;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #050609;
+            /* 검정 */
+        }
+
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            border-bottom: 2px solid #8C999C;
+            /* 연한 회색 */
+        }
+
+        .tab-header button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            color: #3F454C;
+            /* 짙은 그레이 */
+            transition: background-color 0.2s ease;
+            font-weight: bold;
+        }
+
+        .tab-header button.active {
+            background-color: #558ABF;
+            /* 파란색 */
+            color: white;
+        }
+
+        .tab-header button:hover {
+            background-color: #717578;
+            /* 중간 그레이 */
+        }
+
+        .tab-content {
+            display: none;
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .playlist {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .playlist-controls {
+            margin-bottom: 15px;
+        }
+
+        .playlist-content {
+            flex-grow: 1;
+
+            padding: 10px;
+
+        }
+
+        .playlist li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: left;
+            color: #3F454C;
+            /* 짙은 그레이 */
+        }
+
+        .playlist-footer,
+        .my-music-footer {
+            position: absolute;
+            bottom: 0;
+            margin-bottom: 10px;
+            height: 35px;
+            width: 90%;
+
+        }
+
+        .playlist-footer button,
+        .my-music-footer button {
+            background-color: #558ABF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+
+        .playlist-footer button:hover,
+        .my-music-footer button:hover {
+            background-color: #717578;
+        }
+
+        .footer-pagination {
+            position: absolute;
+            align-items: center;
+            right: 5px;
+            bottom: 7px;
+        }
+
+        .footer-pagination p {
+            color: #3F454C;
+            margin: 0;
+        }
+
+        ul#my-music li {
+            display: block;
+            text-align: left;
+            padding: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="popup-player">
+        <div class="player-left">
+            <!-- 로고 및 음악 정보 -->
+            <div class="logo">
+                <img src="../../assets/images/logo.webp" alt="logo" style="height: 50px;">
+            </div>
+            <div class="album-info">
+                <div class="info-container">
+                    <div class="track-details" id="track-details">
+                        <h2>곡 제목</h2>
+                        <p>가수 이름</p>
+                    </div>
+                    <div class="like-icon" id="like-btn">
+                        <span>&hearts;</span>
+                    </div>
+                </div>
+                <img src="../../assets/images/logo.webp" alt="Album Cover" class="album-cover" id="album-cover">
+            </div>
+            <!-- 음악 컨트롤러 -->
+            <audio id="audio-player" controls>
+                <source id="audio-source" src="" type="audio/mp3">
+            </audio>
+        </div>
+
+        <div class="playlist-right">
+            <div class="user-info">
+                <span class="user-id">로그인하세요 ></span>
+                <button>로그아웃</button>
+            </div>
+
+            <!-- 검색 바 -->
+            <div class="search-bar">
+                <input type="text" id="search-query" placeholder="음악 검색...">
+                <button id="search-button">검색</button>
+            </div>
+
+            <!-- 재생목록 탭 콘텐츠 -->
+            <div id="playlist-content" class="tab-content active">
+                <div class="playlist-controls">
+                    <button>중복곡 삭제</button>
+                </div>
+                <ul class="playlist" id="playlist">
+                    <!-- 검색 결과로 추가된 트랙이 표시됩니다. -->
+                </ul>
+
+                <!-- 재생목록 푸터 -->
+                <div class="playlist-footer">
+                    <button id="add-to-my-music">담기</button>
+                    <button id="delete-from-playlist">삭제</button>
+                    <div class="footer-pagination">
+                        <p id="track-count">0곡</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = '568890fe'; // 여기에 Jamendo API 키를 입력하세요.
+
+        // 좋아요 버튼 클릭 시
+        document.getElementById('like-btn').addEventListener('click', function () {
+            this.classList.toggle('liked');
+        });
+
+        // 검색 기능
+        document.getElementById('search-button').addEventListener('click', function () {
+            const query = document.getElementById('search-query').value;
+            searchTracks(query);
+        });
+
+        function searchTracks(query) {
+            const url = `https://api.jamendo.com/v3.0/tracks/?client_id=${API_KEY}&format=jsonpretty&limit=5&search=${query}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const playlist = document.getElementById('playlist');
+                    playlist.innerHTML = ''; // 기존 목록 삭제
+
+                    data.results.forEach(track => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <input type="checkbox">
+                            <div>
+                                <p>${track.name}</p>
+                                <p>${track.artist_name}</p>
+                            </div>
+                            <button data-url="${track.audio}" class="play-btn">재생</button>
+                        `;
+                        playlist.appendChild(li);
+                    });
+
+                    updateTrackCount();
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // 트랙 재생 버튼 클릭 시 재생
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('play-btn')) {
+                const audioUrl = event.target.getAttribute('data-url');
+                playTrack(audioUrl);
+            }
+        });
+
+        function playTrack(url) {
+            const audioSource = document.getElementById('audio-source');
+            const audioPlayer = document.getElementById('audio-player');
+            audioSource.src = url;
+            audioPlayer.load();
+            audioPlayer.play();
+        }
+
+        function updateTrackCount() {
+            const trackCount = document.querySelectorAll('#playlist li').length;
+            document.getElementById('track-count').innerText = `${trackCount}곡`;
+        }
+    </script>
+
+</body>
+
+</html>
