@@ -3,6 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import '../../assets/css/musicAdmin.css';
+
 const MusicAdmin = () => {
 
     /*---라우터 관련-------------------------------*/
@@ -104,57 +106,62 @@ const MusicAdmin = () => {
                             <h2>음원리스트</h2>
                         </div>
 
-                        <div className="container">
-                            <div className="header">
-                                <input type="text" id="search" placeholder="검색할 내용을 입력하세요" />
-                                <button type="submit" id="btn_search">검색</button>
+                        <div id="musicAdmin">
 
-                                <Link to='' ><input type="button" id="btn_insert" value="음원등록" /></Link>
+                            <div className="container">
+                                <div className="header">
+                                    <input type="text" id="search" placeholder="검색할 내용을 입력하세요" />
+                                    <button type="submit" id="btn_search">검색</button>
+
+                                    <Link to='' ><input type="button" id="btn_insert" value="음원등록" /></Link>
+                                </div>
+                        
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>제목</th>
+                                            <th>아티스트(가수)</th>
+                                            <th>장르</th>
+                                            <th>발매일</th>
+                                            <th>곡 내용</th>
+                                            <th>수정</th>
+                                            <th>삭제</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Example Song 1</td>
+                                            <td>Artist 1</td>
+                                            <td>Pop</td>
+                                            <td>2024-09-20</td>
+                                            <td>Content 1</td>
+                                            <td><Link to="" className="action-btn" rel="noreferrer noopener">수정</Link></td>
+                                            <td><Link to="" className="action-btn delete-btn" rel="noreferrer noopener">삭제</Link></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Example Song 2</td>
+                                            <td>Artist 2</td>
+                                            <td>Rock</td>
+                                            <td>2024-08-15</td>
+                                            <td>Content 2</td>
+                                            <td><a href="/edit-song/2" class="action-btn">수정</a></td>
+                                            <td><a href="/delete-song/2" class="action-btn delete-btn">삭제</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Example Song 3</td>
+                                            <td>Artist 3</td>
+                                            <td>Jazz</td>
+                                            <td>2024-10-01</td>
+                                            <td>Content 3</td>
+                                            <td><a href="/edit-song/3" class="action-btn">수정</a></td>
+                                            <td><a href="/delete-song/3" class="action-btn delete-btn">삭제</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                    
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>제목</th>
-                                        <th>아티스트(가수)</th>
-                                        <th>장르</th>
-                                        <th>발매일</th>
-                                        <th>곡 내용</th>
-                                        <th>수정</th>
-                                        <th>삭제</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Example Song 1</td>
-                                        <td>Artist 1</td>
-                                        <td>Pop</td>
-                                        <td>2024-09-20</td>
-                                        <td>Content 1</td>
-                                        <td><Link to="" className="action-btn" rel="noreferrer noopener">수정</Link></td>
-                                        <td><Link to="" className="action-btn delete-btn" rel="noreferrer noopener">삭제</Link></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Example Song 2</td>
-                                        <td>Artist 2</td>
-                                        <td>Rock</td>
-                                        <td>2024-08-15</td>
-                                        <td>Content 2</td>
-                                        <td><a href="/edit-song/2" class="action-btn">수정</a></td>
-                                        <td><a href="/delete-song/2" class="action-btn delete-btn">삭제</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Example Song 3</td>
-                                        <td>Artist 3</td>
-                                        <td>Jazz</td>
-                                        <td>2024-10-01</td>
-                                        <td>Content 3</td>
-                                        <td><a href="/edit-song/3" class="action-btn">수정</a></td>
-                                        <td><a href="/delete-song/3" class="action-btn delete-btn">삭제</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
                         </div>
+
                     </div>
                 </div>
                 {/* <!-- //body --> */}

@@ -6,6 +6,7 @@ import LoginForm from './pages/user/LoginForm';
 import JoinForm from './pages/user/JoinForm';
 import JoinComplete from './pages/user/JoinResult';
 import UserInfo from './pages/user/UserInfo';
+import MusicAdmin from './pages/admin/MusicAdmin.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/signup' element={<JoinForm />} />
           <Route path='/joinresult' element={<JoinComplete />} />
           <Route path='/user/info' element={<UserInfo />} />
+          <Route path='/admin/musicadmin' element={<MusicAdmin />} />
         </Routes>
       </BrowserRouter>
     </div>
