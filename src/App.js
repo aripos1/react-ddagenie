@@ -18,7 +18,7 @@ function App() {
           <Route path='/user/mymusic' element={<MyMusic />} />
           <Route path='/login' element={<LoginForm />} />
           <Route path='/signup' element={<JoinForm />} />
-          <Route path='/joinresult' element={<JoinComplete />} />
+          <Route path='/joinok' element={<JoinComplete />} />
           <Route path='/user/info' element={<UserInfo />} />
           <Route path='/admin/musicadmin' element={<MusicAdmin />} />
         </Routes>
