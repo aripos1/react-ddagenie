@@ -12,7 +12,8 @@ import UserInfo from './pages/user/UserInfo';
 import MusicAdmin from './pages/admin/MusicAdmin.jsx';
 import MusicInsert from './pages/admin/MusicInsert.jsx';
 import MusicUpdate from './pages/admin/MusicUpdate.jsx';
-import Payment from './pages/user/Payment';
+import Payment from './pages/user/Payment.jsx';
+
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path='/admin/musicinsert' element={<MusicInsert />} />
           <Route path='/admin/musicupdate' element={<MusicUpdate />} />
           <Route path='/user/payment' element={<Payment />} />
+          
 
         </Routes>
       </BrowserRouter>

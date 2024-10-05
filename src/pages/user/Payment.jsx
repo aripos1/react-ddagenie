@@ -52,7 +52,7 @@ const Payment = () => {
                         <div className="header-main">
                             <div className="header-left">
                                 <span className="logo">
-                                    <img src="../../assets/images/공포 루피.jfif" alt="로고" />
+                                    <img src="" alt="로고" />
                                 </span>
                                 <div id="search-wrap">
                                     <input type="search" id="sc-fd" className="ipt-search" maxlength="200" autocomplete="off"
