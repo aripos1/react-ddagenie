@@ -1,16 +1,6 @@
 @charset "utf-8";
 
 /* player.css */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #2A2E24;
-    /* 어두운 올리브 */
-    margin: 0;
-    padding: 0;
-    color: #E7E9E7;
-    /* 연한 그레이 */
-    align-items: center;
-}
 
 .popup-player {
     display: flex;
@@ -210,22 +200,49 @@ body {
     margin-bottom: 15px;
 }
 
-.playlist-content, #my-music-content {
+/* 중복곡 삭제 버튼 스타일 */
+
+
+.playlist-content,
+#my-music-content {
     flex-grow: 1;
     padding: 10px;
 
 }
 
-.playlist li, #my-music li {
+/* 체크박스와 글자 간격, 크기 조정 */
+input[type="checkbox"] {
+    margin-right: 10px;
+    /* 간격을 줄임 */
+    width: 16px;
+    /* 체크박스 크기를 줄임 */
+    height: 16px;
+    /* 체크박스 크기를 줄임 */
+    cursor: pointer;
+    accent-color: #007AFF;
+}
+
+
+/* 리스트 항목의 스타일 조정 */
+.playlist li,
+#my-music li {
     display: flex;
-    justify-content: space-between;
-    padding: 5px 5px;
+    align-items: center;
+    /* 체크박스와 텍스트 수직 중앙 정렬 */
+    justify-content: flex-start;
+    padding: 8px 12px;
+    /* padding을 줄여서 크기를 더 컴팩트하게 */
     background-color: white;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-bottom: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.2s ease;
+    /* 항목 간의 간격 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* 부드러운 그림자 */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
     color: #000;
+    font-size: 14px;
+    /* 글씨 크기를 줄임 */
+    text-align: left;
 }
 
 .playlist li:last-child {
@@ -235,6 +252,7 @@ body {
 .playlist li:hover,
 #my-music li:hover {
     background-color: #F2F2F7;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -248,20 +266,26 @@ body {
 
 }
 
+/* 버튼 스타일 */
+.playlist-controls button,
 .playlist-footer button,
 .my-music-footer button {
     background-color: #007AFF;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 6px 12px; /* 버튼 크기를 줄이기 위해 padding을 줄임 */
+    border-radius: 6px; /* 더 작고 둥근 모서리 */
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    font-size: 12px; /* 글씨 크기를 줄임 */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    margin-right: 5px; /* 버튼 간의 간격을 적당히 둠 */
 }
-
+.playlist-controls button:hover,
 .playlist-footer button:hover,
 .my-music-footer button:hover {
-    background-color: #005FCC;
+    background-color: #005FCC; /* 호버 시 색상 변화 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 효과 */
 }
 
 .footer-pagination {
@@ -282,19 +306,25 @@ ul#my-music li {
     padding: 5px 0;
 }
 
+/* 텍스트 정렬 */
+.playlist li div,
+#my-music li div {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-size: 14px;
+    /* 텍스트 크기를 줄임 */
+}
 
-
-/* 스크롤바 스타일을 조정하고 싶다면 */
+/* 리스트 스크롤바 크기 조정 */
 .playlist::-webkit-scrollbar,
 #my-music::-webkit-scrollbar {
-    width: 8px;
-    /* 스크롤바 너비 */
+    width: 6px; /* 스크롤바 너비를 줄임 */
 }
 
 .playlist::-webkit-scrollbar-thumb,
 #my-music::-webkit-scrollbar-thumb {
     background-color: #558ABF;
-    /* 스크롤바 색상 */
     border-radius: 10px;
 }
 
