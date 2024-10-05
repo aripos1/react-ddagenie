@@ -1,6 +1,15 @@
 @charset "utf-8";
 
 /* player.css */
+body {
+
+    /* 어두운 올리브 */
+    margin: 0;
+    padding: 0;
+
+    /* 연한 그레이 */
+    align-items: center;
+}
 
 .popup-player {
     display: flex;
@@ -12,6 +21,7 @@
     border-radius: 10px;
     overflow: hidden;
     background-color: #2C2A34;
+    
     /* 어두운 보라색 */
 }
 

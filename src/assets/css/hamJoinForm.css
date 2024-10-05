@@ -9,38 +9,54 @@
     border-bottom: 1px solid #ddd;
 }
 
-#headerbar>.logo, .join-nav {
+#headerbar>.logo,
+.join-nav {
     margin: 30px 50px;
 }
 
 #headerbar>.logo img {
-    width: 60px; /* 로고 크기 조정 */
+    width: 60px;
+    /* 로고 크기 조정 */
     height: auto;
 }
 
 #headerbar>.join-nav {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    /* 가운데 정렬 */
+    align-items: center;
     margin-bottom: 20px;
 }
 
 #headerbar>.join-nav ul {
+    display: flex;
+    /* 가로로 나열 */
+    flex-direction: row;
+    /* 기본값으로 가로 나열 */
+    justify-content: center;
+    /* 가운데 정렬 */
+    align-items: center;
+    /* 세로 가운데 정렬 */
     list-style-type: none;
     padding: 0;
 }
 
 #headerbar>.join-nav ul li {
-    display: inline-block;
     margin: 0 15px;
+    white-space: nowrap;
+    /* 텍스트 줄바꿈 방지 */
 }
 
 #headerbar>.join-nav ul li a {
     text-decoration: none;
-    color: #252525; 
+    color: #252525;
     font-size: 14px;
+    display: inline-block; /* a 태그를 inline으로 유지 */
 }
 
 #headerbar>.join-nav ul li a:hover {
-    color: #2C2A34; /* 어두운 보라색 */
+    color: #2C2A34;
+    /* 어두운 보라색 */
 }
 
 /* 정보 입력 섹션 스타일 */
@@ -74,7 +90,7 @@
 }
 
 .joinForm>.joinform-container .joinform-group input {
-    width: 375px; 
+    width: 375px;
     padding: 12px;
     font-size: 14px;
     border: 1px solid #fff;
@@ -91,14 +107,15 @@
     flex-grow: 1;
 }
 
-.joinform-group>li, #tos{
+.joinform-group>li,
+#tos {
     width: 20px;
     list-style-type: none;
     margin-top: 10px;
     display: flex;
 }
 
-.joinform-group>#agree>label{
+.joinform-group>#agree>label {
     padding-left: 15px;
     flex: none;
     height: 15px;
@@ -109,7 +126,7 @@
 /* 버튼 스타일 */
 .joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn {
     padding: 12px;
-    background-color: #EEEEEF; 
+    background-color: #EEEEEF;
     color: #BCBCBC;
     border: none;
     border-radius: 10px;
@@ -119,7 +136,7 @@
 }
 
 .joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn:hover {
-    background-color: #e2e2e2; 
+    background-color: #e2e2e2;
 }
 
 .joinForm>.joinform-container .joinform-group>.joinsubmit-btn {
@@ -135,7 +152,7 @@
 }
 
 .joinForm>.joinform-container .joinform-group>.joinsubmit-btn:hover {
-    background-color: #e2e2e2; 
+    background-color: #e2e2e2;
 }
 
 .joinForm>.joinform-container .joinform-group>.title-welcome {
@@ -162,7 +179,7 @@
 }
 
 .joinForm>.joinform-container .joinform-group>.joinresult-btn:hover {
-    background-color: #74a4ff; 
+    background-color: #74a4ff;
 }
 
 
@@ -183,7 +200,7 @@ footbar ul li {
 }
 
 footbar ul li a {
-    color: #252525; 
+    color: #252525;
     text-decoration: none;
 }
 
@@ -210,10 +227,12 @@ footbar p {
 
 .login-wrapper {
     display: flex;
-    justify-content: center; /* 가운데 정렬 */
+    justify-content: center;
+    /* 가운데 정렬 */
     align-items: center;
     margin: 50px auto;
-    max-width: 1000px; /* 전체 컨테이너 너비 설정 */
+    max-width: 1000px;
+    /* 전체 컨테이너 너비 설정 */
 }
 
 /* 로그인 폼과 광고 배너를 포함하는 내부 컨테이너 */
@@ -229,16 +248,19 @@ footbar p {
 
 /* 로그인 폼 */
 .login-container {
-    width: 48%; /* 좌측 폼 크기 */
+    width: 48%;
+    /* 좌측 폼 크기 */
     padding-right: 35px;
 }
 
 .ad-banner {
-    width: 48%; /* 우측 광고 배너 크기 */
+    width: 48%;
+    /* 우측 광고 배너 크기 */
 }
 
 .ad-banner img {
-    width: 300px; /* 광고 배너 크기 조정 */
+    width: 300px;
+    /* 광고 배너 크기 조정 */
     height: auto;
 }
 
@@ -256,7 +278,7 @@ footbar p {
 }
 
 .login-group input {
-    width: 288px; 
+    width: 288px;
     padding: 12px;
     margin-top: 10px;
     font-size: 14px;
@@ -270,7 +292,7 @@ footbar p {
 .checkbox-container {
     position: relative;
     padding-right: 30px;
-    vertical-align:auto;
+    vertical-align: auto;
 }
 
 .checkbox-container>.inp_check {
@@ -297,7 +319,8 @@ footbar p {
 }
 
 .login-btn:hover {
-    background-color: #2C2A34; /* 어두운 보라색 */
+    background-color: #2C2A34;
+    /* 어두운 보라색 */
 }
 
 /* 소셜 로그인 아이콘 */

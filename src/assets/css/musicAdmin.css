@@ -7,21 +7,21 @@
 
 
 
-.container {
+#musicAdmin .container {
 	margin: 20px;
 }
-.header {
+#musicAdmin .header {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
 }
-.header input[type="text"] {
+#musicAdmin .header input[type="text"] {
 	width: 300px;
 	padding: 8px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
-.header button {
+#musicAdmin .header button {
 	background-color: #4CAF50;
 	color: white;
 	padding: 10px 20px;
@@ -30,7 +30,7 @@
 	cursor: pointer;
 }
 
-.header input[type="button"] {
+#musicAdmin .header input[type="button"] {
 	border: none;
 	border-radius: 5px;
 	background-color: #4CAF50;
@@ -40,17 +40,17 @@
 	cursor: pointer;
 }
 
-.header button:hover {
+#musicAdmin .header button:hover {
 	background-color: #45a049;
 }
 
 
-table {
+#musicAdmin table {
 	width: 100%;
 	border-collapse: collapse;
 }
 
-table>thead>tr {
+#musicAdmin table>thead>tr {
     border-top: 2px solid #808080; 
     border-bottom: 2px solid #808080;
     background-color: #DDDDDD; 
@@ -58,20 +58,20 @@ table>thead>tr {
 }
 
 
-table>thead>tr>th {
+#musicAdmin table>thead>tr>th {
     padding: 10px 0px 10px 0px;
     font-weight: bold; 
 }
 
-table>tbody>tr { 
+#musicAdmin table>tbody>tr { 
     border-bottom: 1px solid #808080;
 }
 
-table>tbody>tr:hover { 
+#musicAdmin table>tbody>tr:hover { 
 	background-color: #cbf77b; 
 }
 
-table>tbody>tr>td {
+#musicAdmin table>tbody>tr>td {
     padding: 10px 0px 10px 0px;
 	text-align: center;
 }
@@ -82,22 +82,131 @@ table>tbody>tr>td {
 
 
 
-.action-btn {
+#musicAdmin .action-btn {
 	background-color: #008CBA;
 	color: white;
 	padding: 5px 10px;
 	text-decoration: none;
 	border-radius: 5px;
 }
-.action-btn:hover {
+#musicAdmin .action-btn:hover {
 	background-color: #007bb5;
 }
-.delete-btn {
+#musicAdmin .delete-btn {
 	background-color: #f44336;
 }
-.delete-btn:hover {
+#musicAdmin .delete-btn:hover {
 	background-color: #da190b;
 }
+
+
+/* ################################################# */
+/* MusicInsert */
+
+#musicInsert body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+#musicInsert .container {
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: white;
+}
+#musicInsert h2 {
+	text-align: center;
+	color: #333;
+}
+#musicInsert label {
+	font-weight: bold;
+	margin-top: 10px;
+	display: block;
+}
+#musicInsert input[type="text"], input[type="date"], input[type="time"], input[type="file"], select {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+#musicInsert button {
+	width: 100%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#musicInsert button:hover {
+	background-color: #45a049;
+}
+#musicInsert .back-btn {
+	background-color: #555;
+	margin-top: 10px;
+}
+#musicInsert .back-btn:hover {
+	background-color: #333;
+}
+
+
+/* ################################################# */
+/* MusicUpdate */
+
+#musicUpdate body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+#musicUpdate .container {
+	max-width: 600px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: white;
+}
+#musicUpdate h2 {
+	text-align: center;
+	color: #333;
+}
+#musicUpdate label {
+	font-weight: bold;
+	margin-top: 10px;
+	display: block;
+}
+#musicUpdate input[type="text"], input[type="date"], input[type="time"], input[type="file"], select {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+#musicUpdate button {
+	width: 100%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#musicUpdate button:hover {
+	background-color: #45a049;
+}
+#musicUpdate .back-btn {
+	background-color: #555;
+	margin-top: 10px;
+}
+#musicUpdate .back-btn:hover {
+	background-color: #333;
+}
+
 
 
 
