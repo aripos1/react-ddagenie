@@ -3,9 +3,9 @@ import Test from './pages/Test';
 import MusicPlayer from './pages/music/MusicPlayer';
 import MyMusic from './pages/music/MyMusic';
 import LoginForm from './pages/user/LoginForm';
-
-
-import MusicAdmin from './pages/admin/MusicAdmin';
+import JoinForm from './pages/user/JoinForm';
+import JoinComplete from './pages/user/JoinResult';
+import UserInfo from './pages/user/UserInfo';
 
 function App() {
   return (
@@ -15,14 +15,10 @@ function App() {
           <Route path='/test' element={<Test />} />
           <Route path='/music/musicplayer' element={<MusicPlayer />} />
           <Route path='/user/mymusic' element={<MyMusic />} />
-<<<<<<< HEAD
-
-
-          <Route path='/admin/musicadmin' element={<MusicAdmin />} />
-
-=======
           <Route path='/login' element={<LoginForm />} />
->>>>>>> c745de463f40f5603be7df70e046d72c501ba852
+          <Route path='/signup' element={<JoinForm />} />
+          <Route path='/joinresult' element={<JoinComplete />} />
+          <Route path='/user/info' element={<UserInfo />} />
         </Routes>
       </BrowserRouter>
     </div>
