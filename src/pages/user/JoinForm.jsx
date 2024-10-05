@@ -1,11 +1,20 @@
+//import 라이브러리
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+//css
 import '../../assets/css/hamJoinForm.css';
 import '../../assets/css/all.css';
+
+//images
 import logo from '../../assets/images/cuteddagenie.png';
 
+
 const JoinForm = () => {
+    /*---라우터 관련-------------------------------*/
+
+    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
     const [confirmPw, setConfirmPw] = useState(""); // 비밀번호 확인용 상태 추가
@@ -16,6 +25,11 @@ const JoinForm = () => {
 
     const navigate = useNavigate();
 
+    /*---일반 변수--------------------------------*/
+
+    /*---일반 메소드 -----------------------------*/
+
+    /*---훅(useEffect)+이벤트(handle)메소드-------*/
     const handleId = (e) => {
         setId(e.target.value);
     };
@@ -119,13 +133,13 @@ const JoinForm = () => {
                         <form onSubmit={handleJoin}>
                             {/* 이름 입력 */}
                             <div className="joinform-group">
-                                <label htmlFor="name">이름</label>
+                                <label htmlFor="name"></label>
                                 <input type="text" id="name" value={name} onChange={handleName} placeholder="이름" required />
                             </div>
 
                             {/* 아이디 입력 */}
                             <div className="joinform-group">
-                                <label htmlFor="username">아이디</label>
+                                <label htmlFor="username"></label>
                                 <div className="input-group">
                                     <input type="text" id="username" value={id} onChange={handleId} placeholder="아이디" required />
                                     <button type="button" className="joinchk-btn" onClick={handleCheckId}>중복확인</button>
@@ -134,13 +148,13 @@ const JoinForm = () => {
 
                             {/* 비밀번호 입력 */}
                             <div className="joinform-group">
-                                <label htmlFor="password">비밀번호</label>
+                                <label htmlFor="password"></label>
                                 <input type="password" id="password" value={pw} onChange={handlePw} placeholder="비밀번호" required />
                             </div>
 
                             {/* 비밀번호 확인 입력 */}
                             <div className="joinform-group">
-                                <label htmlFor="password-confirm">비밀번호 확인</label>
+                                <label htmlFor="password-confirm"></label>
                                 <input type="password" id="password-confirm" value={confirmPw} onChange={handleConfirmPw} placeholder="비밀번호 확인" required />
                             </div>
 
@@ -149,13 +163,13 @@ const JoinForm = () => {
 
                             {/* 주소 입력 */}
                             <div className="joinform-group">
-                                <label htmlFor="address">주소</label>
+                                <label htmlFor="address"></label>
                                 <input type="text" id="address" value={address} onChange={handleAddress} placeholder="주소" />
                             </div>
 
                             {/* 휴대폰 번호 입력 */}
                             <div className="joinform-group">
-                                <label htmlFor="phone">휴대폰 번호</label>
+                                <label htmlFor="phone"></label>
                                 <div className="input-group">
                                     <input type="text" id="phone" value={phone} onChange={handlePhone} placeholder="휴대폰 번호" required />
                                 </div>
