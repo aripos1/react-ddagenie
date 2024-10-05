@@ -1,8 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+//css
 import '../../assets/css/hamJoinForm.css';
 import '../../assets/css/all.css';
 import '../../assets/css/header.css';
+
+//images
 import logo from '../../assets/images/cuteddagenie.png';
 import naverIcon from '../../assets/images/iconImg/icon_naver@3x.png';
 import kakaoIcon from '../../assets/images/iconImg/icon_kakao@3x.png';
@@ -12,6 +17,76 @@ import appleIcon from '../../assets/images/iconImg/icon_apple@3x.png';
 import adBanner from '../../assets/images/ban_18989_202442213563.jpg';
 
 const JoinForm = () => {
+    /*---라우터 관련-------------------------------*/
+    const [id, setId] = useState("");
+    const [pw, setPw] = useState("");
+
+    const navigate = useNavigate("");
+
+    /*---상태관리 변수들(값이 변하면 화면 랜더링 )---*/
+
+    /*---일반 변수--------------------------------*/
+
+    /*---일반 메소드 -----------------------------*/
+
+    /*---훅(useEffect)+이벤트(handle)메소드-------*/
+    const handleId = (e) => {
+        console.log('id입력');
+        setId(e.target.value);
+    };
+    const handlePw = (e) => {
+        console.log('비밀번호입력');
+        setPw(e.target.value);
+    };
+
+    //로그인버튼 클릭했을 때(전송)
+    const handleLogin = (e) => {
+        //이벤트잡고
+        e.preventDefault();
+        console.log('로그인버튼 클릭');
+
+        //데이터모으고 묶고
+        const userVo = {
+            id: id,
+            password: pw // 자바 Vo에 필드 변수 확인. ※vo에는 password로 선언.
+        };
+        console.log(userVo);
+
+        //전송
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_API_URL}/api/users/login`,
+            //요청시 header, data, responseType
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }, // post, put
+            data: userVo,
+
+            responseType: 'json' //수신타입
+        }).then(response => {
+            console.log(response); //수신데이터
+            console.log(response.data.apiData); //수신데이터
+
+            //헤더에서 토큰 꺼내기
+            /* const token = response.headers.authorization.split(' ')[1];
+                console.log(token);*/
+            const token = response.headers['authorization'].split(' ')[1];
+
+            //로컬스토리지에 토큰 저장
+            localStorage.setItem("token", token);
+
+            //로컬스토리지에 authUser 저장
+            localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+
+            //로그인 성공시, 메인 화면으로 이동
+            navigate('/user/mymusic');
+
+        }).catch(error => {
+            console.error(error);
+        })
+    };
+
+
+
+
     return (
         <div id="wrap-main">
             {/* 헤더 */}
@@ -36,15 +111,15 @@ const JoinForm = () => {
                     <div className="login-container-wrapper">
                         {/* 로그인 폼 */}
                         <div className="login-container">
-                            <form action="#">
+                            <form action="" method='' onSubmit={handleLogin}>
                                 {/* 아이디 입력 */}
                                 <div className="login-group">
-                                    <input type="text" id="username" placeholder="아이디" required />
+                                    <input type="text" id="userid" value={id} placeholder="아이디" onChange={handleId} required />
                                 </div>
 
                                 {/* 비밀번호 입력 */}
                                 <div className="login-group">
-                                    <input type="password" id="password" placeholder="비밀번호" required />
+                                    <input type="password" id="password" value={pw} placeholder="비밀번호" onChange={handlePw} required />
                                 </div>
 
                                 {/* 로그인 상태 유지 체크박스 */}

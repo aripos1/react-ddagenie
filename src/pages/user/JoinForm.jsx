@@ -30,31 +30,38 @@ const JoinForm = () => {
     /*---일반 메소드 -----------------------------*/
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
     const handleId = (e) => {
+        console.log("아이디 입력");
         setId(e.target.value);
     };
 
     const handlePw = (e) => {
+        console.log("패스워드 입력");
         setPw(e.target.value);
     };
 
     const handleConfirmPw = (e) => {
+        console.log("패스워드 확인 입력");
         setConfirmPw(e.target.value);
     };
 
     const handleName = (e) => {
+        console.log("이름 입력");
         setName(e.target.value);
     };
 
     const handleAddress = (e) => {
+        console.log("주소 입력");
         setAddress(e.target.value);
     };
 
     const handlePhone = (e) => {
+        console.log("전화번호 입력");
         setPhone(e.target.value);
     };
 
-    // 회원가입 처리
+    /* 회원가입 버튼 클릭 */
     const handleJoin = (e) => {
         e.preventDefault();
 
@@ -75,18 +82,19 @@ const JoinForm = () => {
         axios({
             method: 'POST',
             url: `${process.env.REACT_APP_API_URL}/api/users`,
+
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             data: userVo,
+
             responseType: 'json'
-        })
-        .then(response => {
+        }).then(response => {
             if (response.data.result === 'success') {
-                navigate('/user/joinok');
+                console.log("가입성공!!!");
+                navigate('/joinok', { state: { name: name } });
             } else {
                 alert(response.data.message);
             }
-        })
-        .catch(error => {
+        }).catch(error => {
             console.error(error);
         });
     };
@@ -98,6 +106,10 @@ const JoinForm = () => {
             url: `${process.env.REACT_APP_API_URL}/api/users/checkid?id=${id}`,
         })
         .then(response => {
+            console.log(response);
+            console.log(response.data);
+            console.log(response.data.result);
+
             if (response.data.result === 'success') {
                 alert('사용할 수 있는 ID입니다.');
             } else {
