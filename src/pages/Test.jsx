@@ -32,6 +32,7 @@ const Test = () => {
 
             <h1>{message}</h1>
 
+                이름출력
         </>
     );
 }
