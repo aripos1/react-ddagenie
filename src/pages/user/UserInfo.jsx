@@ -132,9 +132,9 @@ const UserInfo = () => {
                     <div id="top-title" className="userinfotitle">
                         <h2>내 정보</h2>
                         <ul className="Breadcrumbs">
-                            <li><Link to="#">홈</Link> ></li>
-                            <li><Link to="##">마이뮤직</Link> ></li>
-                            <li><Link to="">내정보</Link> ></li>
+                            <li><Link to="#">홈</Link> {'>'}</li>
+                            <li><Link to="##">마이뮤직</Link> {'>'}</li>
+                            <li><Link to="">내정보</Link> {'>'}</li>
                             <li><strong><Link to="#">기본정보 변경</Link></strong></li>
                         </ul>
                     </div>
