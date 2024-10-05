@@ -14,7 +14,7 @@
 }
 
 /*결제 정보 창*/
-#smart-music-listen #pay-total-list{
+#smart-music-listen .pay-total-list{
     text-align: center;
     margin: 0px auto;
     margin-top: 40px;
@@ -22,60 +22,72 @@
     /* border-radius: 20px; */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
-#smart-music-listen #pay-total-list td{
+#smart-music-listen .pay-total-list td{
     padding: 8px 0px;
 }
 
-#smart-music-listen #pay-total-list .tb-total{
+#smart-music-listen .pay-total-list .tb-total{
     font-size: 20px;
     font-weight: bold;
     text-align: left;
     padding-left: 15px;
     border-bottom: 1px #cacad0 solid;
 }
+/*상품정보 테이블*/
+.product-name{
+    font-size: 14px;
+    text-align: left;
+    color: rgb(68, 68, 68);
+}
+
+.a{
+    text-align: center;
+    font-weight: bold;
+}
+
 /*테이블별 글꼴*/
-#smart-music-listen #pay-total-list .tb-one{
+#smart-music-listen .pay-total-list .tb-one{
     color: black;
     text-align: left;
     
 }
-#smart-music-listen #pay-total-list .tb-two{
+#smart-music-listen .pay-total-list .tb-two{
     color: rgb(255, 0, 0);
     text-align: left;
 }
-#smart-music-listen #pay-total-list .tb-three{
+#smart-music-listen .pay-total-list .tb-three{
     color: rgb(33, 33, 255);
     text-align: left;
     
 }
 
 /*금액모음*/
-#smart-music-listen #pay-total-list .pay-one-two{
+#smart-music-listen .pay-total-list .pay-one-two{
     /* font-weight: bold; */
     font-size: 20px;
 }
-#smart-music-listen #pay-total-list .pay-two-two{
+#smart-music-listen .pay-total-list .pay-two-two{
     /* font-weight: bold; */
     font-size: 20px;
 }
-#smart-music-listen #pay-total-list .pay-three-two{
+#smart-music-listen .pay-total-list .pay-three-two{
     /* font-weight: bold; */
     font-size: 20px;
 }
-#smart-music-listen #pay-total-list .pay-three-one{
+#smart-music-listen .pay-total-list .pay-three-one{
     border-top: 1px #cacad0 solid;
 }
-#smart-music-listen #pay-total-list .pay-three-two{
+#smart-music-listen .pay-total-list .pay-three-two{
     border-top: 1px #cacad0 solid;
 }
 /*금액 이름 모음*/
-#smart-music-listen #pay-total-list .pay-one-one{
+#smart-music-listen .pay-total-list .pay-one-one{
     padding-left: 20px;
 }
-#smart-music-listen #pay-total-list .pay-two-one{
+#smart-music-listen .pay-total-list .pay-two-one{
     padding-left: 20px;
 }
-#smart-music-listen #pay-total-list .pay-three-one{
+#smart-music-listen .pay-total-list .pay-three-one{
     padding-left: 20px;
 }
 
@@ -129,7 +141,7 @@
 /*스크립트부분*/
 
 .box{
-    display: none;
+    /* display: none; */
     /* height: 0; */
     transition: max-height 0.5s ease, opacity 0.5s ease; /* 애니메이션 효과 */
     /* overflow: hidden; 내용 넘치지 않게 */
