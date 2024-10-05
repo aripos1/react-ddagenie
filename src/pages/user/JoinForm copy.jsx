@@ -1,104 +1,68 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+//css
 import '../../assets/css/hamJoinForm.css';
 import '../../assets/css/all.css';
+
+//images
 import logo from '../../assets/images/cuteddagenie.png';
 
+
 const JoinForm = () => {
+    /*---라우터 관련-------------------------------*/
+
+    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
-    const [confirmPw, setConfirmPw] = useState(""); // 비밀번호 확인용 상태 추가
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
-    const [errorMessage, setErrorMessage] = useState(""); // 에러 메시지 상태
 
     const navigate = useNavigate();
 
+    /*---일반 변수--------------------------------*/
+
+    /*---일반 메소드 -----------------------------*/
+
+    /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
     const handleId = (e) => {
+        console.log("id입력");
         setId(e.target.value);
     };
-
+    
     const handlePw = (e) => {
+        console.log("비밀번호 입력");
         setPw(e.target.value);
     };
-
-    const handleConfirmPw = (e) => {
-        setConfirmPw(e.target.value);
-    };
-
+    
     const handleName = (e) => {
+        console.log("이름 입력");
         setName(e.target.value);
     };
-
+    
     const handleAddress = (e) => {
+        console.log("주소 입력");
         setAddress(e.target.value);
     };
-
+    
     const handlePhone = (e) => {
+        console.log("전화번호 입력");
         setPhone(e.target.value);
     };
 
-    // 회원가입 처리
-    const handleJoin = (e) => {
-        e.preventDefault();
+    // 회원 가입버튼 클릭
 
-        // 비밀번호와 비밀번호 확인 값이 일치하는지 확인
-        if (pw !== confirmPw) {
-            setErrorMessage("비밀번호가 일치하지 않습니다.");
-            return;
-        }
 
-        const userVo = {
-            id: id,
-            password: pw,
-            name: name,
-            address: address,
-            phone: phone
-        };
 
-        axios({
-            method: 'POST',
-            url: `${process.env.REACT_APP_API_URL}/api/users`,
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            data: userVo,
-            responseType: 'json'
-        })
-        .then(response => {
-            if (response.data.result === 'success') {
-                navigate('/user/joinok');
-            } else {
-                alert(response.data.message);
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    };
 
-    // 아이디 중복 체크
-    const handleCheckId = () => {
-        axios({
-            method: 'post',
-            url: `${process.env.REACT_APP_API_URL}/api/users/checkid?id=${id}`,
-        })
-        .then(response => {
-            if (response.data.result === 'success') {
-                alert('사용할 수 있는 ID입니다.');
-            } else {
-                alert(response.data.message);
-                setId('');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    };
 
     return (
         <>
             <div id="wrap-main">
+                {/* 헤더 */}
                 <header id="headerbar">
                     <div className="logo">
                         <img src={logo} alt="Ddagenie 로고" />
@@ -111,60 +75,57 @@ const JoinForm = () => {
                     </nav>
                 </header>
 
+                {/* 본문 */}
                 <main className="joinForm">
                     <div className="intro-text">
                         <h2>정보 입력</h2>
                     </div>
                     <div className="joinform-container">
-                        <form onSubmit={handleJoin}>
+                        <form action="#">
                             {/* 이름 입력 */}
                             <div className="joinform-group">
                                 <label htmlFor="name">이름</label>
-                                <input type="text" id="name" value={name} onChange={handleName} placeholder="이름" required />
+                                <input type="text" id="name" placeholder="이름" required />
                             </div>
 
                             {/* 아이디 입력 */}
                             <div className="joinform-group">
                                 <label htmlFor="username">아이디</label>
                                 <div className="input-group">
-                                    <input type="text" id="username" value={id} onChange={handleId} placeholder="아이디" required />
-                                    <button type="button" className="joinchk-btn" onClick={handleCheckId}>중복확인</button>
+                                    <input type="text" id="username" placeholder="아이디" required />
+                                    <button type="button" className="joinchk-btn">중복확인</button>
                                 </div>
                             </div>
 
                             {/* 비밀번호 입력 */}
                             <div className="joinform-group">
                                 <label htmlFor="password">비밀번호</label>
-                                <input type="password" id="password" value={pw} onChange={handlePw} placeholder="비밀번호" required />
+                                <input type="password" id="password" placeholder="비밀번호" required />
                             </div>
 
-                            {/* 비밀번호 확인 입력 */}
+                            {/* 비밀번호 확인 */}
                             <div className="joinform-group">
-                                <label htmlFor="password-confirm">비밀번호 확인</label>
-                                <input type="password" id="password-confirm" value={confirmPw} onChange={handleConfirmPw} placeholder="비밀번호 확인" required />
+                                <input type="password" id="password-confirm" placeholder="비밀번호 확인" required />
                             </div>
-
-                            {/* 오류 메시지 출력 */}
-                            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
                             {/* 주소 입력 */}
                             <div className="joinform-group">
                                 <label htmlFor="address">주소</label>
-                                <input type="text" id="address" value={address} onChange={handleAddress} placeholder="주소" />
+                                <input type="text" id="address" placeholder="주소" />
                             </div>
 
                             {/* 휴대폰 번호 입력 */}
                             <div className="joinform-group">
                                 <label htmlFor="phone">휴대폰 번호</label>
                                 <div className="input-group">
-                                    <input type="text" id="phone" value={phone} onChange={handlePhone} placeholder="휴대폰 번호" required />
+                                    <input type="text" id="phone" placeholder="휴대폰 번호" required />
                                 </div>
                             </div>
 
                             {/* 약관 동의 */}
                             <div className="joinform-group">
                                 <li id="agree">
-                                    <input id="tos" type="checkbox" name="agree" required />
+                                    <input id="tos" type="checkbox" name="agree" />
                                     <label htmlFor="tos">서비스 약관에 동의합니다.</label>
                                 </li>
                             </div>
@@ -186,6 +147,7 @@ const JoinForm = () => {
                     </footbar>
                 </main>
 
+                {/* 푸터 */}
                 <footer></footer>
             </div>
         </>

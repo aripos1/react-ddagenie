@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // axios 임포트
 import '../../assets/css/all.css';
 import '../../assets/css/header.css';
 import '../../assets/css/footer.css';
@@ -12,22 +13,41 @@ import profileImage from '../../assets/images/default_img.webp';
 import customProfile from '../../assets/images/default_img2.png';
 
 const UserInfo = () => {
-    const [showConfirm, setShowConfirm] = useState();
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const handleDeleteAccount = () => {
         setShowConfirm(true);
     };
 
-    const handleConfirmYes = () => {
-        // 탈퇴 처리 로직 (AJAX 요청 또는 form 제출)
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/deleteAccount'; // 실제 탈퇴 처리 URL
-        document.body.appendChild(form);
-        form.submit();
+    const handleConfirmYes = async () => {
+        const userId = 'jji***'; // 실제 사용자 ID를 필요에 맞게 전달
+        const guestbookVo = { userId }; // 예시로 요청에 사용할 데이터 객체
 
-        // 탈퇴 후 리다이렉트
-        window.location.href = '/home'; // 홈으로 이동
+        try {
+            axios({
+                method: 'post', // POST 요청 메서드
+                url: '/api/deleteAccount', // 실제 탈퇴 처리 URL
+                headers: { "Content-Type": "application/json; charset=utf-8" }, // JSON 형식으로 요청
+                data: guestbookVo, // 서버로 전송할 데이터
+                responseType: 'json' // 수신되는 응답 데이터 형식
+            })
+            .then(response => {
+                console.log(response); // 수신된 데이터 출력
+                if (response.status === 200) {
+                    alert('회원 탈퇴가 완료되었습니다.');
+                    window.location.href = '/home'; // 탈퇴 후 홈으로 리다이렉트
+                } else {
+                    alert('탈퇴 처리에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.log(error); // 에러 처리
+                alert('탈퇴 처리 중 오류가 발생했습니다.');
+            });
+        } catch (error) {
+            console.error('회원 탈퇴 오류:', error);
+            alert('탈퇴 처리 중 오류가 발생했습니다.');
+        }
     };
 
     const handleConfirmNo = () => {
@@ -46,7 +66,7 @@ const UserInfo = () => {
                     <div className="header-main">
                         <div className="header-left">
                             <span className="logo">
-                                <img src={customProfile} alt="로고" />
+                                <img src={logo} alt="로고" />
                             </span>
                             <div id="search-wrap">
                                 <input
