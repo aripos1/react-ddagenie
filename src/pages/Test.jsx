@@ -25,6 +25,13 @@ const Test = () => {
 
     return (
         <>
+
+        
+                이름출력
+    
+
+            <h1>{message}</h1>
+
                 이름출력
         </>
     );
