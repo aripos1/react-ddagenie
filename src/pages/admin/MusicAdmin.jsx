@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import '../../css/musicAdmin.css';
+import '../../assets/css/musicAdmin.css';
 
 const MusicAdmin = () => {
 
