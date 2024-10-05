@@ -89,8 +89,8 @@ const Payment = () => {
                         </div>
                         <div id="select-usePayment">
                             <Link to='#' id="use-payment-my">사용중인 이용권</Link>
-                            <span>사용중인 이용권이 없습니다.</span>
-                            <p>이용권을 구매하고 다양한 혜택을 누리세요!</p>
+                            {/* <span>사용중인 이용권이 없습니다.</span>
+                            <p>이용권을 구매하고 다양한 혜택을 누리세요!</p> */}
                             <span>1일 이용권 사용중입니다.</span>
                             <p>지금바로 다양한 음악들을 만나보세요!</p>
                             <Link to="#"><button id="delete-move-button">이용권 해지/설정</button></Link>

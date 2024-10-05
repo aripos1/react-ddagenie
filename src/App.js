@@ -13,6 +13,8 @@ import MusicAdmin from './pages/admin/MusicAdmin.jsx';
 import MusicInsert from './pages/admin/MusicInsert.jsx';
 import MusicUpdate from './pages/admin/MusicUpdate.jsx';
 import Payment from './pages/user/Payment.jsx';
+import Utilize from './pages/user/Utilize.jsx';
+import JdeleteForm from './pages/user/JdeleteForm.jsx';
 
 
 
@@ -37,6 +39,8 @@ function App() {
           <Route path='/admin/musicinsert' element={<MusicInsert />} />
           <Route path='/admin/musicupdate' element={<MusicUpdate />} />
           <Route path='/user/payment' element={<Payment />} />
+          <Route path='/user/Utilize' element={<Utilize />} />
+          <Route path='/user/deleteForm' element={<JdeleteForm />} />
           
 
         </Routes>
