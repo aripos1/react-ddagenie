@@ -4,7 +4,7 @@
     width: 694px;
 
     margin-top: 20px;
-} 
+}
 
 /* 네비게이션 Breadcrumbs 스타일 */
 .userinfotitle {
@@ -70,6 +70,7 @@
     cursor: pointer;
     font-size: 14px;
 }
+
 #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-no {
     background-color: #D9D9D9;
     border: none;
@@ -81,10 +82,24 @@
 }
 
 #top-ct-list>ul>#custom-confirm>.confirm-content>.confirm-btn:hover {
-    background-color: #b38e2c; /* hover시 조금 더 어두운 골드 */
+    background-color: #b38e2c;
+    /* hover시 조금 더 어두운 골드 */
 }
 
-
+/* li 내부 a 태그 */
+#top-ct-list ul li button {
+    display: block;
+    /* a 태그가 li 전체를 차지하게 설정 */
+    width: 100%;
+    text-decoration: none;
+    color: #333;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
 
 
 
@@ -116,7 +131,7 @@
 
 .info-table>thead>tr>td>#username {
     border: none !important;
-    box-shadow:none !important;
+    box-shadow: none !important;
 }
 
 .info-table>thead>tr>td>#address {
@@ -127,7 +142,8 @@
     margin-bottom: 15px;
 }
 
-.info-table th, .info-table td {
+.info-table th,
+.info-table td {
     padding: 10px;
     border: 1px solid #ddd;
     vertical-align: middle;
@@ -147,7 +163,9 @@
 
 
 
-.change-btn, .email-verify-btn, #findpostalcode {
+.change-btn,
+.email-verify-btn,
+#findpostalcode {
     margin-left: 10px;
     padding: 5px 10px;
     background-color: #5F95F7;
@@ -157,7 +175,9 @@
     cursor: pointer;
 }
 
-.change-btn:hover, .email-verify-btn:hover, #findpostalcode:hover {
+.change-btn:hover,
+.email-verify-btn:hover,
+#findpostalcode:hover {
     background-color: #4a7bc1;
 }
 
@@ -180,7 +200,8 @@
     text-align: right;
 }
 
-.btn-submit, .btn-cancel {
+.btn-submit,
+.btn-cancel {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #5F95F7;
