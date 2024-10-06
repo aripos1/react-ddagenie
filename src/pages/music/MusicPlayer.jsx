@@ -3,98 +3,105 @@ import axios from 'axios';
 import '../../assets/css/all.css';
 import '../../assets/css/player.css';
 import logo from '../../assets/images/cuteddagenie.png';
-import albumCover from '../../assets/images/logo.webp'; // 앨범 커버 이미지 경로를 import
-import musicFile from '../../assets/musicfile/Color_Out_-_Host.mp3'; // 음악 파일 경로를 import
+import albumCover from '../../assets/images/logo.webp';
+import musicFile from '../../assets/musicfile/Color_Out_-_Host.mp3';
 
 const MusicPlayer = () => {
     const [activeTab, setActiveTab] = useState('playlist');
-    const [playlist, setPlaylist] = useState([]); // 재생목록 상태
-    const [myMusic, setMyMusic] = useState([]);  // 마이뮤직 상태
+    const [playlist, setPlaylist] = useState([]);
+    const [myMusic, setMyMusic] = useState([]);
     const [liked, setLiked] = useState(false);
-    const audioRef = useRef(null); // audio 요소 참조
-    const [error, setError] = useState(null); // 에러 상태
+    const audioRef = useRef(null);
+    const [error, setError] = useState(null);
 
-    // 탭 변경 시 필요한 데이터를 가져옴
     useEffect(() => {
         if (activeTab === 'playlist') {
-            loadPlaylist(1);  // 1번 유저의 재생목록
+            loadPlaylist(1);
         } else if (activeTab === 'myMusic') {
-            loadMyMusic(1);  // 1번 유저의 마이뮤직
+            loadMyMusic(1);
         }
-    }, [activeTab]);  // activeTab이 변경될 때마다 실행
+    }, [activeTab]);
 
-    // 마이뮤직 API 호출
+    // API에서 MyMusic 목록 로드
     const loadMyMusic = async (userNo) => {
         try {
             const response = await axios.get(`http://localhost:8888/api/mymusiclist/${userNo}`);
+            console.log('API Response Data:', response.data);
+
             if (response.status === 200) {
-                console.log(response.data);  // 데이터가 제대로 배열로 출력되는지 확인
-                setMyMusic(response.data);   // 여러 곡이 담긴 배열을 상태로 설정
+                const data = Array.isArray(response.data) ? response.data : [response.data];
+
+                const updatedMyMusic = data.map((song, index) => ({
+                    ...song,
+                    mymusicNo: song.mymusicNo || `mymusic-${index}`, // mymusicNo 필드 설정
+                    selected: false
+                }));
+
+                console.log('Updated MyMusic with IDs:', updatedMyMusic);
+                setMyMusic(updatedMyMusic);
             } else {
                 setError('Failed to fetch MyMusic list.');
             }
         } catch (error) {
-            console.error('Error fetching MyMusic list:', error);
             setError('Error fetching MyMusic list.');
         }
     };
-    
-    // 재생목록 API 호출
+
+    // API에서 재생목록 로드
     const loadPlaylist = (userNo) => {
         axios.get(`http://localhost:8888/api/playlist/${userNo}`)
             .then(response => {
+                console.log('Loaded Playlist:', response.data);
                 const updatedPlaylist = response.data.map(song => ({
                     ...song,
-                    selected: false // 초기에는 선택되지 않도록 설정
+                    selected: false  // 초기 선택 상태 설정
                 }));
-                setPlaylist(updatedPlaylist);  // 재생목록 데이터를 상태로 설정
+                setPlaylist(updatedPlaylist);
             })
             .catch(error => {
-                console.error('Error fetching playlist:', error);
                 setError('Error fetching playlist.');
             });
     };
 
-    // 탭 변경 처리
+    // 탭 전환 핸들러
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        setError(null);  // 에러 초기화
+        setError(null);
     };
 
-    // 체크박스 상태 변경 처리
-    const handleCheckboxChange = (songId, listType) => {
+    // 체크박스 변경 핸들러 (playlist 또는 myMusic)
+    const handleCheckboxChange = (id, listType) => {
+        console.log(`Checkbox clicked - ID: ${id}, List: ${listType}`);
+
         if (listType === 'playlist') {
-            setPlaylist(prevPlaylist =>
-                prevPlaylist.map(song =>
-                    song.id === songId ? { ...song, selected: !song.selected } : song
-                )
-            );
+            setPlaylist(prevPlaylist => prevPlaylist.map(song =>
+                song.musicNo === id ? { ...song, selected: !song.selected } : song
+            ));
         } else if (listType === 'myMusic') {
-            setMyMusic(prevMyMusic =>
-                prevMyMusic.map(song =>
-                    song.id === songId ? { ...song, selected: !song.selected } : song
-                )
-            );
+            setMyMusic(prevMyMusic => prevMyMusic.map(song =>
+                song.mymusicNo === id ? { ...song, selected: !song.selected } : song
+            ));
         }
     };
 
-    // 마이뮤직에 추가
+    // 선택된 곡 MyMusic에 추가
     const addToMyMusic = () => {
-        const selectedSongs = playlist.filter(song => song.selected); // 선택된 곡 필터링
+        const selectedSongs = playlist.filter(song => song.selected);
+
         if (selectedSongs.length > 0) {
-            selectedSongs.forEach(song => {
-                axios.post('http://localhost:8888/api/mymusic/add', {
-                    musicNo: song.id,    // 곡 번호
-                    userNo: 1            // 유저 번호
-                })
-                    .then(response => {
-                        console.log('곡이 마이뮤직에 추가되었습니다:', response.data);
-                        // 마이뮤직 상태 업데이트
-                        setMyMusic([...myMusic, { ...song, selected: false }]);
-                    })
-                    .catch(error => {
-                        console.error('Error adding song to MyMusic:', error);
-                    });
+            console.log('Selected Songs:', selectedSongs.map(song => song.musicNo));
+
+            axios.post('http://localhost:8888/api/mymusic/add', {
+                musicNos: selectedSongs.map(song => song.musicNo),
+                userNo: 1
+            })
+            .then(response => {
+                const updatedMyMusic = [...myMusic, ...selectedSongs.map(song => ({ ...song, selected: false }))];
+                setMyMusic(updatedMyMusic);
+                setPlaylist(playlist.map(song => ({ ...song, selected: false })));  // 선택 상태 초기화
+            })
+            .catch(error => {
+                setError('Error adding songs to MyMusic.');
             });
         }
     };
@@ -104,17 +111,17 @@ const MusicPlayer = () => {
         setPlaylist(playlist.filter(song => !song.selected));
     };
 
-    // 마이뮤직에서 선택된 곡 삭제
+    // MyMusic에서 선택된 곡 삭제
     const deleteFromMyMusic = () => {
         setMyMusic(myMusic.filter(song => !song.selected));
     };
 
-    // 좋아요 토글 처리
+    // 좋아요 상태 토글
     const toggleLike = () => {
         setLiked(!liked);
     };
 
-    // 중복된 곡 제거
+    // 재생목록에서 중복된 곡 삭제
     const removeDuplicateSongs = () => {
         const uniqueSongs = playlist.filter(
             (song, index, self) => index === self.findIndex((t) => t.title === song.title)
@@ -125,7 +132,6 @@ const MusicPlayer = () => {
     return (
         <div className="popup-player">
             <div className="player-left">
-                {/* 로고 및 음악 정보 */}
                 <div className="logo">
                     <img src={logo} alt="logo" style={{ height: '50px' }} />
                 </div>
@@ -141,8 +147,6 @@ const MusicPlayer = () => {
                     </div>
                     <img src={albumCover} alt="Album Cover" className="album-cover" />
                 </div>
-
-                {/* 음악 컨트롤러 */}
                 <audio ref={audioRef} id="audio-player" controls>
                     <source src={musicFile} type="audio/mp3" />
                 </audio>
@@ -154,7 +158,6 @@ const MusicPlayer = () => {
                     <button>로그아웃</button>
                 </div>
 
-                {/* 탭 버튼들 */}
                 <div className="tab-header">
                     <button
                         className={`tab-button ${activeTab === 'playlist' ? 'active' : ''}`}
@@ -170,7 +173,6 @@ const MusicPlayer = () => {
                     </button>
                 </div>
 
-                {/* 재생목록 탭 콘텐츠 */}
                 {activeTab === 'playlist' && (
                     <div className="tab-content active">
                         <div className="playlist-controls">
@@ -178,21 +180,20 @@ const MusicPlayer = () => {
                         </div>
                         <ul className="playlist">
                             {playlist.map(song => (
-                                <li key={song.id}>
+                                <li key={song.playlistNo}>
                                     <input
                                         type="checkbox"
-                                        checked={song.selected || false}
-                                        onChange={() => handleCheckboxChange(song.id, 'playlist')}
+                                        checked={!!song.selected}
+                                        onChange={() => handleCheckboxChange(song.musicNo, 'playlist')}  // musicNo 사용
                                     />
                                     <div>
                                         <p>{song.title}</p>
-                                        <p>{song.artist}</p>
+                                        <p>{song.artistName}</p>
                                     </div>
                                 </li>
                             ))}
                         </ul>
 
-                        {/* 재생목록 푸터 */}
                         <div className="playlist-footer">
                             <button onClick={addToMyMusic}>담기</button>
                             <button onClick={deleteFromPlaylist}>삭제</button>
@@ -203,26 +204,24 @@ const MusicPlayer = () => {
                     </div>
                 )}
 
-                {/* 마이뮤직 탭 콘텐츠 */}
                 {activeTab === 'myMusic' && (
                     <div className="tab-content active">
                         <ul className="playlist">
                             {myMusic.map(song => (
-                                <li key={song.id}>
+                                <li key={song.mymusicNo}>  {/* mymusicNo 사용 */}
                                     <input
                                         type="checkbox"
-                                        checked={song.selected || false}
-                                        onChange={() => handleCheckboxChange(song.id, 'myMusic')}
+                                        checked={!!song.selected}
+                                        onChange={() => handleCheckboxChange(song.mymusicNo, 'myMusic')}
                                     />
                                     <div>
                                         <p>{song.title}</p>
-                                        <p>{song.artist}</p>
+                                        <p>{song.artistName}</p>
                                     </div>
                                 </li>
                             ))}
                         </ul>
 
-                        {/* 마이뮤직 푸터 */}
                         <div className="playlist-footer">
                             <button onClick={deleteFromMyMusic}>삭제</button>
                             <div className="footer-pagination">
