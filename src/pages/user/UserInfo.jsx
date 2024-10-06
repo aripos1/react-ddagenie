@@ -82,7 +82,7 @@ const UserInfo = () => {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append('name', name);  
+        formData.append('name', name);
         formData.append('password', pw);
         formData.append('phone', phone);
         formData.append('address', address);
@@ -256,7 +256,7 @@ const UserInfo = () => {
             </div>
 
             {/* 푸터 */}
-            <Footer/>
+            <Footer />
         </div>
     );
 };

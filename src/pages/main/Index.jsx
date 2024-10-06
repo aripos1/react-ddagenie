@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../include/header';  // Header 컴포넌트 import
-import Footer from '../include/footer';  // Footer 컴포넌트 import
+import Header from '../include/Header';  // Header 컴포넌트 import
+import Footer from '../include/Footer';  // Footer 컴포넌트 import
 import '../../assets/css/all.css';
 import '../../assets/css/header.css';
 import '../../assets/css/footer.css';
