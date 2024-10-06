@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 //import 컴포넌트
-import Header from '../include/header';
+import Header from '../include/Header';
 
 //import css
 import '../../assets/css/jjinpayForm.css';
