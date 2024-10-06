@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../include/Header';  
-import Footer from '../include/Footer';  
+
 import '../../assets/css/all.css';
-import '../../assets/css/header.css';
-import '../../assets/css/footer.css';
+
 import '../../assets/css/index.css';
 import coverimage from '../../assets/images/logo.webp';
 import banner from '../../assets/images/캡처.PNG';
