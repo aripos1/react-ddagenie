@@ -56,7 +56,7 @@ const UserInfo = () => {
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/api/users/me`,
-            headers: { "Authorization": `Bearer ${token}` },
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
 
         }).then(response => {
             if (response.data && response.data.apiData) {
@@ -66,7 +66,7 @@ const UserInfo = () => {
                 setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
                 setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
                 setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
-                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.img || profileImage}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
+                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.img}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
             } else {
                 console.error('No user data found');
             }
