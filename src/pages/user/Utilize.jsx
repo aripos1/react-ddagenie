@@ -1,6 +1,6 @@
 //import 라이브러리
 import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -18,18 +18,29 @@ const Utilize = () => {
 
     /* ---라우터 관련 ------ */
     const [payList, setPayList] = useState([]);
+    const navigate = useNavigate();
+    const [date, setDate] = useState('');
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     
-
+    const token = localStorage.getItem('token');
+    
+    const authUser = JSON.parse(localStorage.getItem('authUser'));
+    const userNo = authUser.no;
+    
+    
 
     /*---일반 메소드 --------------------------------------------*/
 
     const getUserPayList = ()=>{
+        if(token == null){
+            alert("로그인후 이용해주세요.");
+            navigate("/login");
+        }
 
         axios({
             method: 'get', 			// put, post, delete                   
-            url: 'http://localhost:8888/api/pay/user',
+            url: 'http://localhost:8888/api/pay/user?userNo='+userNo,
             //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                               //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
@@ -44,6 +55,9 @@ const Utilize = () => {
             console.log(response); //수신데이타
             console.log(response.data.apiData);
 
+            setPayList(response.data.apiData);
+            setDate((response.data.apiData.paymentFinish)-(response.data.apiData.paymentStart))
+            console.log(setDate)
             
         }).catch(error => {
             console.log(error);
@@ -68,6 +82,7 @@ const Utilize = () => {
     //3. 전송 (ajax 사용)
     useEffect(()=>{
         getUserPayList();
+        
     },[]);
 
 
@@ -103,7 +118,7 @@ const Utilize = () => {
                             </ul>
                             <ul className="gnb-my">
                                 <li><Link to="" className="btn login-join-btn">로그인</Link></li>
-                                <li><Link to="" className="btn login-join-btn">회원가입</Link></li>
+                                <li><Link to="http://localhost:3000/signup" className="btn login-join-btn">회원가입</Link></li>
                             </ul>
                             <ul className="gnb-my">
                                 <li><Link to="" className="btn login-join-btn">jji***님</Link></li>
@@ -173,8 +188,8 @@ const Utilize = () => {
                         <div id="sy-goods-list-table">
                             <table id="list-table">
                                 <colgroup>
-                                    <col style={{ width: '50px'}} />
-                                    <col style={{ width: '190px'}} />
+                                    <col style={{ width: '30px'}} />
+                                    <col style={{ width: '130px'}} />
                                     <col style={{ width: '160px'}} />
                                     <col style={{ width: '130px'}} />
                                     <col style={{ width: '85px'}} />
@@ -182,7 +197,7 @@ const Utilize = () => {
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>순번</th>
+                                        <th>결제번호</th>
                                         <th>이용권명</th>
                                         <th>이용기간</th>
                                         <th>결제일/등록일</th>
@@ -191,25 +206,26 @@ const Utilize = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1일권</td>
-                                        <td>~ 2024-10-04</td>
-                                        <td>2024-10-03</td>
-                                        <td>카드결제</td>
-                                        <td>사용중</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>30일권</td>
-                                        <td>~ 2024-11-04</td>
-                                        <td>2024-10-03</td>
-                                        <td>카드결제</td>
-                                        <td>사용중</td>
-                                    </tr>
+                                {payList.length > 0 ? (
+                                    
+                                    payList.map((payVo) => {
+                                        return (
+                                            
+                                            <tr key={payVo.id}> {/* 각 요소에 고유한 key 추가 */}
+                                                <td></td>
+                                                <td>{payVo.goodsName}</td>
+                                                <td>~ {payVo.paymentFinish}</td>
+                                                <td>{payVo.paymentStart}</td>
+                                                <td>{payVo.paymentMethod}</td>
+                                                <td>{payVo.ticketStatus}</td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
                                     <tr>
                                         <td colSpan="6">이용권 구매내역이 없습니다</td>
                                     </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>
