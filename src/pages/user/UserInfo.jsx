@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
 
 import Header from '../include/header';
+import Footer from '../include/footer';
 
 //css
 import '../../assets/css/all.css';
@@ -12,7 +13,6 @@ import '../../assets/css/jjinUtilize.css';
 import '../../assets/css/userinfo.css';
 
 //images
-import logo from '../../assets/images/cuteddagenie.png';
 import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img.webp';
 import customProfile from '../../assets/images/default_img2.png';
@@ -255,28 +255,8 @@ const UserInfo = () => {
                 </div>
             </div>
 
-            <div id="wrap-foot" className="footer">
-                <div className="ft-head clearfix">
-                    <ul>
-                        <li><Link to="#">회사소개</Link></li>
-                        <li><Link to="#">이용약관</Link></li>
-                        <li><Link to="#">개인정보처리방침</Link></li>
-                        <li><Link to="#">청소년보호정책</Link></li>
-                        <li><Link to="#">위치기반서비스</Link></li>
-                    </ul>
-                </div>
-                <div className="ft-main clearfix">
-                    <div className="ft-logo">
-                        <img src={logo} alt="지니뮤직 로고" />
-                    </div>
-                    <div className="ft-info">
-                        <p>(주) 따지니뮤직</p>
-                        <p>대표이사 황일영 | 서울 서초구 강남대로 405 통영빌딩 8층</p>
-                        <p>사업자등록번호: 777-77-01234</p>
-                        <p>개인정보보호책임자: 임현성</p>
-                    </div>
-                </div>
-            </div>
+            {/* 푸터 */}
+            <Footer/>
         </div>
     );
 };
