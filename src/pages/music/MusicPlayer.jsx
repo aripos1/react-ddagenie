@@ -63,12 +63,30 @@ const MusicPlayer = () => {
             });
     };
 
-       // 곡 선택 시 재생
-       const playSong = (fileUrl) => {
+    // 곡 선택 시 재생
+    const playSong = (fileUrl) => {
         const songPath = `/assets/musicfile/${encodeURIComponent(fileUrl)}`;  // 파일 경로 설정
         setCurrentSong(songPath); // 현재 재생 중인 곡 설정
         audioRef.current.src = songPath; // 오디오 태그의 소스 설정
         audioRef.current.play(); // 재생
+    };
+
+
+    // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
+
+    const addToPlaylistFromMyMusic = (song) => {
+        axios.post('http://localhost:8888/api/playlist/add', {
+            userNo: 1, // 현재 사용자 번호
+            musicNo: song.musicNo // 추가할 곡의 musicNo
+        })
+            .then(response => {
+                // 서버에 곡 추가 성공 시, 재생목록에 곡 추가
+                setPlaylist(prevPlaylist => [...prevPlaylist, { ...song, selected: false }]);
+            })
+            .catch(error => {
+                console.error('Error adding song to playlist:', error.response ? error.response.data : error.message);
+                setError('Error adding song to playlist.');
+            });
     };
 
     // 탭 전환 핸들러
@@ -118,52 +136,52 @@ const MusicPlayer = () => {
     const deleteSelectedSongsFromPlaylist = () => {
         const selectedSongs = playlist.filter(song => song.selected);
         const musicNos = selectedSongs.map(song => song.musicNo);  // 선택된 곡들의 musicNo 목록
-    
+
         console.log('전송할 musicNos:', musicNos); // 전송할 musicNos 로그 출력
         console.log('전송할 userNo: 1');  // 전송할 userNo 로그 출력
-    
+
         if (musicNos.length > 0) {
             axios.post('http://localhost:8888/api/playlist/delete', {
                 musicNos: musicNos,
                 userNo: 1
             })
-            .then(response => {
-                console.log('삭제 성공:', response.data);
-                setPlaylist(playlist.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
-            })
-            .catch(error => {
-                console.error('Error deleting songs:', error.response ? error.response.data : error.message);
-            });
+                .then(response => {
+                    console.log('삭제 성공:', response.data);
+                    setPlaylist(playlist.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
+                })
+                .catch(error => {
+                    console.error('Error deleting songs:', error.response ? error.response.data : error.message);
+                });
         } else {
             console.log('삭제할 곡이 없습니다.');
         }
     };
-    
 
-// MyMusic에서 선택된 곡 삭제
-const deleteSelectedSongsFromMyMusic = () => {
-    const selectedSongs = myMusic.filter(song => song.selected);
-    const musicNos = selectedSongs.map(song => song.musicNo);  // 선택된 곡들의 musicNo 목록
 
-    console.log('전송할 musicNos:', musicNos); // 전송할 musicNos 로그 출력
-    console.log('전송할 userNo: 1');  // 전송할 userNo 로그 출력
+    // MyMusic에서 선택된 곡 삭제
+    const deleteSelectedSongsFromMyMusic = () => {
+        const selectedSongs = myMusic.filter(song => song.selected);
+        const musicNos = selectedSongs.map(song => song.musicNo);  // 선택된 곡들의 musicNo 목록
 
-    if (musicNos.length > 0) {
-        axios.post('http://localhost:8888/api/mymusic/delete', {
-            musicNos: musicNos,
-            userNo: 1
-        })
-        .then(response => {
-            console.log('삭제 성공:', response.data);
-            setMyMusic(myMusic.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
-        })
-        .catch(error => {
-            console.error('Error deleting songs:', error.response ? error.response.data : error.message);
-        });
-    } else {
-        console.log('삭제할 곡이 없습니다.');
-    }
-};
+        console.log('전송할 musicNos:', musicNos); // 전송할 musicNos 로그 출력
+        console.log('전송할 userNo: 1');  // 전송할 userNo 로그 출력
+
+        if (musicNos.length > 0) {
+            axios.post('http://localhost:8888/api/mymusic/delete', {
+                musicNos: musicNos,
+                userNo: 1
+            })
+                .then(response => {
+                    console.log('삭제 성공:', response.data);
+                    setMyMusic(myMusic.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
+                })
+                .catch(error => {
+                    console.error('Error deleting songs:', error.response ? error.response.data : error.message);
+                });
+        } else {
+            console.log('삭제할 곡이 없습니다.');
+        }
+    };
 
 
     // 좋아요 상태 토글
@@ -172,11 +190,17 @@ const deleteSelectedSongsFromMyMusic = () => {
     };
 
     // 재생목록에서 중복된 곡 삭제
-    const removeDuplicateSongs = () => {
-        const uniqueSongs = playlist.filter(
-            (song, index, self) => index === self.findIndex((t) => t.title === song.title)
-        );
-        setPlaylist(uniqueSongs);
+    const removeDuplicateSongsFromDB = () => {
+        axios.post('http://localhost:8888/api/playlist/remove-duplicates', {
+            userNo: 1  // 현재 사용자 번호
+        })
+        .then(response => {
+            console.log('중복 삭제 성공:', response.data);
+            loadPlaylist(1);  // 재생목록을 다시 불러와 업데이트
+        })
+        .catch(error => {
+            console.error('중복 삭제 중 오류 발생:', error.response ? error.response.data : error.message);
+        });
     };
 
     return (
@@ -226,7 +250,7 @@ const deleteSelectedSongsFromMyMusic = () => {
                 {activeTab === 'playlist' && (
                     <div className="tab-content active">
                         <div className="playlist-controls">
-                            <button onClick={removeDuplicateSongs}>중복곡 삭제</button>
+                            <button onClick={removeDuplicateSongsFromDB}>중복곡 삭제</button>
                         </div>
                         <ul className="playlist">
                             {playlist.map(song => (
@@ -264,7 +288,7 @@ const deleteSelectedSongsFromMyMusic = () => {
                                         checked={!!song.selected}
                                         onChange={() => handleCheckboxChange(song.mymusicNo, 'myMusic')}
                                     />
-                                    <div>
+                                    <div onClick={() => addToPlaylistFromMyMusic(song)}>
                                         <p>{song.title}</p>
                                         <p>{song.artistName}</p>
                                     </div>
