@@ -4,7 +4,6 @@ import '../../assets/css/all.css';
 import '../../assets/css/player.css';
 import logo from '../../assets/images/cuteddagenie.png';
 import albumCover from '../../assets/images/logo.webp';
-import musicFile from '../../assets/musicfile/Color_Out_-_Host.mp3';
 
 const MusicPlayer = () => {
     const [activeTab, setActiveTab] = useState('playlist');
@@ -13,6 +12,7 @@ const MusicPlayer = () => {
     const [liked, setLiked] = useState(false);
     const audioRef = useRef(null);
     const [error, setError] = useState(null);
+    const [currentSong, setCurrentSong] = useState(null); // 현재 재생 중인 곡
 
     useEffect(() => {
         if (activeTab === 'playlist') {
@@ -61,6 +61,14 @@ const MusicPlayer = () => {
             .catch(error => {
                 setError('Error fetching playlist.');
             });
+    };
+
+       // 곡 선택 시 재생
+       const playSong = (fileUrl) => {
+        const songPath = `/assets/musicfile/${encodeURIComponent(fileUrl)}`;  // 파일 경로 설정
+        setCurrentSong(songPath); // 현재 재생 중인 곡 설정
+        audioRef.current.src = songPath; // 오디오 태그의 소스 설정
+        audioRef.current.play(); // 재생
     };
 
     // 탭 전환 핸들러
@@ -190,7 +198,7 @@ const deleteSelectedSongsFromMyMusic = () => {
                     <img src={albumCover} alt="Album Cover" className="album-cover" />
                 </div>
                 <audio ref={audioRef} id="audio-player" controls>
-                    <source src={musicFile} type="audio/mp3" />
+                    <source src={currentSong} type="audio/mp3" />
                 </audio>
             </div>
 
@@ -228,7 +236,7 @@ const deleteSelectedSongsFromMyMusic = () => {
                                         checked={!!song.selected}
                                         onChange={() => handleCheckboxChange(song.musicNo, 'playlist')}  // musicNo 사용
                                     />
-                                    <div>
+                                    <div onClick={() => playSong(song.fileUrl)}>
                                         <p>{song.title}</p>
                                         <p>{song.artistName}</p>
                                     </div>
