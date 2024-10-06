@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../../assets/css/all.css';
 import '../../assets/css/player.css';
 import logo from '../../assets/images/cuteddagenie.png';
@@ -7,27 +8,37 @@ import musicFile from '../../assets/musicfile/Color_Out_-_Host.mp3'; // 음악 �
 
 const MusicPlayer = () => {
     const [activeTab, setActiveTab] = useState('playlist');
-    const [playlist, setPlaylist] = useState([
-        { id: 1, title: 'HAPPY', artist: 'DAY6', selected: false },
-        { id: 2, title: 'Welcome to the Show', artist: 'DAY6', selected: false }
-    ]);
-    const [myMusic, setMyMusic] = useState([]);
+    const [playlist, setPlaylist] = useState([]); // 재생목록 상태
+    const [myMusic, setMyMusic] = useState([]);  // 마이뮤직 상태
     const [liked, setLiked] = useState(false);
     const audioRef = useRef(null); // audio 요소 참조
 
     useEffect(() => {
-        // 페이지 로드 시 playlist 초기화
-        loadPlaylist();
+        // 1번 유저의 마이뮤직 및 재생목록 리스트 불러오기
+        loadMyMusic(1);  // 1번 유저
+        loadPlaylist(1); // 1번 유저의 재생목록 불러오기
     }, []);
 
-    const loadPlaylist = () => {
-        const songs = [
-            { id: 1, title: 'HAPPY', artist: 'DAY6', selected: false },
-            { id: 2, title: 'Welcome to the Show', artist: 'DAY6', selected: false },
-            { id: 3, title: '한 페이지가 될 수 있게', artist: 'DAY6', selected: false },
-            { id: 4, title: 'Supernova', artist: 'aespa', selected: false }
-        ];
-        setPlaylist(songs);
+    // 마이뮤직 API 호출
+    const loadMyMusic = (userNo) => {
+        axios.get(`http://localhost:8888/api/mymusiclist/${userNo}`)
+            .then(response => {
+                setMyMusic(response.data);  // 마이뮤직 데이터를 상태로 설정
+            })
+            .catch(error => {
+                console.error('Error fetching MyMusic list:', error);
+            });
+    };
+
+    // 재생목록 API 호출
+    const loadPlaylist = (userNo) => {
+        axios.get(`http://localhost:8888/api/playlist/${userNo}`)
+            .then(response => {
+                setPlaylist(response.data);  // 재생목록 데이터를 상태로 설정
+            })
+            .catch(error => {
+                console.error('Error fetching playlist:', error);
+            });
     };
 
     const handleTabClick = (tab) => {
@@ -62,8 +73,6 @@ const MusicPlayer = () => {
     const toggleLike = () => {
         setLiked(!liked);
     };
-
-
 
     const removeDuplicateSongs = () => {
         const uniqueSongs = playlist.filter(
@@ -100,7 +109,7 @@ const MusicPlayer = () => {
 
             <div className="playlist-right">
                 <div className="user-info">
-                    <span className="user-id">로그인하세요 </span>
+                    <span className="user-id">1번 유저님 환영합니다!</span>
                     <button>로그아웃</button>
                 </div>
 

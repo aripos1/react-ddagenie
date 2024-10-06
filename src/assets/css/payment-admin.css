@@ -31,6 +31,8 @@
 #admin-table-delete-list th,td{
     border: 1px #D5D5D5 solid;
     padding: 5px 8px;
+    width: 135px;
+    
 }
 #admin-table-delete-list td button{
     padding: 5px 15px;
@@ -41,5 +43,5 @@
 }
 
 #admin-table-delete-list th{
-    background-color: #D5D5D5;
+    background-color: #e7e7e7;
 }

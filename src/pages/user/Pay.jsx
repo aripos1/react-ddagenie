@@ -44,9 +44,43 @@ const Pay = () => {
             <div id="wrap-main">
 
                 <div id="wrap-head">
-                    
+                    <div id="wrap-header">
+                        <div id="purchase-button">
+                            <img src="../../assets/images/wallet.png" />
+                            <Link to="" className="headBuy">이용권구매</Link>
+                        </div>
+                        <div className="header-main">
+                            <div className="header-left">
+                                <span className="logo">
+                                    <img src="" alt="로고" />
+                                </span>
+                                <div id="search-wrap">
+                                    <input type="search" id="sc-fd" className="ipt-search" maxLength="200" autocomplete="off"
+                                        placeholder="가을에 듣기 좋은 감성 발라드" />
+                                    <input type="submit" className="btn-submit" value="검색" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="gnb" id="gnb">
+                            <ul className="menu clearfix">
+                                <li><Link to="#" className="gnb-menu">따지니차트</Link></li>
+                                <li><Link to="#" className="gnb-menu">최신음악</Link></li>
+                                <li><Link to="#" className="gnb-menu">장르음악</Link></li>
+                            </ul>
+                            <ul className="gnb-my">
+                                <li><Link to="http://localhost:3000/login" className="btn login-join-btn">로그인</Link></li>
+                                <li><Link to="" className="btn login-join-btn">회원가입</Link></li>
+                            </ul>
+                            <ul className="gnb-my">
+                                <li><Link to="" className="btn login-join-btn">jji***님</Link></li>
+                                <li><Link to="" className="btn login-join-btn">마이뮤직</Link></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
-                <div id="wrap-body" class="clearfix">
+                <div id="wrap-body" className="clearfix">
                     <div id="">
                         <div id="top-title">
                             <h2>이용권 정보</h2>
@@ -125,14 +159,14 @@ const Pay = () => {
                                     <form>
                                         <p>결제수단 선택</p>
                                         <div id="pay-choose-radio-box">
-                                            <label for="" name="pay" >신용카드</label>
-                                            <input type="radio" id="" name="pay" value="" />
+                                            <label htmlFor="c" name="pay" >신용카드</label>
+                                            <input type="radio" id="c" name="pay" value="" />
 
-                                            <label for="" name="pay" >무통장입금</label>
-                                            <input type="radio" id="" name="pay" value="" />
+                                            <label htmlFor="s" name="pay" >무통장입금</label>
+                                            <input type="radio" id="s" name="pay" value="" />
 
-                                            <label for="" name="pay" >휴대폰 소액결제</label>
-                                            <input type="radio" id="" name="pay" value="" />
+                                            <label htmlFor="p" name="pay" >휴대폰 소액결제</label>
+                                            <input type="radio" id="p" name="pay" value="" />
                                         </div>
                                     </form>
                                 </div>
@@ -144,7 +178,7 @@ const Pay = () => {
                     
                 </div>
                 <div id="wrap-foot" className="footer">
-                    <div class="ft-head clearfix">
+                    <div className="ft-head clearfix">
                         <ul>
                             <li><Link to="#">회사소개</Link></li>
                             <li><Link to="#">이용약관</Link></li>
@@ -155,7 +189,7 @@ const Pay = () => {
                     </div>
                     <div className="ft-main clearfix">
                         
-                        <div class="ft-logo">
+                        <div className="ft-logo">
                             <img src="../../assets/images/logo.webp" alt="지니뮤직 로고" />
                         </div>
                         
@@ -168,7 +202,7 @@ const Pay = () => {
                         </div>
                     </div>
                     
-                    <div class="ft-sns">
+                    <div className="ft-sns">
                         <Link to="#"><img src="../../assets/images/kakao.png" alt="카카오톡" /></Link>
                         <Link to="#"><img src="../../assets/images/facebook.png" alt="페이스북" /></Link>
                         <Link to="#"><img src="../../assets/images/insta.png" alt="인스타그램" /></Link>
