@@ -41,7 +41,7 @@ const AdminPayment = () => {
         <>
             <div id="wrap-main">
         
-            <div id="wrap-head">
+                <div id="wrap-head">
                     <div id="wrap-header">
                         <div id="purchase-button">
                             <img src="../../assets/images/wallet.png" />
