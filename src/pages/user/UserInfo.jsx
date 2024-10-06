@@ -122,10 +122,10 @@ const UserInfo = () => {
             headers: { "Authorization": `Bearer ${token}` },
         }).then(response => {
             if (response.status === 200) {
-                alert('회원 탈퇴가 완료되었습니다.');
+                alert('후회할거야...');
                 localStorage.removeItem('token'); // 로컬 스토리지에서 토큰 제거
                 localStorage.removeItem('authUser');
-                navigate('/home'); // 탈퇴 후 홈으로 이동
+                navigate('/login'); // 탈퇴 후 홈으로 이동
             } else {
                 alert('탈퇴 처리에 실패했습니다.');
             }
