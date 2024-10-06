@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Test from './pages/Test';
 import MusicPlayer from './pages/music/MusicPlayer';
 import MyMusic from './pages/music/MyMusic';
-
+import Index from './pages/main/Index.jsx';
 import Pay from './pages/user/Pay';
 
 import LoginForm from './pages/user/LoginForm';
@@ -19,15 +19,16 @@ import AdminPayment from './pages/admin/AdminPayment.jsx';
 
 
 
+
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
           <Route path='/test' element={<Test />} />
+          <Route path='/' element={<Index />} />
           <Route path='/music/musicplayer' element={<MusicPlayer />} />
           <Route path='/user/mymusic' element={<MyMusic />} />
-
 
 
           <Route path='/user/pay/:no' element={<Pay />} />
@@ -43,7 +44,7 @@ function App() {
           <Route path='/user/Utilize' element={<Utilize />} />
           <Route path='/user/deleteForm' element={<JdeleteForm />} />
           <Route path='/admin/adminPayment' element={<AdminPayment />} />
-
+        
 
         </Routes>
       </BrowserRouter>

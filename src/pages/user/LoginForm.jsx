@@ -62,29 +62,20 @@ const JoinForm = () => {
 
             responseType: 'json' //수신타입
         }).then(response => {
-            console.log(response); //수신데이터
-            console.log(response.data.apiData); //수신데이터
-
-            //헤더에서 토큰 꺼내기
-            /* const token = response.headers.authorization.split(' ')[1];
-                console.log(token);*/
-            const token = response.headers['authorization'].split(' ')[1];
-
-            //로컬스토리지에 토큰 저장
-            localStorage.setItem("token", token);
-
-            //로컬스토리지에 authUser 저장
-            localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
-
-            //로그인 성공시, 메인 화면으로 이동
-            navigate('/user/info');
-
+            if (response.data.result === 'success') {
+                const token = response.headers['authorization'].split(' ')[1];
+                localStorage.setItem("token", token);
+                localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+                navigate('/user/info');
+            } else if (response.data.message === "탈퇴한 회원입니다.") {
+                alert("탈퇴한 회원입니다.");  // 경고창 출력
+            } else {
+                alert('아이디와 비밀번호를 확인하세요!!!');
+            }
         }).catch(error => {
             console.error(error);
-            // 에러시, 에러메시지 출력
-            alert('아이디와 비밀번호를 확인하세요!!!');
-            
-        })
+            alert('로그인 중 오류가 발생했습니다.');
+        });
     };
 
 

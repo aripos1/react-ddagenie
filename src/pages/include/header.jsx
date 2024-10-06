@@ -1,6 +1,6 @@
 //import 라이브러리
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //css
 import '../../assets/css/all.css';
@@ -12,11 +12,14 @@ import logo from '../../assets/images/cuteddagenie.png';
 
 const Header = () => {
     /*---라우터 관련-------------------------------*/
+    const navigate = useNavigate(); 
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
 
     const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
     const [username, setUsername] = useState(''); // 로그인한 사용자 이름
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
     
     /*---일반 변수--------------------------------*/
 
@@ -36,12 +39,25 @@ const Header = () => {
         }
     }, []);
 
+    const handleLogout = () => {
+        console.log('로그아웃');
+        // 로그아웃 로직
+        // 로컬스토리지에 토큰 삭제
+        localStorage.removeItem('token');
+        // 로컬스토리지에 authUser 삭제
+        localStorage.removeItem('authUser');
+        //화면 반영을 위한 상태값 변경
+        setToken(null);
+        setAuthUser(null);
+        navigate('/login');
+    };
+
     return (
-            <div id="wrap-head">
+            <div id="wrap-head" className='ham'>
                 <div id="wrap-header">
                     <div id="purchase-button">
                         <img src={walletIcon} alt="지갑 아이콘" />
-                        <a href="#" className="headBuy">이용권구매</a>
+                        <Link to={""} className="headBuy">이용권구매</Link>
                     </div>
                     <div className="header-main">
                         <div className="header-left">
@@ -75,6 +91,7 @@ const Header = () => {
                                 <>
                                     <li><Link to="/user/info" className="btn login-join-btn">{username}님</Link></li>
                                     <li><Link to="/user/mymusic" className="btn login-join-btn">마이뮤직</Link></li>
+                                    <li className='logout'><button className="btn login-join-btn logout" onClick={handleLogout}>로그아웃</button></li>
                                 </>
                             ) : (
                                 // 로그아웃 상태

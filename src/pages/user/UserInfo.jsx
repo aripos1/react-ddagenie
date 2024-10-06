@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
 
-import Header from '../include/header';
+import Header from '../include/Header';
+import Footer from '../include/Footer';
 
 //css
 import '../../assets/css/all.css';
@@ -12,7 +13,6 @@ import '../../assets/css/jjinUtilize.css';
 import '../../assets/css/userinfo.css';
 
 //images
-import logo from '../../assets/images/cuteddagenie.png';
 import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img.webp';
 import customProfile from '../../assets/images/default_img2.png';
@@ -56,7 +56,7 @@ const UserInfo = () => {
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/api/users/me`,
-            headers: { "Authorization": `Bearer ${token}` },
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
 
         }).then(response => {
             if (response.data && response.data.apiData) {
@@ -66,7 +66,7 @@ const UserInfo = () => {
                 setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
                 setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
                 setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
-                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.profile || profileImage}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
+                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.img}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
             } else {
                 console.error('No user data found');
             }
@@ -82,11 +82,12 @@ const UserInfo = () => {
         e.preventDefault();
 
         const formData = new FormData();
+        formData.append('name', name);
         formData.append('password', pw);
         formData.append('phone', phone);
         formData.append('address', address);
         if (selectedFile) {
-            formData.append('profile', selectedFile);
+            formData.append('img', selectedFile);
         }
 
         axios({
@@ -122,10 +123,10 @@ const UserInfo = () => {
             headers: { "Authorization": `Bearer ${token}` },
         }).then(response => {
             if (response.status === 200) {
-                alert('회원 탈퇴가 완료되었습니다.');
+                alert('후회할거야...');
                 localStorage.removeItem('token'); // 로컬 스토리지에서 토큰 제거
                 localStorage.removeItem('authUser');
-                navigate('/home'); // 탈퇴 후 홈으로 이동
+                navigate('/login'); // 탈퇴 후 홈으로 이동
             } else {
                 alert('탈퇴 처리에 실패했습니다.');
             }
@@ -145,7 +146,7 @@ const UserInfo = () => {
             {/* 헤더 */}
             <Header />
 
-            <div id="wrap-body" className="clearfix">
+            <div id="wrap-body" className="clearfix ham">
                 {/* 사이드바 */}
                 <div id="wrap-side">
                     <div id="profile-box">
@@ -209,7 +210,7 @@ const UserInfo = () => {
                                 <thead>
                                     <tr>
                                         <th>아이디(ID)</th>
-                                        <td><input type="text" value={id} readOnly /></td>
+                                        <td><input id='input-id' type="text" value={id} readOnly /></td>
                                     </tr>
                                     <tr>
                                         <th>비밀번호</th>
@@ -222,7 +223,6 @@ const UserInfo = () => {
                                     <tr>
                                         <th>주소</th>
                                         <td>
-                                            <input type="text" id="postalcode" name="postalcode" value="" placeholder="우편번호" />
                                             <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="서울시 강남구" />
                                         </td>
                                     </tr>
@@ -255,28 +255,8 @@ const UserInfo = () => {
                 </div>
             </div>
 
-            <div id="wrap-foot" className="footer">
-                <div className="ft-head clearfix">
-                    <ul>
-                        <li><Link to="#">회사소개</Link></li>
-                        <li><Link to="#">이용약관</Link></li>
-                        <li><Link to="#">개인정보처리방침</Link></li>
-                        <li><Link to="#">청소년보호정책</Link></li>
-                        <li><Link to="#">위치기반서비스</Link></li>
-                    </ul>
-                </div>
-                <div className="ft-main clearfix">
-                    <div className="ft-logo">
-                        <img src={logo} alt="지니뮤직 로고" />
-                    </div>
-                    <div className="ft-info">
-                        <p>(주) 따지니뮤직</p>
-                        <p>대표이사 황일영 | 서울 서초구 강남대로 405 통영빌딩 8층</p>
-                        <p>사업자등록번호: 777-77-01234</p>
-                        <p>개인정보보호책임자: 임현성</p>
-                    </div>
-                </div>
-            </div>
+            {/* 푸터 */}
+            <Footer />
         </div>
     );
 };
