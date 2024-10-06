@@ -98,7 +98,6 @@
 /* li 내부 a 태그 */
 .ham #top-ct-list ul li button {
     display: block;
-    /* a 태그가 li 전체를 차지하게 설정 */
     width: 100%;
     text-decoration: none;
     color: #333;
@@ -132,7 +131,8 @@
 
 .ham .info-table>thead>tr>td>input {
     padding: 3px 10px 4px;
-    height: 15px;
+    height: 40px;
+    width: 400px;
     border-radius: 4px;
     line-height: 15px;
     background-color: #fff;
@@ -140,6 +140,17 @@
     border-style: solid;
     border-color: #babcbd #d9d9d9 #d9d9d9 #babcbd;
     box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .05);
+}
+
+.ham .info-table>thead>tr>td #input-id {
+    border: none;
+    box-shadow: none;
+}
+
+.ham .info-table>thead>tr>td #input-id:hover {
+    border: none;
+    box-shadow: none;
+    cursor: default;
 }
 
 
