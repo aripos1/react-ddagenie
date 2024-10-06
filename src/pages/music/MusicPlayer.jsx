@@ -95,26 +95,68 @@ const MusicPlayer = () => {
                 musicNos: selectedSongs.map(song => song.musicNo),
                 userNo: 1
             })
-            .then(response => {
-                const updatedMyMusic = [...myMusic, ...selectedSongs.map(song => ({ ...song, selected: false }))];
-                setMyMusic(updatedMyMusic);
-                setPlaylist(playlist.map(song => ({ ...song, selected: false })));  // 선택 상태 초기화
-            })
-            .catch(error => {
-                setError('Error adding songs to MyMusic.');
-            });
+                .then(response => {
+                    const updatedMyMusic = [...myMusic, ...selectedSongs.map(song => ({ ...song, selected: false }))];
+                    setMyMusic(updatedMyMusic);
+                    setPlaylist(playlist.map(song => ({ ...song, selected: false })));  // 선택 상태 초기화
+                })
+                .catch(error => {
+                    setError('Error adding songs to MyMusic.');
+                });
         }
     };
 
     // 재생목록에서 선택된 곡 삭제
-    const deleteFromPlaylist = () => {
-        setPlaylist(playlist.filter(song => !song.selected));
+    const deleteSelectedSongsFromPlaylist = () => {
+        const selectedSongs = playlist.filter(song => song.selected);
+        const musicNos = selectedSongs.map(song => song.musicNo);  // 선택된 곡들의 musicNo 목록
+    
+        console.log('전송할 musicNos:', musicNos); // 전송할 musicNos 로그 출력
+        console.log('전송할 userNo: 1');  // 전송할 userNo 로그 출력
+    
+        if (musicNos.length > 0) {
+            axios.post('http://localhost:8888/api/playlist/delete', {
+                musicNos: musicNos,
+                userNo: 1
+            })
+            .then(response => {
+                console.log('삭제 성공:', response.data);
+                setPlaylist(playlist.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
+            })
+            .catch(error => {
+                console.error('Error deleting songs:', error.response ? error.response.data : error.message);
+            });
+        } else {
+            console.log('삭제할 곡이 없습니다.');
+        }
     };
+    
 
-    // MyMusic에서 선택된 곡 삭제
-    const deleteFromMyMusic = () => {
-        setMyMusic(myMusic.filter(song => !song.selected));
-    };
+// MyMusic에서 선택된 곡 삭제
+const deleteSelectedSongsFromMyMusic = () => {
+    const selectedSongs = myMusic.filter(song => song.selected);
+    const musicNos = selectedSongs.map(song => song.musicNo);  // 선택된 곡들의 musicNo 목록
+
+    console.log('전송할 musicNos:', musicNos); // 전송할 musicNos 로그 출력
+    console.log('전송할 userNo: 1');  // 전송할 userNo 로그 출력
+
+    if (musicNos.length > 0) {
+        axios.post('http://localhost:8888/api/mymusic/delete', {
+            musicNos: musicNos,
+            userNo: 1
+        })
+        .then(response => {
+            console.log('삭제 성공:', response.data);
+            setMyMusic(myMusic.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
+        })
+        .catch(error => {
+            console.error('Error deleting songs:', error.response ? error.response.data : error.message);
+        });
+    } else {
+        console.log('삭제할 곡이 없습니다.');
+    }
+};
+
 
     // 좋아요 상태 토글
     const toggleLike = () => {
@@ -196,7 +238,7 @@ const MusicPlayer = () => {
 
                         <div className="playlist-footer">
                             <button onClick={addToMyMusic}>담기</button>
-                            <button onClick={deleteFromPlaylist}>삭제</button>
+                            <button onClick={deleteSelectedSongsFromPlaylist}>삭제</button>
                             <div className="footer-pagination">
                                 <p>{playlist.length}곡</p>
                             </div>
@@ -223,7 +265,7 @@ const MusicPlayer = () => {
                         </ul>
 
                         <div className="playlist-footer">
-                            <button onClick={deleteFromMyMusic}>삭제</button>
+                            <button onClick={deleteSelectedSongsFromMyMusic}>삭제</button>
                             <div className="footer-pagination">
                                 <p>{myMusic.length}곡</p>
                             </div>
