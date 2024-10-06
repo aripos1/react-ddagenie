@@ -1,6 +1,7 @@
 //import 라이브러리
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 //import 컴포넌트
@@ -16,6 +17,7 @@ import '../../assets/css/jjinUtilize.css'
 const Utilize = () => {
 
     /* ---라우터 관련 ------ */
+    const [payList, setPayList] = useState([]);
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     
@@ -23,11 +25,36 @@ const Utilize = () => {
 
     /*---일반 메소드 --------------------------------------------*/
 
+    const getUserPayList = ()=>{
+
+        axios({
+            method: 'get', 			// put, post, delete                   
+            url: 'http://localhost:8888/api/pay/user',
+            //headers: { "Authorization": `Bearer ${token}`}, // token
+                                                                                              //get delete
+            //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
+            //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
+        
+            //params: guestbookVo, // get delete 쿼리스트링(파라미터)
+            //data: '',     // put, post,  JSON(자동변환됨)
+            //data: formData,           // 첨부파일  multipart방식
+        
+            responseType: 'json' //수신타입
+        }).then(response => {
+            console.log(response); //수신데이타
+            console.log(response.data.apiData);
+
+            
+        }).catch(error => {
+            console.log(error);
+        });
+
+    };
 
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     
 
-        //문법임. 여기안에 담겨진다.
+    
         
             
 
@@ -39,6 +66,11 @@ const Utilize = () => {
     //2. 데이터 잡기 + 묶기(배열)
 
     //3. 전송 (ajax 사용)
+    useEffect(()=>{
+        getUserPayList();
+    },[]);
+
+
 
     return (
         <>
