@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
 
-import Header from '../include/header';
-import Footer from '../include/footer';
+import Header from '../include/Header';
+import Footer from '../include/Footer';
 
 //css
 import '../../assets/css/all.css';
@@ -66,7 +66,7 @@ const UserInfo = () => {
                 setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
                 setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
                 setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
-                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.profile || profileImage}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
+                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.img || profileImage}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
             } else {
                 console.error('No user data found');
             }
@@ -82,11 +82,12 @@ const UserInfo = () => {
         e.preventDefault();
 
         const formData = new FormData();
+        formData.append('name', name);  
         formData.append('password', pw);
         formData.append('phone', phone);
         formData.append('address', address);
         if (selectedFile) {
-            formData.append('profile', selectedFile);
+            formData.append('img', selectedFile);
         }
 
         axios({
