@@ -77,10 +77,13 @@ const JoinForm = () => {
             localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
 
             //로그인 성공시, 메인 화면으로 이동
-            navigate('/user/mymusic');
+            navigate('/user/info');
 
         }).catch(error => {
             console.error(error);
+            // 에러시, 에러메시지 출력
+            alert('아이디와 비밀번호를 확인하세요!!!');
+            
         })
     };
 

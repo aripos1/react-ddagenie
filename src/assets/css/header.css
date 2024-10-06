@@ -47,7 +47,7 @@
     border-bottom: 2px solid #0095FF;
 }
 
-#wrap-header>.header-main>.header-left>#search-wrap>.btn-submit {
+/* #wrap-header>.header-main>.header-left>#search-wrap>.btn-submit {
     float: right;
     position: relative;
     width: 43px;
@@ -56,7 +56,18 @@
     line-height: 0;
     background-image: url(../images/search.png);
     text-indent: -9999px;
-    /* 텍스트 숨김 */
+    cursor: pointer;
+} */
+
+#wrap-header .header-main .btn-submit {
+    position: absolute; /* 버튼을 자유롭게 이동시키기 위해 */
+
+    z-index: 2; /* 버튼이 다른 요소 위에 표시되도록 설정 */
+    width: 43px;
+    height: 36px;
+    background-image: url(../images/search.png);
+    background-color: transparent;
+    border: none;
     cursor: pointer;
 }
 

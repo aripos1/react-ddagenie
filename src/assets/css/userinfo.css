@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 #wrap-maincontent {
-    width: 694px;
+    width: auto;
 
     margin-top: 20px;
 }
@@ -28,6 +28,15 @@
 
 .Breadcrumbs li:last-child {
     font-weight: bold;
+}
+
+/* 프로필 이미지 설정 */
+#profile-box>.profile-name img {
+    width: 50%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 30px;
 }
 
 /**/
@@ -129,6 +138,7 @@
     box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .05);
 }
 
+
 .info-table>thead>tr>td>#username {
     border: none !important;
     box-shadow: none !important;
@@ -161,6 +171,15 @@
     background-color: #fff;
 }
 
+.info-table>tbody>tr>td #input-img {
+    width: 257px;
+    padding: 8px;
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
 
 .change-btn,

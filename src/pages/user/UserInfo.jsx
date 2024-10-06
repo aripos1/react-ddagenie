@@ -1,111 +1,158 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+//import 라이브러리
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
+
+import Header from '../include/header';
+
+//css
 import '../../assets/css/all.css';
-import '../../assets/css/header.css';
 import '../../assets/css/footer.css';
 import '../../assets/css/jjinUtilize.css';
 import '../../assets/css/userinfo.css';
+
+//images
 import logo from '../../assets/images/cuteddagenie.png';
-import walletIcon from '../../assets/images/wallet.png';
 import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img.webp';
 import customProfile from '../../assets/images/default_img2.png';
 
 const UserInfo = () => {
+    /*---라우터관련-----*/
+    const navigate = useNavigate();
+
+    /*---상태관리 변수들(값이 변화면 화면 랜더링 )--*/
+    const [name, setName] = useState('');
+    const [id, setId] = useState('');
+    const [pw, setPw] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [profile, setProfile] = useState(profileImage);
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
 
+    /*---일반변수--------------------------------*/
+    const token = localStorage.getItem('token');
+
+    /*---일반메소드 -----------------------------*/
+    // 프로필 사진 업로드 핸들러
+    const handleProfileChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedFile(file);
+
+        // 업로드된 파일 미리보기
+        const reader = new FileReader();
+        reader.onload = () => {
+            setProfile(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    /*---훅(useEffect)+이벤트(handle)메소드------*/
+    // 사용자 정보 불러오기 (마운트 시 실행)
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
+            headers: { "Authorization": `Bearer ${token}` },
+
+        }).then(response => {
+            if (response.data && response.data.apiData) {
+                const userVo = response.data.apiData;
+                setName(userVo.name || '')
+                setId(userVo.id || '');  // id가 없을 경우 빈 문자열로 설정
+                setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
+                setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
+                setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
+                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.profile || profileImage}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
+            } else {
+                console.error('No user data found');
+            }
+        }).catch(error => {
+            console.error('유저 정보 로딩 실패:', error);
+        });
+    }, [token]);
+
+
+    //확인버튼 클릭 이벤트
+    // 폼 제출 핸들러 (회원정보 수정)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('password', pw);
+        formData.append('phone', phone);
+        formData.append('address', address);
+        if (selectedFile) {
+            formData.append('profile', selectedFile);
+        }
+
+        axios({
+            method: 'put',
+            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "multipart/form-data"
+            },
+            data: formData,
+        }).then(response => {
+            if (response.data.result === 'success') {
+                alert('회원정보 수정 완료');
+                navigate('/user/info');
+            } else {
+                alert('수정 실패');
+            }
+        }).catch(error => {
+            console.error('회원정보 수정 실패:', error);
+        });
+    };
+
+    //탈퇴창 관련
     const handleDeleteAccount = () => {
         setShowConfirm(true);
     };
 
-    const handleConfirmYes = async () => {
-        const userId = 'jji***'; // 실제 사용자 ID를 필요에 맞게 전달
-        const guestbookVo = { userId }; // 예시로 요청에 사용할 데이터 객체
-
-        try {
-            axios({
-                method: 'post', // POST 요청 메서드
-                url: '/api/deleteAccount', // 실제 탈퇴 처리 URL
-                headers: { "Content-Type": "application/json; charset=utf-8" }, // JSON 형식으로 요청
-                data: guestbookVo, // 서버로 전송할 데이터
-                responseType: 'json' // 수신되는 응답 데이터 형식
-            })
-            .then(response => {
-                console.log(response); // 수신된 데이터 출력
-                if (response.status === 200) {
-                    alert('회원 탈퇴가 완료되었습니다.');
-                    window.location.href = '/home'; // 탈퇴 후 홈으로 리다이렉트
-                } else {
-                    alert('탈퇴 처리에 실패했습니다.');
-                }
-            })
-            .catch(error => {
-                console.log(error); // 에러 처리
-                alert('탈퇴 처리 중 오류가 발생했습니다.');
-            });
-        } catch (error) {
+    // 탈퇴 확인 (탈퇴 처리)
+    const handleConfirmYes = () => {
+        axios({
+            method: 'delete',  // 실제 탈퇴는 DELETE 메소드로 처리
+            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
+            headers: { "Authorization": `Bearer ${token}` },
+        }).then(response => {
+            if (response.status === 200) {
+                alert('회원 탈퇴가 완료되었습니다.');
+                localStorage.removeItem('token'); // 로컬 스토리지에서 토큰 제거
+                localStorage.removeItem('authUser');
+                navigate('/home'); // 탈퇴 후 홈으로 이동
+            } else {
+                alert('탈퇴 처리에 실패했습니다.');
+            }
+        }).catch(error => {
             console.error('회원 탈퇴 오류:', error);
             alert('탈퇴 처리 중 오류가 발생했습니다.');
-        }
+        });
     };
 
+    // 탈퇴 취소 핸들러
     const handleConfirmNo = () => {
         setShowConfirm(false);
     };
 
     return (
         <div id="wrap-main">
-            <div id="wrap-head">
-                {/* 헤더 */}
-                <div id="wrap-header">
-                    <div id="purchase-button">
-                        <img src={walletIcon} alt="지갑" />
-                        <Link to="" className="headBuy">이용권구매</Link>
-                    </div>
-                    <div className="header-main">
-                        <div className="header-left">
-                            <span className="logo">
-                                <img src={logo} alt="로고" />
-                            </span>
-                            <div id="search-wrap">
-                                <input
-                                    type="search"
-                                    id="sc-fd"
-                                    className="ipt-search"
-                                    maxLength="200"
-                                    autoComplete="off"
-                                    placeholder="가을에 듣기 좋은 감성 발라드"
-                                />
-                                <input type="submit" className="btn-submit" value="검색" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="gnb" id="gnb">
-                        <ul className="menu clearfix">
-                            <li><Link to="#" className="gnb-menu">따지니차트</Link></li>
-                            <li><Link to="#" className="gnb-menu">최신음악</Link></li>
-                            <li><Link to="#" className="gnb-menu">장르음악</Link></li>
-                        </ul>
-                        <ul className="gnb-my">
-                            <li><Link to="" className="btn login-join-btn">jji***님</Link></li>
-                            <li><Link to="" className="btn login-join-btn">마이뮤직</Link></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            {/* 헤더 */}
+            <Header />
 
             <div id="wrap-body" className="clearfix">
                 {/* 사이드바 */}
                 <div id="wrap-side">
                     <div id="profile-box">
                         <div className="profile-name">
-                            <span>
-                                <img src={customProfile} alt="프로필" />
-                            </span>
+                            <img src={profile} alt="프로필" />
                             <div className="profile-name-one">
-                                <p><Link to="#"><strong>진소영</strong> 님</Link></p>
+                                <p><Link to="#"><strong>{name}</strong> 님</Link></p>
                                 <Link to="#">프로필수정</Link>
                             </div>
                         </div>
@@ -155,52 +202,39 @@ const UserInfo = () => {
                             )}
                         </ul>
                     </div>
+                    {/* 메인 컨텐츠 */}
                     <div id="wrap-maincontent">
-                        <form action="#" method="POST" encType="multipart/form-data">
+                        <form onSubmit={handleSubmit} encType="multipart/form-data">
                             <table className="info-table">
                                 <thead>
                                     <tr>
                                         <th>아이디(ID)</th>
-                                        <td><input type="text" id="username" value="jji***" readOnly /></td>
+                                        <td><input type="text" value={id} readOnly /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>비밀번호</th>
+                                        <td><input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="비밀번호를 입력하세요" /></td>
                                     </tr>
                                     <tr>
                                         <th>휴대폰 번호</th>
-                                        <td>
-                                            <input type="text" id="phone" name="phone" value="" placeholder="010-1234-5678" />
-                                            <button type="button" className="change-btn">변경하기</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>이메일 주소</th>
-                                        <td>
-                                            <input type="text" id="email_id" placeholder="이메일 아이디" required />
-                                            @
-                                            <input type="text" id="email_domain" list="email_domains" placeholder="직접 입력" required />
-                                            <datalist id="email_domains">
-                                                <option value="naver.com" />
-                                                <option value="gmail.com" />
-                                                <option value="kakao.com" />
-                                                <option value="daum.net" />
-                                                <option value="hanmail.net" />
-                                                <option value="nate.com" />
-                                            </datalist>
-                                        </td>
+                                        <td><input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="010-1234-5678" /></td>
                                     </tr>
                                     <tr>
                                         <th>주소</th>
                                         <td>
                                             <input type="text" id="postalcode" name="postalcode" value="" placeholder="우편번호" />
-                                            <input type="text" id="address" name="address" value="" placeholder="서울시 강남구" />
+                                            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="서울시 강남구" />
                                         </td>
                                     </tr>
                                 </thead>
+                                <br />
                                 <tbody>
                                     <tr>
                                         <th>프로필 사진</th>
                                         <td>
                                             <div className="profile-photo">
-                                                <img src={profileImage} alt="프로필 사진" />
-                                                <input type="file" name="profile_image" />
+                                                <img src={profile} alt="프로필 사진" />
+                                                <input type="file" id='input-img' name="profile_image" onChange={handleProfileChange} />
                                                 <label>
                                                     <input type="checkbox" name="delete_profile_image" /> 삭제
                                                 </label>
@@ -213,9 +247,10 @@ const UserInfo = () => {
                             {/* 제출 버튼 */}
                             <div className="submit-section">
                                 <button type="submit" className="btn-submit">확인</button>
-                                <button type="button" className="btn-cancel">취소</button>
+                                <button type="button" className="btn-cancel" onClick={() => navigate('/user/mymusic')}>취소</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

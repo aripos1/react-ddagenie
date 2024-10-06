@@ -29,7 +29,7 @@ body{
     display: flex; /* Flexbox 사용 */
     justify-content: center; /* 수평 가운데 정렬 */
     /*align-items: center; /* 수직 가운데 정렬 */
-    height: 100vh; /* 화면 높이의 100% */
+   /* height: 100vh;  화면 높이의 100% */
 }
 
 
