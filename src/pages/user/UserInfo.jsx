@@ -145,7 +145,7 @@ const UserInfo = () => {
             {/* 헤더 */}
             <Header />
 
-            <div id="wrap-body" className="clearfix">
+            <div id="wrap-body" className="clearfix ham">
                 {/* 사이드바 */}
                 <div id="wrap-side">
                     <div id="profile-box">

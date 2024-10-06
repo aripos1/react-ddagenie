@@ -1,18 +1,18 @@
 @charset "utf-8";
 
-#wrap-maincontent {
+.ham #wrap-maincontent {
     width: auto;
 
     margin-top: 20px;
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.userinfotitle {
+.ham .userinfotitle {
     display: flex;
     align-items: center;
 }
 
-.Breadcrumbs {
+.ham .Breadcrumbs {
     display: flex;
     list-style-type: none;
     padding-left: 0;
@@ -22,16 +22,16 @@
     position: absolute;
 }
 
-.Breadcrumbs li {
+.ham .Breadcrumbs li {
     margin-right: 5px;
 }
 
-.Breadcrumbs li:last-child {
+.ham .Breadcrumbs li:last-child {
     font-weight: bold;
 }
 
 /* 프로필 이미지 설정 */
-#profile-box>.profile-name img {
+.ham #profile-box>.profile-name img {
     width: 50%;
     height: auto;
     border-radius: 50%;
@@ -40,11 +40,11 @@
 }
 
 /**/
-#top-ct-list>ul>.hidden {
+.ham #top-ct-list>ul>.hidden {
     display: none;
 }
 
-#top-ct-list>ul>#custom-confirm {
+.ham #top-ct-list>ul>#custom-confirm {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -58,19 +58,19 @@
 }
 
 
-#top-ct-list>ul>#custom-confirm>.confirm-content {
+.ham #top-ct-list>ul>#custom-confirm>.confirm-content {
     background-color: #fff;
     text-align: center;
 }
 
-#top-ct-list>ul>#custom-confirm>.confirm-content p {
+.ham #top-ct-list>ul>#custom-confirm>.confirm-content p {
     margin-bottom: 20px;
     font-size: 16px;
     color: #000;
     font-weight: bolder;
 }
 
-#top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-yes {
+.ham #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-yes {
     background-color: #7DD848;
     border: none;
     padding: 10px 20px;
@@ -80,7 +80,7 @@
     font-size: 14px;
 }
 
-#top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-no {
+.ham #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-no {
     background-color: #D9D9D9;
     border: none;
     padding: 10px 20px;
@@ -90,13 +90,13 @@
     font-size: 14px;
 }
 
-#top-ct-list>ul>#custom-confirm>.confirm-content>.confirm-btn:hover {
+.ham #top-ct-list>ul>#custom-confirm>.confirm-content>.confirm-btn:hover {
     background-color: #b38e2c;
     /* hover시 조금 더 어두운 골드 */
 }
 
 /* li 내부 a 태그 */
-#top-ct-list ul li button {
+.ham #top-ct-list ul li button {
     display: block;
     /* a 태그가 li 전체를 차지하게 설정 */
     width: 100%;
@@ -110,23 +110,27 @@
     font-weight: bold;
 }
 
-
+.ham #gnb ul .logout {
+    border: none;
+    margin-top: -4px;
+    cursor: pointer;
+}
 
 
 
 
 /* info table 스타일 */
-.info-table {
+.ham .info-table {
     width: 100%;
     border-collapse: collapse;
     border-top: solid 2px #000000;
 }
 
-.info-table>thead>tr {
+.ham .info-table>thead>tr {
     height: 100px;
 }
 
-.info-table>thead>tr>td>input {
+.ham .info-table>thead>tr>td>input {
     padding: 3px 10px 4px;
     height: 15px;
     border-radius: 4px;
@@ -139,39 +143,39 @@
 }
 
 
-.info-table>thead>tr>td>#username {
+.ham .info-table>thead>tr>td>#username {
     border: none !important;
     box-shadow: none !important;
 }
 
-.info-table>thead>tr>td>#address {
+.ham .info-table>thead>tr>td>#address {
     width: 374px;
 }
 
-.info-table>thead>tr>td>#postalcode {
+.ham .info-table>thead>tr>td>#postalcode {
     margin-bottom: 15px;
 }
 
-.info-table th,
-.info-table td {
+.ham .info-table th,
+.ham .info-table td {
     padding: 10px;
     border: 1px solid #ddd;
     vertical-align: middle;
 }
 
-.info-table th {
+.ham .info-table th {
     width: 30%;
     text-align: left;
     background-color: #f5f5f5;
     font-weight: bold;
 }
 
-.info-table td {
+.ham .info-table td {
     text-align: left;
     background-color: #fff;
 }
 
-.info-table>tbody>tr>td #input-img {
+.ham .info-table>tbody>tr>td #input-img {
     width: 257px;
     padding: 8px;
     margin-top: 5px;
@@ -182,9 +186,9 @@
 }
 
 
-.change-btn,
-.email-verify-btn,
-#findpostalcode {
+.ham .change-btn,
+.ham .email-verify-btn,
+.ham #findpostalcode {
     margin-left: 10px;
     padding: 5px 10px;
     background-color: #5F95F7;
@@ -219,8 +223,8 @@
     text-align: right;
 }
 
-.btn-submit,
-.btn-cancel {
+.ham .btn-submit,
+.ham .btn-cancel {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #5F95F7;
@@ -231,14 +235,14 @@
     margin: 0 10px;
 }
 
-.btn-cancel {
+.ham .btn-cancel {
     background-color: #ccc;
 }
 
-.btn-submit:hover {
+.ham .btn-submit:hover {
     background-color: #4a7bc1;
 }
 
-.btn-cancel:hover {
+.ham .btn-cancel:hover {
     background-color: #999;
 }

@@ -1,21 +1,21 @@
 @charset "utf-8";
 
-#wrap-header {
+.ham #wrap-header {
     width: 940px;
     background-color: #ffffff;
     margin: 0 auto;
     /* border-bottom: 2px #d2d2d2 solid; */
 }
 
-#wrap-header>#purchase-button {
+.ham #wrap-header>#purchase-button {
     padding: 0 5px 0 0;
 }
 
-#wrap-header>#purchase-button>.headBuy{
+.ham #wrap-header>#purchase-button>.headBuy{
     font-size: 12px;
 }
 
-#wrap-header>.header-main {
+.ham #wrap-header>.header-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,23 +23,23 @@
     width: 100%;
 }
 
-#wrap-header>.header-main>.header-left {
+.ham #wrap-header>.header-main>.header-left {
     display: flex;
     align-items: center;
 }
 
-#wrap-header .logo img {
+.ham #wrap-header .logo img {
     width: 44px;
     /* 로고 크기 조절 */
     height: auto;
     margin: 5px
 }
 
-#wrap-header>.header-main>#search-wrap {
+.ham #wrap-header>.header-main>#search-wrap {
     margin-left: 20px;
 }
 
-#wrap-header>.header-main>.header-left>#search-wrap>#sc-fd {
+.ham #wrap-header>.header-main>.header-left>#search-wrap>#sc-fd {
     width: 300px;
     height: 40px;
     padding: 10px;
@@ -59,7 +59,7 @@
     cursor: pointer;
 } */
 
-#wrap-header .header-main .btn-submit {
+.ham #wrap-header .header-main .btn-submit {
     position: absolute; /* 버튼을 자유롭게 이동시키기 위해 */
 
     z-index: 2; /* 버튼이 다른 요소 위에 표시되도록 설정 */
@@ -71,11 +71,11 @@
     cursor: pointer;
 }
 
-#wrap-header>.gnb>.gnb-my {
+.ham #wrap-header>.gnb>.gnb-my {
     font-size: 14px;
 }
 
-#wrap-header>.gnb>.gnb-my>.login-join-btn {
+.ham #wrap-header>.gnb>.gnb-my>.login-join-btn {
     background-color: transparent;
     color: #333;
     font-size: 14px;
@@ -83,19 +83,19 @@
     cursor: pointer;
     font-weight: bold;
 }
-#wrap-header>.gnb>.gnb-my {
+.ham #wrap-header>.gnb>.gnb-my {
     float: right;  
 }
 
-#wrap-header>.gnb>.gnb-my>li {
+.ham #wrap-header>.gnb>.gnb-my>li {
     float: left; margin: 25px 0px 0px 10px;
 }
 
-#wrap-header>.gnb>.gnb-my>li .login-join-btn {
+.ham #wrap-header>.gnb>.gnb-my>li .login-join-btn {
     padding: 4px 6px 4px 6px; font-size: 14px; 
 }
 
-#wrap-header>.gnb {
+.ham #wrap-header>.gnb {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -103,17 +103,17 @@
     padding: 0 10px;
 }
 
-#wrap-header>.gnb>.menu {
+.ham #wrap-header>.gnb>.menu {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
-#wrap-header>.gnb>.menu>li {
+.ham #wrap-header>.gnb>.menu>li {
     margin-right: 30px;
 }
 
-#wrap-header>.gnb .gnb-menu {
+.ham #wrap-header>.gnb .gnb-menu {
     font-size: 18px;
     color: #333;
     font-weight: bold;
