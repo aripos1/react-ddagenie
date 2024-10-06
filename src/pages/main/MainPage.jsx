@@ -4,8 +4,8 @@ import '../../assets/css/all.css'
 import '../../assets/css/index.css'
 import '../../assets/css/header.css'
 
-import Footer from '../../pages/include/footer.jsx';
-import Header from '../../pages/include/header.jsx';
+import Footer from '../../pages/include/Footer.jsx'
+import Header from '../../pages/include/Header.jsx';
 const MainPage = () => {
   return (
     <>
