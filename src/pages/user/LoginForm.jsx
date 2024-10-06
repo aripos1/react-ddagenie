@@ -50,7 +50,6 @@ const JoinForm = () => {
             id: id,
             password: pw // 자바 Vo에 필드 변수 확인. ※vo에는 password로 선언.
         };
-        console.log(userVo);
 
         //전송
         axios({
@@ -64,10 +63,15 @@ const JoinForm = () => {
         }).then(response => {
             if (response.data.result === 'success') {
                 const token = response.headers['authorization'].split(' ')[1];
+                // if (document.querySelector('.inp_check').checked) {
+                //     localStorage.setItem("token", token);
+                // } else {
+                //     sessionStorage.setItem("token", token);
+                // }
                 localStorage.setItem("token", token);
                 localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
                 navigate('/user/info');
-            } else if (response.data.message === "탈퇴한 회원입니다.") {
+            } else if (response.data.message === "탈퇴 회원") {
                 alert("탈퇴한 회원입니다.");  // 경고창 출력
             } else {
                 alert('아이디와 비밀번호를 확인하세요!!!');
