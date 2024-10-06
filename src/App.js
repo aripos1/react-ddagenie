@@ -30,7 +30,7 @@ function App() {
 
         
 
-          <Route path='/user/pay' element={<Pay />} />
+          <Route path='/user/pay/:no' element={<Pay />} />
 
           <Route path='/login' element={<LoginForm />} />
           <Route path='/signup' element={<JoinForm />} />
