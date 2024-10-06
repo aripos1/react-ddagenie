@@ -209,7 +209,7 @@ const UserInfo = () => {
                                 <thead>
                                     <tr>
                                         <th>아이디(ID)</th>
-                                        <td><input type="text" value={id} readOnly /></td>
+                                        <td><input id='input-id' type="text" value={id} readOnly /></td>
                                     </tr>
                                     <tr>
                                         <th>비밀번호</th>
@@ -222,7 +222,6 @@ const UserInfo = () => {
                                     <tr>
                                         <th>주소</th>
                                         <td>
-                                            <input type="text" id="postalcode" name="postalcode" value="" placeholder="우편번호" />
                                             <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="서울시 강남구" />
                                         </td>
                                     </tr>
