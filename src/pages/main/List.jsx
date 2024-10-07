@@ -28,7 +28,7 @@ const MusicList = () => {
     };
 
     return (
-        <div id="wrap-main">
+        <div id="wrap-main" className='ham'>
             <Header />
             <div id="wrap-body" className="musiclist">
                 <div id="top-title" className="listTitle">
