@@ -12,6 +12,7 @@ const MusicInsert = () => {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState('');
+    const [artistNo, setArtistNo] = useState('');
     const [artistName, setArtistName] = useState(''); // 아티스트 이름 상태
     const [genre, setGenre] = useState('');
     const [releasedDate, setReleasedDate] = useState('');
@@ -39,7 +40,7 @@ const MusicInsert = () => {
     }, []);
 
     const handleTitleChange = (e) => setTitle(e.target.value);
-    const handleArtistChange = (e) => setArtistName(e.target.value); // 아티스트 선택 시 업데이트
+    const handleArtistChange = (e) => setArtistNo(e.target.value); // 아티스트 선택 시 업데이트
     const handleGenreChange = (e) => setGenre(e.target.value);
     const handleReleasedDateChange = (e) => setReleasedDate(e.target.value);
     const handleContentChange = (e) => setContent(e.target.value);
@@ -51,12 +52,14 @@ const MusicInsert = () => {
 
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('artistName', artistName); // 아티스트 이름 전송
+        formData.append('artistNo', artistNo); // 아티스트 이름 전송
         formData.append('genre', genre);
         formData.append('releasedDate', releasedDate);
         formData.append('musicContent', content);
         formData.append('imageUrl', imageUrl);
         formData.append('fileUrl', fileUrl);
+
+        //console.log(formData.get('artistNo'));
 
         axios.post(`${process.env.REACT_APP_API_URL}/api/musicAdmins`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -71,6 +74,12 @@ const MusicInsert = () => {
             alert('음원 등록 중 오류가 발생했습니다.');
         });
     };
+
+
+
+
+
+
 
     return (
         
@@ -123,7 +132,7 @@ const MusicInsert = () => {
 
                         <div id="top-title">
                             <h2>음원 등록</h2>
-                        </div>
+                        </div>  
 
                         <div id="musicInsert">
 
@@ -140,16 +149,18 @@ const MusicInsert = () => {
                                         required
                                     />
 
+                                    
+
                                     <label htmlFor="artist">아티스트(가수)</label>
                                     <select
                                         id="artist"
-                                        value={artistName} // 선택된 아티스트 이름을 상태로 설정
+                                        value={artistNo} // 선택된 아티스트 이름을 상태로 설정
                                         onChange={handleArtistChange} // 아티스트 선택 시 상태 업데이트
                                         required
                                     >
                                         <option value="">아티스트를 선택하세요</option>
                                         {artists.map(artist => (
-                                            <option key={artist.artistNo} value={artist.artistName}>
+                                            <option key={artist.artistNo} value={artist.artistNo}>
                                                 {artist.artistName}
                                             </option>
                                         ))}
