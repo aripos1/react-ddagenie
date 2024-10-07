@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {  differenceInDays } from 'date-fns';
+import axios from 'axios';
 
 //css
 import '../../assets/css/all.css';
@@ -50,9 +51,13 @@ const Header = () => {
 
             // console.log(paymentFinish);
             // console.log(currentDate);
+
+            //로그인한회원 >> 이용권 사용여부체크
             if(dayDifference >= 0){
                 // console.log('dd');
                 console.log('사용가능한 이용권입니다.');
+                authUser.ticket_status = '이용중'
+                localStorage.setItem('authUser', JSON.stringify(authUser));
 
             }else{
                 // console.log('mm');
@@ -61,8 +66,34 @@ const Header = () => {
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
                 const userNo = authUser.no;
-                //디비에 상태값 보내주기
+                console.log(userNo);
 
+                //디비에 상태값 보내주기
+                axios({
+                    method: 'put', 			// put, post, delete                   
+                    url: 'http://localhost:8888/api/state/'+userNo,
+                    //headers: { "Authorization": `Bearer ${token}`}, // token
+                                                                                                      //get delete
+                    //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
+                    //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
+                
+                    //params: guestbookVo, // get delete 쿼리스트링(파라미터)
+                    //data: '',     // put, post,  JSON(자동변환됨)
+                    //data: formData,           // 첨부파일  multipart방식
+                
+                    responseType: 'json' //수신타입
+                }).then(response => {
+                    console.log(response); //수신데이타
+                    console.log(response.data.apiData);
+        
+                    if(response.data.apiData > 0){
+                        alert('이용권 사용기한이 만료되었습니다.\n \n새로운 이용권 구매후 이용해주세요')
+                    }
+                    
+                    
+                }).catch(error => {
+                    console.log(error);
+                });
                 
 
             }
