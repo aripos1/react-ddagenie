@@ -19,13 +19,14 @@ const MusicInsert = () => {
     const [artists, setArtists] = useState([]); // 아티스트 목록 상태
 
     const [title, setTitle] = useState('');
-    const [artistName, setArtistName] = useState(''); // 아티스트 이름 상태
+    const [artistNo, setArtistNo] = useState(''); // 아티스트 번호 상태
     const [genre, setGenre] = useState('');
     const [releasedDate, setReleasedDate] = useState('');
     const [content, setContent] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
     
+<<<<<<< HEAD
 
     /*---일반 변수--------------------------------*/
 
@@ -33,6 +34,8 @@ const MusicInsert = () => {
     
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+=======
+>>>>>>> 0c179d65e32e0939948c172e041d2905bc0abf84
     // 아티스트 목록 불러오기
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
@@ -54,7 +57,7 @@ const MusicInsert = () => {
 
 
     const handleTitleChange = (e) => setTitle(e.target.value);
-    const handleArtistChange = (e) => setArtistName(e.target.value); // 아티스트 선택 시 업데이트
+    const handleArtistChange = (e) => setArtistNo(e.target.value); // 아티스트 선택 시 번호로 업데이트
     const handleGenreChange = (e) => setGenre(e.target.value);
     const handleReleasedDateChange = (e) => setReleasedDate(e.target.value);
     const handleContentChange = (e) => setContent(e.target.value);
@@ -68,7 +71,7 @@ const MusicInsert = () => {
 
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('artistName', artistName); // 아티스트 이름 전송
+        formData.append('artistNo', artistNo); // 아티스트 번호 전송
         formData.append('genre', genre);
         formData.append('releasedDate', releasedDate);
         formData.append('musicContent', content);
@@ -98,6 +101,23 @@ const MusicInsert = () => {
 
     return (
 
+<<<<<<< HEAD
+=======
+                <label htmlFor="artist">아티스트(가수)</label>
+                <select
+                    id="artist"
+                    value={artistNo} // 선택된 아티스트 번호를 상태로 설정
+                    onChange={handleArtistChange} // 아티스트 선택 시 번호 업데이트
+                    required
+                >
+                    <option value="">아티스트를 선택하세요</option>
+                    {artists.map(artist => (
+                        <option key={artist.artistNo} value={artist.artistNo}>
+                            {artist.artistName}
+                        </option>
+                    ))}
+                </select>
+>>>>>>> 0c179d65e32e0939948c172e041d2905bc0abf84
 
         <>
 
