@@ -97,12 +97,13 @@ const Pay = () => {
             responseType: 'json' //수신타입
         }).then(response => {
             console.log(response); //수신데이타
-            // console.log(response.date);
+            console.log(response.data.apiData.updateCount);
 
-            if(response.data.apiData === 1){
+            if(response.data.apiData.updateCount === 1){
                 alert("이용권 구매가 완료되었습니다.")
                 
                 authUser.ticket_status = "사용중"
+                authUser.paymentFinish = response.data.apiData.paymentFinish;
                 console.log(authUser)
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));

@@ -40,7 +40,7 @@ const ItemMusic = ( props ) => {
                     <td>{music.genre}</td>
                     <td>{music.releasedDate}2024-09-20</td>
                     <td>{music.content}Content 1</td>
-                    <td><Link to={`/api/musicAdmins/${music.musicNo}`} className="action-btn" rel="noreferrer noopener">수정</Link></td>
+                    <td><Link to={`/admin/musicupdate/${music.musicNo}`} className="action-btn" rel="noreferrer noopener">수정</Link></td>
                     <td><Link to="" className="action-btn delete-btn" rel="noreferrer noopener">삭제</Link></td>
                 
 

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
-//import Footer from '../include/Footer';
-//import Header from '../include/Header';
+import Footer from '../include/Footer';
+import Header from '../include/Header';
 
 import ItemMusic from './ItemMusic';
 import '../../assets/css/musicAdmin.css';
@@ -77,43 +77,7 @@ const MusicAdmin = () => {
 
 
                 {/* <!-- header --> */}
-                <div id="wrap-head">
-                    <div id="wrap-header">
-                        <div id="purchase-button">
-                            <img src="../../assets/images/wallet.png" />
-                            <Link to="" className="headBuy" rel="noreferrer noopener">이용권구매</Link>
-                        </div>
-                        <div className="header-main">
-                            <div className="header-left">
-                                <span className="logo">
-                                    <img src="../../assets/images/cuteddagenie.png" alt="로고" />
-                                </span>
-                                <div id="search-wrap">
-                                    <input type="search" id="sc-fd" className="ipt-search" maxlength="200" autocomplete="off"
-                                        placeholder="가을에 듣기 좋은 감성 발라드" />
-                                    <input type="submit" className="btn-submit" value="검색" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="gnb" id="gnb">
-                            <ul className="menu clearfix">
-                                <li><Link to="" className="gnb-menu" rel="noreferrer noopener">따지니차트</Link></li>
-                                <li><Link to="" className="gnb-menu" rel="noreferrer noopener">최신음악</Link></li>
-                                <li><Link to="" className="gnb-menu" rel="noreferrer noopener">장르음악</Link></li>
-                            </ul>
-                            {/* <!-- <ul className="gnb-my"> 로그인 안한거
-                                <li><a href="" className="btn login-join-btn">로그인</a></li>
-                                <li><a href="" className="btn login-join-btn">회원가입</a></li>
-                            </ul> --> */}
-                            <ul className="gnb-my"> {/* <!-- 로그인 한거 -->  */}
-                                <li><Link to="" className="btn login-join-btn" rel="noreferrer noopener">jji***님</Link></li>
-                                <li><Link to="" className="btn login-join-btn" rel="noreferrer noopener">마이뮤직</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
+                <Header />
                 {/* <!-- //header --> */}
 
 
@@ -164,7 +128,7 @@ const MusicAdmin = () => {
                                     <input type="text" id="search" placeholder="검색할 내용을 입력하세요" />
                                     <button type="submit" id="btn_search">검색</button>
 
-                                    <Link to='' ><input type="button" id="btn_insert" value="음원등록" /></Link>
+                                    <Link to='/admin/musicinsert' ><input type="button" id="btn_insert" value="음원등록" /></Link>
                                 </div>
                         
                                 <table>
@@ -205,7 +169,7 @@ const MusicAdmin = () => {
                 </div>
                 {/* <!-- //body --> */}
 
-
+                <Footer />
                 {/* <!-- footer --> */}
                 
 

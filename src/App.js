@@ -45,7 +45,7 @@ function App() {
           <Route path='/admin/musicadmin' element={<MusicAdmin />} />
           <Route path='/admin/musicinsert' element={<MusicInsert />} />
           <Route path='/admin/artistinsert' element={<ArtistInsert />} />
-          <Route path='/admin/musicupdate' element={<MusicUpdate />} />
+          <Route path='/admin/musicupdate/:no' element={<MusicUpdate />} />
           <Route path='/user/payment' element={<Payment />} />
           <Route path='/user/Utilize' element={<Utilize />} />
           <Route path='/user/deleteForm' element={<JdeleteForm />} />

@@ -56,8 +56,7 @@ const Utilize = () => {
             console.log(response.data.apiData);
 
             setPayList(response.data.apiData);
-            setDate((response.data.apiData.paymentFinish)-(response.data.apiData.paymentStart))
-            console.log(setDate)
+            
             
         }).catch(error => {
             console.log(error);
@@ -175,8 +174,8 @@ const Utilize = () => {
                                     payList.map((payVo) => {
                                         return (
                                             
-                                            <tr key={payVo.id}> {/* 각 요소에 고유한 key 추가 */}
-                                                <td></td>
+                                            <tr> {/* 각 요소에 고유한 key 추가 */}
+                                                <td>{payVo.payNo}</td>
                                                 <td>{payVo.goodsName}</td>
                                                 <td>~ {payVo.paymentFinish}</td>
                                                 <td>{payVo.paymentStart}</td>
