@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../../assets/css/all.css';
 import '../../assets/css/player.css';
@@ -11,9 +12,16 @@ const MusicPlayer = () => {
     const [myMusic, setMyMusic] = useState([]);
     const [liked, setLiked] = useState(false);
     const audioRef = useRef(null);
+    const location = useLocation();
     const [error, setError] = useState(null);
     const [currentSong, setCurrentSong] = useState(null); // 현재 재생 중인 곡
     const [currentSongIndex, setCurrentSongIndex] = useState(null); // 현재 재생 중인 곡의 인덱스
+
+    // URL 파라미터에서 곡 정보 추출
+    const query = new URLSearchParams(location.search);
+    const title = query.get('title');
+    const artist = query.get('artist');
+    const fileUrl = query.get('fileUrl');
 
     useEffect(() => {
         if (activeTab === 'playlist') {
@@ -22,6 +30,14 @@ const MusicPlayer = () => {
             loadMyMusic(1);
         }
     }, [activeTab]);
+
+    useEffect(() => {
+        if (fileUrl) {
+            const songPath = `/assets/musicfile/${encodeURIComponent(fileUrl)}`;
+            setCurrentSong(songPath); // 현재 재생 중인 곡 설정
+        }
+    }, [fileUrl]);
+
 
     // API에서 MyMusic 목록 로드
     const loadMyMusic = async (userNo) => {
@@ -63,14 +79,22 @@ const MusicPlayer = () => {
     const playSong = (fileUrl, index) => {
         console.log('Clicked song index:', index); // 인덱스 확인용 로그 추가
         const songPath = `/assets/musicfile/${encodeURIComponent(fileUrl)}`;  // 파일 경로 설정
+
+        // Pause and reset audio before loading a new file
+        if (audioRef.current) {
+            audioRef.current.pause();  // 이전 재생 중인 파일 중지
+            audioRef.current.currentTime = 0;  // 재생 시작 위치를 처음으로 설정
+
+            // Set the source and play the song
+            audioRef.current.src = songPath; // 오디오 태그의 소스 설정
+            audioRef.current.play(); // 자동 재생
+        }
+
         setCurrentSong(songPath); // 현재 재생 중인 곡 설정
         setCurrentSongIndex(index); // 현재 재생 중인 곡 인덱스 설정
-        audioRef.current.src = songPath; // 오디오 태그의 소스 설정
-        audioRef.current.play(); // 재생
-
-        // 로그 추가 - 현재 재생 중인 곡 인덱스와 파일 URL
         console.log(`재생 중인 곡 인덱스: ${index}, 파일: ${fileUrl}`);
     };
+
     // 현재 곡이 종료되면 자동으로 다음 곡 재생 (무한 반복 재생)
     const handleSongEnd = () => {
         if (currentSongIndex !== null && currentSongIndex !== undefined) {
@@ -88,6 +112,7 @@ const MusicPlayer = () => {
             console.error('현재 재생 중인 곡 인덱스가 유효하지 않습니다.');
         }
     };
+
 
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
@@ -270,13 +295,14 @@ const MusicPlayer = () => {
                         </div>
                         <ul className="playlist">
                             {playlist.map((song, index) => (
-                                <li key={song.playlistNo}>
+                                <li key={song.playlistNo} onClick={() => playSong(song.fileUrl, index)}>
                                     <input
                                         type="checkbox"
                                         checked={!!song.selected}
                                         onChange={() => handleCheckboxChange(song.musicNo, 'playlist')}  // musicNo 사용
+                                        onClick={(e) => e.stopPropagation()}  // 이벤트 전파 방지
                                     />
-                                    <div onClick={() => playSong(song.fileUrl, index)}>
+                                    <div>
                                         <p>{song.title}</p>
                                         <p>{song.artistName}</p>
                                     </div>

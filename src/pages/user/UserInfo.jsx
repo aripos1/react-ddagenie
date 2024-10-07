@@ -14,8 +14,7 @@ import '../../assets/css/userinfo.css';
 
 //images
 import searchIcon from '../../assets/images/search.png';
-import profileImage from '../../assets/images/default_img.webp';
-import customProfile from '../../assets/images/default_img2.png';
+import profileImage from '../../assets/images/default_img2.png';
 
 const UserInfo = () => {
     /*---라우터관련-----*/
@@ -29,6 +28,8 @@ const UserInfo = () => {
     const [address, setAddress] = useState('');
     const [profile, setProfile] = useState(profileImage);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [deleteProfile, setDeleteProfile] = useState(false);
+
 
     // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
@@ -37,17 +38,33 @@ const UserInfo = () => {
     const token = localStorage.getItem('token');
 
     /*---일반메소드 -----------------------------*/
+
     // 프로필 사진 업로드 핸들러
     const handleProfileChange = (e) => {
         const file = e.target.files[0];
-        setSelectedFile(file);
+        if (!deleteProfile && file) {
+            setSelectedFile(file);
 
-        // 업로드된 파일 미리보기
-        const reader = new FileReader();
-        reader.onload = () => {
-            setProfile(reader.result);
-        };
-        reader.readAsDataURL(file);
+            // 업로드된 파일 미리보기
+            const reader = new FileReader();
+            reader.onload = () => {
+                setProfile(reader.result); // 미리보기에 선택한 이미지 표시
+            };
+            reader.readAsDataURL(file);
+        } else if (deleteProfile) {
+            setProfile(profileImage); // 체크박스 선택 시 디폴트 이미지로 변경
+            setSelectedFile(null); // 선택된 파일을 초기화
+        }
+    };
+
+    // 프로필 사진 삭제 체크박스 핸들러
+    const handleDeleteProfileChange = (e) => {
+        setDeleteProfile(e.target.checked);
+
+        if (e.target.checked) {
+            setProfile(profileImage); // 체크박스 선택 시 즉시 디폴트 이미지로 변경
+            setSelectedFile(null); // 선택된 파일 초기화
+        }
     };
 
     /*---훅(useEffect)+이벤트(handle)메소드------*/
@@ -66,7 +83,10 @@ const UserInfo = () => {
                 setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
                 setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
                 setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
-                setProfile(`${process.env.REACT_APP_API_URL}/upload/${userVo.img}`);  // 프로필 이미지가 없을 경우 기본 이미지 사용
+
+                // filePath와 saveName을 합쳐서 이미지 경로 생성
+                const imageUrl = `${process.env.REACT_APP_API_URL}/upload/${userVo.saveName}`;
+                setProfile(imageUrl || profileImage); // 파일 경로가 유효할 경우에만 이미지 표시
             } else {
                 console.error('No user data found');
             }
@@ -74,7 +94,6 @@ const UserInfo = () => {
             console.error('유저 정보 로딩 실패:', error);
         });
     }, [token]);
-
 
     //확인버튼 클릭 이벤트
     // 폼 제출 핸들러 (회원정보 수정)
@@ -86,9 +105,22 @@ const UserInfo = () => {
         formData.append('password', pw);
         formData.append('phone', phone);
         formData.append('address', address);
-        if (selectedFile) {
-            formData.append('img', selectedFile);
+
+        // 삭제 체크박스가 선택된 경우 기본 이미지 설정
+        if (deleteProfile) {
+            formData.append('profile', null);  // 서버에서 기본 이미지를 설정하도록 null 값을 보냄
+
+        } else if (selectedFile) {
+            formData.append('profile', selectedFile); // 선택된 파일을 프로필로 설정
         }
+
+        const user = {
+            name: name,
+            password: pw,
+            phone: phone,
+            address: address
+        };
+        formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
 
         axios({
             method: 'put',
@@ -151,7 +183,7 @@ const UserInfo = () => {
                 <div id="wrap-side">
                     <div id="profile-box">
                         <div className="profile-name">
-                            <img src={profile} alt="프로필" />
+                            <img src={profile} alt="" />
                             <div className="profile-name-one">
                                 <p><Link to="#"><strong>{name}</strong> 님</Link></p>
                                 <Link to="#">프로필수정</Link>
@@ -233,10 +265,15 @@ const UserInfo = () => {
                                         <th>프로필 사진</th>
                                         <td>
                                             <div className="profile-photo">
-                                                <img src={profile} alt="프로필 사진" />
+                                                <img src={profile} alt="" />
                                                 <input type="file" id='input-img' name="profile_image" onChange={handleProfileChange} />
                                                 <label>
-                                                    <input type="checkbox" name="delete_profile_image" /> 삭제
+                                                    <input
+                                                        type="checkbox"
+                                                        name="delete_profile_image"
+                                                        checked={deleteProfile}
+                                                        onChange={handleDeleteProfileChange}
+                                                    /> 삭제
                                                 </label>
                                             </div>
                                         </td>
