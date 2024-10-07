@@ -63,12 +63,12 @@ const JoinForm = () => {
         }).then(response => {
             if (response.data.result === 'success') {
                 const token = response.headers['authorization'].split(' ')[1];
-                if (document.querySelector('.inp_check').checked) {
-                    localStorage.setItem("token", token);
-                } else {
-                    sessionStorage.setItem("token", token);
-                }
-                // localStorage.setItem("token", token);
+                // if (document.querySelector('.inp_check').checked) {
+                //     localStorage.setItem("token", token);
+                // } else {
+                //     sessionStorage.setItem("token", token);
+                // }
+                localStorage.setItem("token", token);
                 localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
                 navigate('/');
             } else if (response.data.message === "탈퇴 회원") {
