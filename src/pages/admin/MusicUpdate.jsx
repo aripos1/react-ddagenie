@@ -30,6 +30,7 @@ const MusicUpdate = () => {
     const [artists, setArtists] = useState([]); // 아티스트 목록 상태
 
     const [title, setTitle] = useState('');
+    const [artistNo, setArtistNo] = useState('');
     const [artistName, setArtistName] = useState(''); // 아티스트 이름 상태
     const [genre, setGenre] = useState('');
     const [releasedDate, setReleasedDate] = useState('');
@@ -71,6 +72,21 @@ const MusicUpdate = () => {
     //마운트 되었을때 
     useEffect( ()=>{
 
+        axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
+        .then(response => {
+            console.log('API Response:', response.data);
+            if (response.data && Array.isArray(response.data.apiData)) {
+                setArtists(response.data.apiData);
+            } else {
+                console.error('Error: Expected array but got', typeof response.data.apiData);
+                setArtists([]);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching artists:', error);
+            setArtists([]);
+        });
+
         console.log("read");
         getMusicVo();
         
@@ -81,7 +97,7 @@ const MusicUpdate = () => {
 
 
     const handleTitleChange = (e) => setTitle(e.target.value);
-    const handleArtistChange = (e) => setArtistName(e.target.value); // 아티스트 선택 시 업데이트
+    const handleArtistChange = (e) => setArtistNo(e.target.value); // 아티스트 선택 시 업데이트
     const handleGenreChange = (e) => setGenre(e.target.value);
     const handleReleasedDateChange = (e) => setReleasedDate(e.target.value);
     const handleContentChange = (e) => setContent(e.target.value);
@@ -95,7 +111,7 @@ const MusicUpdate = () => {
 
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('artistName', artistName); // 아티스트 이름 전송
+        formData.append('artistNo', artistNo); // 아티스트 이름 전송
         formData.append('genre', genre);
         formData.append('releasedDate', releasedDate);
         formData.append('musicContent', content);
@@ -107,12 +123,12 @@ const MusicUpdate = () => {
         })
         .then(response => {
             console.log(response);
-            alert('음원이 성공적으로 등록되었습니다.');
+            alert('음원이 수정되었습니다.');
             navigate('/admin/musicadmin');
         })
         .catch(error => {
             console.error(error);
-            alert('음원 등록 중 오류가 발생했습니다.');
+            alert('음원 수정 중 오류가 발생했습니다.');
         });
 
     };
@@ -191,13 +207,13 @@ const MusicUpdate = () => {
                                     <label htmlFor="artist">아티스트(가수)</label>
                                     <select
                                         id="artist"
-                                        value={artistName} // 선택된 아티스트 이름을 상태로 설정
+                                        value={artistNo} // 선택된 아티스트 이름을 상태로 설정
                                         onChange={handleArtistChange} // 아티스트 선택 시 상태 업데이트
                                         required
                                     >
                                         <option value="">아티스트를 선택하세요</option>
                                         {artists.map(artist => (
-                                            <option key={artist.artistNo} value={artist.artistName}>
+                                            <option key={artist.artistNo} value={artist.artistNo}>
                                                 {artist.artistName}
                                             </option>
                                         ))}
