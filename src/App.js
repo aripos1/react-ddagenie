@@ -3,6 +3,7 @@ import Test from './pages/Test';
 import MusicPlayer from './pages/music/MusicPlayer';
 import MyMusic from './pages/music/MyMusic';
 import Index from './pages/main/Index.jsx';
+import MusicList from './pages/main/List.jsx';
 import Pay from './pages/user/Pay';
 
 import LoginForm from './pages/user/LoginForm';
@@ -16,6 +17,8 @@ import Payment from './pages/user/Payment.jsx';
 import Utilize from './pages/user/Utilize.jsx';
 import JdeleteForm from './pages/user/JdeleteForm.jsx';
 import AdminPayment from './pages/admin/AdminPayment.jsx';
+import Detail from './pages/main/Detail.jsx';
+
 
 
 
@@ -27,6 +30,7 @@ function App() {
         <Routes>
           <Route path='/test' element={<Test />} />
           <Route path='/' element={<Index />} />
+          <Route path='/musiclist' element={<MusicList />} />
           <Route path='/music/musicplayer' element={<MusicPlayer />} />
           <Route path='/user/mymusic' element={<MyMusic />} />
 
@@ -44,7 +48,7 @@ function App() {
           <Route path='/user/Utilize' element={<Utilize />} />
           <Route path='/user/deleteForm' element={<JdeleteForm />} />
           <Route path='/admin/adminPayment' element={<AdminPayment />} />
-        
+          <Route path='/main/detail' element={<Detail/>}/>
 
         </Routes>
       </BrowserRouter>

@@ -63,14 +63,14 @@ const JoinForm = () => {
         }).then(response => {
             if (response.data.result === 'success') {
                 const token = response.headers['authorization'].split(' ')[1];
-                // if (document.querySelector('.inp_check').checked) {
-                //     localStorage.setItem("token", token);
-                // } else {
-                //     sessionStorage.setItem("token", token);
-                // }
-                localStorage.setItem("token", token);
+                if (document.querySelector('.inp_check').checked) {
+                    localStorage.setItem("token", token);
+                } else {
+                    sessionStorage.setItem("token", token);
+                }
+                // localStorage.setItem("token", token);
                 localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
-                navigate('/user/info');
+                navigate('/');
             } else if (response.data.message === "탈퇴 회원") {
                 alert("탈퇴한 회원입니다.");  // 경고창 출력
             } else {
@@ -81,9 +81,6 @@ const JoinForm = () => {
             alert('로그인 중 오류가 발생했습니다.');
         });
     };
-
-
-
 
     return (
         <div id="wrap-main">

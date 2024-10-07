@@ -58,15 +58,16 @@
 
 /* 광고 배너 섹션 */
 .ad-banner {
+  
+
   margin: 30px 0;
   text-align: center;
 }
 
 .ad-banner img {
-  width: 100%;
-  max-width: 1000px;
+
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* 인기 순위 리스트 */
