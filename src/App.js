@@ -16,6 +16,7 @@ import Payment from './pages/user/Payment.jsx';
 import Utilize from './pages/user/Utilize.jsx';
 import JdeleteForm from './pages/user/JdeleteForm.jsx';
 import AdminPayment from './pages/admin/AdminPayment.jsx';
+import Detail from './pages/main/Detail.jsx';
 
 
 
@@ -44,7 +45,7 @@ function App() {
           <Route path='/user/Utilize' element={<Utilize />} />
           <Route path='/user/deleteForm' element={<JdeleteForm />} />
           <Route path='/admin/adminPayment' element={<AdminPayment />} />
-        
+          <Route path='/main/detail' element={<Detail/>}/>
 
         </Routes>
       </BrowserRouter>
