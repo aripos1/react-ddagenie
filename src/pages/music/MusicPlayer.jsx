@@ -21,7 +21,7 @@ const MusicPlayer = () => {
     const query = new URLSearchParams(location.search);
     const title = query.get('title');
     const artist = query.get('artist');
-    const fileUrl = query.get('fileUrl');
+    const filePath = query.get('filePath');
 
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
@@ -50,11 +50,11 @@ const MusicPlayer = () => {
     }, [isLoggedIn, authUser]);
 
     useEffect(() => {
-        if (fileUrl) {
-            const songPath = `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(fileUrl)}`;
+        if (filePath) {
+            const songPath = `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(filePath)}`;
             setCurrentSong(songPath); // 현재 재생 중인 곡 설정
         }
-    }, [fileUrl]);
+    }, [filePath]);
 
     // API에서 MyMusic 목록 로드
     const loadMyMusic = (userNo) => {
@@ -100,11 +100,20 @@ const MusicPlayer = () => {
                 setError('Error fetching playlist.');
             });
     };
+    console.log('Playlist:', playlist);
 
     // 곡 선택 시 재생
-    const playSong = (fileUrl, index) => {
+    const playSong = (filePath, index) => {
         console.log('Clicked song index:', index); // 인덱스 확인용 로그 추가
-        const songPath = `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(fileUrl)}`;  // 파일 경로 설정
+
+        if (!filePath) { // filePath가 null 또는 undefined인 경우 처리
+            console.error('filePath is null or undefined');
+            return;
+        }
+
+        const fileName = filePath.split('\\').pop(); // 윈도우 경로에서 파일명만 추출
+        console.log('File path:', filePath);
+        const songPath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;  // 파일 경로 설정
 
         if (audioRef.current) {
             audioRef.current.pause();  // 이전 재생 중인 파일 중지
@@ -117,6 +126,7 @@ const MusicPlayer = () => {
         setCurrentSongIndex(index); // 현재 재생 중인 곡 인덱스 설정
     };
 
+
     // 현재 곡이 종료되면 자동으로 다음 곡 재생
     const handleSongEnd = () => {
         if (currentSongIndex !== null && currentSongIndex !== undefined) {
@@ -125,14 +135,14 @@ const MusicPlayer = () => {
                 nextIndex = 0; // 마지막 곡 이후면 첫 번째 곡으로 돌아감
             }
             const nextSong = playlist[nextIndex];
-            playSong(nextSong.fileUrl, nextIndex); // 다음 곡 재생
+            playSong(nextSong.filePath, nextIndex); // 다음 곡 재생
         }
     };
 
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
         axios.post('http://localhost:8888/api/playlist/add', {
-            userNo: authUser.userNo, // 현재 사용자 번호
+            userNo: authUser.no, // 현재 사용자 번호
             musicNo: song.musicNo // 추가할 곡의 musicNo
         })
             .then(response => {
@@ -169,7 +179,7 @@ const MusicPlayer = () => {
         if (selectedSongs.length > 0) {
             axios.post('http://localhost:8888/api/mymusic/add', {
                 musicNos: selectedSongs.map(song => song.musicNo),
-                userNo: authUser.userNo
+                userNo: authUser.no
             })
                 .then(response => {
                     const updatedMyMusic = [...myMusic, ...selectedSongs.map(song => ({ ...song, selected: false }))];
@@ -189,7 +199,7 @@ const MusicPlayer = () => {
         if (musicNos.length > 0) {
             axios.post('http://localhost:8888/api/playlist/delete', {
                 musicNos: musicNos,
-                userNo: authUser.userNo
+                userNo: authUser.no
             })
                 .then(response => {
                     setPlaylist(playlist.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
@@ -207,7 +217,7 @@ const MusicPlayer = () => {
         if (musicNos.length > 0) {
             axios.post('http://localhost:8888/api/mymusic/delete', {
                 musicNos: musicNos,
-                userNo: authUser.userNo
+                userNo: authUser.no
             })
                 .then(response => {
                     setMyMusic(myMusic.filter(song => !song.selected)); // 클라이언트 측 상태 업데이트
@@ -222,19 +232,24 @@ const MusicPlayer = () => {
     const toggleLike = () => {
         setLiked(!liked);
     };
-   // 재생목록에서 중복된 곡 삭제
-   const removeDuplicateSongsFromDB = () => {
-    axios.post('http://localhost:8888/api/playlist/remove-duplicates', {
-        userNo: 1  // 현재 사용자 번호
-    })
-        .then(response => {
-            console.log('중복 삭제 성공:', response.data);
-            loadPlaylist(1);  // 재생목록을 다시 불러와 업데이트
+    // 재생목록에서 중복된 곡 삭제
+    const removeDuplicateSongsFromDB = () => {
+        if (!authUser || !authUser.no) {
+            console.error('User not logged in or userNo is missing.');
+            return;
+        }
+
+        axios.post('http://localhost:8888/api/playlist/remove-duplicates', {
+            userNo: authUser.no  // 현재 로그인한 사용자 번호 사용
         })
-        .catch(error => {
-            console.error('중복 삭제 중 오류 발생:', error.response ? error.response.data : error.message);
-        });
-};
+            .then(response => {
+                console.log('중복 삭제 성공:', response.data);
+                loadPlaylist(authUser.no);  // 재생목록을 다시 불러와 업데이트
+            })
+            .catch(error => {
+                console.error('중복 삭제 중 오류 발생:', error.response ? error.response.data : error.message);
+            });
+    };
     // 로그인 상태가 아니면 로그인 메시지 표시
     if (!isLoggedIn) {
         return (
@@ -276,6 +291,8 @@ const MusicPlayer = () => {
                         <div className={`like-icon ${liked ? 'liked' : ''}`} onClick={toggleLike}>
                             <span>&hearts;</span>
                         </div>
+                     
+                     
                     </div>
                 </div>
                 <audio ref={audioRef} id="audio-player" controls onEnded={handleSongEnd}>
@@ -306,12 +323,12 @@ const MusicPlayer = () => {
 
                 {activeTab === 'playlist' && (
                     <div className="tab-content active">
-                          <div className="playlist-controls">
+                        <div className="playlist-controls">
                             <button onClick={removeDuplicateSongsFromDB}>중복곡 삭제</button>
                         </div>
                         <ul className="playlist">
                             {playlist.map((song, index) => (
-                                <li key={song.playlistNo} onClick={() => playSong(song.fileUrl, index)}>
+                                <li key={song.playlistNo} onClick={() => playSong(song.filePath, index)}>
                                     <input
                                         type="checkbox"
                                         checked={!!song.selected}
