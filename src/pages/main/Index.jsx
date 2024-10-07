@@ -12,6 +12,15 @@ import axios from 'axios';
 const Index = () => {
     const navigate = useNavigate();
     const [topLikedSongs, setTopLikedSongs] = useState([]);
+    const [authUser, setAuthUser] = useState(null); // 로그인된 유저 상태 추가
+
+    // 로그인 유저 정보 가져오기 (localStorage)
+    useEffect(() => {
+        const storedUser = localStorage.getItem('authUser');
+        if (storedUser) {
+            setAuthUser(JSON.parse(storedUser));
+        }
+    }, []);
 
     // API에서 인기순위(좋아요 순위) 곡을 가져오는 함수
     const fetchTopLikedSongs = async () => {
@@ -40,10 +49,15 @@ const Index = () => {
 
     // 노래 재생 + 재생목록에 추가
     const handlePlayAndAddToPlaylist = async (musicNo, title, artist, fileUrl) => {
+        if (!authUser) {
+            alert("로그인 해주세요.");
+            return;
+        }
+
         try {
             // 재생목록에 곡 추가
             const response = await axios.post('http://localhost:8888/api/playlist/add', {
-                userNo: 1, // 사용자 번호
+                userNo: authUser.no, // 로그인된 유저의 사용자 번호
                 musicNo: musicNo,
                 title: title,
                 artist: artist,
@@ -65,9 +79,14 @@ const Index = () => {
 
     // 마이뮤직에 곡 추가 함수
     const handleAddToMyMusic = async (musicNo, title, artist) => {
+        if (!authUser) {
+            alert("로그인 해주세요.");
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:8888/api/mymusic/add', {
-                userNo: 1, // 사용자 번호
+                userNo: authUser.no, // 로그인된 유저의 사용자 번호
                 musicNo: musicNo,
                 title: title,
                 artist: artist
