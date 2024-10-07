@@ -33,6 +33,7 @@ const MusicInsert = () => {
     
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+    // 아티스트 목록 불러오기
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
             .then(response => {
