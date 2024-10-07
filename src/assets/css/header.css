@@ -74,7 +74,17 @@
 .ham #wrap-header>.gnb>.gnb-my {
     font-size: 14px;
 }
-
+.ham .btn-profile img{
+    width: 50px;
+    top: -45px;
+    position: relative;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 30px;
+    background-image: url(../images/default_img.webp);
+    background-size: cover;
+}
 .ham #wrap-header>.gnb>.gnb-my>.login-join-btn {
     background-color: transparent;
     color: #333;

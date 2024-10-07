@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* hammusiclist.css */
 
-.musiclist {
+.ham .musiclist {
     width: 100%;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -10,19 +10,19 @@
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.listTitle {
+.ham .listTitle {
     display: flex;
     align-items: center;
 }
 
-.listTitle {
+.ham .listTitle {
     width:700px;
     margin-left: 20px;
     padding-top: 30px;
 }
 
 
-.Breadcrumbs {
+.ham .Breadcrumbs {
     display: flex;
     list-style-type: none;
     padding-left: 700px;
@@ -31,17 +31,17 @@
     position: absolute;
 }
 
-.Breadcrumbs li {
+.ham .Breadcrumbs li {
     margin-right: 5px;
 }
 
-.Breadcrumbs li:last-child {
+.ham .Breadcrumbs li:last-child {
     font-weight: bold;
 }
 
 /*테이블 크기*/
 
-#list-table {
+.ham #list-table {
     width: 100%;
     border-collapse: collapse;
 }
@@ -49,7 +49,7 @@
 /*툴바 세팅*/
 
 /* 체크박스 */
-.music-list-wrap .option-toolbar {
+.ham .music-list-wrap .option-toolbar {
     position: relative;
     height: 31px;
     padding: 7px 0 0 15px;
@@ -57,7 +57,7 @@
     background-color: #f7f9fc;
 }
 
-.music-list-wrap>.option-toolbar input {
+.ham .music-list-wrap>.option-toolbar input {
     font-weight: normal;
     color: #444;
     font-family: inherit;
@@ -65,24 +65,24 @@
     vertical-align: middle;
 }
 
-input[type="checkbox"] {
+.ham input[type="checkbox"] {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-.music-list-wrap .all-check {
+.ham .music-list-wrap .all-check {
     width: 17px;
     height: 17px;
 }
 
-.music-list-wrap .option-toolbar .all-check {
+.ham .music-list-wrap .option-toolbar .all-check {
     margin-right: 12px;
 }
 
 /* 툴바 공통 설정 */
 
-.music-list-wrap .option-toolbar .btn {
+.ham .music-list-wrap .option-toolbar .btn {
     display: inline-block;
     overflow: hidden;
     position: relative;
@@ -99,7 +99,7 @@ input[type="checkbox"] {
     vertical-align: middle;
 }
 
-.music-list-wrap .option-toolbar .btn:before {
+.ham .music-list-wrap .option-toolbar .btn:before {
     content: '';
     display: block;
     position: absolute;
@@ -110,23 +110,23 @@ input[type="checkbox"] {
     background: url(../images/iconImg/list_180122.png) no-repeat 0 0;
 }
 /*추가버튼*/
-.music-list-wrap .option-toolbar .btn-add:before {
+.ham .music-list-wrap .option-toolbar .btn-add:before {
     background-position: -21px 0;
 }
 
-button, input[type="reset"], input[type="submit"] {
+.ham button, input[type="reset"], input[type="submit"] {
     -webkit-appearance: button;
     cursor: pointer;
 }
 
-.music-list-wrap .option-toolbar .btns {
+.ham .music-list-wrap .option-toolbar .btns {
     display: inline-block;
     float: right;
     position: relative;
     padding: 0 14px 0 17px;
 }
 
-.music-list-wrap .option-toolbar .btns:before {
+.ham .music-list-wrap .option-toolbar .btns:before {
     content: '';
     display: block;
     position: absolute;
@@ -139,7 +139,7 @@ button, input[type="reset"], input[type="submit"] {
 
 /* ul의 기본 패딩 및 마진 제거 */
 /* ul에 flexbox 적용 */
-#top-ct-list ul {
+.ham #top-ct-list ul {
     display: flex; /* flexbox로 ul 내부 li를 가로로 배치 */
     justify-content: space-between; /* li 간 간격을 균등하게 배치 */
     list-style: none; /* 기본 ul 스타일 제거 */
@@ -148,7 +148,7 @@ button, input[type="reset"], input[type="submit"] {
 }
 
 /* li 스타일 */
-#top-ct-list ul li {
+.ham #top-ct-list ul li {
     flex: 1; /* 각 li가 동일한 비율로 배치되도록 설정 */
     text-align: center; /* 텍스트 가운데 정렬 */
     font-weight: bold;
@@ -161,18 +161,18 @@ button, input[type="reset"], input[type="submit"] {
 }
 
 /* 마지막 li의 오른쪽 간격 제거 */
-#top-ct-list ul li:last-child {
+.ham #top-ct-list ul li:last-child {
     margin-right: 0;
 }
 
 /* li hover 시 색상 변경 */
-#top-ct-list ul li:hover {
+.ham #top-ct-list ul li:hover {
     background-color: #007bff;
     color: white;
 }
 
 /* li 내부 a 태그 */
-#top-ct-list ul li a {
+.ham #top-ct-list ul li a {
     display: block; /* a 태그가 li 전체를 차지하게 설정 */
     width: 100%;
     text-decoration: none;
