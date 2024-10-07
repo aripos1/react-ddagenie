@@ -179,7 +179,7 @@ const MusicList = () => {
                                         플레이리스트에 담기
                                     </button>
                                 </td>
-                                
+                                 
                             </tr>
                             {/* 리스트 반복부분 끝 */}
                         </tbody>
