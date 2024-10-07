@@ -124,7 +124,7 @@ const JoinForm = () => {
 
     return (
         <>
-            <div id="wrap-main">
+            <div id="wrap-main" className="ham">
                 <header id="headerbar">
                     <div className="logo">
                         <img src={logo} alt="Ddagenie 로고" />

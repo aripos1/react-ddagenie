@@ -112,7 +112,7 @@ const MusicList = () => {
                                 <th scope="col" class="hd-link"><span class="hide">곡정보 이동 링크</span></th>
                                 <th scope="col" class="hd-info">곡정보</th>
                                 <th scope="col" class="hd-btns">듣기</th>
-                                <th scope="col" class="hd-btns">추가</th>
+                                {/* <th scope="col" class="hd-btns">추가</th> */}
                                 <th scope="col" class="hd-btns">담기</th>
                             </tr>
                         </thead>
@@ -136,7 +136,7 @@ const MusicList = () => {
                                         <span className="mask"></span>
                                         <img
                                             src={`//image.genie.co.kr/Y/IMAGE/IMG_ALBUM/085/111/408/${songData.albumImage}_1714717028079_1_140x140.JPG/dims/resize/Q_80,0`}
-                                            onError={(e) => { e.target.src = '//image.genie.co.kr/imageg/web/common/blank_68.gif'; }}
+                                            onError={(e) => { e.target.src = ''; }}
                                             alt={songData.album}
                                         />
                                     </Link>
@@ -163,15 +163,16 @@ const MusicList = () => {
                                         듣기
                                     </Link>
                                 </td>
-                                <td className="btns">
+                                {/* <td className="btns">
                                     <Link to="#" className="btn-basic btn-add" title="추가" onClick={() => fnPlaySong(songData.songId, '3')}>
                                         재생목록에 추가
                                     </Link>
-                                </td>
+                                </td> */}
                                 <td className="btns">
                                     <button
                                         type="button"
                                         className="btn-basic btn-album"
+                                        title='담기'
                                         songid={songData.songId}
                                         id={`add_my_album_${songData.songId}`}
                                         onClick={() => fnAddMyAlbumForm(`#add_my_album_${songData.songId}`, songData.songId, 10, 10)}
@@ -179,7 +180,7 @@ const MusicList = () => {
                                         플레이리스트에 담기
                                     </button>
                                 </td>
-                                 
+                                
                             </tr>
                             {/* 리스트 반복부분 끝 */}
                         </tbody>

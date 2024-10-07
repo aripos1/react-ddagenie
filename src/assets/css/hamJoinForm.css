@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-#headerbar {
+.ham #headerbar {
     height: 65px;
     display: flex;
     justify-content: space-between;
@@ -9,18 +9,18 @@
     border-bottom: 1px solid #ddd;
 }
 
-#headerbar>.logo,
-.join-nav {
+.ham #headerbar>.logo,
+.ham .join-nav {
     margin: 30px 50px;
 }
 
-#headerbar>.logo img {
+.ham #headerbar>.logo img {
     width: 60px;
     /* 로고 크기 조정 */
     height: auto;
 }
 
-#headerbar>.join-nav {
+.ham #headerbar>.join-nav {
     display: flex;
     justify-content: center;
     /* 가운데 정렬 */
@@ -28,7 +28,7 @@
     margin-bottom: 20px;
 }
 
-#headerbar>.join-nav ul {
+.ham #headerbar>.join-nav ul {
     display: flex;
     /* 가로로 나열 */
     flex-direction: row;
@@ -41,26 +41,26 @@
     padding: 0;
 }
 
-#headerbar>.join-nav ul li {
+.ham #headerbar>.join-nav ul li {
     margin: 0 15px;
     white-space: nowrap;
     /* 텍스트 줄바꿈 방지 */
 }
 
-#headerbar>.join-nav ul li a {
+.ham .ham #headerbar>.join-nav ul li a {
     text-decoration: none;
     color: #252525;
     font-size: 14px;
     display: inline-block; /* a 태그를 inline으로 유지 */
 }
 
-#headerbar>.join-nav ul li a:hover {
+.ham #headerbar>.join-nav ul li a:hover {
     color: #2C2A34;
     /* 어두운 보라색 */
 }
 
 /* 정보 입력 섹션 스타일 */
-.joinForm>.intro-text>h2 {
+.ham .joinForm>.intro-text>h2 {
     padding-top: 25px;
     text-align: center;
     font-size: 24px;
@@ -69,7 +69,7 @@
 }
 
 /* 폼 컨테이너 */
-.joinForm>.joinform-container {
+.ham .joinForm>.joinform-container {
     width: 400px;
     margin: 5px auto 20px auto;
     background-color: #fff;
@@ -78,18 +78,18 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.joinForm>.joinform-container .joinform-group {
+.ham .joinForm>.joinform-container .joinform-group {
     margin-bottom: 20px;
 }
 
-.joinForm>.joinform-container .joinform-group label {
+.ham .joinForm>.joinform-container .joinform-group label {
     display: block;
     margin-bottom: 8px;
     font-size: 14px;
     color: #333;
 }
 
-.joinForm>.joinform-container .joinform-group input {
+.ham .joinForm>.joinform-container .joinform-group input {
     width: 375px;
     padding: 12px;
     font-size: 14px;
@@ -99,15 +99,15 @@
     color: #252525;
 }
 
-.joinForm>.joinform-container .joinform-group>.input-group {
+.ham .joinForm>.joinform-container .joinform-group>.input-group {
     display: flex;
 }
 
-.joinForm>.joinform-container .joinform-group>.input-group input {
+.ham .joinForm>.joinform-container .joinform-group>.input-group input {
     flex-grow: 1;
 }
 
-.joinform-group>li,
+.ham .joinform-group>li,
 #tos {
     width: 20px;
     list-style-type: none;
@@ -115,7 +115,7 @@
     display: flex;
 }
 
-.joinform-group>#agree>label {
+.ham .joinform-group>#agree>label {
     padding-left: 15px;
     flex: none;
     height: 15px;
@@ -124,7 +124,7 @@
 }
 
 /* 버튼 스타일 */
-.joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn {
+.ham .joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn {
     padding: 12px;
     background-color: #EEEEEF;
     color: #BCBCBC;
@@ -135,11 +135,11 @@
     white-space: nowrap;
 }
 
-.joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn:hover {
+.ham .joinForm>.joinform-container .joinform-group>.input-group .joinchk-btn:hover {
     background-color: #e2e2e2;
 }
 
-.joinForm>.joinform-container .joinform-group>.joinsubmit-btn {
+.ham .joinForm>.joinform-container .joinform-group>.joinsubmit-btn {
     width: 100%;
     padding: 12px;
     background-color: #EEEEEF;
@@ -151,22 +151,22 @@
     margin-top: 20px;
 }
 
-.joinForm>.joinform-container .joinform-group>.joinsubmit-btn:hover {
+.ham .joinForm>.joinform-container .joinform-group>.joinsubmit-btn:hover {
     background-color: #e2e2e2;
 }
 
-.joinForm>.joinform-container .joinform-group>.title-welcome {
+.ham .joinForm>.joinform-container .joinform-group>.title-welcome {
     font-size: 20px;
     padding: 20px, 0;
     font-weight: 700;
 }
 
-.joinForm>.joinform-container .joinform-group>.desc {
+.ham .joinForm>.joinform-container .joinform-group>.desc {
     font-size: 15px;
 }
 
 
-.joinForm>.joinform-container .joinform-group>.joinresult-btn {
+.ham .joinForm>.joinform-container .joinform-group>.joinresult-btn {
     width: 100%;
     padding: 12px;
     background-color: #5F95F7;
@@ -178,7 +178,7 @@
     margin-top: 20px;
 }
 
-.joinForm>.joinform-container .joinform-group>.joinresult-btn:hover {
+.ham .joinForm>.joinform-container .joinform-group>.joinresult-btn:hover {
     background-color: #74a4ff;
 }
 
@@ -186,7 +186,7 @@
 
 /* 푸터 스타일 */
 
-footbar ul {
+.ham #foot-bar ul {
     font-size: 12px;
     list-style: none;
     padding: 20px;
@@ -194,22 +194,22 @@ footbar ul {
     text-align: center;
 }
 
-footbar ul li {
+.ham #foot-bar ul li {
     display: inline;
     margin-right: 10px;
 }
 
-footbar ul li a {
+.ham #foot-bar ul li a {
     color: #252525;
     text-decoration: none;
 }
 
-footbar ul li a:hover {
+.ham #foot-bar ul li a:hover {
     color: #2C2A34;
     cursor: default;
 }
 
-footbar p {
+.ham #foot-bar p {
     text-align: center;
     font-size: 12px;
     color: #666;
@@ -217,7 +217,7 @@ footbar p {
 }
 
 /* 로그인 폼과 광고 배너를 포함하는 컨테이너 */
-.loginForm>.intro-text>h2 {
+.ham .loginForm>.intro-text>h2 {
     padding-top: 25px;
     text-align: center;
     font-size: 24px;
@@ -225,7 +225,7 @@ footbar p {
     color: #333;
 }
 
-.login-wrapper {
+.ham .login-wrapper {
     display: flex;
     justify-content: center;
     /* 가운데 정렬 */
@@ -236,7 +236,7 @@ footbar p {
 }
 
 /* 로그인 폼과 광고 배너를 포함하는 내부 컨테이너 */
-.login-container-wrapper {
+.ham .login-container-wrapper {
     display: flex;
     justify-content: center;
     width: 650px;
@@ -247,29 +247,29 @@ footbar p {
 }
 
 /* 로그인 폼 */
-.login-container {
+.ham .login-container {
     width: 48%;
     /* 좌측 폼 크기 */
     padding-right: 35px;
 }
 
-.ad-banner {
+.ham .ad-banner {
     width: 48%;
     /* 우측 광고 배너 크기 */
 }
 
-.ad-banner img {
+.ham .ad-banner img {
     width: 300px;
     /* 광고 배너 크기 조정 */
     height: auto;
 }
 
 /* 로그인 그룹 스타일 */
-.login-group {
+.ham .login-group {
     margin-bottom: 10px;
 }
 
-.login-group label {
+.ham .login-group label {
     display: block;
     margin-bottom: 8px;
     font-size: 14px;
@@ -277,7 +277,7 @@ footbar p {
     padding: 11px 33px;
 }
 
-.login-group input {
+.ham .login-group input {
     width: 288px;
     padding: 12px;
     margin-top: 10px;
@@ -288,26 +288,7 @@ footbar p {
     color: #252525;
 }
 
-/* 로그인 상태 유지 체크박스 */
-.checkbox-container {
-    position: relative;
-    padding-right: 30px;
-    vertical-align: auto;
-}
-
-.checkbox-container>.inp_check {
-    position: absolute;
-    left: 10px;
-    width: 14px;
-    height: 19px;
-    top: 1px;
-}
-
-.checkbox-container input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.login-btn {
+.ham .login-btn {
     width: 100%;
     padding: 12px;
     background-color: #558ABF;
@@ -318,22 +299,22 @@ footbar p {
     font-size: 16px;
 }
 
-.login-btn:hover {
+.ham .login-btn:hover {
     background-color: #2C2A34;
     /* 어두운 보라색 */
 }
 
 /* 소셜 로그인 아이콘 */
-.social-login {
+.ham .social-login {
     text-align: center;
     margin-top: 20px;
 }
 
-.social-login a {
+.ham .social-login a {
     margin: 0 10px;
 }
 
-.social-login img {
+.ham .social-login img {
     width: 36px;
     height: 36px;
 }
