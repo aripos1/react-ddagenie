@@ -191,7 +191,7 @@ const UserInfo = () => {
                         </div>
                         <div className="profile-edit">
                             <Link to="#" className="button-left"><span>내정보</span></Link>
-                            <Link to="#" className="button-right"><span>이용권내역</span></Link>
+                            <Link to="/user/utilize" className="button-right"><span>이용권내역</span></Link>
                         </div>
                     </div>
                     <div id="profile-list">
