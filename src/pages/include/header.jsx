@@ -48,13 +48,31 @@ const Header = () => {
             const difference = differenceInDays(paymentFinish,currentDate)+1;
             setDayDifference(difference);
 
-            console.log(paymentFinish)
-            console.log(currentDate)
+            // console.log(paymentFinish);
+            // console.log(currentDate);
+            if(dayDifference >= 0){
+                // console.log('dd');
+                console.log('사용가능한 이용권입니다.');
 
+            }else{
+                // console.log('mm');
+                authUser.ticket_status = '이용완료'
+                console.log('사용기한이 끝난 이용권입니다.')
+
+                localStorage.setItem('authUser', JSON.stringify(authUser));
+                const userNo = authUser.no;
+                //디비에 상태값 보내주기
+
+                
+
+            }
+            
+        }else{
+            console.log('aadd')
         }
         
     }
-    console.log(dayDifference);
+    
     
     
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
@@ -63,7 +81,6 @@ const Header = () => {
     useEffect(() => {
         
         const storedUser = localStorage.getItem('authUser');
-        console.log("aaa")
         
         if (storedUser) {
             const user = JSON.parse(storedUser);
