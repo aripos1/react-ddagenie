@@ -1,6 +1,7 @@
 //import 라이브러리
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {  differenceInDays } from 'date-fns';
 
 //css
 import '../../assets/css/all.css';
@@ -25,10 +26,33 @@ const Header = () => {
     // eslint-disable-next-line no-unused-vars
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
 
+    //소영 : 이용권 잔여시간 계산용
+    const [dayDifference, setDayDifference] = useState(null);
     /*---일반 변수--------------------------------*/
 
     /*---일반 메소드 -----------------------------*/
 
+    const dateReckoding = ()=>{
+        console.log(authUser);
+        //디비시간 가져오기
+        const paymentFinishDate = authUser.paymentFinish;
+        // console.log(paymentFinishDate);
+        //iso형으로 변환
+        const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
+
+        //최종적으로 값 넣어주기
+        const paymentFinish = new Date(repaymentFinish);
+        const currentDate = new Date();
+
+        const difference = differenceInDays(paymentFinish,currentDate)+1;
+        setDayDifference(difference);
+
+        console.log(paymentFinish)
+        console.log(currentDate)
+        
+    }
+    // if(difference )
+    
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
@@ -46,6 +70,9 @@ const Header = () => {
         } else {
             setIsLoggedIn(false);
         }
+
+        //소영 : 이용권 잔여시간 계산용
+        dateReckoding();
     }, []);
 
     const handleLogout = () => {
