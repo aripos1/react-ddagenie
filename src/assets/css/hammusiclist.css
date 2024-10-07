@@ -53,7 +53,12 @@
 .ham .music-list-wrap .list-wrap {
     table-layout: fixed;
     width: 100%;
-    margin: 4px 0 10px;
+    margin: 4px 0 10px 0;
+}
+
+.ham .music-list-wrap .list-wrap thead {
+    padding-right: 1px;
+    width: 90%;
 }
 
 /*툴바 세팅*/
@@ -133,6 +138,7 @@
 .ham .music-list-wrap .list-wrap .btns {
     position: relative;
     text-align: center;
+    padding-right: 50px;
 }
 
 .ham .music-list-wrap .option-toolbar .btns {
@@ -320,6 +326,7 @@
 
 .ham .music-list-wrap .list-wrap .hd-btns {
     width: 33px;
+    padding-right: 50px;
 }
 
 .ham .music-list-wrap .list-wrap .hd-more {
