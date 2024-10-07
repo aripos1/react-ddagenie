@@ -1,7 +1,7 @@
 //import 라이브러리
 
 import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -23,7 +23,19 @@ const MusicUpdate = () => {
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
     const { no } = useParams(); 
 
+    const navigate = useNavigate();
+
     const [musicVo, setMusicVo] = useState([]);
+
+    const [artists, setArtists] = useState([]); // 아티스트 목록 상태
+
+    const [title, setTitle] = useState('');
+    const [artistName, setArtistName] = useState(''); // 아티스트 이름 상태
+    const [genre, setGenre] = useState('');
+    const [releasedDate, setReleasedDate] = useState('');
+    const [content, setContent] = useState('');
+    const [imageUrl, setImageUrl] = useState(null);
+    const [fileUrl, setFileUrl] = useState(null);
 
     /*---일반 변수--------------------------------*/
 
@@ -39,6 +51,8 @@ const MusicUpdate = () => {
             console.log(response.data); //수신데이타
             
             setMusicVo(response.data.apiData);
+
+            console.log(musicVo);
 
 
         }).catch(error => {
@@ -63,6 +77,45 @@ const MusicUpdate = () => {
 
 
     }, [] );
+
+
+
+    const handleTitleChange = (e) => setTitle(e.target.value);
+    const handleArtistChange = (e) => setArtistName(e.target.value); // 아티스트 선택 시 업데이트
+    const handleGenreChange = (e) => setGenre(e.target.value);
+    const handleReleasedDateChange = (e) => setReleasedDate(e.target.value);
+    const handleContentChange = (e) => setContent(e.target.value);
+    const handleImageChange = (e) => setImageUrl(e.target.files[0]);
+    const handleFileChange = (e) => setFileUrl(e.target.files[0]);
+
+
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('artistName', artistName); // 아티스트 이름 전송
+        formData.append('genre', genre);
+        formData.append('releasedDate', releasedDate);
+        formData.append('musicContent', content);
+        formData.append('imageUrl', imageUrl);
+        formData.append('fileUrl', fileUrl);
+
+        axios.post(`${process.env.REACT_APP_API_URL}/api/musicAdmins`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(response => {
+            console.log(response);
+            alert('음원이 성공적으로 등록되었습니다.');
+            navigate('/admin/musicadmin');
+        })
+        .catch(error => {
+            console.error(error);
+            alert('음원 등록 중 오류가 발생했습니다.');
+        });
+
+    };
 
 
 
@@ -124,35 +177,63 @@ const MusicUpdate = () => {
                         <div id="musicUpdate">
 
                             <div className="container">
-                                <form action="/submit-song" method="POST" enctype="multipart/form-data">
-
+                                <form onSubmit={handleSubmit} encType="multipart/form-data">
                                     <label htmlFor="title">음원 제목</label>
-                                    <input type="text" id="title" name="title" placeholder="음원 제목을 입력하세요" required />
-                                    
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        value={title}
+                                        onChange={handleTitleChange}
+                                        placeholder="음원 제목을 입력하세요"
+                                        required
+                                    />
+
                                     <label htmlFor="artist">아티스트(가수)</label>
-                                    <input type="text" id="artist" name="artist" placeholder="아티스트(가수) 이름을 입력하세요" required />
-                                    
+                                    <select
+                                        id="artist"
+                                        value={artistName} // 선택된 아티스트 이름을 상태로 설정
+                                        onChange={handleArtistChange} // 아티스트 선택 시 상태 업데이트
+                                        required
+                                    >
+                                        <option value="">아티스트를 선택하세요</option>
+                                        {artists.map(artist => (
+                                            <option key={artist.artistNo} value={artist.artistName}>
+                                                {artist.artistName}
+                                            </option>
+                                        ))}
+                                    </select>
+
                                     <label htmlFor="genre">장르</label>
-                                    <select id="genre" name="genre" required>
+                                    <select id="genre" value={genre} onChange={handleGenreChange} required>
                                         <option value="">장르를 선택하세요</option>
                                         <option value="Pop">Pop</option>
                                         <option value="Rock">Rock</option>
                                         <option value="HipHop">HipHop</option>
-                                        <option value="Jazz">Jazz</option>
+                                        <option value="Kizz">Kizz</option>
                                         <option value="Classical">Classical</option>
                                     </select>
-                                    
-                                    <label htmlFor="song_">음원 소개</label>
-                                    <input type="text" id="song_link" name="song_link" placeholder="음원 링크를 입력하세요 (옵션)" />
-                        
-                                    <label htmlFor="song_link">음원 이미지</label>
-                                    <input type="file" id="song_file" name="song_file" accept=".mp3,.wav,.flac" required />
-            
-                                    <label htmlFor="song_file">음원 파일 업로드</label>
-                                    <input type="file" id="song_file" name="song_file" accept=".mp3,.wav,.flac" required />
-                        
+
+                                    <label htmlFor="releasedDate">발매일</label>
+                                    <input type="date" id="releasedDate" value={releasedDate} onChange={handleReleasedDateChange} required />
+
+                                    <label htmlFor="content">음원 소개</label>
+                                    <input
+                                        type="text"
+                                        id="content"
+                                        value={content}
+                                        onChange={handleContentChange}
+                                        placeholder="음원 소개를 입력하세요 (옵션)"
+                                    />
+
+                                    <label htmlFor="musicImage">음원 이미지</label>
+                                    <input type="file" id="musicImage" name="musicImage" onChange={handleImageChange} required />
+
+                                    <label htmlFor="musicFile">음원 파일 업로드</label>
+                                    <input type="file" id="musicFile" name="musicFile" onChange={handleFileChange} accept=".mp3,.wav,.flac" required />
+
                                     <button type="submit">음원 수정</button>
-                                    <button type="button" class="back-btn" onclick="history.back()">뒤로 가기</button>
+                                    <button type="button" className="back-btn" onclick="history.back()">뒤로 가기</button>
+
                                 </form>
                             </div>
 
