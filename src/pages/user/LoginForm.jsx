@@ -118,12 +118,12 @@ const JoinForm = () => {
                                 </div>
 
                                 {/* 로그인 상태 유지 체크박스 */}
-                                <div className="login-group">
+                                {/* <div className="login-group">
                                     <label className="checkbox-container">
                                         <input type="checkbox" className="inp_check" name="" value="" />
                                         <span className="checkmark">로그인 상태 유지</span>
                                     </label>
-                                </div>
+                                </div> */}
 
                                 {/* 로그인 버튼 */}
                                 <div className="login-group">
