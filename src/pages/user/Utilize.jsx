@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {  differenceInDays } from 'date-fns';
 
 
 //import 컴포넌트
@@ -19,7 +20,7 @@ const Utilize = () => {
     /* ---라우터 관련 ------ */
     const [payList, setPayList] = useState([]);
     const navigate = useNavigate();
-    const [date, setDate] = useState('');
+    const [dayDifference, setDayDifference] = useState(null);
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     
@@ -64,6 +65,30 @@ const Utilize = () => {
 
     };
 
+    //이용권 시간 계산
+
+    
+
+    const dateReckoding = ()=>{
+        //디비시간 가져오기
+        const paymentFinishDate = authUser.paymentFinish;
+        // console.log(paymentFinishDate);
+        //iso형으로 변환
+        const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
+
+        //최종적으로 값 넣어주기
+        const paymentFinish = new Date(repaymentFinish);
+        const currentDate = new Date();
+
+        const difference = differenceInDays(paymentFinish,currentDate)
+        setDayDifference(difference);
+
+        console.log(paymentFinish)
+        console.log(currentDate)
+        
+        
+    }
+    console.log(dayDifference)
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     
 
@@ -81,7 +106,7 @@ const Utilize = () => {
     //3. 전송 (ajax 사용)
     useEffect(()=>{
         getUserPayList();
-        
+        dateReckoding();
     },[]);
 
 
@@ -139,7 +164,7 @@ const Utilize = () => {
                             <div id="date-coupon">
                                 <div id="coupon-title">음악감상 잔여일</div>
                                 <div id="coupon-count">
-                                    <span>0</span> 일
+                                    <span>{dayDifference}</span> 일
                                     <Link to="/user/payment"><p>음악감상 이용권구매</p></Link>
                                 </div>
                             </div>
