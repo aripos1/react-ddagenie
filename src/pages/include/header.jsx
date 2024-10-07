@@ -31,33 +31,40 @@ const Header = () => {
     /*---일반 변수--------------------------------*/
 
     /*---일반 메소드 -----------------------------*/
-
     const dateReckoding = ()=>{
-        console.log(authUser);
-        //디비시간 가져오기
-        const paymentFinishDate = authUser.paymentFinish;
-        // console.log(paymentFinishDate);
-        //iso형으로 변환
-        const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
 
-        //최종적으로 값 넣어주기
-        const paymentFinish = new Date(repaymentFinish);
-        const currentDate = new Date();
+        if(authUser !== null){
 
-        const difference = differenceInDays(paymentFinish,currentDate)+1;
-        setDayDifference(difference);
+            //디비시간 가져오기
+            const paymentFinishDate = authUser.paymentFinish;
+            // console.log(paymentFinishDate);
+            //iso형으로 변환
+            const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
 
-        console.log(paymentFinish)
-        console.log(currentDate)
+            //최종적으로 값 넣어주기
+            const paymentFinish = new Date(repaymentFinish);
+            const currentDate = new Date();
+
+            const difference = differenceInDays(paymentFinish,currentDate)+1;
+            setDayDifference(difference);
+
+            console.log(paymentFinish)
+            console.log(currentDate)
+
+        }
         
     }
-    // if(difference )
+    console.log(dayDifference);
+    
     
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
+        
         const storedUser = localStorage.getItem('authUser');
+        console.log("aaa")
+        
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
