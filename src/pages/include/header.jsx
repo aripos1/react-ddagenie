@@ -18,7 +18,9 @@ const Header = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
     const [username, setUsername] = useState(''); // 로그인한 사용자 이름
+    // eslint-disable-next-line no-unused-vars
     const [token, setToken] = useState(localStorage.getItem('token'));
+    // eslint-disable-next-line no-unused-vars
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
     
     /*---일반 변수--------------------------------*/
@@ -62,7 +64,7 @@ const Header = () => {
                     <div className="header-main">
                         <div className="header-left">
                             <span className="logo">
-                                <img src={logo} alt="로고" />
+                                <Link to={"/"}><img src={logo} alt="로고" /></Link>
                             </span>
                             <div id="search-wrap">
                                 <input
@@ -80,7 +82,7 @@ const Header = () => {
 
                     <div className="gnb" id="gnb">
                         <ul className="menu clearfix">
-                            <li><Link to="#" className="gnb-menu">따지니차트</Link></li>
+                            <li><Link to="/musiclist" className="gnb-menu">따지니차트</Link></li>
                             <li><Link to="#" className="gnb-menu">최신음악</Link></li>
                             <li><Link to="#" className="gnb-menu">장르음악</Link></li>
                         </ul>
