@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+ 
 //css
 import '../../assets/css/hamJoinForm.css';
 import '../../assets/css/all.css';
@@ -83,7 +83,7 @@ const JoinForm = () => {
     };
 
     return (
-        <div id="wrap-main">
+        <div id="wrap-main" className="ham">
             {/* 헤더 */}
             <header id="headerbar">
                 <div className="logo">
@@ -147,7 +147,7 @@ const JoinForm = () => {
                         </div>
                     </div>
                 </div>
-                <footbar>
+                <div id="foot-bar">
                     <ul>
                         <li><Link to="/terms">이용약관</Link></li>
                         <li><Link to="/privacy">개인정보처리방침</Link></li>
@@ -155,7 +155,7 @@ const JoinForm = () => {
                         <li><Link to="/customer-center">고객센터</Link></li>
                     </ul>
                     <p>Copyright © Ddagenie Music Corp. All rights reserved.</p>
-                </footbar>
+                </div>
             </main>
 
             {/* 푸터 */}

@@ -1,6 +1,19 @@
 @charset "utf-8";
 /* hammusiclist.css */
 
+.ham th,
+.ham td {
+    width:unset;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    /* font-size: 100%; */
+    /* vertical-align: middle; */
+    background: transparent;
+    text-align: center;
+}
+
 .ham .musiclist {
     width: 100%;
     border-top: 1px solid #ddd;
@@ -13,14 +26,10 @@
 .ham .listTitle {
     display: flex;
     align-items: center;
-}
-
-.ham .listTitle {
     width:700px;
     margin-left: 20px;
     padding-top: 30px;
 }
-
 
 .ham .Breadcrumbs {
     display: flex;
@@ -41,9 +50,15 @@
 
 /*테이블 크기*/
 
-.ham #list-table {
+.ham .music-list-wrap .list-wrap {
+    table-layout: fixed;
     width: 100%;
-    border-collapse: collapse;
+    margin: 4px 0 10px 0;
+}
+
+.ham .music-list-wrap .list-wrap thead {
+    padding-right: 1px;
+    width: 90%;
 }
 
 /*툴바 세팅*/
@@ -109,7 +124,8 @@
     height: 16px;
     background: url(../images/iconImg/list_180122.png) no-repeat 0 0;
 }
-/*추가버튼*/
+
+/* 추가버튼 */
 .ham .music-list-wrap .option-toolbar .btn-add:before {
     background-position: -21px 0;
 }
@@ -117,6 +133,12 @@
 .ham button, input[type="reset"], input[type="submit"] {
     -webkit-appearance: button;
     cursor: pointer;
+}
+
+.ham .music-list-wrap .list-wrap .btns {
+    position: relative;
+    text-align: center;
+    padding-right: 50px;
 }
 
 .ham .music-list-wrap .option-toolbar .btns {
@@ -177,4 +199,273 @@
     width: 100%;
     text-decoration: none;
     color: #333;
+}
+ /* 페이징 버튼 관련 */
+
+.ham .page-nav {
+    margin: 0 0 10px;
+    min-height: 25px;
+    text-align: center;
+    position: relative;
+    font-size: 0;
+}
+
+.ham .page-nav a.current {
+    border-color: #0096FF;
+    font-weight: bold;
+    color: #0096FF;
+}
+
+.ham .page-nav a {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    width: 28px;
+    height: 28px;
+    font: normal 12px / 26px Tahoma, Helvetica, sans-serif;
+    color: #666;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0 4px;
+}
+
+.ham .rank-page-nav a {
+    display: inline-block;
+    width: 96px;
+    height: 25px;
+    line-height: 22px;
+    border: 1px solid #a6afb6;
+    border-radius: 4px;
+    color: #27282d;
+}
+
+.ham table {
+    border-spacing: 0;
+    font-family: dotum, '돋움', sans-serif, Segoe UI Symbol;
+    font-size: 12px;
+    font-weight: normal;
+    color: #444;
+}
+
+.ham .music-list-wrap .list-wrap .hd-check {
+    width: 33px;
+}
+
+.ham .music-list-wrap .list-wrap .check {
+    text-align: right;
+}
+
+.ham .music-list-wrap .list-wrap td {
+    height: 68px;
+    border-bottom: 1px solid #eef1f4;
+}
+
+.ham .music-list-wrap .list-wrap .info {
+    position: relative;
+    width: auto;
+    line-height: 22px;
+}
+
+.ham .music-list-wrap .list-wrap .info a {
+    display: inline-block;
+    color: #8b8b8b;
+}
+
+.ham .music-list-wrap .list-wrap .info .title {
+    display: block;
+    max-width: 90%;
+    font-weight: bold;
+    color: #27282d;
+}
+
+.ham .music-list-wrap .list-wrap .info .artist {
+    width: auto !important;
+    max-width: 44%;
+    vertical-align: middle;
+    padding-right: 1px;
+}
+
+.ham .music-list-wrap .list-wrap .info .albumtitle {
+    width: auto !important;
+    max-width: 44%;
+    vertical-align: middle;
+}
+
+.ham .music-list-wrap .list-wrap th {
+    height: 28px;
+    border-bottom: 2px solid #a6afb6;
+    font-size: 11px;
+    font-weight: normal;
+    color: #8b8b8b;
+}
+
+.ham .hide {
+    font: 0 / 0 a;
+    overflow: hidden;
+    border: 0 none;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.ham .music-list-wrap .list-wrap .hd-album {
+    width: 56px;
+}
+
+.ham .music-list-wrap .list-wrap .hd-link {
+    width: 21px;
+}
+
+.ham .music-list-wrap .list-wrap .hd-info {
+    text-align: left;
+    text-indent: 7px;
+}
+
+.ham .music-list-wrap .list-wrap .hd-btns {
+    width: 33px;
+    padding-right: 50px;
+}
+
+.ham .music-list-wrap .list-wrap .hd-more {
+    width: 46px;
+}
+
+.ham .music-list-wrap .select-check, .music-list-wrap .all-check {
+    width: 17px;
+    height: 17px;
+}
+
+.ham input[type="checkbox"], input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.ham input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    vertical-align: middle;
+    font-weight: normal;
+    color: #444;
+}
+
+.ham .music-list-wrap .list-wrap .number {
+    font-size: 17px;
+    font-family: 'Arial';
+    font-weight: bold;
+    color: #bcc8d0;
+    text-align: center;
+}
+
+.ham .music-list-wrap .list-wrap .rank {
+    display: block;
+    padding-top: 1px;
+    font-size: 11px;
+}
+
+.ham .music-list-wrap .list-wrap .rank-none {
+    display: inline-block;
+    width: 12px;
+    height: 2px;
+    background: url(../images/iconImg/list_180122.png) no-repeat -164px -111px;
+    vertical-align: middle;
+}
+
+.ham span, strong {
+    vertical-align: baseline;
+}
+
+.ham .music-list-wrap .list-wrap .cover {
+    display: block;
+    position: relative;
+    width: 48px;
+    height: 48px;
+}
+.ham .music-list-wrap .list-wrap .cover .mask {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 46px;
+    height: 46px;
+    border: 1px solid #000;
+    opacity: 0.1;
+}
+
+.ham .music-list-wrap .list-wrap .cover img {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+}
+
+.ham .music-list-wrap .list-wrap .link {
+    vertical-align: top;
+}
+
+.ham .music-list-wrap .list-wrap .btn-basic {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    background: url(../images/iconImg/list_180122.png) transparent no-repeat 0 0;
+    vertical-align: middle;
+}
+
+.ham a {
+    transition: background-color .25s, position .25s, color .15s;
+    color: #444;
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    text-decoration: none;
+}
+
+.ham .ellipsis {
+    padding-right: 1px;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ham .music-list-wrap .list-wrap .bar {
+    display: inline-block;
+    font-style: normal;
+    color: #eff0f4;
+    vertical-align: middle;
+}
+
+.music-list-wrap .list-wrap .hd-check {
+    width: 33px;
+}
+
+.ham .music-list-wrap .list-wrap .hd-number {
+    width: 45px;
+}
+
+.ham .music-list-wrap .list-wrap .btn-listen {
+    background-position: 0 -21px;
+}
+
+.ham .music-list-wrap .list-wrap .btn-info {
+    width: 14px;
+    height: 14px;
+    margin-top: 16px;
+    background-position: 0 -111px;
+    vertical-align: top;
+}
+
+.ham .music-list-wrap .list-wrap .btn-add {
+    background-position: -30px -21px;
+}
+
+.ham .music-list-wrap .list-wrap .btn-album {
+    background-position: -60px -21px;
 }
