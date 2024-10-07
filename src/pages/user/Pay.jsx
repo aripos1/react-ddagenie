@@ -106,7 +106,7 @@ const Pay = () => {
                 console.log(authUser)
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
-                navigate("");
+                navigate("/");
             }else{
                 alert("구매 실패");
             }
