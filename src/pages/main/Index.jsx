@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../include/Header';  
 import Footer from '../include/Footer';  
 import '../../assets/css/all.css';
-
 import '../../assets/css/index.css';
 import coverimage from '../../assets/images/logo.webp';
-import banner from '../../assets/images/캡처.PNG';
+import banner from '../../assets/images/music-festival.png';
 import chartimage from '../../assets/images/cuteddagenie.png';
 import axios from 'axios'; 
 
@@ -136,8 +135,8 @@ const Index = () => {
                 </div>
 
                 {/* 광고 배너 섹션 */}
-                <div className="ad-banner">
-                    <img src={banner} alt="광고 배너 이미지" />
+                <div className="ad-banner" >
+                    <img src={banner} style={{ width: '1000px' }} alt="광고 배너 이미지" />
                 </div>
 
                 {/* 인기 순위 리스트 */}
