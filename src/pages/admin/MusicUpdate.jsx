@@ -1,21 +1,72 @@
 //import 라이브러리
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+import Header from '../include/Header';
+import Footer from '../include/Footer';
+
+
 
 import '../../assets/css/musicAdmin.css';
+
+
+
+
 
 const MusicUpdate = () => {
 
     /*---라우터 관련-------------------------------*/
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+    const { no } = useParams(); 
+
+    const [musicVo, setMusicVo] = useState([]);
 
     /*---일반 변수--------------------------------*/
 
-    /*---일반 메소드 -----------------------------*/
+    /*---일반 메소드 -----------------------------*/    
+    const getMusicVo = ()=>{
+        axios({
+
+            method: 'get',
+            url: `${process.env.REACT_APP_API_URL}/api/musicAdmins/${no}`,
+
+            responseType: 'json' //수신타입
+        }).then(response => {
+            console.log(response.data); //수신데이타
+            
+            setMusicVo(response.data.apiData);
+
+
+        }).catch(error => {
+            console.log(error);
+
+        });
+
+
+    }
+
+
+
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
+    //마운트 되었을때 
+    useEffect( ()=>{
+
+        console.log("read");
+        getMusicVo();
+        
+
+
+    }, [] );
+
+
+
+
 
     return (
 
@@ -26,43 +77,7 @@ const MusicUpdate = () => {
 
 
                 {/* <!-- header --> */}
-                <div id="wrap-head">
-                    <div id="wrap-header">
-                        <div id="purchase-button">
-                            <img src="../../assets/images/wallet.png" />
-                            <Link to="" className="headBuy" rel="noreferrer noopener">이용권구매</Link>
-                        </div>
-                        <div className="header-main">
-                            <div className="header-left">
-                                <span className="logo">
-                                    <img src="../../assets/images/cuteddagenie.png" alt="로고" />
-                                </span>
-                                <div id="search-wrap">
-                                    <input type="search" id="sc-fd" className="ipt-search" maxlength="200" autocomplete="off"
-                                        placeholder="가을에 듣기 좋은 감성 발라드" />
-                                    <input type="submit" className="btn-submit" value="검색" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="gnb" id="gnb">
-                            <ul className="menu clearfix">
-                                <li><Link to="" className="gnb-menu" rel="noreferrer noopener">따지니차트</Link></li>
-                                <li><Link to="" className="gnb-menu" rel="noreferrer noopener">최신음악</Link></li>
-                                <li><Link to="" className="gnb-menu" rel="noreferrer noopener">장르음악</Link></li>
-                            </ul>
-                            {/* <!-- <ul className="gnb-my"> 로그인 안한거
-                                <li><a href="" className="btn login-join-btn">로그인</a></li>
-                                <li><a href="" className="btn login-join-btn">회원가입</a></li>
-                            </ul> --> */}
-                            <ul className="gnb-my"> {/* <!-- 로그인 한거 -->  */}
-                                <li><Link to="" className="btn login-join-btn" rel="noreferrer noopener">jji***님</Link></li>
-                                <li><Link to="" className="btn login-join-btn" rel="noreferrer noopener">마이뮤직</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
+                <Header />
                 {/* <!-- //header --> */}
 
 
@@ -151,7 +166,7 @@ const MusicUpdate = () => {
                 
                 {/* <!-- //body --> */}
 
-
+                <Footer />
                 {/* <!-- footer --> */}
                 
 

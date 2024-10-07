@@ -58,7 +58,7 @@ const MusicInsert = () => {
         .then(response => {
             console.log(response);
             alert('음원이 성공적으로 등록되었습니다.');
-            navigate('/api/musicAdmins');
+            navigate('/admin/musicadmin');
         })
         .catch(error => {
             console.error(error);
