@@ -1,21 +1,72 @@
 //import 라이브러리
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+
+//import Footer from '../include/Footer';
+//import Header from '../include/Header';
+
+import ItemMusic from './ItemMusic';
 import '../../assets/css/musicAdmin.css';
+
+
 
 const MusicAdmin = () => {
 
     /*---라우터 관련-------------------------------*/
+    const [musicList, setMusicList] = useState([]);
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
 
     /*---일반 변수--------------------------------*/
 
     /*---일반 메소드 -----------------------------*/
+    const getMusicList = ()=>{
+
+        axios({
+
+            method: 'get',
+            url: `${process.env.REACT_APP_API_URL}/api/musicAdmins`,
+
+            responseType: 'json' //수신타입
+        }).then(response => {
+            console.log(response.data); //수신데이타
+            
+            setMusicList(response.data.apiData);
+
+
+        }).catch(error => {
+            console.log(error);
+
+        });
+
+
+    }
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
+    useEffect( ()=>{
+
+        console.log("마운트 온");
+
+        getMusicList();
+
+
+    }, [] );
+
+
+    const handleUpdate = () => {
+        console.log('handleUpdate');
+    };
+    const handleDelete = () => {
+        console.log('handleDelete');
+    };
+
+
+
+
+
 
     return (
 
@@ -123,39 +174,27 @@ const MusicAdmin = () => {
                                             <th>아티스트(가수)</th>
                                             <th>장르</th>
                                             <th>발매일</th>
-                                            <th>곡 내용</th>
+                                            <th>음원내용</th>
                                             <th>수정</th>
                                             <th>삭제</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Example Song 1</td>
-                                            <td>Artist 1</td>
-                                            <td>Pop</td>
-                                            <td>2024-09-20</td>
-                                            <td>Content 1</td>
-                                            <td><Link to="" className="action-btn" rel="noreferrer noopener">수정</Link></td>
-                                            <td><Link to="" className="action-btn delete-btn" rel="noreferrer noopener">삭제</Link></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Example Song 2</td>
-                                            <td>Artist 2</td>
-                                            <td>Rock</td>
-                                            <td>2024-08-15</td>
-                                            <td>Content 2</td>
-                                            <td><a href="/edit-song/2" class="action-btn">수정</a></td>
-                                            <td><a href="/delete-song/2" class="action-btn delete-btn">삭제</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Example Song 3</td>
-                                            <td>Artist 3</td>
-                                            <td>Jazz</td>
-                                            <td>2024-10-01</td>
-                                            <td>Content 3</td>
-                                            <td><a href="/edit-song/3" class="action-btn">수정</a></td>
-                                            <td><a href="/delete-song/3" class="action-btn delete-btn">삭제</a></td>
-                                        </tr>
+                                        
+
+                                        { musicList.map( ( musicVo ) => { 
+
+                                            return(
+                                                <ItemMusic key={musicVo.musicNo}
+                                                music = {musicVo} 
+                                                updateMusic={handleUpdate}
+                                                deleteMusic={handleDelete}
+                                                
+                                                />                                            
+
+                                        ) } ) } 
+
+
                                     </tbody>
                                 </table>
                             </div>
