@@ -108,7 +108,7 @@ const Payment = () => {
                                     </div>
                                 </div>
                             )
-                        })};
+                        })}
                             
                         
                         {/* <div id="all-product-area">    

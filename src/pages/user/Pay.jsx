@@ -69,6 +69,8 @@ const Pay = () => {
         setPaymentMethod(e.target.value)
         console.log(paymentMethod)
     }
+
+    
     
     const handlePay = (e)=>{
         e.preventDefault();
@@ -99,7 +101,12 @@ const Pay = () => {
 
             if(response.data.apiData === 1){
                 alert("이용권 구매가 완료되었습니다.")
-                navigate("/login");
+                
+                authUser.ticket_status = "사용중"
+                console.log(authUser)
+
+                localStorage.setItem('authUser', JSON.stringify(authUser));
+                navigate("");
             }else{
                 alert("구매 실패");
             }
