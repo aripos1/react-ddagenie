@@ -18,6 +18,7 @@ import Utilize from './pages/user/Utilize.jsx';
 import JdeleteForm from './pages/user/JdeleteForm.jsx';
 import AdminPayment from './pages/admin/AdminPayment.jsx';
 import Detail from './pages/main/Detail.jsx';
+import ArtistInsert from './pages/admin/ArtistInsert.jsx';
 
 
 
@@ -43,6 +44,7 @@ function App() {
           <Route path='/user/info' element={<UserInfo />} />
           <Route path='/admin/musicadmin' element={<MusicAdmin />} />
           <Route path='/admin/musicinsert' element={<MusicInsert />} />
+          <Route path='/admin/artistinsert' element={<ArtistInsert />} />
           <Route path='/admin/musicupdate' element={<MusicUpdate />} />
           <Route path='/user/payment' element={<Payment />} />
           <Route path='/user/Utilize' element={<Utilize />} />
