@@ -80,7 +80,7 @@ const Utilize = () => {
         const paymentFinish = new Date(repaymentFinish);
         const currentDate = new Date();
 
-        const difference = differenceInDays(paymentFinish,currentDate)
+        const difference = differenceInDays(paymentFinish,currentDate)+1;
         setDayDifference(difference);
 
         console.log(paymentFinish)
@@ -88,7 +88,7 @@ const Utilize = () => {
         
         
     }
-    console.log(dayDifference)
+    // console.log(dayDifference)
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     
 
