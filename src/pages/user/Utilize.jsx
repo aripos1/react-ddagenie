@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 //import 컴포넌트
-
+import Header from '../include/Header';
 
 //import css
 import '../../assets/css/jjinUtilize.css'
@@ -91,43 +91,7 @@ const Utilize = () => {
         <>
             <div id="wrap-main">
         
-                <div id="wrap-head">
-                    <div id="wrap-header">
-                        <div id="purchase-button">
-                            <img src="../../assets/images/wallet.png" />
-                            <Link to="" className="headBuy">이용권구매</Link>
-                        </div>
-                        <div className="header-main">
-                            <div className="header-left">
-                                <span className="logo">
-                                    <img src="" alt="로고" />
-                                </span>
-                                <div id="search-wrap">
-                                    <input type="search" id="sc-fd" className="ipt-search" maxlength="200" autocomplete="off"
-                                        placeholder="가을에 듣기 좋은 감성 발라드" />
-                                    <input type="submit" className="btn-submit" value="검색" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="gnb" id="gnb">
-                            <ul className="menu clearfix">
-                                <li><Link to="#" className="gnb-menu">따지니차트</Link></li>
-                                <li><Link to="#" className="gnb-menu">최신음악</Link></li>
-                                <li><Link to="#" className="gnb-menu">장르음악</Link></li>
-                            </ul>
-                            <ul className="gnb-my">
-                                <li><Link to="" className="btn login-join-btn">로그인</Link></li>
-                                <li><Link to="http://localhost:3000/signup" className="btn login-join-btn">회원가입</Link></li>
-                            </ul>
-                            <ul className="gnb-my">
-                                <li><Link to="" className="btn login-join-btn">jji***님</Link></li>
-                                <li><Link to="" className="btn login-join-btn">마이뮤직</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
+                <Header />
                 <div id="wrap-body" className="clearfix">
 
                     <div id="wrap-side">
@@ -177,7 +141,7 @@ const Utilize = () => {
                                 <div id="coupon-title">음악감상 잔여일</div>
                                 <div id="coupon-count">
                                     <span>0</span> 일
-                                    <Link to="#"><p>음악감상 이용권구매</p></Link>
+                                    <Link to="/user/payment"><p>음악감상 이용권구매</p></Link>
                                 </div>
                             </div>
                         </div>
