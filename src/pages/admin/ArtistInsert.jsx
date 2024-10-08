@@ -25,7 +25,7 @@ const ArtistInsert = () => {
             .then(response => {
                 console.log(response);
                 alert('아티스트가 성공적으로 등록되었습니다.');
-                navigate('/api/artists'); // 아티스트 목록 페이지로 리다이렉트
+                navigate('/admin/artistinsert'); // 아티스트 목록 페이지로 리다이렉트
             })
             .catch(error => {
                 console.error(error);
@@ -73,6 +73,7 @@ const ArtistInsert = () => {
                             </a>
                             <div>
                                 <ul>
+		         <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
                                     <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
                                     <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
                                 </ul>
@@ -92,7 +93,7 @@ const ArtistInsert = () => {
 
                                 <form onSubmit={handleSubmit}>
 
-                                    <label htmlFor="artistName">아티스트 이름</label>
+                                    <label htmlFor="artistName" >아티스트 이름</label>
                                     <input
                                         type="text"
                                         id="artistName"
@@ -102,7 +103,10 @@ const ArtistInsert = () => {
                                         placeholder="아티스트 이름을 입력하세요"
                                         required
                                     />
-                                    <button type="submit">등록</button>
+                                    <div>
+                                        <button className="bts-artistname" type="submit">등록</button>
+                                    </div>
+                                    
 
                                 </form>
 

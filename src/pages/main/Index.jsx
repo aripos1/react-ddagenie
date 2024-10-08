@@ -167,6 +167,11 @@ const Index = () => {
                 <div className="ranking-section">
                     <h2>인기순위</h2>
                     <table className="playlist">
+                        <colgroup>
+                            <col style={{ width: '40px' }} />
+                            <col style={{ width: '200px' }} />
+                            <col style={{ width: '80px' }} />
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>순위</th>
@@ -175,7 +180,7 @@ const Index = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {topLikedSongs.map((song, index) => (
+                            {topLikedSongs.slice(0, 10).map((song, index) => (
                                 <tr key={song.musicNo}>
                                     <td>{index + 1}</td>
                                     <td>
@@ -188,7 +193,6 @@ const Index = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        {/* 재생 버튼 */}
                                         <button
                                             className="icon-btn play-btn"
                                             onClick={() => handlePlayAndAddToPlaylist(
@@ -200,7 +204,6 @@ const Index = () => {
                                         >
                                             ▶
                                         </button>
-                                        {/* 마이뮤직 추가 버튼 */}
                                         <button
                                             className="icon-btn plus-btn"
                                             onClick={() => handleAddToMyMusic(

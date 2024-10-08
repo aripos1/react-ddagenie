@@ -209,4 +209,40 @@
 
 
 
+/* ################################################# */
+/* ArtistInsert */
+
+#artistInsert label {
+	font-weight: bold;
+	margin-top: 10px;
+	display: block;
+
+}
+
+#artistInsert input[type="text"] {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+
+}
+
+#artistInsert .bts-artistname {
+	width: 100%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+
+}
+
+
+
+
+
+
 
