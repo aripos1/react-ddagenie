@@ -180,7 +180,7 @@ const MusicList = () => {
                         <tbody>
                             {/* 리스트 반복부분 */}
                             {Array.isArray(currentSongs) && currentSongs.length > 0 ? (
-                                currentSongs.map(song => (
+                                currentSongs.map((song, index) => (
                                     <tr key={song.musicNo} className="list" songid={song.musicNo}>
                                         <td className="check">
                                             <input
@@ -192,11 +192,11 @@ const MusicList = () => {
                                             />
                                         </td>
                                         <td className="number">
-                                            {song.rank}
-                                            <span className="rank">
-                                                <span className="rank-up">
-                                                    {song.rankChange}
-                                                    <span className="hide">상승</span>
+                                            {/* 페이지 넘버링을 맞추기 위해 currentPage와 itemsPerPage를 활용 */}
+                                            {(currentPage - 1) * itemsPerPage + index + 1} {/* 올바른 순위 계산 */}
+                                            <span className="likes">
+                                                <span className="likes-none">
+                                                    <span className="likeicon">{song.likeCount}</span>
                                                 </span>
                                             </span>
                                         </td>
