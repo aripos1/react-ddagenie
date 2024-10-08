@@ -1,7 +1,7 @@
 //import 라이브러리
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {  differenceInDays } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 import axios from 'axios';
 
 //css
@@ -32,7 +32,7 @@ const Header = () => {
     /*---일반 변수--------------------------------*/
 
     /*---일반 메소드 -----------------------------*/
-    const dateReckoding = ()=>{
+    const dateReckoding = () => {
 
         if (authUser !== null) {
 
@@ -53,13 +53,13 @@ const Header = () => {
             // console.log(currentDate);
 
             //로그인한회원 >> 이용권 사용여부체크
-            if(dayDifference >= 0){
+            if (dayDifference >= 0) {
                 // console.log('dd');
                 console.log('사용가능한 이용권입니다.');
                 authUser.ticket_status = '이용중'
                 localStorage.setItem('authUser', JSON.stringify(authUser));
 
-            }else{
+            } else {
                 // console.log('mm');
                 authUser.ticket_status = '이용완료'
                 console.log('사용기한이 끝난 이용권입니다.')
@@ -71,55 +71,55 @@ const Header = () => {
                 //디비에 상태값 보내주기
                 axios({
                     method: 'put', 			// put, post, delete                   
-                    url: 'http://localhost:8888/api/state/'+userNo,
+                    url: 'http://localhost:8888/api/state/' + userNo,
                     //headers: { "Authorization": `Bearer ${token}`}, // token
-                                                                                                      //get delete
+                    //get delete
                     //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
                     //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
-                
+
                     //params: guestbookVo, // get delete 쿼리스트링(파라미터)
                     //data: '',     // put, post,  JSON(자동변환됨)
                     //data: formData,           // 첨부파일  multipart방식
-                
+
                     responseType: 'json' //수신타입
                 }).then(response => {
                     console.log(response); //수신데이타
                     console.log(response.data.apiData);
-        
-                    if(response.data.apiData > 0){
+
+                    if (response.data.apiData > 0) {
                         alert('이용권 사용기한이 만료되었습니다.\n \n새로운 이용권 구매후 이용해주세요')
                     }
-                    
-                    
+
+
                 }).catch(error => {
                     console.log(error);
                 });
-                
+
 
             }
-            
-        }else{
+
+        } else {
             console.log('aadd')
         }
-        
+
     }
-    
-    
-    
+
+
+
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
-        
+
         const storedUser = localStorage.getItem('authUser');
-        
+
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
             setUsername(user.name); // 사용자 이름 설정
             // 파일 경로와 파일 이름을 조합하여 프로필 이미지 경로 설정
-            const profileImageUrl = user.saveName 
-                ? `${process.env.REACT_APP_API_URL}/upload/${user.saveName}` 
+            const profileImageUrl = user.saveName
+                ? `${process.env.REACT_APP_API_URL}/upload/${user.saveName}`
                 : defaultProfile;
             setProfileImage(profileImageUrl);
         } else {

@@ -64,6 +64,7 @@
 /*툴바 세팅*/
 
 /* 체크박스 */
+
 .ham .music-list-wrap .option-toolbar {
     position: relative;
     height: 31px;
@@ -360,22 +361,23 @@
     text-align: center;
 }
 
-.ham .music-list-wrap .list-wrap .rank {
+.ham .music-list-wrap .list-wrap .likes {
     display: block;
-    padding-top: 1px;
-    font-size: 11px;
+    padding-top: 2px;
+    font-size: 9px;
 }
 
-.ham .music-list-wrap .list-wrap .rank-none {
+.ham .music-list-wrap .list-wrap .likes-none {
     display: inline-block;
-    width: 12px;
-    height: 2px;
-    background: url(../images/iconImg/list_180122.png) no-repeat -164px -111px;
+    width: 13px;
+    height: 12px;
+    background: url(../images/iconImg/list_180122.png) no-repeat -186px -58px;
     vertical-align: middle;
 }
 
-.ham span, strong {
-    vertical-align: baseline;
+.ham .music-list-wrap .list-wrap .number .likes .likeicon {
+    font-weight: 100;
+    color: #fff;
 }
 
 .ham .music-list-wrap .list-wrap .cover {
