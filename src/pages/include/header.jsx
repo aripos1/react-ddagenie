@@ -29,15 +29,25 @@ const Header = () => {
 
     //소영 : 이용권 잔여시간 계산용
     const [dayDifference, setDayDifference] = useState(null);
-    const finishTime = authUser.paymentFinish;
+    const [finishTime, setFinishTime] = useState('');
+    
+
     /*---일반 변수--------------------------------*/
+    //디비시간 가져오기
+
 
     /*---일반 메소드 -----------------------------*/
+
+
     const dateReckoding = ()=>{
+        console.log('123456789')
 
-        if(authUser !== null && finishTime !== null){
+        
 
+        if(authUser !== null && authUser.paymentFinish !== null){
             //디비시간 가져오기
+            setFinishTime(authUser.paymentFinish);
+            //디비시간 가져오기 
             const paymentFinishDate = authUser.paymentFinish;
             // console.log(paymentFinishDate);
             //iso형으로 변환
@@ -49,7 +59,7 @@ const Header = () => {
 
             const difference = differenceInDays(paymentFinish,currentDate)+1;
             setDayDifference(difference);
-
+            console.log(dayDifference)
             // console.log(paymentFinish);
             // console.log(currentDate);
 
@@ -58,11 +68,13 @@ const Header = () => {
                 // console.log('dd');
                 console.log('사용가능한 이용권입니다.');
                 authUser.ticket_status = '이용중'
+                
                 localStorage.setItem('authUser', JSON.stringify(authUser));
 
             }else{
                 // console.log('mm');
                 authUser.ticket_status = '이용완료'
+                
                 console.log('사용기한이 끝난 이용권입니다.')
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
@@ -100,7 +112,8 @@ const Header = () => {
             }
             
         }else{
-            console.log('aadd')
+            console.log('종료일자 없음');
+            setFinishTime(null);
         }
         
     }
@@ -127,8 +140,13 @@ const Header = () => {
             setIsLoggedIn(false);
         }
 
+
+
+       
+
         //소영 : 이용권 잔여시간 계산용
         dateReckoding();
+        
     }, []);
 
     const handleLogout = () => {
