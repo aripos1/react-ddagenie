@@ -1,5 +1,5 @@
 //import 라이브러리
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
 
@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 
 //import css
 import '../../assets/css/jjinDeleteForm.css';
+import Header from '../include/Header';
+import Footer from '../include/Footer';
 
 
 
@@ -40,47 +42,16 @@ const JdeleteForm = () => {
 
     //3. 전송 (ajax 사용)
 
+    useEffect(()=>{
+
+    },[]);
+
+
     return (
         <>
             <div id="wrap-main">
         
-                <div id="wrap-head">
-                    <div id="wrap-header">
-                        <div id="purchase-button">
-                            <img src="../../assets/images/wallet.png" />
-                            <Link to="" className="headBuy">이용권구매</Link>
-                        </div>
-                        <div className="header-main">
-                            <div className="header-left">
-                                <span className="logo">
-                                    <img src="" alt="로고" />
-                                </span>
-                                <div id="search-wrap">
-                                    <input type="search" id="sc-fd" className="ipt-search" maxlength="200" autocomplete="off"
-                                        placeholder="가을에 듣기 좋은 감성 발라드" />
-                                    <input type="submit" className="btn-submit" value="검색" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="gnb" id="gnb">
-                            <ul className="menu clearfix">
-                                <li><Link to="#" className="gnb-menu">따지니차트</Link></li>
-                                <li><Link to="#" className="gnb-menu">최신음악</Link></li>
-                                <li><Link to="#" className="gnb-menu">장르음악</Link></li>
-                            </ul>
-                            <ul className="gnb-my">
-                                <li><Link to="" className="btn login-join-btn">로그인</Link></li>
-                                <li><Link to="" className="btn login-join-btn">회원가입</Link></li>
-                            </ul>
-                            <ul className="gnb-my">
-                                <li><Link to="" className="btn login-join-btn">jji***님</Link></li>
-                                <li><Link to="" className="btn login-join-btn">마이뮤직</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
+                <Header />
                 <div id="wrap-body" className="clearfix">
                     <div id="wrap-side">
 
@@ -184,36 +155,7 @@ const JdeleteForm = () => {
                     </div>
                 </div>
                 
-                <div id="wrap-foot" className="footer">
-                    <div className="ft-head clearfix">
-                        <ul>
-                            <li><Link to="#">회사소개</Link></li>
-                            <li><Link to="#">이용약관</Link></li>
-                            <li><Link to="#">개인정보처리방침</Link></li>
-                            <li><Link to="#">청소년보호정책</Link></li>
-                            <li><Link to="#">위치기반서비스</Link></li>
-                        </ul>
-                    </div>
-                    <div className="ft-main clearfix">
-                        <div className="ft-logo">
-                            <img src="../../assets/images/logo.webp" alt="지니뮤직 로고" />
-                        </div>
-                        {/* <!-- 회사 정보 텍스트 --> */}
-                        <div className="ft-info">
-                            <p>(주) 따지니뮤직</p>
-                            <p>대표이사 황일영 | 서울 서초구 강남대로 405 통영빌딩 8층 </p>
-                            <p>사업자등록번호: 777-77-01234 | 통신판매업신고 2013-서울강남-01302</p>
-                            <p>개인정보보호책임자: 임현성 | 서비스문의: 1577-5337 | 이메일: molddajini@hwak.ma</p>
-                            <p>COPYRIGHT©DDAGENIE MUSIC CORP ALL RIGHTS RESERVED.</p>
-                        </div>
-                    </div>
-                    {/* <!-- sns 아이콘 빼두됨 --> */}
-                    <div className="ft-sns">
-                        <Link to="#"><img src="../../assets/images/kakao.png" alt="카카오톡" /></Link>
-                        <Link to="#"><img src="../../assets/images/facebook.png" alt="페이스북" /></Link>
-                        <Link to="#"><img src="../../assets/images/insta.png" alt="인스타그램" /></Link>
-                    </div>
-                </div>
+                <Footer />
 
             </div>
         </>
