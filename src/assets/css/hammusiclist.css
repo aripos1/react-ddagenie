@@ -54,12 +54,17 @@
     table-layout: fixed;
     width: 100%;
     margin: 4px 0 10px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ham .music-list-wrap .list-wrap thead {
     padding-right: 1px;
     width: 90%;
 }
+
+.
 
 /*툴바 세팅*/
 
