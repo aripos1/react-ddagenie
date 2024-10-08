@@ -101,7 +101,12 @@ const Index = () => {
             console.error('Error adding song to MyMusic:', error);
         }
     };
-    
+
+     // 이미지 클릭 시 음악 상세 페이지로 이동
+     const handleImageClick = (musicNo) => {
+        navigate(`/music/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
+    };
+
     return (
         <div id="wrap-main">
             {/* Header 컴포넌트 삽입 */}
