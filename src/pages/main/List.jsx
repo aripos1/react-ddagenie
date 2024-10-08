@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from 'axios';
 
 import Header from '../include/Header';
 import Footer from '../include/Footer';
@@ -9,11 +9,19 @@ import '../../assets/css/all.css';
 import '../../assets/css/index.css';
 import '../../assets/css/hammusiclist.css';
 
+
 const MusicList = () => {
     // 상태 변수 설정
     const [songData, setSongData] = useState([]);
     const [loading, setLoading] = useState(true); // 로딩 상태 추가
     const [error, setError] = useState(null); // 에러 상태 추가
+    const [allChecked, setAllChecked] = useState(false); // 전체 선택 체크 상태 추가
+    const [checkedItems, setCheckedItems] = useState([]); // 개별 체크 상태 추가
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 추가
+
+    const itemsPerPage = 50; // 페이지당 곡 수
+
+
 
     // 컴포넌트 마운트 시 API를 통해 데이터 가져오기
     useEffect(() => {
@@ -40,6 +48,16 @@ const MusicList = () => {
             setLoading(false); // 로딩이 끝나면 false로 설정
         });
     }, []);
+
+    // 페이지 변경 핸들러
+    const handlePageChange = (pageNumber) => {
+        console.log(`Changing to page: ${pageNumber}`); // 페이지 번호 확인 로그
+        setCurrentPage(pageNumber);
+    };
+
+    // 현재 페이지에 해당하는 곡 데이터를 필터링
+    const currentSongs = songData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    console.log(`Current Page: ${currentPage}, Showing songs:`, currentSongs); // 현재 페이지와 필터링된 곡 데이터 확인
 
     // 모든 곡의 ID 리스트를 생성하는 함수
     const fnAllSongID = () => {
@@ -69,6 +87,30 @@ const MusicList = () => {
     const fnAddMyAlbumForm = (elementId, songId, param1, param2) => {
         console.log(`Adding song ID: ${songId} to playlist. Element: ${elementId}`);
     };
+
+    // 전체 선택/해제 핸들러 함수
+    const fnHandleAllCheck = (e) => {
+        const isChecked = e.target.checked;
+        setAllChecked(isChecked);
+
+        if (isChecked) {
+            // 모든 곡의 ID를 선택
+            const allSongIds = songData.map(song => song.musicNo);
+            setCheckedItems(allSongIds);
+        } else {
+            // 선택 해제
+            setCheckedItems([]);
+        }
+    };
+
+    // 개별 체크 핸들러
+    const fnHandleCheck = (musicNo) => {
+        setCheckedItems(prev =>
+            prev.includes(musicNo) ? prev.filter(id => id !== musicNo) : [...prev, musicNo]
+        );
+    };
+
+
 
     // 로딩 상태 처리
     if (loading) {
@@ -102,7 +144,13 @@ const MusicList = () => {
                 </div>
                 <div className="music-list-wrap">
                     <div className="option-toolbar">
-                        <input type="checkbox" className="all-check" title="전체 선택" />
+                        <input
+                            type="checkbox"
+                            className="all-check"
+                            title="전체 선택"
+                            onChange={fnHandleAllCheck} // 전체 선택 핸들러 추가
+                            checked={allChecked}
+                        />
                         <Link to="#" className="btn btn-listen" title="재생" onClick={() => fnPlayArrSong(1)}>듣기</Link>
                         <Link to="#" className="btn btn-add" title="추가" onClick={() => fnPlayArrSong(3)}>
                             <span className="hide">재생목록에 </span>추가
@@ -113,7 +161,7 @@ const MusicList = () => {
                             </Link>
                         </div>
                         <div className="check-length" style={{ display: 'none' }}>
-                            <em>0</em>곡 선택
+                            <em>{checkedItems.length}</em>곡 선택
                         </div>
                     </div>
 
@@ -131,18 +179,24 @@ const MusicList = () => {
                         </thead>
                         <tbody>
                             {/* 리스트 반복부분 */}
-                            {Array.isArray(songData) && songData.length > 0 ? (
-                                songData.map(song => (
+                            {Array.isArray(currentSongs) && currentSongs.length > 0 ? (
+                                currentSongs.map((song, index) => (
                                     <tr key={song.musicNo} className="list" songid={song.musicNo}>
                                         <td className="check">
-                                            <input type="checkbox" className="select-check" title={song.title} />
+                                            <input
+                                                type="checkbox"
+                                                className="select-check"
+                                                title={song.title}
+                                                onChange={() => fnHandleCheck(song.musicNo)} // 개별 체크 핸들러
+                                                checked={checkedItems.includes(song.musicNo)}
+                                            />
                                         </td>
                                         <td className="number">
-                                            {song.rank}
-                                            <span className="rank">
-                                                <span className="rank-up">
-                                                    {song.rankChange}
-                                                    <span className="hide">상승</span>
+                                            {/* 페이지 넘버링을 맞추기 위해 currentPage와 itemsPerPage를 활용 */}
+                                            {(currentPage - 1) * itemsPerPage + index + 1} {/* 올바른 순위 계산 */}
+                                            <span className="likes">
+                                                <span className="likes-none">
+                                                    <span className="likeicon">{song.likeCount}</span>
                                                 </span>
                                             </span>
                                         </td>
@@ -151,7 +205,7 @@ const MusicList = () => {
                                                 <span className="mask"></span>
                                                 <img
                                                     src={`${process.env.REACT_APP_API_URL}/upload/${song.imageName}`}
-                                                    onError={(e) => { e.target.src = 'default_image_url'; }} // 이미지 로드 실패 시 대체 이미지 사용
+                                                    onError={(e) => { e.target.src = `${process.env.REACT_APP_API_URL}/upload/cuteddagenie.png`; }} // 이미지 로드 실패 시 대체 이미지 사용
                                                     alt={song.albumTitle}
                                                 />
                                             </Link>
@@ -215,11 +269,12 @@ const MusicList = () => {
                         </div>
                     </div>
                 </div>
+                {/* 페이지 네비게이션 */}
                 <div className="page-nav rank-page-nav">
-                    <Link to="pg=1" className="current">1 ~ 50 위</Link>
-                    <Link to="pg=2">51 ~ 100 위</Link>
-                    <Link to="pg=3">101 ~ 150 위</Link>
-                    <Link to="pg=4">151 ~ 200 위</Link>
+                    <Link to="#" onClick={() => handlePageChange(1)} className={currentPage === 1 ? "current" : ""}>1 ~ 50 위</Link>
+                    <Link to="#" onClick={() => handlePageChange(2)} className={currentPage === 2 ? "current" : ""}>51 ~ 100 위</Link>
+                    <Link to="#" onClick={() => handlePageChange(3)} className={currentPage === 3 ? "current" : ""}>101 ~ 150 위</Link>
+                    <Link to="#" onClick={() => handlePageChange(4)} className={currentPage === 4 ? "current" : ""}>151 ~ 200 위</Link>
                 </div>
             </div>
             <Footer />
