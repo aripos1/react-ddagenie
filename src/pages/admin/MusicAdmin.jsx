@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 import Footer from '../include/Footer';
-import Header from '../include/Header';
+import Header from '../include/header';
 
 import ItemMusic from './ItemMusic';
 import '../../assets/css/musicAdmin.css';

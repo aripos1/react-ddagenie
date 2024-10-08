@@ -3,7 +3,7 @@ import axios from 'axios';  // API 호출을 위해 axios 추가
 import '../../assets/css/all.css';
 import '../../assets/css/playlist.css';
 import '../../assets/css/jjinUtilize.css';
-import Header from '../include/Header';
+import Header from '../include/header';
 import Footer from '../include/Footer';
 import logo from '../../assets/images/cuteddagenie.png';
 import searchIcon from '../../assets/images/search.png';
