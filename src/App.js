@@ -50,7 +50,7 @@ function App() {
           <Route path='/user/Utilize' element={<Utilize />} />
           <Route path='/user/deleteForm' element={<JdeleteForm />} />
           <Route path='/admin/adminPayment' element={<AdminPayment />} />
-          <Route path='/main/detail' element={<Detail/>}/>
+          <Route path='/main/detail/:no' element={<Detail/>}/>
 
         </Routes>
       </BrowserRouter>

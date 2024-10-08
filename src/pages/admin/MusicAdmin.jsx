@@ -56,12 +56,7 @@ const MusicAdmin = () => {
     }, [] );
 
 
-    const handleUpdate = () => {
-        console.log('handleUpdate');
-    };
-    const handleDelete = () => {
-        console.log('handleDelete');
-    };
+
 
 
 
@@ -109,8 +104,9 @@ const MusicAdmin = () => {
                             </a>
                             <div>
                                 <ul>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
+                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
+                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
+                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -151,8 +147,7 @@ const MusicAdmin = () => {
                                             return(
                                                 <ItemMusic key={musicVo.musicNo}
                                                 music = {musicVo} 
-                                                updateMusic={handleUpdate}
-                                                deleteMusic={handleDelete}
+                                                musicList = {getMusicList}
                                                 
                                                 />                                            
 

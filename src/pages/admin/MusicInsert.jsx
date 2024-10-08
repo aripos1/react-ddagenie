@@ -21,7 +21,7 @@ const MusicInsert = () => {
     const [fileUrl, setFileUrl] = useState(null);
 
     const [artists, setArtists] = useState([]); // 아티스트 목록 상태
-
+    
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
             .then(response => {
@@ -64,23 +64,29 @@ const MusicInsert = () => {
         axios.post(`${process.env.REACT_APP_API_URL}/api/musicAdmins`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
-            .then(response => {
-                console.log(response);
-                alert('음원이 성공적으로 등록되었습니다.');
-                navigate('/admin/musicadmin');
-            })
-            .catch(error => {
-                console.error(error);
-                alert('음원 등록 중 오류가 발생했습니다.');
-            });
+        .then(response => {
+            console.log(response);
+            alert('음원이 성공적으로 등록되었습니다.');
+            navigate('/admin/musicadmin');
+        })
+        .catch(error => {
+            console.error(error);
+            alert('음원 등록 중 오류가 발생했습니다.');
+        });
     };
 
-    return (
 
+
+
+
+
+
+    return (
+        
         <>
 
             <div id="wrap-main">
-
+                
 
 
                 {/* <!-- header --> */}
@@ -115,8 +121,9 @@ const MusicInsert = () => {
                             </a>
                             <div>
                                 <ul>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
+                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
+                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
+                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -126,7 +133,7 @@ const MusicInsert = () => {
 
                         <div id="top-title">
                             <h2>음원 등록</h2>
-                        </div>
+                        </div>  
 
                         <div id="musicInsert">
 
@@ -143,7 +150,7 @@ const MusicInsert = () => {
                                         required
                                     />
 
-
+                                    
 
                                     <label htmlFor="artist">아티스트(가수)</label>
                                     <select
@@ -192,19 +199,19 @@ const MusicInsert = () => {
                                 </form>
 
                             </div>
-
+                            
                         </div>
 
 
                     </div>
                 </div>
 
-
+                
                 {/* <!-- //body --> */}
 
                 <Footer />
                 {/* <!-- footer --> */}
-
+                
 
             </div>
 

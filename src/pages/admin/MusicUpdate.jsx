@@ -129,11 +129,18 @@ const MusicUpdate = () => {
 
         axios.put(`${process.env.REACT_APP_API_URL}/api/musicAdmins`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
+            //responseType: 'json' //수신타입
         })
         .then(response => {
             console.log(response);
-            alert('음원이 수정되었습니다.');
-            navigate('/admin/musicadmin');
+
+            if (response.data && response.data.apiData) {
+                alert('음원이 수정되었습니다.');
+                navigate('/admin/musicadmin');
+            } else {
+                alert('음원 수정 중 오류가 발생했습니다.');
+            }
+            
         })
         .catch(error => {
             console.error(error);
@@ -186,8 +193,9 @@ const MusicUpdate = () => {
                             </a>
                             <div>
                                 <ul>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
+                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
+                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
+                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
