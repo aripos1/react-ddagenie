@@ -22,6 +22,9 @@ const MusicPlayer = () => {
     const title = query.get('title');
     const artist = query.get('artist');
     const filePath = query.get('filePath');
+    const [currentTitle, setCurrentTitle] = useState('');  // 현재 곡의 타이틀
+    const [currentArtist, setCurrentArtist] = useState(''); // 현재 곡의 가수 이름
+    const [currentImage, setCurrentImage] = useState(''); // 현재 곡의 이미지
 
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
@@ -37,7 +40,15 @@ const MusicPlayer = () => {
             setAuthUser(null);
         }
     }, []);
-
+    useEffect(() => {
+        if (isLoggedIn && authUser && authUser.no) {
+            console.log('authUser.no:', authUser.no);  // userNo 확인
+            loadPlaylist(authUser.no); // 유저 번호로 재생목록 로드
+            loadMyMusic(authUser.no);  // 유저 번호로 마이뮤직 로드
+        } else {
+            console.log("authUser or no is undefined");
+        }
+    }, [isLoggedIn, authUser]);
     // 재생 목록 및 마이뮤직 리스트 로드
     useEffect(() => {
         if (isLoggedIn && authUser && authUser.no) {
@@ -102,28 +113,80 @@ const MusicPlayer = () => {
     };
     console.log('Playlist:', playlist);
 
-    // 곡 선택 시 재생
-    const playSong = (filePath, index) => {
-        console.log('Clicked song index:', index); // 인덱스 확인용 로그 추가
+    // //로컬 곡 선택 시 재생
+    // const playSong = (filePath, index) => {
+    //     console.log('Clicked song index:', index); // 인덱스 확인용 로그 추가
 
-        if (!filePath) { // filePath가 null 또는 undefined인 경우 처리
-            console.error('filePath is null or undefined');
+    //     if (!filePath || typeof filePath !== 'string') { // filePath가 null, undefined 또는 문자열이 아닌 경우 처리
+    //         console.error('filePath is null, undefined, or not a string:', filePath);
+    //         return;
+    //     }
+
+    //     const fileName = filePath.split('\\').pop(); // 윈도우 경로에서 파일명만 추출
+    //     console.log('File path:', filePath);
+    //     const songPath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;  // 파일 경로 설정
+
+    //     if (audioRef.current) {
+    //         audioRef.current.pause();  // 이전 재생 중인 파일 중지
+    //         audioRef.current.currentTime = 0;  // 재생 시작 위치를 처음으로 설정
+    //         audioRef.current.src = songPath; // 오디오 태그의 소스 설정
+    //         audioRef.current.play(); // 자동 재생
+    //     }
+
+    //     setCurrentSong(songPath); // 현재 재생 중인 곡 설정
+    //     setCurrentSongIndex(index); // 현재 재생 중인 곡 인덱스 설정
+    // };
+    const getImageUrl = (song) => {
+        let imagePath = song.imageName || song.imagePath;  // S3 경로가 있으면 우선 사용
+
+        if (!imagePath || typeof imagePath !== 'string') {
+            console.error('imagePath is null, undefined, or not a string:', imagePath);
+            return '/default-image.png';  // 기본 이미지 경로
+        }
+
+        if (imagePath.startsWith('http')) {
+            // S3 URL일 경우
+            console.log('Using S3 image URL:', imagePath);
+            return imagePath; // 이미 S3 URL이므로 그대로 반환
+        } else {
+            // 로컬 경로를 웹에서 접근 가능한 URL로 변환 (이 부분은 S3 URL이 아닐 경우만 처리)
+            const fileName = imagePath.split('\\').pop(); // 로컬 경로에서 파일명만 추출
+            imagePath = `http://localhost:8888/upload/${fileName}`;  // 로컬 파일 경로를 URL로 변환
+            console.log('Using local image file:', imagePath);
+            return imagePath;
+        }
+    };
+
+
+    // s3 곡 재생
+    const playSong = (song) => {
+        let songPath = song.fileName || song.filePath;  // S3 경로가 있으면 우선 사용
+
+        if (!songPath || typeof songPath !== 'string') {
+            console.error('songPath is null, undefined, or not a string:', songPath);
             return;
         }
 
-        const fileName = filePath.split('\\').pop(); // 윈도우 경로에서 파일명만 추출
-        console.log('File path:', filePath);
-        const songPath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;  // 파일 경로 설정
-
-        if (audioRef.current) {
-            audioRef.current.pause();  // 이전 재생 중인 파일 중지
-            audioRef.current.currentTime = 0;  // 재생 시작 위치를 처음으로 설정
-            audioRef.current.src = songPath; // 오디오 태그의 소스 설정
-            audioRef.current.play(); // 자동 재생
+        if (songPath.startsWith('http')) {
+            console.log('Playing S3 URL:', songPath);
+        } else {
+            const fileName = songPath.split('\\').pop();
+            songPath = `http://localhost:8888/upload/${fileName}`;
+            console.log('Playing local file:', songPath);
         }
 
-        setCurrentSong(songPath); // 현재 재생 중인 곡 설정
-        setCurrentSongIndex(index); // 현재 재생 중인 곡 인덱스 설정
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current.src = songPath;
+            audioRef.current.play();
+        }
+
+        // 현재 곡, 타이틀, 가수, 이미지 정보 업데이트
+        setCurrentSong(songPath); // 현재 재생 중인 곡 경로 업데이트
+        setCurrentTitle(song.title); // 현재 곡 타이틀 업데이트
+        setCurrentArtist(song.artistName); // 현재 가수 업데이트
+        setCurrentImage(getImageUrl(song)); // 현재 이미지 업데이트 (로컬 또는 S3 경로에 맞게 처리)
     };
 
 
@@ -285,14 +348,19 @@ const MusicPlayer = () => {
                 <div className="album-info">
                     <div className="info-container">
                         <div className="track-details">
-                            <h2>{title}</h2>
-                            <p>{artist}</p>
+                            <h2>{currentTitle}</h2> {/* 현재 재생 중인 곡의 타이틀 */}
+                            <p>{currentArtist}</p> {/* 현재 재생 중인 곡의 가수 이름 */}
+
+                            <div className={`like-icon ${liked ? 'liked' : ''}`} onClick={toggleLike}>
+                                <span>&hearts;</span>
+                            </div>
                         </div>
-                        <div className={`like-icon ${liked ? 'liked' : ''}`} onClick={toggleLike}>
-                            <span>&hearts;</span>
-                        </div>
-                     
-                     
+                        <img
+                            src={currentImage}  // 현재 재생 중인 곡의 이미지
+                            alt={currentTitle}
+                            className="album-art"
+                        />
+
                     </div>
                 </div>
                 <audio ref={audioRef} id="audio-player" controls onEnded={handleSongEnd}>
@@ -328,7 +396,7 @@ const MusicPlayer = () => {
                         </div>
                         <ul className="playlist">
                             {playlist.map((song, index) => (
-                                <li key={song.playlistNo} onClick={() => playSong(song.filePath, index)}>
+                                <li key={song.playlistNo} onClick={() => playSong(song, index)}>
                                     <input
                                         type="checkbox"
                                         checked={!!song.selected}

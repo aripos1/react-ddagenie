@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../include/Header';  
-import Footer from '../include/Footer';  
 import '../../assets/css/all.css';
 import '../../assets/css/index.css';
+import chartimage from '../../assets/images/cuteddagenie.png';
 import coverimage from '../../assets/images/logo.webp';
 import banner from '../../assets/images/music-festival.png';
-import chartimage from '../../assets/images/cuteddagenie.png';
-import axios from 'axios'; 
+import Footer from '../include/Footer';
+import Header from '../include/Header';
 
 const Index = () => {
     const navigate = useNavigate();
