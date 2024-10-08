@@ -111,16 +111,6 @@
     font-weight: bold;
 }
 
-.ham .userinfo #gnb ul .logout {
-    border: none;
-    margin-top: -4px;
-    cursor: pointer;
-    background-color: #fff;
-}
-
-
-
-
 /* info table 스타일 */
 .ham .userinfo .info-table {
     width: 100%;
