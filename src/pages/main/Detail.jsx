@@ -21,34 +21,33 @@ const Detail = () => {
      //데이터 가져오기(music의 n번째 곡에 대한 데이터)
 
      useEffect(() => {
-        axios({
-          method: 'get',
-          url: `http://localhost:8888/api/music/4`, // 동적으로 URL 설정
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          responseType: 'json'
-        })
-        .then(response => {
-             const musicVo = response.data.apiData;
-            if(response.data.result === 'success'){
-                //가져온데이타 화면에 반영
-                setTitle(musicVo.title);
-                setArtistname(musicVo.artistName);
-                setGenre(musicVo.genre);
-                setReleasedDate(musicVo.releasedDate);
-                setLikecount(musicVo.likeCount);
-                setMusiccontent(musicVo.musicContent);
-               
-               
-                
-
-            }else{
-                alert('확인하세요');
-            }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      }, [no]); // no가 변경될 때마다 실행
+        console.log("no 값:", no);  // no 값이 undefined인지 확인
+        if (no) {
+            axios({
+              method: 'get',
+              url: `http://localhost:8888/api/music/${no}`, 
+              headers: { "Content-Type": "application/json; charset=utf-8" },
+              responseType: 'json'
+            })
+            .then(response => {
+                const musicVo = response.data.apiData;
+                if (response.data.result === 'success') {
+                    setTitle(musicVo.title);
+                    setArtistname(musicVo.artistName);
+                    setGenre(musicVo.genre);
+                    setReleasedDate(musicVo.releasedDate);
+                    setLikecount(musicVo.likeCount);
+                    setMusiccontent(musicVo.musicContent);
+                } else {
+                    alert('확인하세요');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+    }, [no]);
+    
     return (
     <>
         <Header/>
