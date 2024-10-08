@@ -34,20 +34,20 @@ const Header = () => {
     /*---일반 메소드 -----------------------------*/
     const dateReckoding = ()=>{
 
-        if(authUser !== null){
+        if (authUser !== null) {
 
             //디비시간 가져오기
             const paymentFinishDate = authUser.paymentFinish;
             // console.log(paymentFinishDate);
             //iso형으로 변환
-            const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
+            // const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
 
             //최종적으로 값 넣어주기
-            const paymentFinish = new Date(repaymentFinish);
+            // const paymentFinish = new Date(repaymentFinish);
             const currentDate = new Date();
 
-            const difference = differenceInDays(paymentFinish,currentDate)+1;
-            setDayDifference(difference);
+            // const difference = differenceInDays(paymentFinish, currentDate) + 1;
+            // setDayDifference(difference);
 
             // console.log(paymentFinish);
             // console.log(currentDate);

@@ -1,34 +1,75 @@
-import React from 'react';
-
+import React, {useState,useEffect} from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 //헤더 푸터 및 css
 import Header from '../include/Header';
 import'../../assets/css/Detail.css';
 
-const Detail = () => {
 
-  return (
+const Detail = () => {
+    //상태변화 변수
+    const[title,setTitle]=useState('');
+    const[artistName,setArtistname]=useState('');
+    const[genre,setGenre]=useState('');
+    const[releasedDate,setReleasedDate]=useState('');
+    const[likeCount,setLikecount]=useState('');
+    const[musicContent,setMusiccontent]=useState('');
+
+    const { no } = useParams();  
+    console.log(no)  
+     //데이터 가져오기(music의 n번째 곡에 대한 데이터)
+
+     useEffect(() => {
+        axios({
+          method: 'get',
+          url: `http://localhost:8888/api/music/4`, // 동적으로 URL 설정
+          headers: { "Content-Type": "application/json; charset=utf-8" },
+          responseType: 'json'
+        })
+        .then(response => {
+             const musicVo = response.data.apiData;
+            if(response.data.result === 'success'){
+                //가져온데이타 화면에 반영
+                setTitle(musicVo.title);
+                setArtistname(musicVo.artistName);
+                setGenre(musicVo.genre);
+                setReleasedDate(musicVo.releasedDate);
+                setLikecount(musicVo.likeCount);
+                setMusiccontent(musicVo.musicContent);
+               
+               
+                
+
+            }else{
+                alert('확인하세요');
+            }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }, [no]); // no가 변경될 때마다 실행
+    return (
     <>
         <Header/>
       <div id="wrap-body" className="clearfix">
         <div className="page-main-container">
           
           {/* 앨범 이미지와 정보 */}
+          
           <div className="album-section">
             <div className="album-cover">
               <img src="../../assets/images/musicImg/album(small)/dance/황덕룡.png" alt="햄을 프라이팬에 구워서 김치와 싸 드셔보세요" className="album-img" />
             </div>
             <div className="album-info">
-              <h1>햄을 프라이팬에 구워서 김치와 싸 드셔보세요</h1>
-              <p>아티스트: 김치워리어</p>
-              <p>장르/스타일: 김치</p>
-              <p>레이블: Stone Music Entertainment</p>
-              <p>개발사: Stone Music Entertainment, CJ E&M STUDIOS</p>
-              <p>발매일: 2024.10.01</p>
+              <h1>{title}</h1>
+              <p>아티스트:{artistName} </p>
+              <p>장르:{genre}</p>
+              <p>발매일:{releasedDate}</p>
               <div className="buttons">
                 <button className="button-play">듣기</button>
                 <button className="button-add">담기</button>
-                <span className="like-count">좋아요 수: <strong id="like-count">11</strong></span>
+                <span className="like-count">좋아요 수:{likeCount} <strong id="like-count"></strong></span>
               </div>
             </div>
           </div>
@@ -37,9 +78,7 @@ const Detail = () => {
           <div className="song-description-section">
             <h2>곡 소개</h2>
             <p>
-              이 곡은 김치의 맛을 극대화 하기 위해선 햄을 김치에 싸서 후라이팬과 함께 먹는 것이 좋다고 합니다. 
-              무슨 소리냐고요? 네 별 생각 없이 써놓은 거에요. 오늘 밥은 혼자서 후라이팬에 햄을 구워서 김치와 함께 드셔보시는 게 어떨까요?
-              어떻긴 어때 맛이 없겠지 ㅋㅋ
+             {musicContent}
             </p>
           </div>
 
@@ -115,7 +154,7 @@ const Detail = () => {
               </div>
             </div>
 
-            {/* 반복되는 댓글 구조는 동일하게 유지하며 JSX 스타일로 변환하였습니다 */}
+            {/* 반복되는 댓글 구조는 동일하게 유지하며 JSX 스타일 */}
             {/* 다른 댓글 섹션들 */}
             {/* ... 생략된 다른 댓글 섹션 ... */}
 
