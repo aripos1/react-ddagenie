@@ -15,6 +15,7 @@ const Detail = () => {
     const[releasedDate,setReleasedDate]=useState('');
     const[likeCount,setLikecount]=useState('');
     const[musicContent,setMusiccontent]=useState('');
+    const[imageName,setImagename]=useState('');
 
     const { no } = useParams();  
     console.log(no)  
@@ -38,6 +39,7 @@ const Detail = () => {
                     setReleasedDate(musicVo.releasedDate);
                     setLikecount(musicVo.likeCount);
                     setMusiccontent(musicVo.musicContent);
+                    setImagename(musicVo.imageName);
                 } else {
                     alert('확인하세요');
                 }
@@ -58,7 +60,7 @@ const Detail = () => {
           
           <div className="album-section">
             <div className="album-cover">
-              <img src="../../assets/images/musicImg/album(small)/dance/황덕룡.png" alt="햄을 프라이팬에 구워서 김치와 싸 드셔보세요" className="album-img" />
+              <img src={imageName} alt="햄을 프라이팬에 구워서 김치와 싸 드셔보세요" className="album-img" />
             </div>
             <div className="album-info">
               <h1>{title}</h1>
