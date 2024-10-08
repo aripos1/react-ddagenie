@@ -102,7 +102,7 @@ const Pay = () => {
             if(response.data.apiData.updateCount === 1){
                 alert("이용권 구매가 완료되었습니다.")
                 
-                authUser.ticket_status = "사용중"
+                authUser.ticket_status = "이용중"
                 authUser.paymentFinish = response.data.apiData.paymentFinish;
                 console.log(authUser)
 

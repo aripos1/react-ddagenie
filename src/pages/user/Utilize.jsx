@@ -30,6 +30,7 @@ const Utilize = () => {
     const userNo = authUser.no;
     
     
+    
 
     /*---일반 메소드 --------------------------------------------*/
 
@@ -70,28 +71,47 @@ const Utilize = () => {
     
 
     const dateReckoding = ()=>{
-        //디비시간 가져오기
-        const paymentFinishDate = authUser.paymentFinish;
-        // console.log(paymentFinishDate);
-        //iso형으로 변환
-        const repaymentFinish = paymentFinishDate.replace(' ', 'T') + 'Z';
+        // console.log("시작")
+        if(authUser !== null && authUser.paymentFinish !== null){
+            // console.log('계산시작')
+            //디비시간 가져오기
+            // const paymentFinishDate = authUser.paymentFinish;
+            // console.log(paymentFinishDate);
+            const finishTime = authUser.paymentFinish;
 
-        //최종적으로 값 넣어주기
-        const paymentFinish = new Date(repaymentFinish);
-        const currentDate = new Date();
+            //iso형으로 변환
+            const repaymentFinish = finishTime.replace(' ', 'T') + 'Z';
 
-        const difference = differenceInDays(paymentFinish,currentDate)+1;
-        setDayDifference(difference);
+            //최종적으로 값 넣어주기
+            const paymentFinish = new Date(repaymentFinish);
+            const currentDate = new Date();
 
-        console.log(paymentFinish)
-        console.log(currentDate)
-        
-        
+            const difference = differenceInDays(paymentFinish,currentDate)+1;
+            console.log(difference)
+            setDayDifference(difference);
+            
+            
+            console.log(paymentFinish)
+            console.log(currentDate)
+            console.log(dayDifference)
+    }else{
+        console.log('11');
+        setDayDifference(-1);
     }
+    
+}
+console.log(dayDifference)
+
+
     // console.log(dayDifference)
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     
-
+    const check_ticketState = ()=>{
+        
+            alert('사용중인 이용권이 있습니다.')
+            navigate('/user/utilize')
+        
+    };
     
         
             
@@ -156,7 +176,7 @@ const Utilize = () => {
                         <div id="top-ct-list">
                             <ul>
                                 <li><Link to="#">이용권 상세내역</Link></li>
-                                <li><Link to="#">이용권 해지/취소 신청</Link></li>
+                                <li><Link to="/user/deleteForm">이용권 해지/취소 신청</Link></li>
                             </ul>
                         </div>
                         
@@ -164,8 +184,15 @@ const Utilize = () => {
                             <div id="date-coupon">
                                 <div id="coupon-title">음악감상 잔여일</div>
                                 <div id="coupon-count">
-                                    <span>{dayDifference}</span> 일
-                                    <Link to="/user/payment"><p>음악감상 이용권구매</p></Link>
+                                {dayDifference >= 0 ? (
+                                    <span>{dayDifference} 일</span> 
+                                    ) : (
+                                    <span>이용권이 없습니다</span>)}
+                                    
+                                    {dayDifference >= 0  ? (
+                                        <button onClick={check_ticketState}>음악감상 이용권구매</button>
+                                ) : (
+                                    <Link to='/user/payment'><button>음악감상 이용권구매</button></Link>)}
                                 </div>
                             </div>
                         </div>
@@ -205,7 +232,7 @@ const Utilize = () => {
                                                 <td>~ {payVo.paymentFinish}</td>
                                                 <td>{payVo.paymentStart}</td>
                                                 <td>{payVo.paymentMethod}</td>
-                                                <td>{payVo.ticketStatus}</td>
+                                                <td>{payVo.terminationStatus}</td>
                                             </tr>
                                         );
                                     })
