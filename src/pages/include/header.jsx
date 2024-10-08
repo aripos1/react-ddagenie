@@ -29,12 +29,13 @@ const Header = () => {
 
     //소영 : 이용권 잔여시간 계산용
     const [dayDifference, setDayDifference] = useState(null);
+    const finishTime = authUser.paymentFinish;
     /*---일반 변수--------------------------------*/
 
     /*---일반 메소드 -----------------------------*/
     const dateReckoding = ()=>{
 
-        if(authUser !== null){
+        if(authUser !== null && finishTime !== null){
 
             //디비시간 가져오기
             const paymentFinishDate = authUser.paymentFinish;
