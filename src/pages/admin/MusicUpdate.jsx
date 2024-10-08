@@ -29,12 +29,15 @@ const MusicUpdate = () => {
 
     const [artists, setArtists] = useState([]); // 아티스트 목록 상태
 
+    const [musicNo, setMusicNo] = useState('');
     const [title, setTitle] = useState('');
     const [artistNo, setArtistNo] = useState('');
     const [artistName, setArtistName] = useState(''); // 아티스트 이름 상태
     const [genre, setGenre] = useState('');
     const [releasedDate, setReleasedDate] = useState('');
     const [content, setContent] = useState('');
+    const [imageName, setImageName] = useState(null);
+    const [fileName, setFileName] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
 
@@ -50,10 +53,15 @@ const MusicUpdate = () => {
             responseType: 'json' //수신타입
         }).then(response => {
             console.log(response.data); //수신데이타
-            
-            setMusicVo(response.data.apiData);
 
-            console.log(musicVo);
+            setMusicNo(response.data.apiData.musicNo);
+            setTitle(response.data.apiData.title);
+            setArtistNo(response.data.apiData.artistNo);
+            setGenre(response.data.apiData.genre);
+            setReleasedDate(response.data.apiData.releasedDate);
+            setContent(response.data.apiData.musicContent);
+            setImageName(response.data.apiData.imageName);
+            setFileName(response.data.apiData.fileName);
 
 
         }).catch(error => {
@@ -106,10 +114,11 @@ const MusicUpdate = () => {
 
 
     
-    const handleSubmit = (e) => {
+    const handleUpdate = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
+        formData.append('musicNo', musicNo);
         formData.append('title', title);
         formData.append('artistNo', artistNo); // 아티스트 이름 전송
         formData.append('genre', genre);
@@ -118,7 +127,7 @@ const MusicUpdate = () => {
         formData.append('imageUrl', imageUrl);
         formData.append('fileUrl', fileUrl);
 
-        axios.post(`${process.env.REACT_APP_API_URL}/api/musicAdmins`, formData, {
+        axios.put(`${process.env.REACT_APP_API_URL}/api/musicAdmins`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then(response => {
@@ -193,7 +202,7 @@ const MusicUpdate = () => {
                         <div id="musicUpdate">
 
                             <div className="container">
-                                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                                <form onSubmit={handleUpdate} encType="multipart/form-data">
                                     <label htmlFor="title">음원 제목</label>
                                     <input
                                         type="text"
