@@ -46,37 +46,36 @@ body {
 
 .album-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 수직 정렬 */
     align-items: center;
     margin-bottom: 20px;
 }
 
-.info-container {
+
+.album-info {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
-    /* 이 부분에서 제목과 좋아요 버튼이 같은 행에 위치 */
+    margin-bottom: 20px;
 }
 
 
-.album-cover {
+.album-art {
     width: 130px;
-    height: 120px;
+    height: 130px;
     object-fit: cover;
     border-radius: 10px;
-    margin-bottom: 15px;
     border: 2px solid #717578;
-    /* 중간 그레이 */
+    margin-top: 20px; /* 이미지를 텍스트 밑으로 띄워 배치 */
 }
 
+
 .track-details {
-    flex-grow: 1;
-    /* 제목과 가수 정보를 화면 너비에 맞게 확장 */
-    text-align: center;
-    /* 텍스트는 왼쪽 정렬 */
-    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    margin-right: 10px; /* 타이틀과 좋아요 아이콘 간의 간격 */
 }
+
 
 .track-details h2 {
     font-size: 18px;
