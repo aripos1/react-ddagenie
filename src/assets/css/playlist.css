@@ -1,118 +1,254 @@
-/* 테이블 스타일 */
-#playlist-table, #likes-table {
+/* 공통 레이아웃 설정 */
+.mymusic #wrap-main {
     width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0px;
-    border: 1px solid #e0e0e0; /* 테두리를 가벼운 회색으로 */
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-#playlist-table th, #likes-table th {
-    background-color: #f0f0f0; /* 부드러운 배경색 */
-    font-weight: bold;
-    padding: 15px;
-    text-align: center;
-    border-bottom: 2px solid #ddd; /* 테두리 색상 약하게 */
-    color: #333;
-}
-
-#playlist-table td, #likes-table td {
-    padding: 15px;
-    border-bottom: 1px solid #eee; /* 가벼운 하단 테두리 */
-    text-align: center;
-    vertical-align: middle;
-}
-
-#playlist-table td img, #likes-table td img {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    margin-right: 10px;
-    border: 1px solid #ddd; /* 이미지 테두리 */
-}
-
-.song-info {
+    margin: 0 auto;
     display: flex;
-    align-items: center;
-    text-align: left; /* 텍스트 왼쪽 정렬 */
 }
 
-.song-info div {
-    margin-left: 15px;
-}
-
-.song-info p {
-    margin: 0;
-    font-size: 14px;
-}
-
-.song-info div p:first-child {
-    font-weight: bold;
-    color: #007bff; /* 제목을 파란색으로 강조 */
-}
-
-/* 버튼 스타일 */
-#playlist-table button, #likes-table button {
-    background-color: #007bff; /* 파란색 버튼 */
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 추가 */
-    transition: background-color 0.3s ease;
-}
-
-#playlist-table button:hover, #likes-table button:hover {
-    background-color: #0056b3; /* 버튼 호버 시 어두운 파란색 */
-}
-
-.action-buttons {
+.mymusic #wrap-body {
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* 사이드바 스타일 */
+.mymusic #wrap-side {
+    width: 20%;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
+
+.mymusic #profile-box {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.action-buttons button {
+.mymusic #profile-box img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    background-color: #fff;
+}
+
+.mymusic #profile-name-one p {
+    margin: 10px 0 5px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.mymusic #profile-edit a {
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+    background-color: #5F95F7;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.mymusic #profile-edit a.button-right {
+    background-color: #ccc;
+}
+
+/* 마이뮤직 리스트 및 좋아요 탭 스타일 */
+.mymusic #top-ct-list {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.mymusic .top-menu-item {
     padding: 10px 20px;
-    background-color: #28a745; /* 초록색 버튼 */
-    color: white;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
     border: none;
+    background: none;
+}
+
+.mymusic .top-menu-item:hover,
+.mymusic .top-menu-item.active {
+    border-bottom: 2px solid #5F95F7;
+    color: #5F95F7;
+}
+
+/* 메인 콘텐츠 스타일 */
+.mymusic #wrap-main-content {
+    width: 80%;
+}
+
+.mymusic #wrap-playlist,
+.mymusic #wrap-likes {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 테이블 스타일 */
+.mymusic table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.mymusic table th,
+.mymusic table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.mymusic table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: center;
+}
+
+.mymusic table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.mymusic .song-info {
+    display: flex;
+    align-items: center;
+}
+
+.mymusic .song-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+/* 버튼 스타일 */
+.mymusic button {
+    background-color: #5F95F7;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-.action-buttons button:hover {
-    background-color: #218838; /* 호버 시 어두운 초록색 */
+.mymusic button:hover {
+    background-color: #4a7bc1;
 }
 
-
-/* 페이지네이션 스타일 */
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
+.mymusic .action-buttons {
+    text-align: right;
     margin-top: 20px;
 }
 
-.pagination button {
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
+.mymusic .action-buttons button {
+    margin-left: 10px;
+}
+
+/* 로딩 메시지 */
+.mymusic .loading-message {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+}
+
+/* 테이블 내부의 체크박스 */
+.mymusic table th input[type="checkbox"],
+.mymusic table td input[type="checkbox"] {
     cursor: pointer;
+}
+
+/* 좋아요 아이콘 스타일 */
+.mymusic .like-icon {
+    font-size: 16px;
+    color: #bbb;
+    cursor: pointer;
+}
+
+.mymusic .like-icon.liked {
+    color: #ff5252;
+}
+
+.mymusic .like-icon:hover {
+    color: #ff5252;
+}
+
+
+/* 마이뮤직 페이지 CSS */
+#wrap-main-content .song-info img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+  }
+  
+  #wrap-side .profile-name img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  /* 테이블 내 콘텐츠 정렬 */
+  #wrap-playlist table, #wrap-likes table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #wrap-playlist th, #wrap-likes th, 
+  #wrap-playlist td, #wrap-likes td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #wrap-playlist th, #wrap-likes th {
+    background-color: #f5f5f5;
+  }
+  
+  .song-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .song-info div {
+    margin-left: 10px;
+  }
+  
+  .song-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  #wrap-main-content .btn-play, #wrap-main-content .btn-delete {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: #5F95F7;
+    color: #fff;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.pagination button.active {
-    background-color: #007bff;
-    color: white;
-    border: 1px solid #007bff;
-}
-
-.pagination button:hover {
-    background-color: #ddd;
-}
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  #wrap-main-content .btn-delete {
+    background-color: #e74c3c;
+  }
+  
+  #wrap-main-content .btn-play:hover, #wrap-main-content .btn-delete:hover {
+    opacity: 0.8;
+  }
+  
