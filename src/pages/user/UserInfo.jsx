@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
 
-import Header from '../include/Header';
+import Header from '../include/Header_search';
 import Footer from '../include/Footer';
 
 //css
@@ -88,7 +88,7 @@ const UserInfo = () => {
                 const imageUrl = `${process.env.REACT_APP_API_URL}/upload/${userVo.saveName}`;
                 setProfile(imageUrl || profileImage); // 파일 경로가 유효할 경우에만 이미지 표시
             } else {
-                console.error('No user data found');
+                console.error('회원 정보가 없습니다.');
             }
         }).catch(error => {
             console.error('유저 정보 로딩 실패:', error);
@@ -208,7 +208,7 @@ const UserInfo = () => {
                 </div>
 
                 {/* 메인 섹션 */}
-                <div id="wrap-main">
+                <div id="wrap-main" className="userinfo">
                     <div id="top-title" className="userinfotitle">
                         <h2>내 정보</h2>
                         <ul className="Breadcrumbs">
