@@ -167,7 +167,7 @@ const Index = () => {
                     {/* 페이지네이션 */}
                     <div className="pagination">
                         <span>&#60;</span>
-                        <span>1 / 5</span>
+                        <span>1 / 6</span>
                         <span>&#62;</span>
                     </div>
                 </div>
