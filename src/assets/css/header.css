@@ -13,6 +13,7 @@
 
 .ham #wrap-header>#purchase-button>.headBuy{
     font-size: 12px;
+    padding-left: 10px;
 }
 
 .ham #wrap-header>.header-main {
@@ -45,6 +46,7 @@
     padding: 10px;
     border: none;
     border-bottom: 2px solid #0095FF;
+    outline: none;
 }
 
 /* #wrap-header>.header-main>.header-left>#search-wrap>.btn-submit {
