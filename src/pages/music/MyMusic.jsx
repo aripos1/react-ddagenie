@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../../assets/css/all.css';
-import '../../assets/css/playlist.css';
+import '../../assets/css/mymusic.css';
 import '../../assets/css/jjinUtilize.css';
+import '../../assets/css/userinfo.css';
+
 import Header from '../include/Header';
 import Footer from '../include/Footer';
 import searchIcon from '../../assets/images/search.png';
@@ -124,8 +126,8 @@ const MyMusic = () => {
 
   // 체크박스 변경 핸들러
   const handleCheckboxChange = (mymusicNo) => {
-    setMyMusicList(prevList => 
-      prevList.map(song => 
+    setMyMusicList(prevList =>
+      prevList.map(song =>
         song.mymusicNo === mymusicNo ? { ...song, selected: !song.selected } : song
       )
     );
@@ -153,38 +155,45 @@ const MyMusic = () => {
     <div id="wrap-main">
       <Header />
 
-      <div id="wrap-body" className="clearfix">
+
+      <div id="wrap-body" className="clearfix ham">
+        {/* 사이드바 */}
         <div id="wrap-side">
           <div id="profile-box">
             <div className="profile-name">
-              <img src={profile} alt="프로필" />
+              <img src={profile} alt="" />
               <div className="profile-name-one">
-                <p><Link to="#"><strong>{authUser?.name || '사용자'}</strong> 님</Link></p>
+                <p><Link to="#"><strong></strong> 님</Link></p>
                 <Link to="#">프로필수정</Link>
               </div>
             </div>
             <div className="profile-edit">
-              <Link to="/user/info" className="button-left"><span>내정보</span></Link>
+              <Link to="#" className="button-left"><span>내정보</span></Link>
               <Link to="/user/utilize" className="button-right"><span>이용권내역</span></Link>
             </div>
           </div>
           <div id="profile-list">
-            <a href="#">
+            <Link to="#">
               <span>마이뮤직</span>
-            </a>
+            </Link>
             <div>
               <ul>
-                <li><a href="#" className="menu-item" onClick={() => handleTabClick('playlist')}><img src={searchIcon} alt="검색" /> 마이뮤직리스트</a></li>
-                <li><a href="#" className="menu-item" onClick={() => handleTabClick('likes')}><img src={searchIcon} alt="검색" /> 좋아요♥</a></li>
+                <li><Link to="#"><img src={searchIcon} alt="검색" /> 플레이 리스트</Link></li>
+                <li><Link to="#"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
               </ul>
             </div>
           </div>
         </div>
 
         <div id="wrap-main">
-          <div id="top-title">
-            <h2>마이뮤직</h2>
-            <p>홈  마이뮤직  <strong>{activeTab === 'playlist' ? '마이뮤직리스트' : '좋아요'}</strong></p>
+          <div id="top-title" className="userinfotitle">
+            <h2>내 정보</h2>
+            <ul className="Breadcrumbs">
+              <li><Link to="#">홈</Link> {'>'}</li>
+              <li><Link to="##">마이뮤직</Link> {'>'}</li>
+              <li><Link to="">내정보</Link> {'>'}</li>
+              <li><strong><Link to="#">기본정보 변경</Link></strong></li>
+            </ul>
           </div>
           <div id="top-ct-list" className="clearfix">
             <ul>
@@ -199,16 +208,13 @@ const MyMusic = () => {
             ) : (
               <>
                 {activeTab === 'playlist' && (
-                  <div id="wrap-playlist">
-                    <table id="playlist-table">
-                      <thead>
-                        <tr>
-                          <th>선택</th>
-                          <th>번호</th>
-                          <th>곡 정보</th>
-                          <th>듣기</th>
-                        </tr>
-                      </thead>
+                  <div className="my-music-playlist">
+                    <table className="my-music-table">
+                      <colgroup>
+                        <col style={{ width: '10%' }} />
+                        <col style={{ width: '60%' }} />
+                        <col style={{ width: '30%' }} />
+                      </colgroup>
                       <tbody>
                         {myMusicList.length > 0 ? (
                           myMusicList.map((song, index) => (
@@ -220,11 +226,14 @@ const MyMusic = () => {
                                   onChange={() => handleCheckboxChange(song.mymusicNo)}
                                 />
                               </td>
-                              <td>{index + 1}</td>
                               <td>
                                 <div className="song-info">
-                                  <img src={getImageUrl(song)} alt="앨범 커버" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                  <div>
+                                  <img
+                                    src={getImageUrl(song)}
+                                    alt="앨범 커버"
+                                    className="song-album-image"
+                                  />
+                                  <div className="song-details">
                                     <p>{song.title}</p>
                                     <p>{song.artistName} | {song.genre}</p>
                                   </div>
@@ -238,6 +247,7 @@ const MyMusic = () => {
                                     song.artistName,
                                     song.fileUrl
                                   )}
+                                  className="jelly-button"
                                 >
                                   듣기
                                 </button>
@@ -246,27 +256,26 @@ const MyMusic = () => {
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="5">마이뮤직 리스트가 없습니다.</td>
+                            <td colSpan="4">마이뮤직 리스트가 없습니다.</td>
                           </tr>
                         )}
                       </tbody>
                     </table>
-                    <div className="playlist-footer">
-                      <button onClick={deleteSelectedSongsFromMyMusic}>선택 삭제</button>
+                    <div className="my-music-footer">
+                      <button className="jelly-delete-button" onClick={deleteSelectedSongsFromMyMusic}>
+                        선택 삭제
+                      </button>
                     </div>
                   </div>
                 )}
-
                 {activeTab === 'likes' && (
-                  <div id="wrap-likes">
-                    <table id="likes-table">
-                      <thead>
-                        <tr>
-                          <th>번호</th>
-                          <th>곡 정보</th>
-                          <th>듣기</th>
-                        </tr>
-                      </thead>
+                  <div className="my-music-likes">
+                    <table className="my-music-table">
+                      <colgroup>
+                        <col style={{ width: '10%' }} />
+                        <col style={{ width: '60%' }} />
+                        <col style={{ width: '30%' }} />
+                      </colgroup>
                       <tbody>
                         {likedSongs.length > 0 ? (
                           likedSongs.map((song, index) => (
@@ -274,8 +283,8 @@ const MyMusic = () => {
                               <td>{index + 1}</td>
                               <td>
                                 <div className="song-info">
-                                  <img src={getImageUrl(song)} alt="앨범 커버" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                  <div>
+                                  <img src={getImageUrl(song)} alt="앨범 커버" className="song-album-image" />
+                                  <div className="song-details">
                                     <p>{song.title}</p>
                                     <p>{song.artistName} | {song.genre}</p>
                                   </div>
@@ -289,6 +298,7 @@ const MyMusic = () => {
                                     song.artistName,
                                     song.fileUrl
                                   )}
+                                  className="jelly-button"
                                 >
                                   듣기
                                 </button>
@@ -309,7 +319,6 @@ const MyMusic = () => {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
