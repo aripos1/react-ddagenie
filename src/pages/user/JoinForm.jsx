@@ -201,7 +201,7 @@ const JoinForm = () => {
                             </div>
                         </form>
                     </div>
-                    <footbar>
+                    <div id="foot-bar">
                         <ul>
                             <li><Link to="/terms">이용약관</Link></li>
                             <li><Link to="/privacy">개인정보처리방침</Link></li>
@@ -209,7 +209,7 @@ const JoinForm = () => {
                             <li><Link to="/customer-center">고객센터</Link></li>
                         </ul>
                         <p>Copyright © Ddagenie Music Corp. All rights reserved.</p>
-                    </footbar>
+                    </div>
                 </main>
 
                 <footer></footer>
