@@ -8,23 +8,23 @@ import logo from '../../assets/images/cuteddagenie.png';
 const MusicPlayer = () => {
     const [activeTab, setActiveTab] = useState('playlist');
     const [playlist, setPlaylist] = useState([]);
-    const [myMusic, setMyMusic] = useState([]); // 마이뮤직 리스트 상태
+    const [myMusic, setMyMusic] = useState([]);
     const [liked, setLiked] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-    const [authUser, setAuthUser] = useState(null); // 로그인한 유저 정보 저장
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [authUser, setAuthUser] = useState(null);
     const audioRef = useRef(null);
     const [error, setError] = useState(null);
     const [currentSong, setCurrentSong] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const navigate = useNavigate();
-    const location = useLocation(); // useLocation 훅 사용
+    const location = useLocation();
     const query = new URLSearchParams(location.search);
     const title = query.get('title');
     const artist = query.get('artist');
     const filePath = query.get('filePath');
-    const [currentTitle, setCurrentTitle] = useState('');  // 현재 곡의 타이틀
-    const [currentArtist, setCurrentArtist] = useState(''); // 현재 곡의 가수 이름
-    const [currentImage, setCurrentImage] = useState(logo); // 현재 곡의 이미지, 기본값으로 로고 설정
+    const [currentTitle, setCurrentTitle] = useState('');
+    const [currentArtist, setCurrentArtist] = useState('');
+    const [currentImage, setCurrentImage] = useState(logo);
 
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
@@ -57,6 +57,50 @@ const MusicPlayer = () => {
             setCurrentSong(songPath); // 현재 재생 중인 곡 설정
         }
     }, [filePath]);
+
+    // 좋아요 상태 및 개수 로드
+    useEffect(() => {
+        if (currentSong?.musicNo && authUser) {
+            loadLikeStatus(authUser.no, currentSong.musicNo);
+        }
+    }, [currentSong, authUser]);
+    useEffect(() => {
+        console.log('Liked state changed:', liked);
+    }, [liked]);
+    // 좋아요 상태 조회
+    const loadLikeStatus = (userNo, musicNo) => {
+        axios.get(`http://localhost:8888/api/like/status/${userNo}/${musicNo}`)
+            .then(response => {
+                // 서버에서 liked 상태를 반환했다고 가정하고, 그 상태를 기반으로 liked 상태 업데이트
+                setLiked(response.data.liked); // liked가 true/false 값이어야 함
+            })
+            .catch(error => {
+                console.error('Error fetching like status', error);
+                setLiked(false); // 오류 발생 시 기본 상태를 false로 설정
+            });
+    };
+
+
+    const toggleLike = () => {
+        if (!currentSong || !currentSong.musicNo || !authUser) {
+            console.error('currentSong or musicNo or authUser is missing.');
+            return;
+        }
+
+        axios.post('http://localhost:8888/api/like/toggle', {
+            userNo: authUser.no,
+            musicNo: currentSong.musicNo
+        })
+            .then(response => {
+                // 서버에서 "좋아요 추가됨" 또는 "좋아요 취소됨" 응답을 받아 liked 상태 변경
+                const newLikedStatus = response.data === '좋아요 추가됨';
+                setLiked(newLikedStatus);
+                console.log('Liked status updated:', newLikedStatus);
+            })
+            .catch(error => {
+                console.error('Error toggling like', error);
+            });
+    };
 
     // API에서 MyMusic 목록 로드
     const loadMyMusic = (userNo) => {
@@ -127,20 +171,17 @@ const MusicPlayer = () => {
 
 
     // s3 곡 재생
-    const playSong = (song) => {
-        let songPath = song.fileName || song.filePath;  // S3 경로가 있으면 우선 사용
+    const playSong = (song, index) => {
+        let songPath = song.fileName || song.filePath;
 
         if (!songPath || typeof songPath !== 'string') {
             console.error('songPath is null, undefined, or not a string:', songPath);
             return;
         }
 
-        if (songPath.startsWith('http')) {
-            console.log('Playing S3 URL:', songPath);
-        } else {
+        if (!songPath.startsWith('http')) {
             const fileName = songPath.split('\\').pop();
             songPath = `http://localhost:8888/upload/${fileName}`;
-            console.log('Playing local file:', songPath);
         }
 
         if (audioRef.current) {
@@ -150,11 +191,11 @@ const MusicPlayer = () => {
             audioRef.current.play();
         }
 
-        // 현재 곡, 타이틀, 가수, 이미지 정보 업데이트
-        setCurrentSong(songPath); // 현재 재생 중인 곡 경로 업데이트
-        setCurrentTitle(song.title); // 현재 곡 타이틀 업데이트
-        setCurrentArtist(song.artistName); // 현재 가수 업데이트
-        setCurrentImage(getImageUrl(song)); // 현재 이미지 업데이트 (로컬 또는 S3 경로에 맞게 처리)
+        setCurrentSong({ ...song, path: songPath }); // 곡 객체로 설정
+        setCurrentTitle(song.title);
+        setCurrentArtist(song.artistName);
+        setCurrentImage(getImageUrl(song));
+        setCurrentSongIndex(index); // 현재 곡 인덱스 설정
     };
 
 
@@ -259,10 +300,6 @@ const MusicPlayer = () => {
         }
     };
 
-    // 좋아요 상태 토글
-    const toggleLike = () => {
-        setLiked(!liked);
-    };
     // 재생목록에서 중복된 곡 삭제
     const removeDuplicateSongsFromDB = () => {
         if (!authUser || !authUser.no) {
@@ -318,7 +355,6 @@ const MusicPlayer = () => {
                         <div className="track-details">
                             <h2>{currentTitle}</h2> {/* 현재 재생 중인 곡의 타이틀 */}
                             <p>{currentArtist}</p> {/* 현재 재생 중인 곡의 가수 이름 */}
-
                             <div className={`like-icon ${liked ? 'liked' : ''}`} onClick={toggleLike}>
                                 <span>&hearts;</span>
                             </div>
