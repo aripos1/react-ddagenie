@@ -30,50 +30,61 @@ const Detail = () => {
         setUserNo(loggedUserNo); // 상태에 저장
         console.log(localStorage);
     }, []);
+
     // 음악 정보와 댓글 목록 가져오기
     useEffect(() => {
-        if (no) {
-            axios.get(`http://localhost:8888/api/music/${no}`, {
-                headers: { "Content-Type": "application/json; charset=utf-8" }
-            })
-            .then(response => {
-                if (response.data.result === 'success') {
-                    const musicVo = response.data.apiData;
-                    setTitle(musicVo.title);
-                    setArtistname(musicVo.artistName);
-                    setGenre(musicVo.genre);
-                    setReleasedDate(musicVo.releasedDate);
-                    setLikecount(musicVo.likeCount);
-                    setMusiccontent(musicVo.musicContent);
-                    setImagename(musicVo.imageName);
-                    setArtistNo(musicVo.artistNo);
-                    return axios.get(`http://localhost:8888/api/music/artist/${musicVo.artistNo}/${no}`);
-                }
-            })
-            .then(response => {
-                if (response.data.result === 'success') {
-                    setOtherTracks(response.data.apiData);
-                }
-            })
-            .catch(error => {
-                console.error('API 호출 오류:', error);
-            });
+        const fetchData = async () => {
+            if (no) {
+                try {
+                    // 음악 정보 가져오기
+                    const musicResponse = await axios.get(`http://localhost:8888/api/music/${no}`, {
+                        headers: { "Content-Type": "application/json; charset=utf-8" }
+                    });
+                    
+                    console.log('음악 정보 응답:', musicResponse.data); // 응답 로그
 
-            // 댓글 데이터 가져오기
-            axios.get(`http://localhost:8888/api/comments/${no}`)
-                .then(response => {
-                    if (response.data.result === 'success') {
-                        setComments(response.data.apiData);
+                    if (musicResponse.data.result === 'success') {
+                        const musicVo = musicResponse.data.apiData;
+                        setTitle(musicVo.title);
+                        setArtistname(musicVo.artistName);
+                        setGenre(musicVo.genre);
+                        setReleasedDate(musicVo.releasedDate);
+                        setLikecount(musicVo.likeCount);
+                        setMusiccontent(musicVo.musicContent);
+                        setImagename(musicVo.imageName);
+                        setArtistNo(musicVo.artistNo);
+                        
+                        // 다른 곡 가져오기
+                        const tracksResponse = await axios.get(`http://localhost:8888/api/music/artist/${musicVo.artistNo}/${no}`);
+                        console.log('다른 곡 응답:', tracksResponse.data); // 응답 로그
+                        if (tracksResponse.data.result === 'success') {
+                            setOtherTracks(tracksResponse.data.apiData);
+                        }
+                        
+                        // 댓글 데이터 가져오기
+                        const commentsResponse = await axios.get(`http://localhost:8888/api/comments/${no}`);
+                        console.log('댓글 응답:', commentsResponse.data); // 응답 로그
+                        if (commentsResponse.data.result === 'success') {
+                            setComments(commentsResponse.data.apiData);
+                        } else {
+                            console.error('댓글 데이터 오류:', commentsResponse.data.message);
+                        }
+                    } else {
+                        console.error('음악 데이터 오류:', musicResponse.data.message);
                     }
-                })
-                .catch(error => {
-                    console.error('댓글 데이터 가져오기 오류:', error);
-                });
-        }
+                } catch (error) {
+                    console.error('API 호출 오류:', error);
+                }
+            }
+        };
+
+        fetchData();
     }, [no]);
 
     // 댓글 등록 처리
-    const handleCommentSubmit = () => {
+    const handleCommentSubmit = (event) => {
+        event.preventDefault();
+       
         if (!userNo) {
             alert('로그인 후 댓글을 달 수 있습니다.');
             return;
@@ -85,25 +96,33 @@ const Detail = () => {
         }
 
         const commentData = {
-            user_no: userNo,
-            music_no: no,
-            re_content: newComment,
-            parent_no: 0, // 부모 댓글이 없으므로 0 설정
-            like_no: 0, // 좋아요 수 초기값
-            created_date: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
+            userNo: userNo,
+            musicNo: no,
+            reContent: newComment,
+            parentNo: 0, // 부모 댓글이 없으므로 0 설정
+            createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
         };
 
-        axios.post(`http://localhost:8888/api/comments/add`, commentData)
-            .then(response => {
-                if (response.data.result === 'success') {
-                    // 댓글 추가 후 입력값 초기화
-                    setNewComment('');
-                    setComments([...comments, { ...commentData, comment_no: response.data.comment_no }]); // 새 댓글 추가
-                }
-            })
-            .catch(error => {
-                console.error('댓글 등록 오류:', error);
-            });
+        axios.post('http://localhost:8888/api/comments/add', commentData, {
+            headers: {
+                "Content-Type": "application/json; charset=utf-8" // 헤더 설정
+            }
+        })
+        .then(response => {
+            console.log('댓글 등록 응답:', response.data); // 응답 로그
+            if (response.data.result === 'success') {
+                // 댓글 추가 후 입력값 초기화
+                setNewComment('');
+                const newCommentData = {
+                    ...commentData,
+                    comment_no: response.data.comment_no // 새 댓글의 ID
+                };
+                setComments(prevComments => [...prevComments, newCommentData]);
+            }
+        })
+        .catch(error => {
+            console.error('댓글 등록 오류:', error);
+        });
     };
 
     // 대댓글 등록 처리
@@ -119,21 +138,25 @@ const Detail = () => {
         }
 
         const replyData = {
-            user_no: userNo,
-            music_no: no,
-            re_content: replyContent,
-            parent_no: parentNo, // 부모 댓글 번호
-            like_no: 0, // 좋아요 수 초기값
-            created_date: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
+            userNo: userNo,
+            musicNo: no,
+            reContent: replyContent,
+            parentNo: parentNo, // 부모 댓글 번호
+            likeNo: 0, // 좋아요 수 초기값
+            createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
         };
 
         axios.post(`http://localhost:8888/api/comments/reply`, replyData)
             .then(response => {
+                console.log('대댓글 등록 응답:', response.data); // 응답 로그
                 if (response.data.result === 'success') {
                     // 대댓글 추가 후 입력값 초기화
                     setReplyContent('');
-                    // 댓글 목록 다시 가져오기
-                    setComments([...comments, { ...replyData, comment_no: response.data.comment_no }]); // 대댓글 추가
+                    const newReplyData = {
+                        ...replyData,
+                        comment_no: response.data.comment_no // 새 대댓글의 ID
+                    };
+                    setComments(prevComments => [...prevComments, newReplyData]); // 대댓글 추가
                 }
             })
             .catch(error => {
@@ -142,8 +165,10 @@ const Detail = () => {
     };
 
     const handleReplyToggle = (comment) => {
-        // 대댓글 보기 토글 기능을 구현
-        // 추가 로직 필요
+        const replyForm = document.getElementById(`reply-form-${comment.comment_no}`);
+        if (replyForm) {
+            replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+        }
     };
 
     return (
@@ -207,13 +232,12 @@ const Detail = () => {
                         {/* 댓글 리스트 */}
                         <div className="comment-section">
                             {comments.map(comment => (
-                                <div className="comment-item" key={comment.comment_no}>
-                                    <p><strong>{comment.user_no}</strong> <span>{comment.created_date}</span></p>
-                                    <p>{comment.re_content}</p>
+                                <div className="comment-item" key={comment.commentNo}>
+                                    <p><strong>{comment.userName}</strong> <span>{comment.createdDate}</span></p>
+                                    <p>{comment.reContent}</p>
                                     <button className="reply-toggle" onClick={() => handleReplyToggle(comment)}>대댓글 보기</button>
                                     {/* 대댓글 리스트 */}
-                                    {/* 대댓글 UI 추가 */}
-                                    <div className="reply-form" style={{ display: 'none' }}>
+                                    <div id={`reply-form-${comment.comment_no}`} className="reply-form" style={{ display: 'none' }}>
                                         <textarea 
                                             className="reply-input" 
                                             placeholder="대댓글을 입력하세요..." 
@@ -233,3 +257,6 @@ const Detail = () => {
 }
 
 export default Detail;
+
+
+
