@@ -60,7 +60,7 @@ const Detail = () => {
           
           <div className="album-section">
             <div className="album-cover">
-              <img src={imageName} alt="햄을 프라이팬에 구워서 김치와 싸 드셔보세요" className="album-img" />
+              <img src={imageName} alt="노래 이미지" className="album-img" />
             </div>
             <div className="album-info">
               <h1>{title}</h1>
@@ -85,30 +85,16 @@ const Detail = () => {
 
           {/* 다른 앨범 리스트 */}
           <div className="artist-album-list">
-            <h2>이 아티스트의 다른 앨범 더보기</h2>
+            <h2>이 아티스트의 다른 곡 더보기</h2>
             <div className="album-covers-container">
               <div className="cover-item">
                 <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (8).jfif" alt="YIM" />
                 <p>YIM</p>
               </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (13).jfif" alt="윤후" />
-                <p>윤후</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (11).jfif" alt="After Love" />
-                <p>After Love</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (1).jfif" alt="이별 뒷 그늘 부르다" />
-                <p>이별 뒷 그늘 부르다</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0.jfif" alt="Love Part 2" />
-                <p>Love Part 2</p>
-              </div>
+              
             </div>
           </div>
+          
 
           {/* 댓글 섹션 */}
           <div className="comments-section">

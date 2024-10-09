@@ -12,6 +12,7 @@ import Header from '../include/Header';
 const Index = () => {
     const navigate = useNavigate();
     const [topLikedSongs, setTopLikedSongs] = useState([]);
+    const [bannerImages, setBannerImages] = useState([]); // 배너 이미지 상태 추가
     const [authUser, setAuthUser] = useState(null); // 로그인된 유저 상태 추가
 
     // 로그인 유저 정보 가져오기 (localStorage)
@@ -32,9 +33,45 @@ const Index = () => {
         }
     };
 
+
+    //배너에 10개씩 띄우는 함수
+    const fetchBannerImages = async () => {
+        try {
+            const response = await axios.get('http://localhost:8888/api/main');
+            if (response.data.result === 'success') {
+                setBannerImages(response.data.apiData.slice(0, 10)); // 최대 10개의 배너 이미지
+                
+            } else {
+                console.error('Error fetching banner images');
+            }
+        } catch (error) {
+            console.error("Error fetching banner images:", error);
+        }
+    };
+    
     useEffect(() => {
-        fetchTopLikedSongs(); // 컴포넌트가 로드될 때 API 호출
+        fetchTopLikedSongs(); // 인기 순위 곡 API 호출
+        fetchBannerImages(); // 배너 이미지 API 호출
     }, []);
+
+    const getImageUrl = (song) => {
+        let imagePath = song.imageName || song.imagePath;
+
+        if (!imagePath || typeof imagePath !== 'string') {
+            console.error('imagePath is null, undefined, or not a string:', imagePath);
+            return chartimage; // 기본 이미지 경로로 변경
+        }
+
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            console.log('Using S3 image URL:', imagePath);
+            return imagePath;
+        } else {
+            const fileName = imagePath.split('\\').pop();
+            imagePath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
+            console.log('Using local image file:', imagePath);
+            return imagePath;
+        }
+    };
 
     // 팝업 창 열기 함수 (곡 정보 전달)
     const openPlayerPopup = (title, artist, fileUrl) => {
@@ -104,7 +141,7 @@ const Index = () => {
 
      // 이미지 클릭 시 음악 상세 페이지로 이동
      const handleImageClick = (musicNo) => {
-        navigate(`/music/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
+        navigate(`/main/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
     };
 
     return (
@@ -115,40 +152,17 @@ const Index = () => {
             <div className="container">
                 {/* 최신 음악 배너 */}
                 <div className="banner-section">
-                    <h2>최신음악</h2>
+                <h2>최신음악</h2>
                     <div className="banner-container">
-                        <div className="banner-item">
-                            <a href="hdrDetail.html">
-                                <img src={coverimage} alt="이미지 1" />
-                            </a>
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 2" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 3" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 4" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 5" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 6" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 7" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 8" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 9" />
-                        </div>
-                        <div className="banner-item">
-                            <img src={coverimage} alt="이미지 10" />
-                        </div>
+                        {bannerImages.map((music, index) => (
+                            <div className="banner-item" key={music.musicNo} onClick={() => handleImageClick(music.musicNo)}>
+                                <img src={music.imageName} alt={`배너 이미지 ${index + 1}`} />
+                                <div>
+                                    <span>{music.title}</span>  {/* 곡 제목 표시 */}
+                                    <span>{music.releasedDate}</span>  {/* 릴리즈 날짜 표시 */}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     {/* 페이지네이션 */}
                     <div className="pagination">
@@ -165,7 +179,14 @@ const Index = () => {
 
                 {/* 인기 순위 리스트 */}
                 <div className="ranking-section">
-                    <h2>인기순위</h2>
+                    <div className="ranking-header">
+                        <h2>인기순위</h2>
+                        <button
+                            className="icon-btn player-btn"
+                            onClick={() => openPlayerPopup()}
+                        >
+                        </button>
+                    </div>
                     <table className="playlist">
                         <colgroup>
                             <col style={{ width: '40px' }} />
@@ -185,7 +206,12 @@ const Index = () => {
                                     <td>{index + 1}</td>
                                     <td>
                                         <div className="song-info">
-                                            <img src={chartimage} alt="곡 커버" className="song-cover" />
+                                            <img
+                                                src={getImageUrl(song)}
+                                                alt={song.title}
+                                                className="song-cover"
+                                                onError={(e) => { e.target.src = chartimage; }} // 이미지 로드 실패 시 대체 이미지 사용
+                                            />
                                             <div className="song-details">
                                                 <span className="song-title">{song.title}</span>
                                                 <span className="artist">{song.artistName}</span>
@@ -214,6 +240,7 @@ const Index = () => {
                                         >
                                             +
                                         </button>
+
                                     </td>
                                 </tr>
                             ))}
