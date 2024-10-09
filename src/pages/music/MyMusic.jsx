@@ -56,7 +56,7 @@ const MyMusic = () => {
     try {
       const response = await axios.get(`http://localhost:8888/api/mymusiclist/${userNo}`);
       if (response.status === 200) {
-        setMyMusicList(response.data);
+        setMyMusicList(response.data.map(song => ({ ...song, selected: false })));
       } else {
         setError('마이뮤직 리스트를 불러오지 못했습니다.');
       }
@@ -72,11 +72,44 @@ const MyMusic = () => {
       if (response.status === 200) {
         setLikedSongs(response.data);
       } else {
-        setError('좋아요 리스트를 불러오지 못했습니다.');
+        setError('Failed to fetch liked songs.');
       }
-    } catch {
-      setError('좋아요 리스트를 불러오는 중 오류가 발생했습니다.');
+    } catch (error) {
+      console.error('Error fetching liked songs:', error);
+      setError('Error fetching liked songs.');
     }
+  };
+
+  // 재생 + 재생목록에 추가
+  const handlePlayAndAddToPlaylist = async (musicNo, title, artist, fileUrl) => {
+    if (!authUser) {
+      alert('로그인 해주세요.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8888/api/playlist/add', {
+        userNo: authUser.no,
+        musicNo,
+        title,
+        artist,
+        fileUrl,
+      });
+
+      if (response.status === 200) {
+        openPlayerPopup(title, artist, fileUrl);
+      } else {
+        console.error('재생목록에 곡 추가 실패');
+      }
+    } catch (error) {
+      console.error('Error adding song to playlist:', error);
+    }
+  };
+
+  const openPlayerPopup = (title, artist, fileUrl) => {
+    const popupOptions = `width=735,height=460,resizable=yes,scrollbars=no`;
+    const popupUrl = `/music/musicplayer?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&fileUrl=${encodeURIComponent(fileUrl)}`;
+    window.open(popupUrl, 'Music Player', popupOptions);
   };
 
   // 탭 전환 핸들러
@@ -86,16 +119,41 @@ const MyMusic = () => {
 
   // 곡 이미지 URL 설정
   const getImageUrl = (song) => {
-    return song.imageName || profileImage; // 이미지 URL이 있으면 사용하고, 없으면 기본 이미지 사용
+    return song.imageName || profileImage;
   };
 
-  
+  // 체크박스 변경 핸들러
+  const handleCheckboxChange = (mymusicNo) => {
+    setMyMusicList(prevList => 
+      prevList.map(song => 
+        song.mymusicNo === mymusicNo ? { ...song, selected: !song.selected } : song
+      )
+    );
+  };
+
+  // 선택된 곡 삭제
+  const deleteSelectedSongsFromMyMusic = () => {
+    const selectedSongs = myMusicList.filter(song => song.selected);
+    const musicNos = selectedSongs.map(song => song.musicNo);
+    if (musicNos.length > 0) {
+      axios.post('http://localhost:8888/api/mymusic/delete', {
+        musicNos: musicNos,
+        userNo: authUser.no
+      })
+        .then(response => {
+          setMyMusicList(myMusicList.filter(song => !song.selected));
+        })
+        .catch(error => {
+          setError('Error deleting songs from MyMusic.');
+        });
+    }
+  };
+
   return (
     <div id="wrap-main">
       <Header />
 
       <div id="wrap-body" className="clearfix">
-        {/* 사이드바 */}
         <div id="wrap-side">
           <div id="profile-box">
             <div className="profile-name">
@@ -145,18 +203,23 @@ const MyMusic = () => {
                     <table id="playlist-table">
                       <thead>
                         <tr>
-                          <th><input type="checkbox" /></th>
+                          <th>선택</th>
                           <th>번호</th>
                           <th>곡 정보</th>
                           <th>듣기</th>
-                          <th>삭제</th>
                         </tr>
                       </thead>
                       <tbody>
                         {myMusicList.length > 0 ? (
                           myMusicList.map((song, index) => (
                             <tr key={song.mymusicNo || `playlist-${index}`}>
-                              <td><input type="checkbox" /></td>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  checked={!!song.selected}
+                                  onChange={() => handleCheckboxChange(song.mymusicNo)}
+                                />
+                              </td>
                               <td>{index + 1}</td>
                               <td>
                                 <div className="song-info">
@@ -167,8 +230,18 @@ const MyMusic = () => {
                                   </div>
                                 </div>
                               </td>
-                              <td><button>듣기</button></td>
-                              <td><button>삭제</button></td>
+                              <td>
+                                <button
+                                  onClick={() => handlePlayAndAddToPlaylist(
+                                    song.musicNo,
+                                    song.title,
+                                    song.artistName,
+                                    song.fileUrl
+                                  )}
+                                >
+                                  듣기
+                                </button>
+                              </td>
                             </tr>
                           ))
                         ) : (
@@ -178,6 +251,9 @@ const MyMusic = () => {
                         )}
                       </tbody>
                     </table>
+                    <div className="playlist-footer">
+                      <button onClick={deleteSelectedSongsFromMyMusic}>선택 삭제</button>
+                    </div>
                   </div>
                 )}
 
@@ -205,7 +281,18 @@ const MyMusic = () => {
                                   </div>
                                 </div>
                               </td>
-                              <td><button>듣기</button></td>
+                              <td>
+                                <button
+                                  onClick={() => handlePlayAndAddToPlaylist(
+                                    song.musicNo,
+                                    song.title,
+                                    song.artistName,
+                                    song.fileUrl
+                                  )}
+                                >
+                                  듣기
+                                </button>
+                              </td>
                             </tr>
                           ))
                         ) : (

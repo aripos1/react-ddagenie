@@ -306,18 +306,26 @@ const MusicPlayer = () => {
             console.error('User not logged in or userNo is missing.');
             return;
         }
-
+    
+        console.log('Removing duplicates for userNo:', authUser.no); // 로그 추가
+    
         axios.post('http://localhost:8888/api/playlist/remove-duplicates', {
-            userNo: authUser.no  // 현재 로그인한 사용자 번호 사용
+            userNo: authUser.no  // userNo를 JSON 형식으로 전송
         })
-            .then(response => {
-                console.log('중복 삭제 성공:', response.data);
-                loadPlaylist(authUser.no);  // 재생목록을 다시 불러와 업데이트
-            })
-            .catch(error => {
-                console.error('중복 삭제 중 오류 발생:', error.response ? error.response.data : error.message);
-            });
+        .then(response => {
+            console.log('중복 삭제 성공:', response.data);
+            loadPlaylist(authUser.no);  // 중복 제거 후 재생 목록 다시 불러오기
+        })
+        .catch(error => {
+            if (error.response) {
+                console.error('중복 삭제 중 오류 발생:', error.response.data);
+            } else {
+                console.error('네트워크 오류 또는 서버에 도달하지 못함:', error.message);
+            }
+        });
     };
+    
+
     // 로그인 상태가 아니면 로그인 메시지 표시
     if (!isLoggedIn) {
         return (

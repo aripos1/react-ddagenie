@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../assets/css/all.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/footer.css">
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <title>메인페이지1</title>
+
+</head>
+
+<body>
+    <div id="wrap-main">
+        <div id="wrap-head">
+            <div id="wrap-header">
+                <div id="purchase-button">
+                    <img src="../../assets/images/wallet.png" alt="이용권 구매 아이콘1">
+                    <a href="#">이용권구매</a>
+                </div>
+                <div class="header-main">
+                    <div class="header-left">
+                        <span class="logo">
+                            <img src="../../assets/images/cuteddagenie.png" alt="로고">
+                        </span>
+                        <div id="search-wrap">
+                            <input type="search" id="sc-fd" class="ipt-search" maxlength="200" autocomplete="off"
+                                placeholder="가을에 듣기 좋은 감성 발라드">
+                            <input type="submit" class="btn-submit" value="검색">
+                        </div>
+                    </div>
+                </div>
+                <div class="gnb" id="gnb">
+                    <ul class="menu clearfix">
+                        <li><a href="#" class="gnb-menu">지니차트</a></li>
+                        <li><a href="#" class="gnb-menu">최신음악</a></li>
+                        <li><a href="#" class="gnb-menu">장르음악</a></li>
+                    </ul>
+                    <div class="gnb-my">
+                        <button type="button" class="btn login-join-btn">로그인/회원가입</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- 최신 음악 배너 -->
+            <div class="banner-section">
+                <h2>최신음악</h2>
+                <div class="banner-container">
+                   
+                    <div class="banner-item">
+                         <a href="hdrDetail.html">
+                        <img src="../../assets/images/logo.webp" alt="이미지 1">
+                        </a>
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 2">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 3">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 4">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 5">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 6">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 7">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 8">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 9">
+                    </div>
+                    <div class="banner-item">
+                        <img src="../../assets/images/logo.webp" alt="이미지 10">
+                    </div>
+                </div>
+                <!-- 페이지네이션 -->
+                <div class="pagination">
+                    <span>&#60;</span>
+                    <span>1 / 5</span>
+                    <span>&#62;</span>
+                </div>
+            </div>
+
+            <!-- 광고 배너 섹션 추가 -->
+            <div class="ad-banner">
+                <img src="../../assets/images/캡처.PNG" alt="광고 배너 이미지">
+            </div>
+
+            <!-- 인기 순위 리스트 -->
+            <div class="ranking-section">
+                <h2>인기순위</h2>
+                <table class="playlist">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>곡 정보</th>
+                            <th>재생/추가</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/cuteddagenie.png" alt="곡 커버" class="song-cover">
+                                    <div class="song-details">
+                                        <span class="song-title">HAPPY</span>
+                                        <span class="artist">DAY6 (데이식스)</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="icon-container">
+                                    <button class="icon-btn play-btn">▶</button>
+                                    <button class="icon-btn plus-btn">+</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="song-info">
+                                    <img src="../../assets/images/cuteddagenie.png"  alt="곡 커버" class="song-cover">
+                                    <div class="song-details">
+                                        <span class="song-title">Welcome to the Show</span>
+                                        <span class="artist">DAY6 (데이식스)</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="icon-container">
+                                    <button class="icon-btn play-btn">▶</button>
+                                    <button class="icon-btn plus-btn">+</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- 추가 곡들 -->
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+
+        <script>
+            // 팝업 창 열기 함수
+            function openPlayerPopup(title, artist, cover, songUrl) {
+                const popupWidth = 735;  // 팝업 너비
+                const popupHeight = 460;  // 팝업 높이
+                const popupOptions = `width=${popupWidth},height=${popupHeight},resizable=yes,scrollbars=no`;
+                const popupUrl = `../../views/music/player.html?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&cover=${encodeURIComponent(cover)}&songUrl=${encodeURIComponent(songUrl)}`;
+                window.open(popupUrl, 'Music Player', popupOptions);
+            }
+        </script>
+    </div>
+</body>
+
+</html>
