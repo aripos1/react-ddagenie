@@ -29,6 +29,28 @@ const MusicList = () => {
     const searchParams = new URLSearchParams(location.search);
     const searchQuery = searchParams.get('query'); // ?query=searchTerm 형태로 검색어 받기
 
+    // 이미지 URL을 가져오는 함수
+    const getImageUrl = (song) => {
+        let imagePath = song.imageName || song.imagePath;
+    
+        if (!imagePath || typeof imagePath !== 'string') {
+            console.error('imagePath is null, undefined, or not a string:', imagePath);
+            return '/default-image.png';
+        }
+    
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            // S3 URL일 경우 제대로된 URL 반환
+            console.log('Using S3 image URL:', imagePath);
+            return imagePath; 
+        } else {
+            // 로컬 경로를 웹에서 접근 가능한 URL로 변환
+            const fileName = imagePath.split('\\').pop();
+            imagePath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
+            console.log('Using local image file:', imagePath);
+            return imagePath;
+        }
+    };
+    
     // 컴포넌트 마운트 시 API를 통해 데이터 가져오기
     useEffect(() => {
         setLoading(true);
@@ -219,8 +241,8 @@ const MusicList = () => {
                                             <Link to="#" className="cover" onClick={() => fnViewAlbumLayer(song.imageName)}>
                                                 <span className="mask"></span>
                                                 <img
-                                                    src={`${process.env.REACT_APP_API_URL}/upload/${song.imageName}`}
-                                                    onError={(e) => { e.target.src = `${process.env.REACT_APP_API_URL}/upload/cuteddagenie.png`; }} // 이미지 로드 실패 시 대체 이미지 사용
+                                                    src={getImageUrl(song)}
+                                                    onError={(e) => { e.target.src = '/default-image.png'; }} // 이미지 로드 실패 시 대체 이미지 사용
                                                     alt={song.albumTitle}
                                                 />
                                             </Link>
