@@ -1,18 +1,18 @@
 @charset "utf-8";
 
-.ham #wrap-maincontent {
+.ham .userinfo .userinfo #wrap-maincontent {
     width: auto;
 
     margin-top: 20px;
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.ham .userinfotitle {
+.ham .userinfo .userinfotitle {
     display: flex;
     align-items: center;
 }
 
-.ham .Breadcrumbs {
+.ham .userinfo .Breadcrumbs {
     display: flex;
     list-style-type: none;
     padding-left: 0;
@@ -22,11 +22,11 @@
     position: absolute;
 }
 
-.ham .Breadcrumbs li {
+.ham .userinfo .Breadcrumbs li {
     margin-right: 5px;
 }
 
-.ham .Breadcrumbs li:last-child {
+.ham .userinfo .Breadcrumbs li:last-child {
     font-weight: bold;
 }
 
@@ -42,11 +42,11 @@
 }
 
 /**/
-.ham #top-ct-list>ul>.hidden {
+.ham .userinfo #top-ct-list>ul>.hidden {
     display: none;
 }
 
-.ham #top-ct-list>ul>#custom-confirm {
+.ham .userinfo #top-ct-list>ul>#custom-confirm {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -60,19 +60,19 @@
 }
 
 
-.ham #top-ct-list>ul>#custom-confirm>.confirm-content {
+.ham .userinfo #top-ct-list>ul>#custom-confirm>.confirm-content {
     background-color: #fff;
     text-align: center;
 }
 
-.ham #top-ct-list>ul>#custom-confirm>.confirm-content p {
+.ham .userinfo #top-ct-list>ul>#custom-confirm>.confirm-content p {
     margin-bottom: 20px;
     font-size: 16px;
     color: #000;
     font-weight: bolder;
 }
 
-.ham #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-yes {
+.ham .userinfo #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-yes {
     background-color: #7DD848;
     border: none;
     padding: 10px 20px;
@@ -82,7 +82,7 @@
     font-size: 14px;
 }
 
-.ham #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-no {
+.ham .userinfo #top-ct-list>ul>#custom-confirm>.confirm-content>#confirm-no {
     background-color: #D9D9D9;
     border: none;
     padding: 10px 20px;
@@ -92,13 +92,13 @@
     font-size: 14px;
 }
 
-.ham #top-ct-list>ul>#custom-confirm>.confirm-content>.confirm-btn:hover {
+.ham .userinfo #top-ct-list>ul>#custom-confirm>.confirm-content>.confirm-btn:hover {
     background-color: #b38e2c;
     /* hover시 조금 더 어두운 골드 */
 }
 
 /* li 내부 a 태그 */
-.ham #top-ct-list ul li button {
+.ham .userinfo #top-ct-list ul li button {
     display: block;
     width: 100%;
     text-decoration: none;
@@ -111,28 +111,18 @@
     font-weight: bold;
 }
 
-.ham #gnb ul .logout {
-    border: none;
-    margin-top: -4px;
-    cursor: pointer;
-    background-color: #fff;
-}
-
-
-
-
 /* info table 스타일 */
-.ham .info-table {
+.ham .userinfo .info-table {
     width: 100%;
     border-collapse: collapse;
     border-top: solid 2px #000000;
 }
 
-.ham .info-table>thead>tr {
+.ham .userinfo .info-table>thead>tr {
     height: 100px;
 }
 
-.ham .info-table>thead>tr>td>input {
+.ham .userinfo .info-table>thead>tr>td>input {
     padding: 3px 10px 4px;
     height: 40px;
     width: 400px;
@@ -145,51 +135,51 @@
     box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .05);
 }
 
-.ham .info-table>thead>tr>td #input-id {
+.ham .userinfo .info-table>thead>tr>td #input-id {
     border: none;
     box-shadow: none;
 }
 
-.ham .info-table>thead>tr>td #input-id:hover {
+.ham .userinfo .info-table>thead>tr>td #input-id:hover {
     border: none;
     box-shadow: none;
     cursor: default;
 }
 
 
-.ham .info-table>thead>tr>td>#username {
+.ham .userinfo .info-table>thead>tr>td>#username {
     border: none !important;
     box-shadow: none !important;
 }
 
-.ham .info-table>thead>tr>td>#address {
+.ham .userinfo .info-table>thead>tr>td>#address {
     width: 374px;
 }
 
-.ham .info-table>thead>tr>td>#postalcode {
+.ham .userinfo .info-table>thead>tr>td>#postalcode {
     margin-bottom: 15px;
 }
 
-.ham .info-table th,
-.ham .info-table td {
+.ham .userinfo .info-table th,
+.ham .userinfo .info-table td {
     padding: 10px;
     border: 1px solid #ddd;
     vertical-align: middle;
 }
 
-.ham .info-table th {
+.ham .userinfo .info-table th {
     width: 30%;
     text-align: left;
     background-color: #f5f5f5;
     font-weight: bold;
 }
 
-.ham .info-table td {
+.ham .userinfo .info-table td {
     text-align: left;
     background-color: #fff;
 }
 
-.ham .info-table>tbody>tr>td #input-img {
+.ham .userinfo .info-table>tbody>tr>td #input-img {
     width: 257px;
     padding: 8px;
     margin-top: 5px;
@@ -200,14 +190,14 @@
 }
 
 
-.ham .profile-photo {
+.ham .userinfo .profile-photo {
     display: flex;
     align-items: center;
     margin-top: 10px;
 }
 
-.ham .profile-photo img,
-.ham .profile-name img {
+.ham .userinfo .profile-photo img,
+.ham .userinfo .profile-name img {
     width: 100px;
     height: 100px;
     object-fit: cover;
@@ -218,13 +208,13 @@
 }
 
 
-.ham .submit-section {
+.ham .userinfo .submit-section {
     margin-top: 30px;
     text-align: right;
 }
 
-.ham .btn-submit,
-.ham .btn-cancel {
+.ham .userinfo .btn-submit,
+.ham .userinfo .btn-cancel {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #5F95F7;
@@ -235,14 +225,14 @@
     margin: 0 10px;
 }
 
-.ham .btn-cancel {
+.ham .userinfo .btn-cancel {
     background-color: #ccc;
 }
 
-.ham .btn-submit:hover {
+.ham .userinfo .btn-submit:hover {
     background-color: #4a7bc1;
 }
 
-.ham .btn-cancel:hover {
+.ham .userinfo .btn-cancel:hover {
     background-color: #999;
 }

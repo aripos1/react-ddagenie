@@ -54,6 +54,25 @@ const Index = () => {
         fetchBannerImages(); // 배너 이미지 API 호출
     }, []);
 
+    const getImageUrl = (song) => {
+        let imagePath = song.imageName || song.imagePath;
+
+        if (!imagePath || typeof imagePath !== 'string') {
+            console.error('imagePath is null, undefined, or not a string:', imagePath);
+            return chartimage; // 기본 이미지 경로로 변경
+        }
+
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            console.log('Using S3 image URL:', imagePath);
+            return imagePath;
+        } else {
+            const fileName = imagePath.split('\\').pop();
+            imagePath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
+            console.log('Using local image file:', imagePath);
+            return imagePath;
+        }
+    };
+
     // 팝업 창 열기 함수 (곡 정보 전달)
     const openPlayerPopup = (title, artist, fileUrl) => {
         const popupWidth = 735;
@@ -122,7 +141,7 @@ const Index = () => {
 
      // 이미지 클릭 시 음악 상세 페이지로 이동
      const handleImageClick = (musicNo) => {
-        navigate(`/main/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
+        navigate(`/music/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
     };
 
     return (
@@ -160,7 +179,14 @@ const Index = () => {
 
                 {/* 인기 순위 리스트 */}
                 <div className="ranking-section">
-                    <h2>인기순위</h2>
+                    <div className="ranking-header">
+                        <h2>인기순위</h2>
+                        <button
+                            className="icon-btn player-btn"
+                            onClick={() => openPlayerPopup()}
+                        >
+                        </button>
+                    </div>
                     <table className="playlist">
                         <colgroup>
                             <col style={{ width: '40px' }} />
@@ -180,7 +206,12 @@ const Index = () => {
                                     <td>{index + 1}</td>
                                     <td>
                                         <div className="song-info">
-                                            <img src={chartimage} alt="곡 커버" className="song-cover" />
+                                            <img
+                                                src={getImageUrl(song)}
+                                                alt={song.title}
+                                                className="song-cover"
+                                                onError={(e) => { e.target.src = chartimage; }} // 이미지 로드 실패 시 대체 이미지 사용
+                                            />
                                             <div className="song-details">
                                                 <span className="song-title">{song.title}</span>
                                                 <span className="artist">{song.artistName}</span>
@@ -209,6 +240,7 @@ const Index = () => {
                                         >
                                             +
                                         </button>
+
                                     </td>
                                 </tr>
                             ))}

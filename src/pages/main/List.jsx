@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation  } from 'react-router-dom';
 import axios from 'axios';
 
-import Header from '../include/Header';
+// import Header from '../include/Header';
+import Header from '../include/Header_search';
 import Footer from '../include/Footer';
 
 import '../../assets/css/all.css';
@@ -19,40 +20,78 @@ const MusicList = () => {
     const [checkedItems, setCheckedItems] = useState([]); // 개별 체크 상태 추가
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 추가
 
+    const location = useLocation(); // URL의 query string을 가져오기 위해 useLocation 사용
+
     const itemsPerPage = 50; // 페이지당 곡 수
 
 
+    // 검색어를 URL에서 가져오기
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('query'); // ?query=searchTerm 형태로 검색어 받기
 
+    // 이미지 URL을 가져오는 함수
+    const getImageUrl = (song) => {
+        let imagePath = song.imageName || song.imagePath;
+    
+        if (!imagePath || typeof imagePath !== 'string') {
+            console.error('imagePath is null, undefined, or not a string:', imagePath);
+            return '/default-image.png';
+        }
+    
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            // S3 URL일 경우 제대로된 URL 반환
+            console.log('Using S3 image URL:', imagePath);
+            return imagePath; 
+        } else {
+            // 로컬 경로를 웹에서 접근 가능한 URL로 변환
+            const fileName = imagePath.split('\\').pop();
+            imagePath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
+            console.log('Using local image file:', imagePath);
+            return imagePath;
+        }
+    };
+    
     // 컴포넌트 마운트 시 API를 통해 데이터 가져오기
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/musiclist`,
-            headers: { "Content-Type": "application/json" },
-            responseType: 'json'
-        }).then(response => {
-            console.log(response.data);
-            console.log(response.data.apiData);
+        setLoading(true);
 
-            if (response.data.result === 'success') {
-                setSongData(response.data.apiData); // API로부터 데이터를 가져와 상태에 저장
-            } else {
-                console.error('음악 목록 조회 실패');
-                setSongData([]); // 실패 시 빈 배열로 설정
-            }
-        }).catch(error => {
-            setError("데이터를 불러오는 중 오류가 발생했습니다."); // 에러 상태 설정
-            console.error("데이터 불러오기 실패:", error);
-            setSongData([]); // 에러 발생 시 빈 배열로 설정
-        }).finally(() => {
-            setLoading(false); // 로딩이 끝나면 false로 설정
-        });
-    }, []);
+        const apiUrl = searchQuery 
+            ? `${process.env.REACT_APP_API_URL}/api/search?query=${searchQuery}`  // 검색어가 있을 때
+            : `${process.env.REACT_APP_API_URL}/api/musiclist`;  // 검색어가 없을 때 전체 목록
+
+        axios({
+                method: 'get',
+                url: apiUrl,
+                headers: { "Content-Type": "application/json" },
+                responseType: 'json'
+            }).then(response => {
+                console.log(response.data);
+                console.log(response.data.apiData);
+
+                if (response.data.result === 'success') {
+                    setSongData(response.data.apiData); // API로부터 데이터를 가져와 상태에 저장
+                } else {
+                    console.error('음악 목록 조회 실패');
+                    setSongData([]); // 실패 시 빈 배열로 설정
+                }
+            }).catch(error => {
+                setError("데이터를 불러오는 중 오류가 발생했습니다."); // 에러 상태 설정
+                console.error("데이터 불러오기 실패:", error);
+                setSongData([]); // 에러 발생 시 빈 배열로 설정
+            }).finally(() => {
+                setLoading(false); // 로딩이 끝나면 false로 설정
+            });
+        }, [searchQuery]); //searchQuery가 변경될 때마다 실행
+    
+
+    
 
     // 페이지 변경 핸들러
     const handlePageChange = (pageNumber) => {
         console.log(`Changing to page: ${pageNumber}`); // 페이지 번호 확인 로그
         setCurrentPage(pageNumber);
+        setAllChecked(false); // 페이지 변경 시 전체 체크 해제
+        setCheckedItems([]);  // 선택된 항목도 리셋
     };
 
     // 현재 페이지에 해당하는 곡 데이터를 필터링
@@ -109,8 +148,6 @@ const MusicList = () => {
             prev.includes(musicNo) ? prev.filter(id => id !== musicNo) : [...prev, musicNo]
         );
     };
-
-
 
     // 로딩 상태 처리
     if (loading) {
@@ -193,7 +230,7 @@ const MusicList = () => {
                                         </td>
                                         <td className="number">
                                             {/* 페이지 넘버링을 맞추기 위해 currentPage와 itemsPerPage를 활용 */}
-                                            {(currentPage - 1) * itemsPerPage + index + 1} {/* 올바른 순위 계산 */}
+                                            {(currentPage - 1) * itemsPerPage + index + 1}
                                             <span className="likes">
                                                 <span className="likes-none">
                                                     <span className="likeicon">{song.likeCount}</span>
@@ -204,8 +241,8 @@ const MusicList = () => {
                                             <Link to="#" className="cover" onClick={() => fnViewAlbumLayer(song.imageName)}>
                                                 <span className="mask"></span>
                                                 <img
-                                                    src={`${process.env.REACT_APP_API_URL}/upload/${song.imageName}`}
-                                                    onError={(e) => { e.target.src = `${process.env.REACT_APP_API_URL}/upload/cuteddagenie.png`; }} // 이미지 로드 실패 시 대체 이미지 사용
+                                                    src={getImageUrl(song)}
+                                                    onError={(e) => { e.target.src = '/default-image.png'; }} // 이미지 로드 실패 시 대체 이미지 사용
                                                     alt={song.albumTitle}
                                                 />
                                             </Link>
@@ -254,7 +291,13 @@ const MusicList = () => {
                         </tbody>
                     </table>
                     <div className="option-toolbar">
-                        <input type="checkbox" className="all-check" title="전체 선택" />
+                        <input
+                            type="checkbox"
+                            className="all-check"
+                            title="전체 선택"
+                            onChange={fnHandleAllCheck} // 전체 선택 핸들러 추가
+                            checked={allChecked}
+                        />
                         <Link to="#" className="btn btn-listen" title="재생" onClick={() => fnPlayArrSong(1)}>듣기</Link>
                         <Link to="#" className="btn btn-add" title="추가" onClick={() => fnPlayArrSong(3)}>
                             <span className="hide">재생목록에 </span>추가
@@ -265,7 +308,7 @@ const MusicList = () => {
                             </Link>
                         </div>
                         <div className="check-length" style={{ display: 'none' }}>
-                            <em>0</em>곡 선택
+                            <em>{checkedItems.length}</em>곡 선택
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,7 @@ const MusicPlayer = () => {
     const filePath = query.get('filePath');
     const [currentTitle, setCurrentTitle] = useState('');  // 현재 곡의 타이틀
     const [currentArtist, setCurrentArtist] = useState(''); // 현재 곡의 가수 이름
-    const [currentImage, setCurrentImage] = useState(''); // 현재 곡의 이미지
+    const [currentImage, setCurrentImage] = useState(logo); // 현재 곡의 이미지, 기본값으로 로고 설정
 
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
@@ -40,16 +40,7 @@ const MusicPlayer = () => {
             setAuthUser(null);
         }
     }, []);
-    useEffect(() => {
-        if (isLoggedIn && authUser && authUser.no) {
-            console.log('authUser.no:', authUser.no);  // userNo 확인
-            loadPlaylist(authUser.no); // 유저 번호로 재생목록 로드
-            loadMyMusic(authUser.no);  // 유저 번호로 마이뮤직 로드
-        } else {
-            console.log("authUser or no is undefined");
-        }
-    }, [isLoggedIn, authUser]);
-    // 재생 목록 및 마이뮤직 리스트 로드
+
     useEffect(() => {
         if (isLoggedIn && authUser && authUser.no) {
             console.log('authUser.no:', authUser.no);  // userNo 확인
@@ -113,35 +104,12 @@ const MusicPlayer = () => {
     };
     console.log('Playlist:', playlist);
 
-    // //로컬 곡 선택 시 재생
-    // const playSong = (filePath, index) => {
-    //     console.log('Clicked song index:', index); // 인덱스 확인용 로그 추가
-
-    //     if (!filePath || typeof filePath !== 'string') { // filePath가 null, undefined 또는 문자열이 아닌 경우 처리
-    //         console.error('filePath is null, undefined, or not a string:', filePath);
-    //         return;
-    //     }
-
-    //     const fileName = filePath.split('\\').pop(); // 윈도우 경로에서 파일명만 추출
-    //     console.log('File path:', filePath);
-    //     const songPath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;  // 파일 경로 설정
-
-    //     if (audioRef.current) {
-    //         audioRef.current.pause();  // 이전 재생 중인 파일 중지
-    //         audioRef.current.currentTime = 0;  // 재생 시작 위치를 처음으로 설정
-    //         audioRef.current.src = songPath; // 오디오 태그의 소스 설정
-    //         audioRef.current.play(); // 자동 재생
-    //     }
-
-    //     setCurrentSong(songPath); // 현재 재생 중인 곡 설정
-    //     setCurrentSongIndex(index); // 현재 재생 중인 곡 인덱스 설정
-    // };
     const getImageUrl = (song) => {
         let imagePath = song.imageName || song.imagePath;  // S3 경로가 있으면 우선 사용
 
         if (!imagePath || typeof imagePath !== 'string') {
             console.error('imagePath is null, undefined, or not a string:', imagePath);
-            return '/default-image.png';  // 기본 이미지 경로
+            return logo;  // 기본 이미지 경로
         }
 
         if (imagePath.startsWith('http')) {
@@ -359,8 +327,8 @@ const MusicPlayer = () => {
                             src={currentImage}  // 현재 재생 중인 곡의 이미지
                             alt={currentTitle}
                             className="album-art"
+                            onError={(e) => { e.target.src = logo; }} // 이미지 로드 실패 시 로고 이미지로 대체
                         />
-
                     </div>
                 </div>
                 <audio ref={audioRef} id="audio-player" controls onEnded={handleSongEnd}>
