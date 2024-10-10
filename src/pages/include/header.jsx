@@ -31,6 +31,7 @@ const Header = () => {
     const [dayDifference, setDayDifference] = useState(null);
     const [finishTime, setFinishTime] = useState('');
     
+    
 
     /*---일반 변수--------------------------------*/
     //디비시간 가져오기
@@ -64,12 +65,24 @@ const Header = () => {
             // console.log(currentDate);
 
             //로그인한회원 >> 이용권 사용여부체크
-            if(dayDifference >= 0){
-                // console.log('dd');
-                console.log('사용가능한 이용권입니다.');
-                authUser.ticket_status = '이용중'
+            if(dayDifference >= 0 ){
+                setAuthUser(JSON.parse(localStorage.getItem('authUser')))
+                console.log('5465531531531351616~~~~~~~~~~~~~~')
                 
-                localStorage.setItem('authUser', JSON.stringify(authUser));
+                console.log(authUser.ticket_status)
+                if( !(authUser.ticket_status === "해지요청" || authUser.ticket_status === "해지완료")){
+                    // console.log('dd');
+                    console.log('사용가능한 이용권입니다.');
+                    authUser.ticket_status = '이용중'
+                    
+                    localStorage.setItem('authUser', JSON.stringify(authUser));
+                }else if(authUser.ticket_status === '해지완료'){
+                    console.log('해지완료요')
+                    setDayDifference(-1);
+                }else if(authUser.ticket_status === '해지요청'){
+                    console.log('해지요청중')
+                }
+                
 
             }else{
                 // console.log('mm');
@@ -84,7 +97,7 @@ const Header = () => {
                 //디비에 상태값 보내주기
                 axios({
                     method: 'put', 			// put, post, delete                   
-                    url: 'http://localhost:8888/api/state/'+userNo,
+                    url: `${process.env.REACT_APP_API_URL}/api/state/${userNo}`,
                     //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                                       //get delete
                     //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put

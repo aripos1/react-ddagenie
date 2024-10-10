@@ -1,6 +1,7 @@
 //import 라이브러리
-import React,{useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import React,{useEffect,  useState} from 'react';
+import { Link, useParams,useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 //import 컴포넌트
@@ -18,6 +19,19 @@ import Footer from '../include/Footer';
 const JdeleteForm = () => {
 
     /* ---라우터 관련 ------ */
+    const {userNo} = useParams();
+    
+    // 가져온 값들 넣기
+    const [paymentStart,setPaymentStart] = useState('');
+    const [paymentFinish,setPaymentFinish] = useState('');
+    const [ticketStatus,setTicketStatus] = useState('');
+    const [goodsName,setGoodsName] = useState('');
+    const [terminationStatus, setTerminationStatus] = useState('');
+    const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
+    const navigate = useNavigate();
+
+    //const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
+    //const [ticketStatus, setTicketStatus] = useState('');
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     
@@ -27,12 +41,106 @@ const JdeleteForm = () => {
 
 
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
-    
 
-        //문법임. 여기안에 담겨진다.
-        
+    //setTicketStatus(authUser.ticketStatus);
+    //console.log(ticketStatus);
+
+    //해지 가능한 리스트 가져오기
+    const getDeleteList = ()=>{
+        console.log(userNo);
+
+        //서버로 전송
+        axios({
+
+            method: 'get', // put, post, delete
+
+            url: `${process.env.REACT_APP_API_URL}/api/delete/${userNo}`,//get delete
+
+            //headers: { "Content-Type": "application/json; charset=utf-8" }, // post put
+            //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
+
+            //params: guestbookVo, // get delete 쿼리스트링(파라미터)
+            //data: guestbookVo, // put, post, JSON(자동변환됨)
+            //data: formData, // 첨부파일 multipart방식   //파라미터 처럼 받음 !!json아님!!
+
+            responseType: 'json' //수신타입
+
+        }).then(response => {
+
+            console.log(response); //수신데이타
+            //console.log(response.data.apiData);
+            if(response.data.result === 'success'){
+                
+                console.log("성공")
+                setPaymentStart(response.data.apiData.paymentStart);
+                setPaymentFinish(response.data.apiData.paymentFinish);
+                setTicketStatus(response.data.apiData.ticketStatus);
+                setGoodsName(response.data.apiData.goodsName);
+                
+                console.log("티켓스테터스")
+                
+            }else{
+                console.log("실패")
+            }
+
+
+        }).catch(error => {
+
+            console.log(error);
+
+        });
+
+    };console.log(ticketStatus);
+
+        //해지신청
+        const handleDelete = ()=>{
+            
+            // setTerminationStatus('해지요청');
+            
+            //서버로 전송
+        axios({
+
+            method: 'put', // put, post, delete
+
+            url: `${process.env.REACT_APP_API_URL}/api/user/${userNo}`,//get delete
+
+            //headers: { "Content-Type": "application/json; charset=utf-8" }, // post put
+            //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
+
+            //params: guestbookVo, // get delete 쿼리스트링(파라미터)
+            //data: terminationStatus, // put, post, JSON(자동변환됨)
+            //data: formData, // 첨부파일 multipart방식   //파라미터 처럼 받음 !!json아님!!
+
+            responseType: 'json' //수신타입
+
+        }).then(response => {
+
+            console.log(response); //수신데이타
+            console.log(response.data.apiData);
+
+            if(response.data.apiData > 0){
+                console.log('해지요청완료')
+
+                authUser.ticket_status = '해지요청'
+                
+                localStorage.setItem('authUser', JSON.stringify(authUser));
+                
+                
+                
+            }
             
 
+
+        }).catch(error => {
+
+            console.log(error);
+
+        });
+
+        };
+        
+            
+        // setAuthUser(JSON.parse(localStorage.getItem('authUser')))
     
 
 
@@ -43,7 +151,7 @@ const JdeleteForm = () => {
     //3. 전송 (ajax 사용)
 
     useEffect(()=>{
-
+        getDeleteList();
     },[]);
 
 
@@ -67,7 +175,7 @@ const JdeleteForm = () => {
                             </div>
                             <div className="profile-edit">
                                 <Link to="#" className="button-left"><span>내정보</span></Link>
-                                <Link to="#" className="button-right"><span>이용권내역</span></Link>
+                                <Link to="/user/utilize" className="button-right"><span>이용권내역</span></Link>
                             </div>
                         </div>
                         <div id="profile-list">
@@ -89,7 +197,7 @@ const JdeleteForm = () => {
                         </div>
                         <div id="top-ct-list">
                             <ul>
-                                <li><Link to="#">이용권 상세내역</Link></li>
+                                <li><Link to="/user/utilize">이용권 상세내역</Link></li>
                                 <li><Link to="#">이용권 해지/취소 신청</Link></li>
                             </ul>
                         </div>
@@ -110,18 +218,28 @@ const JdeleteForm = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
+                                {(ticketStatus === '이용중' || ticketStatus === '해지요청')? (
                                     <tr className="table-line">
-                                        <td>1일권</td>
-                                        <td>2024-10-03</td>
-                                        <td>2024-10-04</td>
-                                        <td>사용중</td>
-                                        <td class="not-background">
-                                            <button className="sy-btn-delete" type="button" >해지신청</button>
+                                        <td>{goodsName}</td>
+                                        <td>{paymentStart}</td>
+                                        <td>{paymentFinish}</td>
+                                        <td>{ticketStatus}</td>
+                                        <td className="not-background">
+                                        {ticketStatus !== '해지요청' ? (
+                                            <button className="sy-btn-delete" type="submin" onClick={handleDelete} >해지신청</button>
+                                            ) : (
+                                                <span></span>
+                                            )} 
+                                            
                                         </td>
+                                        
                                     </tr>
+                                    ) : (
                                     <tr>
                                         <td colSpan="5">해지/취소 가능한 이용권이 없습니다</td>
                                     </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>

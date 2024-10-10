@@ -48,7 +48,7 @@ function App() {
           <Route path='/admin/musicupdate/:no' element={<MusicUpdate />} />
           <Route path='/user/payment' element={<Payment />} />
           <Route path='/user/Utilize' element={<Utilize />} />
-          <Route path='/user/deleteForm' element={<JdeleteForm />} />
+          <Route path='/user/deleteForm/:userNo' element={<JdeleteForm />} />
           <Route path='/admin/adminPayment' element={<AdminPayment />} />
           <Route path='/main/detail/:no' element={<Detail/>}/>
 
