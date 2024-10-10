@@ -34,10 +34,7 @@ function App() {
           <Route path='/musiclist' element={<MusicList />} />
           <Route path='/music/musicplayer' element={<MusicPlayer />} />
           <Route path='/user/mymusic' element={<MyMusic />} />
-
-
           <Route path='/user/pay/:no' element={<Pay />} />
-
           <Route path='/login' element={<LoginForm />} />
           <Route path='/signup' element={<JoinForm />} />
           <Route path='/joinok' element={<JoinComplete />} />
