@@ -69,7 +69,7 @@ const MusicPlayer = () => {
     }, [liked]);
     // 좋아요 상태 조회
     const loadLikeStatus = (userNo, musicNo) => {
-        axios.get(`http://localhost:8888/api/like/status/${userNo}/${musicNo}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/like/status/${userNo}/${musicNo}`)
             .then(response => {
                 // 서버에서 liked 상태를 반환했다고 가정하고, 그 상태를 기반으로 liked 상태 업데이트
                 setLiked(response.data.liked); // liked가 true/false 값이어야 함
@@ -87,7 +87,7 @@ const MusicPlayer = () => {
             return;
         }
 
-        axios.post('http://localhost:8888/api/like/toggle', {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/like/toggle`, {
             userNo: authUser.no,
             musicNo: currentSong.musicNo
         })
@@ -110,7 +110,7 @@ const MusicPlayer = () => {
         }
         console.log('Loading MyMusic for userNo:', userNo);
 
-        axios.get(`http://localhost:8888/api/mymusiclist/${userNo}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/mymusiclist/${userNo}`)
             .then(response => {
                 const data = Array.isArray(response.data) ? response.data : [response.data];
                 const updatedMyMusic = data.map((song, index) => ({
@@ -133,7 +133,7 @@ const MusicPlayer = () => {
         }
         console.log('Loading playlist for userNo:', userNo);
 
-        axios.get(`http://localhost:8888/api/playlist/${userNo}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/api/playlist/${userNo}`)
             .then(response => {
                 const updatedPlaylist = response.data.map((song, index) => ({
                     ...song,
@@ -163,7 +163,7 @@ const MusicPlayer = () => {
         } else {
             // 로컬 경로를 웹에서 접근 가능한 URL로 변환 (이 부분은 S3 URL이 아닐 경우만 처리)
             const fileName = imagePath.split('\\').pop(); // 로컬 경로에서 파일명만 추출
-            imagePath = `http://localhost:8888/upload/${fileName}`;  // 로컬 파일 경로를 URL로 변환
+            imagePath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;  // 로컬 파일 경로를 URL로 변환
             console.log('Using local image file:', imagePath);
             return imagePath;
         }
@@ -181,7 +181,7 @@ const MusicPlayer = () => {
 
         if (!songPath.startsWith('http')) {
             const fileName = songPath.split('\\').pop();
-            songPath = `http://localhost:8888/upload/${fileName}`;
+            songPath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
         }
 
         if (audioRef.current) {
@@ -213,7 +213,7 @@ const MusicPlayer = () => {
 
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
-        axios.post('http://localhost:8888/api/playlist/add', {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
             userNo: authUser.no, // 현재 사용자 번호
             musicNo: song.musicNo // 추가할 곡의 musicNo
         })
@@ -249,7 +249,7 @@ const MusicPlayer = () => {
     const addToMyMusic = () => {
         const selectedSongs = playlist.filter(song => song.selected);
         if (selectedSongs.length > 0) {
-            axios.post('http://localhost:8888/api/mymusic/add', {
+            axios.post('${process.env.REACT_APP_API_URL}/api/mymusic/add', {
                 musicNos: selectedSongs.map(song => song.musicNo),
                 userNo: authUser.no
             })
@@ -269,7 +269,7 @@ const MusicPlayer = () => {
         const selectedSongs = playlist.filter(song => song.selected);
         const musicNos = selectedSongs.map(song => song.musicNo);
         if (musicNos.length > 0) {
-            axios.post('http://localhost:8888/api/playlist/delete', {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/delete`, {
                 musicNos: musicNos,
                 userNo: authUser.no
             })
@@ -287,7 +287,7 @@ const MusicPlayer = () => {
         const selectedSongs = myMusic.filter(song => song.selected);
         const musicNos = selectedSongs.map(song => song.musicNo);
         if (musicNos.length > 0) {
-            axios.post('http://localhost:8888/api/mymusic/delete', {
+            axios.post('${process.env.REACT_APP_API_URL}/api/mymusic/delete', {
                 musicNos: musicNos,
                 userNo: authUser.no
             })
@@ -309,7 +309,7 @@ const MusicPlayer = () => {
     
         console.log('Removing duplicates for userNo:', authUser.no); // 로그 추가
     
-        axios.post('http://localhost:8888/api/playlist/remove-duplicates', {
+        axios.post('${process.env.REACT_APP_API_URL}/api/playlist/remove-duplicates', {
             userNo: authUser.no  // userNo를 JSON 형식으로 전송
         })
         .then(response => {

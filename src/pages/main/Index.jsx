@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import '../../assets/css/all.css';
 import '../../assets/css/index.css';
 import chartimage from '../../assets/images/cuteddagenie.png';
-import coverimage from '../../assets/images/logo.webp';
 import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
 import Header from '../include/Header';

@@ -56,7 +56,7 @@ const MyMusic = () => {
   // 마이뮤직 리스트 API 호출
   const loadMyMusicList = async (userNo) => {
     try {
-      const response = await axios.get(`http://localhost:8888/api/mymusiclist/${userNo}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/mymusiclist/${userNo}`);
       if (response.status === 200) {
         setMyMusicList(response.data.map(song => ({ ...song, selected: false })));
       } else {
@@ -70,7 +70,7 @@ const MyMusic = () => {
   // 좋아요한 곡 리스트 API 호출
   const loadLikedSongs = async (userNo) => {
     try {
-      const response = await axios.get(`http://localhost:8888/api/like/list/${userNo}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/like/list/${userNo}`);
       if (response.status === 200) {
         setLikedSongs(response.data);
       } else {
@@ -90,7 +90,7 @@ const MyMusic = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8888/api/playlist/add', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
         userNo: authUser.no,
         musicNo,
         title,
@@ -138,7 +138,7 @@ const MyMusic = () => {
     const selectedSongs = myMusicList.filter(song => song.selected);
     const musicNos = selectedSongs.map(song => song.musicNo);
     if (musicNos.length > 0) {
-      axios.post('http://localhost:8888/api/mymusic/delete', {
+      axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/delete`, {
         musicNos: musicNos,
         userNo: authUser.no
       })
