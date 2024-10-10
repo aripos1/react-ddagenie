@@ -8,20 +8,10 @@ import '../../assets/css/musicAdmin.css';
 
 const ItemMusic = ( props ) => {
 
-    /*---라우터 관련-------------------------------*/
-
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
-
-    /*---일반 변수--------------------------------*/
     const { music, musicList } = props;
     
 
-
-    /*---일반 메소드 -----------------------------*/
-
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
     const handleDelete = () => {
-        console.log('handleDelete');
 
         const confirmDelete = window.confirm("삭제하시겠습니까?");
 
@@ -46,6 +36,14 @@ const ItemMusic = ( props ) => {
 
     };
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 2자리로
+        const day = String(date.getDate()).padStart(2, '0'); // 일을 2자리로
+        return `${year}-${month}-${day}`; // YYYY-MM-DD 형식
+    };
+
 
 
 
@@ -57,18 +55,15 @@ const ItemMusic = ( props ) => {
             
                 <tr>
                     
-
+                    <td>{music.musicNo}</td>
                     <td>{music.title}</td>
                     <td>{music.artistName}</td>
                     <td>{music.genre}</td>
-                    <td>{music.releasedDate}</td>
+                    <td>{formatDate(music.releasedDate)}</td>
                     <td>{music.musicContent}</td>
                     <td><Link to={`/admin/musicupdate/${music.musicNo}`} className="action-btn" rel="noreferrer noopener">수정</Link></td>
-                    <td><input type="button" value="삭제" className="action-btn delete-btn" onClick={handleDelete} /></td>
+                    <td><input type="button" value="삭제" className="delete-btn" onClick={handleDelete} /></td>
                 
-
-                
-                        
                 </tr>
 
 
