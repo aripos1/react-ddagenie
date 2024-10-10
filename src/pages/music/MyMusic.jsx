@@ -5,11 +5,14 @@ import '../../assets/css/all.css';
 import '../../assets/css/mymusic.css';
 import '../../assets/css/jjinUtilize.css';
 import '../../assets/css/userinfo.css';
-
+import Modal from './Modal'; // 모달 컴포넌트 import
+import MusicPlayer from './MusicPlayer'; // MusicPlayer 컴포넌트 import
 import Header from '../include/Header';
 import Footer from '../include/Footer';
 import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img2.png';
+
+
 
 const MyMusic = () => {
   const [activeTab, setActiveTab] = useState('playlist');
@@ -20,7 +23,8 @@ const MyMusic = () => {
   const [profile, setProfile] = useState(profileImage);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
   // 사용자 정보 로드
   useEffect(() => {
     const storedUser = localStorage.getItem('authUser');
@@ -82,37 +86,16 @@ const MyMusic = () => {
     }
   };
 
-  // 재생 + 재생목록에 추가
-  const handlePlayAndAddToPlaylist = async (musicNo, title, artist, fileUrl) => {
-    if (!authUser) {
-      alert('로그인 해주세요.');
-      return;
-    }
-
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
-        userNo: authUser.no,
-        musicNo,
-        title,
-        artist,
-        fileUrl,
-      });
-
-      if (response.status === 200) {
-        openPlayerPopup(title, artist, fileUrl);
-      } else {
-        console.error('재생목록에 곡 추가 실패');
-      }
-    } catch (error) {
-      console.error('Error adding song to playlist:', error);
-    }
+  const handlePlayAndAddToPlaylist = (musicNo, title, artist, fileUrl) => {
+    setSelectedSong({ musicNo, title, artist, fileUrl });
+    setIsModalOpen(true);
   };
 
-  const openPlayerPopup = (title, artist, fileUrl) => {
-    const popupOptions = `width=735,height=460,resizable=yes,scrollbars=no`;
-    const popupUrl = `/music/musicplayer?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&fileUrl=${encodeURIComponent(fileUrl)}`;
-    window.open(popupUrl, 'Music Player', popupOptions);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedSong(null);
   };
+
 
   // 탭 전환 핸들러
   const handleTabClick = (tab) => {
@@ -318,6 +301,17 @@ const MyMusic = () => {
             )}
           </div>
         </div>
+        {/* 모달 컴포넌트 사용 */}
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          {selectedSong && (
+            <MusicPlayer
+              modalTitle={selectedSong.title}
+              modalArtist={selectedSong.artist}
+              modalFileUrl={selectedSong.fileUrl}
+              useModal={true}
+            />
+          )}
+        </Modal>
       </div>
       <Footer />
     </div>

@@ -25,7 +25,7 @@ const Index = () => {
     // API에서 인기순위(좋아요 순위) 곡을 가져오는 함수
     const fetchTopLikedSongs = async () => {
         try {
-            const response = await axios.get('http://localhost:8888/api/top-liked-songs');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/top-liked-songs`);
             setTopLikedSongs(response.data);
         } catch (error) {
             console.error("Error fetching top liked songs:", error);
@@ -36,7 +36,7 @@ const Index = () => {
     //배너에 10개씩 띄우는 함수
     const fetchBannerImages = async () => {
         try {
-            const response = await axios.get('http://localhost:8888/api/main');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/main`);
             if (response.data.result === 'success') {
                 setBannerImages(response.data.apiData.slice(0, 10)); // 최대 10개의 배너 이미지
                 
@@ -92,7 +92,7 @@ const Index = () => {
 
         try {
             // 재생목록에 곡 추가
-            const response = await axios.post('http://localhost:8888/api/playlist/add', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
                 userNo: authUser.no, // 로그인된 유저의 사용자 번호
                 musicNo: musicNo,
                 title: title,
@@ -121,7 +121,7 @@ const Index = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8888/api/mymusic/add', {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
                 userNo: authUser.no, // 로그인된 유저의 사용자 번호
                 musicNo: musicNo,
                 title: title,

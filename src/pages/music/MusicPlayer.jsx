@@ -3,9 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../../assets/css/all.css';
 import '../../assets/css/player.css';
-import logo from '../../assets/images/cuteddagenie.png';
+import profileImage from '../../assets/images/default_img2.png';
 
-const MusicPlayer = () => {
+const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, useModal = false }) => {
     const [activeTab, setActiveTab] = useState('playlist');
     const [playlist, setPlaylist] = useState([]);
     const [myMusic, setMyMusic] = useState([]);
@@ -19,13 +19,48 @@ const MusicPlayer = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const query = new URLSearchParams(location.search);
-    const title = query.get('title');
-    const artist = query.get('artist');
-    const filePath = query.get('filePath');
+    const title = query.get('title') || 'Unknown Title';
+    const artist = query.get('artist') || 'Unknown Artist';
+    const filePath = query.get('filePath') || null;
     const [currentTitle, setCurrentTitle] = useState('');
     const [currentArtist, setCurrentArtist] = useState('');
-    const [currentImage, setCurrentImage] = useState(logo);
+    const [currentImage, setCurrentImage] = useState(profileImage);
+    const fileUrl = query.get('fileUrl') || null;
+    const queryTitle = query.get('title') || 'Unknown Title';
+    const queryArtist = query.get('artist') || 'Unknown Artist';
+    const queryFileUrl = query.get('fileUrl') || null;
 
+    const [isDragging, setIsDragging] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+
+
+    const resolvedTitle = useModal ? modalTitle : queryTitle;
+    const resolvedArtist = useModal ? modalArtist : queryArtist;
+    const resolvedFileUrl = useModal ? modalFileUrl : queryFileUrl;
+
+    // 모달의 드래그 시작
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartPosition({
+            x: e.clientX - position.x,
+            y: e.clientY - position.y,
+        });
+    };
+
+    // 드래그 시 위치 업데이트
+    const handleMouseMove = (e) => {
+        if (isDragging) {
+            const newX = e.clientX - startPosition.x;
+            const newY = e.clientY - startPosition.y;
+            setPosition({ x: newX, y: newY });
+        }
+    };
+
+    // 드래그 종료
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
@@ -42,6 +77,24 @@ const MusicPlayer = () => {
     }, []);
 
     useEffect(() => {
+        const storedUser = localStorage.getItem('authUser');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setIsLoggedIn(true);
+            setAuthUser(parsedUser);
+        } else {
+            setIsLoggedIn(false);
+            setAuthUser(null);
+        }
+    }, []);
+    useEffect(() => {
+        if (audioRef.current && modalFileUrl) {
+            audioRef.current.src = modalFileUrl;
+            audioRef.current.play();
+        }
+    }, [modalFileUrl]);
+
+    useEffect(() => {
         if (isLoggedIn && authUser && authUser.no) {
             console.log('authUser.no:', authUser.no);  // userNo 확인
             loadPlaylist(authUser.no); // 유저 번호로 재생목록 로드
@@ -52,11 +105,16 @@ const MusicPlayer = () => {
     }, [isLoggedIn, authUser]);
 
     useEffect(() => {
-        if (filePath) {
-            const songPath = `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(filePath)}`;
+        const songPath = fileUrl || (filePath ? `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(filePath)}` : null);
+
+        if (songPath) {
             setCurrentSong(songPath); // 현재 재생 중인 곡 설정
+            if (audioRef.current) {
+                audioRef.current.src = songPath; // 오디오 태그에 파일 경로 설정
+                audioRef.current.play(); // 곡 자동 재생
+            }
         }
-    }, [filePath]);
+    }, [fileUrl, filePath]);
 
     // 좋아요 상태 및 개수 로드
     useEffect(() => {
@@ -149,23 +207,20 @@ const MusicPlayer = () => {
     console.log('Playlist:', playlist);
 
     const getImageUrl = (song) => {
-        let imagePath = song.imageName || song.imagePath;  // S3 경로가 있으면 우선 사용
+        let imagePath = song.imageName || song.imagePath;
 
         if (!imagePath || typeof imagePath !== 'string') {
             console.error('imagePath is null, undefined, or not a string:', imagePath);
-            return logo;  // 기본 이미지 경로
+            return profileImage;
         }
 
+        // S3 경로가 있으면 그대로 사용
         if (imagePath.startsWith('http')) {
-            // S3 URL일 경우
-            console.log('Using S3 image URL:', imagePath);
-            return imagePath; // 이미 S3 URL이므로 그대로 반환
-        } else {
-            // 로컬 경로를 웹에서 접근 가능한 URL로 변환 (이 부분은 S3 URL이 아닐 경우만 처리)
-            const fileName = imagePath.split('\\').pop(); // 로컬 경로에서 파일명만 추출
-            imagePath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;  // 로컬 파일 경로를 URL로 변환
-            console.log('Using local image file:', imagePath);
             return imagePath;
+        } else {
+            // 로컬 경로를 웹 URL로 변환
+            const fileName = imagePath.split('\\').pop();
+            return `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
         }
     };
 
@@ -179,9 +234,10 @@ const MusicPlayer = () => {
             return;
         }
 
+        // 파일 경로가 S3 URL이 아니라면, API URL로 변환
         if (!songPath.startsWith('http')) {
             const fileName = songPath.split('\\').pop();
-            songPath = `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
+            songPath = `${process.env.REACT_APP_API_URL}/assets/musicfile/${fileName}`;
         }
 
         if (audioRef.current) {
@@ -197,6 +253,7 @@ const MusicPlayer = () => {
         setCurrentImage(getImageUrl(song));
         setCurrentSongIndex(index); // 현재 곡 인덱스 설정
     };
+
 
 
     // 현재 곡이 종료되면 자동으로 다음 곡 재생
@@ -249,7 +306,7 @@ const MusicPlayer = () => {
     const addToMyMusic = () => {
         const selectedSongs = playlist.filter(song => song.selected);
         if (selectedSongs.length > 0) {
-            axios.post('${process.env.REACT_APP_API_URL}/api/mymusic/add', {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
                 musicNos: selectedSongs.map(song => song.musicNo),
                 userNo: authUser.no
             })
@@ -287,7 +344,7 @@ const MusicPlayer = () => {
         const selectedSongs = myMusic.filter(song => song.selected);
         const musicNos = selectedSongs.map(song => song.musicNo);
         if (musicNos.length > 0) {
-            axios.post('${process.env.REACT_APP_API_URL}/api/mymusic/delete', {
+            axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/delete`, {
                 musicNos: musicNos,
                 userNo: authUser.no
             })
@@ -306,25 +363,25 @@ const MusicPlayer = () => {
             console.error('User not logged in or userNo is missing.');
             return;
         }
-    
+
         console.log('Removing duplicates for userNo:', authUser.no); // 로그 추가
-    
-        axios.post('${process.env.REACT_APP_API_URL}/api/playlist/remove-duplicates', {
+
+        axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/remove-duplicates`, {
             userNo: authUser.no  // userNo를 JSON 형식으로 전송
         })
-        .then(response => {
-            console.log('중복 삭제 성공:', response.data);
-            loadPlaylist(authUser.no);  // 중복 제거 후 재생 목록 다시 불러오기
-        })
-        .catch(error => {
-            if (error.response) {
-                console.error('중복 삭제 중 오류 발생:', error.response.data);
-            } else {
-                console.error('네트워크 오류 또는 서버에 도달하지 못함:', error.message);
-            }
-        });
+            .then(response => {
+                console.log('중복 삭제 성공:', response.data);
+                loadPlaylist(authUser.no);  // 중복 제거 후 재생 목록 다시 불러오기
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.error('중복 삭제 중 오류 발생:', error.response.data);
+                } else {
+                    console.error('네트워크 오류 또는 서버에 도달하지 못함:', error.message);
+                }
+            });
     };
-    
+
 
     // 로그인 상태가 아니면 로그인 메시지 표시
     if (!isLoggedIn) {
@@ -332,7 +389,7 @@ const MusicPlayer = () => {
             <div className="popup-player">
                 <div className="player-left">
                     <div className="logo">
-                        <img src={logo} alt="logo" style={{ height: '50px' }} />
+                        <img src={profileImage} alt="logo" style={{ height: '50px' }} />
                     </div>
                     <div className="album-info">
                         <div className="info-container">
@@ -352,11 +409,33 @@ const MusicPlayer = () => {
         );
     }
 
+    if (useModal) {
+        return (
+            <div className="modal-overlay" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+                <div
+                    className="modal-content draggable"
+                    style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+                    onMouseDown={handleMouseDown}
+                >
+                    <button className="modal-close" onClick={onClose}>
+                        &times;
+                    </button>
+                    <div className="player">
+                        <h2>{modalTitle}</h2>
+                        <p>{modalArtist}</p>
+                        <audio ref={audioRef} controls>
+                            <source src={modalFileUrl} type="audio/mp3" />
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="popup-player">
             <div className="player-left">
                 <div className="logo">
-                    <img src={logo} alt="logo" style={{ height: '50px' }} />
+                    <img src={profileImage} alt="logo" style={{ height: '50px' }} />
                 </div>
                 <div className="album-info">
                     <div className="info-container">
@@ -371,7 +450,7 @@ const MusicPlayer = () => {
                             src={currentImage}  // 현재 재생 중인 곡의 이미지
                             alt={currentTitle}
                             className="album-art"
-                            onError={(e) => { e.target.src = logo; }} // 이미지 로드 실패 시 로고 이미지로 대체
+                            onError={(e) => { e.target.src = profileImage; }} // 이미지 로드 실패 시 로고 이미지로 대체
                         />
                     </div>
                 </div>
