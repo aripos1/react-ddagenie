@@ -36,7 +36,7 @@ const Detail = () => {
             if (no) {
                 try {
                     // 음악 정보 가져오기
-                    const musicResponse = await axios.get(`http://localhost:8888/api/detail/${no}`, {
+                    const musicResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/detail/${no}`, {
                         headers: { "Content-Type": "application/json; charset=utf-8" }
                     });
 
@@ -52,13 +52,13 @@ const Detail = () => {
                         setArtistNo(musicVo.artistNo);
 
                         // 다른 곡 가져오기
-                        const tracksResponse = await axios.get(`http://localhost:8888/api/music/artist/${musicVo.artistNo}/${no}`);
+                        const tracksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/music/artist/${musicVo.artistNo}/${no}`);
                         if (tracksResponse.data.result === 'success') {
                             setOtherTracks(tracksResponse.data.apiData);
                         }
 
                         // 댓글 데이터 가져오기(대댓글 포함)
-                        const commentsResponse = await axios.get(`http://localhost:8888/api/comments/${no}`);
+                        const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`);
                         if (commentsResponse.data.result === 'success') {
                             setComments(commentsResponse.data.apiData);
                         }
@@ -94,7 +94,7 @@ const Detail = () => {
             createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
         };
 
-        axios.post('http://localhost:8888/api/comments/add', commentData, {
+        axios.post(`${process.env.REACT_APP_API_URL}/api/comments/add`, commentData, {
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             }
@@ -147,7 +147,7 @@ const handleReplySubmit = (e, parentNo) => {
         createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
     };
 
-    axios.post('http://localhost:8888/api/comments/reply', replyData, {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/comments/reply`, replyData, {
         headers: {
             "Content-Type": "application/json; charset=utf-8"
         }
@@ -194,7 +194,7 @@ const handleReplyToggle = (parentNo) => {
             if (comment.commentNo === parentNo) {
                 // 대댓글이 보이지 않으면 새로 대댓글을 가져오고, 보이게 설정
                 if (!comment.isReplyVisible) {
-                    axios.get(`http://localhost:8888/api/comments/${no}`)
+                    axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`)
                         .then(commentsResponse => {
                             if (commentsResponse.data.result === 'success') {
                                 // 대댓글 목록을 해당 댓글에 반영
