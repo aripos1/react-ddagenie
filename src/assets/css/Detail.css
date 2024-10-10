@@ -1,12 +1,14 @@
 /* 페이지 전체 컨테이너 */
 .page-main-container {
-    width: 80%;
-    margin: 20px auto;
+    width: 80%; /* 또는 원하는 적당한 너비로 설정 */
+    max-width: 1200px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 */
+    margin: 20px auto; /* 수평 중앙 정렬 */
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
 /* 앨범 섹션 */
 .album-section {
@@ -41,8 +43,8 @@
 
 /* 버튼 스타일 */
 .buttons .button-play,
-.buttons .button-add,
-.buttons .button-like {
+.buttons .button-add
+{
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -214,12 +216,7 @@
   padding-left: 10px;
 }
 
-/* 좋아요 수 표시 */
-.like-count {
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-}
+
 /* 삭제 버튼 스타일 */
 .delete-btn {
     background-color: #ff4d4d; /* 빨간색 배경 */

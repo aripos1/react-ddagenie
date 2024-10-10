@@ -39,18 +39,24 @@ const Detail = () => {
                     const musicResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/detail/${no}`, {
                         headers: { "Content-Type": "application/json; charset=utf-8" }
                     });
-
                     if (musicResponse.data.result === 'success') {
                         const musicVo = musicResponse.data.apiData;
+                        
+                        // releasedDate를 'YYYY년 MM월 DD일' 형식으로 변환
+                        const formattedReleasedDate = new Date(musicVo.releasedDate).toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                    
                         setTitle(musicVo.title);
                         setArtistname(musicVo.artistName);
                         setGenre(musicVo.genre);
-                        setReleasedDate(musicVo.releasedDate);
+                        setReleasedDate(formattedReleasedDate); // 변환된 날짜 설정
                         setLikecount(musicVo.likeCount);
                         setMusiccontent(musicVo.musicContent);
                         setImagename(musicVo.imageName);
                         setArtistNo(musicVo.artistNo);
-
                         // 다른 곡 가져오기
                         const tracksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/music/artist/${musicVo.artistNo}/${no}`);
                         if (tracksResponse.data.result === 'success') {
@@ -124,8 +130,8 @@ const Detail = () => {
     };
 
 
-    // 대댓글 등록 처리
-    const handleReplySubmit = (e, parentNo) => {
+     // 대댓글 등록 처리
+     const handleReplySubmit = (e, parentNo) => {
         e.preventDefault();
 
         if (!userNo) {
@@ -284,10 +290,10 @@ const Detail = () => {
                             <img src={imageName} alt="노래 이미지" className="album-img" />
                         </div>
                         <div className="album-info">
-                            <h1>{title}</h1>
-                            <p>아티스트: {artistName}</p>
-                            <p>장르: {genre}</p>
-                            <p>발매일: {releasedDate}</p>
+                            <h1>{title}</h1> <br/>
+                            <p>아티스트: {artistName}</p><br/>
+                            <p>장르: {genre}</p><br/>
+                            <p>발매일: {releasedDate}</p><br/>
                             <div className="buttons">
                                 <button className="button-play">듣기</button>
                                 <button className="button-add">담기</button>

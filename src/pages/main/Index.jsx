@@ -168,7 +168,9 @@ const Index = () => {
 
                 {/* 광고 배너 섹션 */}
                 <div className="ad-banner" >
+                   <Link to="https://seoulmusicfestival.co.kr/kor/index.php">
                     <img src={banner} style={{ width: '1000px' }} alt="광고 배너 이미지" />
+                    </Link>
                 </div>
 
                 {/* 인기 순위 리스트 */}
