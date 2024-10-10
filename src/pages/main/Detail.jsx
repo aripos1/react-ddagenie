@@ -124,106 +124,151 @@ const Detail = () => {
 
 
     // 대댓글 등록 처리
-const handleReplySubmit = (e, parentNo) => {
-    e.preventDefault();
+    const handleReplySubmit = (e, parentNo) => {
+        e.preventDefault();
 
-    if (!userNo) {
-        alert('로그인 후 대댓글을 달 수 있습니다.');
-        return;
-    }
+        if (!userNo) {
+            alert('로그인 후 대댓글을 달 수 있습니다.');
+            return;
+        }
 
-    const replyContent = replyContents[parentNo]; // 해당 댓글 번호의 대댓글 입력값
+        const replyContent = replyContents[parentNo]; // 해당 댓글 번호의 대댓글 입력값
 
-    if (!replyContent.trim()) {
-        alert('대댓글을 입력하세요.');
-        return;
-    }
+        if (!replyContent.trim()) {
+            alert('대댓글을 입력하세요.');
+            return;
+        }
 
-    const replyData = {
-        userNo: userNo,
-        musicNo: no,
-        reContent: replyContent,
-        parentNo: parentNo, // 부모 댓글 번호
-        createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
+        const replyData = {
+            userNo: userNo,
+            musicNo: no,
+            reContent: replyContent,
+            parentNo: parentNo, // 부모 댓글 번호
+            createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
+        };
+
+        axios.post(`${process.env.REACT_APP_API_URL}/api/comments/reply`, replyData, {
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        })
+            .then(response => {
+                console.log('대댓글 API 응답:', response.data);
+                if (response.data.result === 'success') {
+                    // 대댓글 등록 후 입력란 초기화
+                    setReplyContents(prevState => ({
+                        ...prevState,
+                        [parentNo]: '' // 대댓글 입력란 초기화
+                    }));
+
+                    // 새 대댓글의 ID를 받아와서 댓글 리스트에 추가
+                    const newReplyData = {
+                        ...replyData,
+                        commentNo: response.data.data // 새 대댓글의 commentNo
+                    };
+
+                    // 댓글 배열에서 해당 부모 댓글의 replies 배열에 대댓글 추가
+                    setComments(prevComments => {
+                        return prevComments.map(comment => {
+                            if (comment.commentNo === parentNo) {
+                                return {
+                                    ...comment,
+                                    replies: [...(comment.replies || []), newReplyData] // 대댓글 추가
+                                };
+                            }
+                            return comment;
+                        });
+                    });
+                } else {
+                    console.error('대댓글 등록 실패:', response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('대댓글 등록 오류:', error);
+            });
+    };
+    // 대댓글 보이기/숨기기 토글 처리
+    const handleReplyToggle = (parentNo) => {
+        setComments(prevComments => {
+            return prevComments.map(comment => {
+                if (comment.commentNo === parentNo) {
+                    // 대댓글이 보이지 않으면 새로 대댓글을 가져오고, 보이게 설정
+                    if (!comment.isReplyVisible) {
+                        axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`)
+                            .then(commentsResponse => {
+                                if (commentsResponse.data.result === 'success') {
+                                    // 대댓글 목록을 해당 댓글에 반영
+                                    setComments(prevComments =>
+                                        prevComments.map(cmt => {
+                                            if (cmt.commentNo === parentNo) {
+                                                return {
+                                                    ...cmt,
+                                                    replies: commentsResponse.data.apiData.filter(c => c.parentNo === parentNo)
+                                                };
+                                            }
+                                            return cmt;
+                                        })
+                                    );
+                                }
+                            })
+                            .catch(error => {
+                                console.error('대댓글 목록 불러오기 실패:', error);
+                            });
+                    }
+                    return {
+                        ...comment,
+                        isReplyVisible: !comment.isReplyVisible // 대댓글 보이기 상태 토글
+                    };
+                }
+                return comment;
+            });
+        });
     };
 
-    axios.post(`${process.env.REACT_APP_API_URL}/api/comments/reply`, replyData, {
-        headers: {
-            "Content-Type": "application/json; charset=utf-8"
+    const handleCommentDelete = (commentNo) => {
+        if (!window.confirm("댓글을 삭제하시겠습니까?")) {
+            return;
         }
-    })
+    
+        axios.delete(`${process.env.REACT_APP_API_URL}/api/comments/delete/${commentNo}`)
+            .then(response => {
+                if (response.data.result === 'success') {
+                    setComments(prevComments => prevComments.filter(comment => comment.commentNo !== commentNo));
+                } else {
+                    console.error('댓글 삭제 실패:', response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('댓글 삭제 오류:', error);
+            });
+    };
+    const handleReplyDelete = (parentNo, commentNo) => {
+        if (!window.confirm("대댓글을 삭제하시겠습니까?")) {
+            return;
+        }
+    
+        axios.delete(`${process.env.REACT_APP_API_URL}/api/comments/reply/delete/${commentNo}`, {
+            data: { parentNo }  // 부모 댓글 번호
+        })
         .then(response => {
-            console.log('대댓글 API 응답:', response.data);
             if (response.data.result === 'success') {
-                // 대댓글 등록 후 입력란 초기화
-                setReplyContents(prevState => ({
-                    ...prevState,
-                    [parentNo]: '' // 대댓글 입력란 초기화
+                setComments(prevComments => prevComments.map(comment => {
+                    if (comment.commentNo === parentNo) {
+                        return {
+                            ...comment,
+                            replies: comment.replies.filter(reply => reply.commentNo !== commentNo) // 해당 대댓글 삭제
+                        };
+                    }
+                    return comment;
                 }));
-
-                // 새 대댓글의 ID를 받아와서 댓글 리스트에 추가
-                const newReplyData = {
-                    ...replyData,
-                    commentNo: response.data.data // 새 대댓글의 commentNo
-                };
-
-                // 댓글 배열에서 해당 부모 댓글의 replies 배열에 대댓글 추가
-                setComments(prevComments => {
-                    return prevComments.map(comment => {
-                        if (comment.commentNo === parentNo) {
-                            return {
-                                ...comment,
-                                replies: [...(comment.replies || []), newReplyData] // 대댓글 추가
-                            };
-                        }
-                        return comment;
-                    });
-                });
             } else {
-                console.error('대댓글 등록 실패:', response.data.message);
+                console.error('대댓글 삭제 실패:', response.data.message);
             }
         })
         .catch(error => {
-            console.error('대댓글 등록 오류:', error);
+            console.error('대댓글 삭제 오류:', error);
         });
-};
-   // 대댓글 보이기/숨기기 토글 처리
-const handleReplyToggle = (parentNo) => {
-    setComments(prevComments => {
-        return prevComments.map(comment => {
-            if (comment.commentNo === parentNo) {
-                // 대댓글이 보이지 않으면 새로 대댓글을 가져오고, 보이게 설정
-                if (!comment.isReplyVisible) {
-                    axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`)
-                        .then(commentsResponse => {
-                            if (commentsResponse.data.result === 'success') {
-                                // 대댓글 목록을 해당 댓글에 반영
-                                setComments(prevComments => 
-                                    prevComments.map(cmt => {
-                                        if (cmt.commentNo === parentNo) {
-                                            return {
-                                                ...cmt,
-                                                replies: commentsResponse.data.apiData.filter(c => c.parentNo === parentNo)
-                                            };
-                                        }
-                                        return cmt;
-                                    })
-                                );
-                            }
-                        })
-                        .catch(error => {
-                            console.error('대댓글 목록 불러오기 실패:', error);
-                        });
-                }
-                return {
-                    ...comment,
-                    isReplyVisible: !comment.isReplyVisible // 대댓글 보이기 상태 토글
-                };
-            }
-            return comment;
-        });
-    });
-};
+    };
 
     return (
         <>
@@ -243,7 +288,7 @@ const handleReplyToggle = (parentNo) => {
                             <div className="buttons">
                                 <button className="button-play">듣기</button>
                                 <button className="button-add">담기</button>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -283,7 +328,7 @@ const handleReplyToggle = (parentNo) => {
                             <button className="comment-submit" onClick={handleCommentSubmit}>
                                 댓글 등록
                             </button>
-                            
+
                         </div>
 
                         {/* 댓글 목록 */}
@@ -293,7 +338,12 @@ const handleReplyToggle = (parentNo) => {
                             <div className="comment-item" key={comment.commentNo}>
                                 <p><strong>{comment.userName}</strong> <span>{comment.createdDate}</span></p>
                                 <p>{comment.reContent}</p>
-                                <button className="delete-btn">삭제</button>
+                                {/* 댓글 삭제 버튼 (자기 글만 삭제 가능) */}
+                                {comment.userNo === userNo && (
+                                    <button className="delete-btn" onClick={() => handleCommentDelete(comment.commentNo)}>
+                                        삭제
+                                    </button>
+                                )}
                                 <button className="reply-toggle" onClick={() => handleReplyToggle(comment.commentNo)}>
                                     {comment.isReplyVisible ? '대댓글 숨기기' : '대댓글 보기'}
                                 </button>
@@ -306,11 +356,18 @@ const handleReplyToggle = (parentNo) => {
                                                 <div key={reply.commentNo} className="reply-item">
                                                     <p><strong>{reply.userName}</strong> <span>{reply.createdDate}</span></p>
                                                     <p>{reply.reContent}</p>
-                                                    <button className="delete-btn">삭제</button>
+                                                    {/* 댓글 삭제 버튼 (자기 글만 삭제 가능) */}
+
+                                                    {/* 대댓글 삭제 버튼 (자기 글만 삭제 가능) */}
+                                                    {reply.userNo === userNo && (
+                                                        <button className="delete-btn" onClick={() => handleReplyDelete(comment.commentNo, reply.commentNo)}>
+                                                            삭제
+                                                        </button>
+                                                    )}
                                                 </div>
                                             ))
                                         ) : (
-                                            <p>대댓글이 없습니다.</p>
+                                            <p><br />대댓글이 없습니다.</p>
                                         )}
 
                                         {/* 대댓글 작성 폼 */}
@@ -324,7 +381,7 @@ const handleReplyToggle = (parentNo) => {
                                             <button className="reply-submit" onClick={(e) => handleReplySubmit(e, comment.commentNo)}>
                                                 대댓글 등록
                                             </button>
-                                            
+
                                         </div>
                                     </div>
                                 )}
