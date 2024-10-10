@@ -216,6 +216,7 @@ const Index = () => {
                                             <Link to={`/main/detail/${song.musicNo}`}>
                                                 <img src={getImageUrl(song)} alt={song.title} className="song-cover" onError={(e) => { e.target.src = chartimage; }} />
                                             </Link>
+                                       
                                             <div className="song-details">
                                                 <span className="song-title">{song.title}</span>
                                                 <span className="artist">{song.artistName}</span>
