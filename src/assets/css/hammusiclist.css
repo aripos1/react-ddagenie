@@ -1,8 +1,8 @@
 @charset "utf-8";
 /* hammusiclist.css */
 
-.ham th,
-.ham td {
+.ham .musiclist th,
+.ham .musiclist td {
     width:unset;
     margin: 0;
     padding: 0;
@@ -23,7 +23,7 @@
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.ham .listTitle {
+.ham .musiclist .listTitle {
     display: flex;
     align-items: center;
     width:700px;
@@ -31,7 +31,7 @@
     padding-top: 30px;
 }
 
-.ham .Breadcrumbs {
+.ham .musiclist .Breadcrumbs {
     display: flex;
     list-style-type: none;
     padding-left: 700px;
@@ -40,23 +40,23 @@
     position: absolute;
 }
 
-.ham .Breadcrumbs li {
+.ham .musiclist .Breadcrumbs li {
     margin-right: 5px;
 }
 
-.ham .Breadcrumbs li:last-child {
+.ham .musiclist .Breadcrumbs li:last-child {
     font-weight: bold;
 }
 
 /*테이블 크기*/
 
-.ham .music-list-wrap .list-wrap {
+.ham .musiclist .music-list-wrap .list-wrap {
     table-layout: fixed;
     width: 100%;
     margin: 4px 0 10px 0;
 }
 
-.ham .music-list-wrap .list-wrap thead {
+.ham .musiclist .music-list-wrap .list-wrap thead {
     padding-right: 1px;
     width: 90%;
 }
@@ -65,7 +65,7 @@
 
 /* 체크박스 */
 
-.ham .music-list-wrap .option-toolbar {
+.ham .musiclist .music-list-wrap .option-toolbar {
     position: relative;
     height: 31px;
     padding: 7px 0 0 15px;
@@ -73,7 +73,7 @@
     background-color: #f7f9fc;
 }
 
-.ham .music-list-wrap>.option-toolbar input {
+.ham .musiclist .music-list-wrap>.option-toolbar input {
     font-weight: normal;
     color: #444;
     font-family: inherit;
@@ -81,24 +81,24 @@
     vertical-align: middle;
 }
 
-.ham input[type="checkbox"] {
+.ham .musiclist input[type="checkbox"] {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-.ham .music-list-wrap .all-check {
+.ham .musiclist .music-list-wrap .all-check {
     width: 17px;
     height: 17px;
 }
 
-.ham .music-list-wrap .option-toolbar .all-check {
+.ham .musiclist .music-list-wrap .option-toolbar .all-check {
     margin-right: 12px;
 }
 
 /* 툴바 공통 설정 */
 
-.ham .music-list-wrap .option-toolbar .btn {
+.ham .musiclist .music-list-wrap .option-toolbar .btn {
     display: inline-block;
     overflow: hidden;
     position: relative;
@@ -115,7 +115,7 @@
     vertical-align: middle;
 }
 
-.ham .music-list-wrap .option-toolbar .btn:before {
+.ham .musiclist .music-list-wrap .option-toolbar .btn:before {
     content: '';
     display: block;
     position: absolute;
@@ -127,29 +127,29 @@
 }
 
 /* 추가버튼 */
-.ham .music-list-wrap .option-toolbar .btn-add:before {
+.ham .musiclist .music-list-wrap .option-toolbar .btn-add:before {
     background-position: -21px 0;
 }
 
-.ham button, input[type="reset"], input[type="submit"] {
+.ham .musiclist button, input[type="reset"], input[type="submit"] {
     -webkit-appearance: button;
     cursor: pointer;
 }
 
-.ham .music-list-wrap .list-wrap .btns {
+.ham .musiclist .music-list-wrap .list-wrap .btns {
     position: relative;
     text-align: center;
     padding-right: 50px;
 }
 
-.ham .music-list-wrap .option-toolbar .btns {
+.ham .musiclist .music-list-wrap .option-toolbar .btns {
     display: inline-block;
     float: right;
     position: relative;
     padding: 0 14px 0 17px;
 }
 
-.ham .music-list-wrap .option-toolbar .btns:before {
+.ham .musiclist .music-list-wrap .option-toolbar .btns:before {
     content: '';
     display: block;
     position: absolute;
@@ -162,7 +162,7 @@
 
 /* ul의 기본 패딩 및 마진 제거 */
 /* ul에 flexbox 적용 */
-.ham #top-ct-list ul {
+.ham .musiclist #top-ct-list ul {
     display: flex; /* flexbox로 ul 내부 li를 가로로 배치 */
     justify-content: space-between; /* li 간 간격을 균등하게 배치 */
     list-style: none; /* 기본 ul 스타일 제거 */
@@ -171,7 +171,7 @@
 }
 
 /* li 스타일 */
-.ham #top-ct-list ul li {
+.ham .musiclist #top-ct-list ul li {
     flex: 1; /* 각 li가 동일한 비율로 배치되도록 설정 */
     text-align: center; /* 텍스트 가운데 정렬 */
     font-weight: bold;
@@ -184,18 +184,18 @@
 }
 
 /* 마지막 li의 오른쪽 간격 제거 */
-.ham #top-ct-list ul li:last-child {
+.ham .musiclist #top-ct-list ul li:last-child {
     margin-right: 0;
 }
 
 /* li hover 시 색상 변경 */
-.ham #top-ct-list ul li:hover {
+.ham .musiclist #top-ct-list ul li:hover {
     background-color: #007bff;
     color: white;
 }
 
 /* li 내부 a 태그 */
-.ham #top-ct-list ul li a {
+.ham .musiclist #top-ct-list ul li a {
     display: block; /* a 태그가 li 전체를 차지하게 설정 */
     width: 100%;
     text-decoration: none;
@@ -203,7 +203,7 @@
 }
  /* 페이징 버튼 관련 */
 
-.ham .page-nav {
+.ham .musiclist .page-nav {
     margin: 0 0 10px;
     min-height: 25px;
     text-align: center;
@@ -211,13 +211,13 @@
     font-size: 0;
 }
 
-.ham .page-nav a.current {
+.ham .musiclist .page-nav a.current {
     border-color: #0096FF;
     font-weight: bold;
     color: #0096FF;
 }
 
-.ham .page-nav a {
+.ham .musiclist .page-nav a {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -232,7 +232,7 @@
     margin: 0 4px;
 }
 
-.ham .rank-page-nav a {
+.ham .musiclist .rank-page-nav a {
     display: inline-block;
     width: 96px;
     height: 25px;
@@ -242,7 +242,7 @@
     color: #27282d;
 }
 
-.ham table {
+.ham .musiclist table {
     border-spacing: 0;
     font-family: dotum, '돋움', sans-serif, Segoe UI Symbol;
     font-size: 12px;
@@ -250,51 +250,51 @@
     color: #444;
 }
 
-.ham .music-list-wrap .list-wrap .hd-check {
+.ham .musiclist .music-list-wrap .list-wrap .hd-check {
     width: 33px;
 }
 
-.ham .music-list-wrap .list-wrap .check {
+.ham .musiclist .music-list-wrap .list-wrap .check {
     text-align: right;
 }
 
-.ham .music-list-wrap .list-wrap td {
+.ham .musiclist .music-list-wrap .list-wrap td {
     height: 68px;
     border-bottom: 1px solid #eef1f4;
 }
 
-.ham .music-list-wrap .list-wrap .info {
+.ham .musiclist .music-list-wrap .list-wrap .info {
     position: relative;
     width: auto;
     line-height: 22px;
 }
 
-.ham .music-list-wrap .list-wrap .info a {
+.ham .musiclist .music-list-wrap .list-wrap .info a {
     display: inline-block;
     color: #8b8b8b;
 }
 
-.ham .music-list-wrap .list-wrap .info .title {
+.ham .musiclist .music-list-wrap .list-wrap .info .title {
     display: block;
     max-width: 90%;
     font-weight: bold;
     color: #27282d;
 }
 
-.ham .music-list-wrap .list-wrap .info .artist {
+.ham .musiclist .music-list-wrap .list-wrap .info .artist {
     width: auto !important;
     max-width: 44%;
     vertical-align: middle;
     padding-right: 1px;
 }
 
-.ham .music-list-wrap .list-wrap .info .albumtitle {
+.ham .musiclist .music-list-wrap .list-wrap .info .albumtitle {
     width: auto !important;
     max-width: 44%;
     vertical-align: middle;
 }
 
-.ham .music-list-wrap .list-wrap th {
+.ham .musiclist .music-list-wrap .list-wrap th {
     height: 28px;
     border-bottom: 2px solid #a6afb6;
     font-size: 11px;
@@ -302,7 +302,7 @@
     color: #8b8b8b;
 }
 
-.ham .hide {
+.ham .musiclist .hide {
     font: 0 / 0 a;
     overflow: hidden;
     border: 0 none;
@@ -312,40 +312,40 @@
     padding: 0;
 }
 
-.ham .music-list-wrap .list-wrap .hd-album {
+.ham .musiclist .music-list-wrap .list-wrap .hd-album {
     width: 56px;
 }
 
-.ham .music-list-wrap .list-wrap .hd-link {
+.ham .musiclist .music-list-wrap .list-wrap .hd-link {
     width: 21px;
 }
 
-.ham .music-list-wrap .list-wrap .hd-info {
+.ham .musiclist .music-list-wrap .list-wrap .hd-info {
     text-align: left;
     text-indent: 7px;
 }
 
-.ham .music-list-wrap .list-wrap .hd-btns {
+.ham .musiclist .music-list-wrap .list-wrap .hd-btns {
     width: 33px;
     padding-right: 50px;
 }
 
-.ham .music-list-wrap .list-wrap .hd-more {
+.ham .musiclist .music-list-wrap .list-wrap .hd-more {
     width: 46px;
 }
 
-.ham .music-list-wrap .select-check, .music-list-wrap .all-check {
+.ham .musiclist .music-list-wrap .select-check, .music-list-wrap .all-check {
     width: 17px;
     height: 17px;
 }
 
-.ham input[type="checkbox"], input[type="radio"] {
+.ham .musiclist input[type="checkbox"], input[type="radio"] {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-.ham input, textarea, select {
+.ham .musiclist input, textarea, select {
     font-family: inherit;
     font-size: inherit;
     vertical-align: middle;
@@ -353,7 +353,7 @@
     color: #444;
 }
 
-.ham .music-list-wrap .list-wrap .number {
+.ham .musiclist .music-list-wrap .list-wrap .number {
     font-size: 17px;
     font-family: 'Arial';
     font-weight: bold;
@@ -361,13 +361,13 @@
     text-align: center;
 }
 
-.ham .music-list-wrap .list-wrap .likes {
+.ham .musiclist .music-list-wrap .list-wrap .likes {
     display: block;
     padding-top: 2px;
     font-size: 9px;
 }
 
-.ham .music-list-wrap .list-wrap .likes-none {
+.ham .musiclist .music-list-wrap .list-wrap .likes-none {
     display: inline-block;
     width: 13px;
     height: 12px;
@@ -375,18 +375,18 @@
     vertical-align: middle;
 }
 
-.ham .music-list-wrap .list-wrap .number .likes .likeicon {
+.ham .musiclist .music-list-wrap .list-wrap .number .likes .likeicon {
     font-weight: 100;
     color: #fff;
 }
 
-.ham .music-list-wrap .list-wrap .cover {
+.ham .musiclist .music-list-wrap .list-wrap .cover {
     display: block;
     position: relative;
     width: 48px;
     height: 48px;
 }
-.ham .music-list-wrap .list-wrap .cover .mask {
+.ham .musiclist .music-list-wrap .list-wrap .cover .mask {
     display: block;
     position: absolute;
     top: 0;
@@ -397,17 +397,17 @@
     opacity: 0.1;
 }
 
-.ham .music-list-wrap .list-wrap .cover img {
+.ham .musiclist .music-list-wrap .list-wrap .cover img {
     width: 100%;
     height: 100%;
     vertical-align: top;
 }
 
-.ham .music-list-wrap .list-wrap .link {
+.ham .musiclist .music-list-wrap .list-wrap .link {
     vertical-align: top;
 }
 
-.ham .music-list-wrap .list-wrap .btn-basic {
+.ham .musiclist .music-list-wrap .list-wrap .btn-basic {
     display: inline-block;
     overflow: hidden;
     position: relative;
@@ -420,7 +420,7 @@
     vertical-align: middle;
 }
 
-.ham a {
+.ham .musiclist a {
     transition: background-color .25s, position .25s, color .15s;
     color: #444;
     margin: 0;
@@ -429,7 +429,7 @@
     text-decoration: none;
 }
 
-.ham .ellipsis {
+.ham .musiclist .ellipsis {
     padding-right: 1px;
     white-space: nowrap;
     width: 100%;
@@ -437,26 +437,26 @@
     text-overflow: ellipsis;
 }
 
-.ham .music-list-wrap .list-wrap .bar {
+.ham .musiclist .music-list-wrap .list-wrap .bar {
     display: inline-block;
     font-style: normal;
     color: #eff0f4;
     vertical-align: middle;
 }
 
-.music-list-wrap .list-wrap .hd-check {
+.ham .musiclist .music-list-wrap .list-wrap .hd-check {
     width: 33px;
 }
 
-.ham .music-list-wrap .list-wrap .hd-number {
+.ham .musiclist .music-list-wrap .list-wrap .hd-number {
     width: 45px;
 }
 
-.ham .music-list-wrap .list-wrap .btn-listen {
+.ham .musiclist .music-list-wrap .list-wrap .btn-listen {
     background-position: 0 -21px;
 }
 
-.ham .music-list-wrap .list-wrap .btn-info {
+.ham .musiclist .music-list-wrap .list-wrap .btn-info {
     width: 14px;
     height: 14px;
     margin-top: 16px;
@@ -464,10 +464,10 @@
     vertical-align: top;
 }
 
-.ham .music-list-wrap .list-wrap .btn-add {
+.ham .musiclist .music-list-wrap .list-wrap .btn-add {
     background-position: -30px -21px;
 }
 
-.ham .music-list-wrap .list-wrap .btn-album {
+.ham .musiclist .music-list-wrap .list-wrap .btn-album {
     background-position: -60px -21px;
 }

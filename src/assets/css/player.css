@@ -21,7 +21,7 @@ body {
     border-radius: 10px;
     overflow: hidden;
     background-color: #2C2A34;
-    
+
     /* 어두운 보라색 */
 }
 
@@ -46,7 +46,8 @@ body {
 
 .album-info {
     display: flex;
-    flex-direction: column; /* 수직 정렬 */
+    flex-direction: column;
+    /* 수직 정렬 */
     align-items: center;
     margin-bottom: 20px;
 }
@@ -65,7 +66,8 @@ body {
     object-fit: cover;
     border-radius: 10px;
     border: 2px solid #717578;
-    margin-top: 20px; /* 이미지를 텍스트 밑으로 띄워 배치 */
+    margin-top: 20px;
+    /* 이미지를 텍스트 밑으로 띄워 배치 */
 }
 
 
@@ -73,7 +75,8 @@ body {
     display: flex;
     flex-direction: row;
     text-align: left;
-    margin-right: 10px; /* 타이틀과 좋아요 아이콘 간의 간격 */
+    margin-right: 10px;
+    /* 타이틀과 좋아요 아이콘 간의 간격 */
 }
 
 
@@ -92,16 +95,25 @@ body {
 }
 
 .like-icon {
-    font-size: 40px;
-    color: #E7E9E7;
-    /* 기본 색 */
+    font-size: 24px;
+    /* 하트 크기를 조정 */
     cursor: pointer;
-    transition: color 0.3s ease;
+    /* 클릭할 수 있도록 포인터 커서 적용 */
+    display: inline-block;
+    width: 30px;
+    /* 너비 조정 */
+    height: 30px;
+    /* 높이 조정 */
+    line-height: 30px;
+    /* 텍스트 정렬을 위한 높이 */
+    text-align: center;
+    /* 하트를 가운데 정렬 */
+
 }
 
 .like-icon.liked {
     color: red;
-    /* 좋아요 클릭 시 빨간색으로 변경 */
+    /* 좋아요가 눌린 상태일 때 빨간색 */
 }
 
 
@@ -282,19 +294,27 @@ input[type="checkbox"] {
     background-color: #007AFF;
     color: white;
     border: none;
-    padding: 6px 12px; /* 버튼 크기를 줄이기 위해 padding을 줄임 */
-    border-radius: 6px; /* 더 작고 둥근 모서리 */
+    padding: 6px 12px;
+    /* 버튼 크기를 줄이기 위해 padding을 줄임 */
+    border-radius: 6px;
+    /* 더 작고 둥근 모서리 */
     cursor: pointer;
-    font-size: 12px; /* 글씨 크기를 줄임 */
+    font-size: 12px;
+    /* 글씨 크기를 줄임 */
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    margin-right: 5px; /* 버튼 간의 간격을 적당히 둠 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 부드러운 그림자 */
+    margin-right: 5px;
+    /* 버튼 간의 간격을 적당히 둠 */
 }
+
 .playlist-controls button:hover,
 .playlist-footer button:hover,
 .my-music-footer button:hover {
-    background-color: #005FCC; /* 호버 시 색상 변화 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 효과 */
+    background-color: #005FCC;
+    /* 호버 시 색상 변화 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    /* 호버 시 그림자 효과 */
 }
 
 .footer-pagination {
@@ -328,7 +348,8 @@ ul#my-music li {
 /* 리스트 스크롤바 크기 조정 */
 .playlist::-webkit-scrollbar,
 #my-music::-webkit-scrollbar {
-    width: 6px; /* 스크롤바 너비를 줄임 */
+    width: 6px;
+    /* 스크롤바 너비를 줄임 */
 }
 
 .playlist::-webkit-scrollbar-thumb,

@@ -12,6 +12,9 @@ import Footer from '../include/Footer';
 
 import '../../assets/css/musicAdmin.css';
 
+import searchLogo from '../../assets/images/search.png';
+import profileImg from '../../assets/images/cuteddagenie.png';
+
 
 
 
@@ -149,6 +152,10 @@ const MusicUpdate = () => {
 
     };
 
+    const backAdmin = () => {
+        navigate('/admin/musicadmin');
+    }
+
 
 
 
@@ -173,7 +180,7 @@ const MusicUpdate = () => {
                         <div id="profile-box" >
                             <div className="profile-name" >
                                 <span>
-                                    <img src="../../assets/images/cuteddagenie.png" />
+                                    <img src={profileImg} />
                                 </span>
                                 <div className="profile-name-one">
                                     <p><Link to="" rel="noreferrer noopener"><strong>진소영</strong> 님</Link></p>
@@ -193,9 +200,9 @@ const MusicUpdate = () => {
                             </a>
                             <div>
                                 <ul>
-                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
-                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
-                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
+                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src={searchLogo} /> 아티스트 관리</Link></li>
+                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src={searchLogo} /> 음원 관리</Link></li>
+                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src={searchLogo} /> 결제 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -203,11 +210,13 @@ const MusicUpdate = () => {
                     </div>
                     <div id="wrap-main">
 
-                        <div id="top-title">
-                            <h2>음원 수정</h2>
-                        </div>
-
                         <div id="musicUpdate">
+                        
+                            <div id="top-title">
+                                <h2>음원 수정</h2>
+                                <h4>관리자님 어서오세요*^^*</h4>
+                            </div>
+                        
 
                             <div className="container">
                                 <form onSubmit={handleUpdate} encType="multipart/form-data">
@@ -265,7 +274,7 @@ const MusicUpdate = () => {
                                     <input type="file" id="musicFile" name="musicFile" onChange={handleFileChange} accept=".mp3,.wav,.flac" required />
 
                                     <button type="submit">음원 수정</button>
-                                    <button type="button" className="back-btn" onclick="history.back()">뒤로 가기</button>
+                                    <button type="button" className="back-btn" onClick={backAdmin }>뒤로 가기</button>
 
                                 </form>
                             </div>

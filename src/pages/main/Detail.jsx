@@ -1,169 +1,340 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-//헤더 푸터 및 css
+// 헤더 푸터 및 css
 import Header from '../include/Header';
-import'../../assets/css/Detail.css';
-
+import '../../assets/css/Detail.css';
 
 const Detail = () => {
-    //상태변화 변수
-    const[title,setTitle]=useState('');
-    const[artistName,setArtistname]=useState('');
-    const[genre,setGenre]=useState('');
-    const[releasedDate,setReleasedDate]=useState('');
-    const[likeCount,setLikecount]=useState('');
-    const[musicContent,setMusiccontent]=useState('');
-    const[imageName,setImagename]=useState('');
+    const [title, setTitle] = useState('');
+    const [artistName, setArtistname] = useState('');
+    const [genre, setGenre] = useState('');
+    const [releasedDate, setReleasedDate] = useState('');
+    const [likeCount, setLikecount] = useState('');
+    const [musicContent, setMusiccontent] = useState('');
+    const [imageName, setImagename] = useState('');
+    const [artistNo, setArtistNo] = useState(null);
+    const [otherTracks, setOtherTracks] = useState([]);
+    const [comments, setComments] = useState([]); // 댓글 상태
+    const [newComment, setNewComment] = useState(''); // 새 댓글 입력 상태
+    const [replyContents, setReplyContents] = useState({}); // 댓글 번호별 대댓글 상태
+    const [userNo, setUserNo] = useState(null); // 사용자 ID 상태
+    const navigate = useNavigate();
+    const { no } = useParams();
 
-    const { no } = useParams();  
-    console.log(no)  
-     //데이터 가져오기(music의 n번째 곡에 대한 데이터)
+    // 사용자 로그인 상태 확인
+    useEffect(() => {
+        const authUser = JSON.parse(localStorage.getItem('authUser')); // authUser를 객체로 변환
+        const loggedUserNo = authUser ? authUser.no : null; // no를 가져옴
+        setUserNo(loggedUserNo); // 상태에 저장
+    }, []);
 
-     useEffect(() => {
-        console.log("no 값:", no);  // no 값이 undefined인지 확인
-        if (no) {
-            axios({
-              method: 'get',
-              url: `http://localhost:8888/api/music/${no}`, 
-              headers: { "Content-Type": "application/json; charset=utf-8" },
-              responseType: 'json'
-            })
+    // 음악 정보와 댓글 목록 가져오기
+    useEffect(() => {
+        const fetchData = async () => {
+            if (no) {
+                try {
+                    // 음악 정보 가져오기
+                    const musicResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/detail/${no}`, {
+                        headers: { "Content-Type": "application/json; charset=utf-8" }
+                    });
+
+                    if (musicResponse.data.result === 'success') {
+                        const musicVo = musicResponse.data.apiData;
+                        setTitle(musicVo.title);
+                        setArtistname(musicVo.artistName);
+                        setGenre(musicVo.genre);
+                        setReleasedDate(musicVo.releasedDate);
+                        setLikecount(musicVo.likeCount);
+                        setMusiccontent(musicVo.musicContent);
+                        setImagename(musicVo.imageName);
+                        setArtistNo(musicVo.artistNo);
+
+                        // 다른 곡 가져오기
+                        const tracksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/music/artist/${musicVo.artistNo}/${no}`);
+                        if (tracksResponse.data.result === 'success') {
+                            setOtherTracks(tracksResponse.data.apiData);
+                        }
+
+                        // 댓글 데이터 가져오기(대댓글 포함)
+                        const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`);
+                        if (commentsResponse.data.result === 'success') {
+                            setComments(commentsResponse.data.apiData);
+                        }
+                    }
+                } catch (error) {
+                    console.error('API 호출 오류:', error);
+                }
+            }
+        };
+
+        fetchData();
+    }, [no]);
+
+    // 댓글 등록 처리
+    const handleCommentSubmit = (event) => {
+        event.preventDefault();
+
+        if (!userNo) {
+            alert('로그인 후 댓글을 달 수 있습니다.');
+            return;
+        }
+
+        if (!newComment.trim()) {
+            alert('댓글을 입력하세요.');
+            return;
+        }
+
+        const commentData = {
+            userNo: userNo,
+            musicNo: no,
+            reContent: newComment,
+            parentNo: 0, // 부모 댓글이 없으므로 0 설정
+            createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
+        };
+
+        axios.post(`${process.env.REACT_APP_API_URL}/api/comments/add`, commentData, {
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            }
+        })
             .then(response => {
-                const musicVo = response.data.apiData;
                 if (response.data.result === 'success') {
-                    setTitle(musicVo.title);
-                    setArtistname(musicVo.artistName);
-                    setGenre(musicVo.genre);
-                    setReleasedDate(musicVo.releasedDate);
-                    setLikecount(musicVo.likeCount);
-                    setMusiccontent(musicVo.musicContent);
-                    setImagename(musicVo.imageName);
-                } else {
-                    alert('확인하세요');
+                    setNewComment('');
+                    const newCommentData = {
+                        ...commentData,
+                        commentNo: response.data.comment_no // 새 댓글의 ID
+                    };
+                    setComments(prevComments => [...prevComments, newCommentData]);
                 }
             })
             .catch(error => {
-                console.error(error);
+                console.error('댓글 등록 오류:', error);
             });
+    };
+
+    // 대댓글 입력 필드 값 처리
+    const handleReplyChange = (commentNo, value) => {
+        setReplyContents(prevState => ({
+            ...prevState,
+            [commentNo]: value  // 댓글 번호에 맞는 대댓글 입력 값만 변경
+        }));
+    };
+
+
+    // 대댓글 등록 처리
+const handleReplySubmit = (e, parentNo) => {
+    e.preventDefault();
+
+    if (!userNo) {
+        alert('로그인 후 대댓글을 달 수 있습니다.');
+        return;
+    }
+
+    const replyContent = replyContents[parentNo]; // 해당 댓글 번호의 대댓글 입력값
+
+    if (!replyContent.trim()) {
+        alert('대댓글을 입력하세요.');
+        return;
+    }
+
+    const replyData = {
+        userNo: userNo,
+        musicNo: no,
+        reContent: replyContent,
+        parentNo: parentNo, // 부모 댓글 번호
+        createdDate: new Date().toISOString().slice(0, 19).replace('T', ' '), // 현재 날짜
+    };
+
+    axios.post(`${process.env.REACT_APP_API_URL}/api/comments/reply`, replyData, {
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
         }
-    }, [no]);
-    
+    })
+        .then(response => {
+            console.log('대댓글 API 응답:', response.data);
+            if (response.data.result === 'success') {
+                // 대댓글 등록 후 입력란 초기화
+                setReplyContents(prevState => ({
+                    ...prevState,
+                    [parentNo]: '' // 대댓글 입력란 초기화
+                }));
+
+                // 새 대댓글의 ID를 받아와서 댓글 리스트에 추가
+                const newReplyData = {
+                    ...replyData,
+                    commentNo: response.data.data // 새 대댓글의 commentNo
+                };
+
+                // 댓글 배열에서 해당 부모 댓글의 replies 배열에 대댓글 추가
+                setComments(prevComments => {
+                    return prevComments.map(comment => {
+                        if (comment.commentNo === parentNo) {
+                            return {
+                                ...comment,
+                                replies: [...(comment.replies || []), newReplyData] // 대댓글 추가
+                            };
+                        }
+                        return comment;
+                    });
+                });
+            } else {
+                console.error('대댓글 등록 실패:', response.data.message);
+            }
+        })
+        .catch(error => {
+            console.error('대댓글 등록 오류:', error);
+        });
+};
+   // 대댓글 보이기/숨기기 토글 처리
+const handleReplyToggle = (parentNo) => {
+    setComments(prevComments => {
+        return prevComments.map(comment => {
+            if (comment.commentNo === parentNo) {
+                // 대댓글이 보이지 않으면 새로 대댓글을 가져오고, 보이게 설정
+                if (!comment.isReplyVisible) {
+                    axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`)
+                        .then(commentsResponse => {
+                            if (commentsResponse.data.result === 'success') {
+                                // 대댓글 목록을 해당 댓글에 반영
+                                setComments(prevComments => 
+                                    prevComments.map(cmt => {
+                                        if (cmt.commentNo === parentNo) {
+                                            return {
+                                                ...cmt,
+                                                replies: commentsResponse.data.apiData.filter(c => c.parentNo === parentNo)
+                                            };
+                                        }
+                                        return cmt;
+                                    })
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            console.error('대댓글 목록 불러오기 실패:', error);
+                        });
+                }
+                return {
+                    ...comment,
+                    isReplyVisible: !comment.isReplyVisible // 대댓글 보이기 상태 토글
+                };
+            }
+            return comment;
+        });
+    });
+};
+
     return (
-    <>
-        <Header/>
-      <div id="wrap-body" className="clearfix">
-        <div className="page-main-container">
-          
-          {/* 앨범 이미지와 정보 */}
-          
-          <div className="album-section">
-            <div className="album-cover">
-              <img src={imageName} alt="햄을 프라이팬에 구워서 김치와 싸 드셔보세요" className="album-img" />
-            </div>
-            <div className="album-info">
-              <h1>{title}</h1>
-              <p>아티스트:{artistName} </p>
-              <p>장르:{genre}</p>
-              <p>발매일:{releasedDate}</p>
-              <div className="buttons">
-                <button className="button-play">듣기</button>
-                <button className="button-add">담기</button>
-                <span className="like-count">좋아요 수:{likeCount} <strong id="like-count"></strong></span>
-              </div>
-            </div>
-          </div>
-          
-          {/* 소개문구 */}
-          <div className="song-description-section">
-            <h2>곡 소개</h2>
-            <p>
-             {musicContent}
-            </p>
-          </div>
+        <>
+            <Header />
+            <div id="wrap-body" className="clearfix">
+                <div className="page-main-container">
+                    {/* 앨범 이미지와 정보 */}
+                    <div className="album-section">
+                        <div className="album-cover">
+                            <img src={imageName} alt="노래 이미지" className="album-img" />
+                        </div>
+                        <div className="album-info">
+                            <h1>{title}</h1>
+                            <p>아티스트: {artistName}</p>
+                            <p>장르: {genre}</p>
+                            <p>발매일: {releasedDate}</p>
+                            <div className="buttons">
+                                <button className="button-play">듣기</button>
+                                <button className="button-add">담기</button>
+                               
+                            </div>
+                        </div>
+                    </div>
 
-          {/* 다른 앨범 리스트 */}
-          <div className="artist-album-list">
-            <h2>이 아티스트의 다른 앨범 더보기</h2>
-            <div className="album-covers-container">
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (8).jfif" alt="YIM" />
-                <p>YIM</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (13).jfif" alt="윤후" />
-                <p>윤후</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (11).jfif" alt="After Love" />
-                <p>After Love</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0 (1).jfif" alt="이별 뒷 그늘 부르다" />
-                <p>이별 뒷 그늘 부르다</p>
-              </div>
-              <div className="cover-item">
-                <img src="../../assets/images/musicImg/album(small)/dance/Q_80,0.jfif" alt="Love Part 2" />
-                <p>Love Part 2</p>
-              </div>
-            </div>
-          </div>
+                    {/* 소개문구 */}
+                    <div className="song-description-section">
+                        <h2>곡 소개</h2>
+                        <p>{musicContent}</p>
+                    </div>
 
-          {/* 댓글 섹션 */}
-          <div className="comments-section">
-            <h3>댓글(1개)</h3>
+                    {/* 다른 앨범 리스트 */}
+                    <div className="artist-album-list">
+                        <h2>이 아티스트의 다른 곡 더보기</h2>
+                        <div className="album-covers-container">
+                            {otherTracks.map(track => (
+                                <div className="cover-item" key={track.musicNo} onClick={() => navigate(`/main/detail/${track.musicNo}`)}>
+                                    <img src={track.imageName} alt={track.title} />
+                                    <p>{track.title}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
 
-            {/* 댓글 입력 폼 */}
-            <div className="comment-form">
-              <textarea className="comment-input" placeholder="댓글을 입력하세요..." maxLength="140"></textarea>
-              <button className="comment-submit-button" type="submit">댓글 등록</button>
-            </div>
+                    {/* 댓글 섹션 */}
+                    <div className="comments-section">
+                        <h3>댓글</h3>
 
-            {/* 댓글 리스트 */}
-            <div className="comment-section">
-              <div className="comment-item">
-                <p><strong>임현성</strong> <span>2024-10-02</span></p>
-                <p>다했니?다했니?다했니?다했니?다했니?다했니?다했니?다했니?다했니?(글자제한필요)</p>
-                <button className="reply-toggle">대댓글 보기</button>
+                        {/* 댓글 입력 폼 */}
+                        <div className="comment-form">
+                            <textarea
+                                className="comment-input"
+                                placeholder="댓글을 입력하세요..."
+                                maxLength="140"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                            />
+                            <button className="comment-submit" onClick={handleCommentSubmit}>
+                                댓글 등록
+                            </button>
+                            
+                        </div>
 
-                {/* 대댓글 리스트 */}
-                <div className="reply-list" style={{ display: 'none' }}>
-                  <div className="reply-item">
-                    <p><strong>진소영</strong> <span>2024-09-29</span></p>
-                    <p>네</p>
-                  </div>
-                  <div className="reply-item">
-                    <p><strong>드래곤</strong> <span>2024-09-29</span></p>
-                    <p>죄송합니다</p>
-                  </div>
-                  <div className="reply-item">
-                    <p><strong>함민규</strong> <span>2024-09-29</span></p>
-                    <p>난 다했지롱</p>
-                  </div>
-                  <div className="reply-item">
-                    <p><strong>신지연</strong> <span>2024-09-29</span></p>
-                    <p>나도 다했지롱</p>
-                  </div>    
+                        {/* 댓글 목록 */}
+
+
+                        {comments.filter(comment => comment.parentNo === 0).map(comment => (
+                            <div className="comment-item" key={comment.commentNo}>
+                                <p><strong>{comment.userName}</strong> <span>{comment.createdDate}</span></p>
+                                <p>{comment.reContent}</p>
+                                <button className="delete-btn">삭제</button>
+                                <button className="reply-toggle" onClick={() => handleReplyToggle(comment.commentNo)}>
+                                    {comment.isReplyVisible ? '대댓글 숨기기' : '대댓글 보기'}
+                                </button>
+
+                                {/* 대댓글 출력 */}
+                                {comment.isReplyVisible && (
+                                    <div className="reply-container">
+                                        {comment.replies && comment.replies.length > 0 ? (
+                                            comment.replies.map(reply => (
+                                                <div key={reply.commentNo} className="reply-item">
+                                                    <p><strong>{reply.userName}</strong> <span>{reply.createdDate}</span></p>
+                                                    <p>{reply.reContent}</p>
+                                                    <button className="delete-btn">삭제</button>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p>대댓글이 없습니다.</p>
+                                        )}
+
+                                        {/* 대댓글 작성 폼 */}
+                                        <div id={`reply-form-${comment.commentNo}`} className="reply-form">
+                                            <textarea
+                                                className="reply-input"
+                                                placeholder="대댓글을 입력하세요..."
+                                                value={replyContents[comment.commentNo] || ''}
+                                                onChange={(e) => handleReplyChange(comment.commentNo, e.target.value)}
+                                            />
+                                            <button className="reply-submit" onClick={(e) => handleReplySubmit(e, comment.commentNo)}>
+                                                대댓글 등록
+                                            </button>
+                                            
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
-
-                {/* 대댓글 작성 폼 */}
-                <div className="reply-form" style={{ display: 'none' }}>
-                  <textarea className="reply-input" placeholder="대댓글을 입력하세요..."></textarea>
-                  <button className="reply-submit">대댓글 등록</button>
-                </div>
-              </div>
             </div>
-
-            {/* 반복되는 댓글 구조는 동일하게 유지하며 JSX 스타일 */}
-            {/* 다른 댓글 섹션들 */}
-            {/* ... 생략된 다른 댓글 섹션 ... */}
-
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
+        </>
+    );
+};
 
 export default Detail;

@@ -10,6 +10,9 @@ import Footer from '../include/Footer';
 
 import '../../assets/css/musicAdmin.css';
 
+import searchLogo from '../../assets/images/search.png';
+import profileImg from '../../assets/images/cuteddagenie.png';
+
 const ArtistInsert = () => {
     const [artistName, setArtistName] = useState('');
     const navigate = useNavigate();
@@ -33,6 +36,15 @@ const ArtistInsert = () => {
             });
     };
 
+    const backAdmin = () => {
+        navigate('/admin/musicadmin');
+    }
+
+
+
+
+
+
     return (
 
         <>
@@ -53,7 +65,7 @@ const ArtistInsert = () => {
                         <div id="profile-box" >
                             <div className="profile-name" >
                                 <span>
-                                    <img src="../../assets/images/cuteddagenie.png" />
+                                    <img src={profileImg} />
                                 </span>
                                 <div className="profile-name-one">
                                     <p><Link to="" rel="noreferrer noopener"><strong>진소영</strong> 님</Link></p>
@@ -73,9 +85,9 @@ const ArtistInsert = () => {
                             </a>
                             <div>
                                 <ul>
-		         <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
-                                    <li><Link to="" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
+                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src={searchLogo} /> 아티스트 관리</Link></li>
+                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src={searchLogo} /> 음원 관리</Link></li>
+                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src={searchLogo} /> 결제 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -83,11 +95,13 @@ const ArtistInsert = () => {
                     </div>
                     <div id="wrap-main">
 
-                        <div id="top-title">
-                            <h2>아티스트 등록</h2>
-                        </div>
-
                         <div id="artistInsert">
+
+                            <div id="top-title">
+                                <h2>아티스트 등록</h2>
+                                <h4>관리자님 어서오세요*^^*</h4>
+                            </div>
+
 
                             <div className="container">
 
@@ -105,6 +119,7 @@ const ArtistInsert = () => {
                                     />
                                     <div>
                                         <button className="bts-artistname" type="submit">등록</button>
+                                        <button type="button" className="back-btn" onClick={backAdmin}>뒤로 가기</button>
                                     </div>
                                     
 

@@ -1,82 +1,182 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // API 호출을 위해 axios 추가
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../../assets/css/all.css';
-import '../../assets/css/playlist.css';
+import '../../assets/css/mymusic.css';
 import '../../assets/css/jjinUtilize.css';
+import '../../assets/css/userinfo.css';
+import Modal from './Modal'; // 모달 컴포넌트 import
+import MusicPlayer from './MusicPlayer'; // MusicPlayer 컴포넌트 import
 import Header from '../include/Header';
 import Footer from '../include/Footer';
-import logo from '../../assets/images/cuteddagenie.png';
 import searchIcon from '../../assets/images/search.png';
-import albumCover from '../../assets/images/햄을 구워요.webp';
+import profileImage from '../../assets/images/default_img2.png';
+
+
 
 const MyMusic = () => {
   const [activeTab, setActiveTab] = useState('playlist');
-  const [myMusicList, setMyMusicList] = useState([]); // 마이뮤직 리스트 상태 추가
-  const [error, setError] = useState(null); // 에러 상태 추가
-
+  const [myMusicList, setMyMusicList] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
+  const [error, setError] = useState(null);
+  const [authUser, setAuthUser] = useState(null);
+  const [profile, setProfile] = useState(profileImage);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSong, setSelectedSong] = useState(null);
+  // 사용자 정보 로드
   useEffect(() => {
-    loadMyMusicList(1); // 컴포넌트 로드 시 마이뮤직 리스트 불러오기
+    const storedUser = localStorage.getItem('authUser');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setAuthUser(parsedUser);
+      loadProfileImage(parsedUser);
+    }
   }, []);
+
+  // 프로필 이미지 로드
+  const loadProfileImage = (user) => {
+    if (user && user.saveName) {
+      setProfile(`${process.env.REACT_APP_API_URL}/upload/${user.saveName}`);
+    } else {
+      setProfile(profileImage);
+    }
+  };
+
+  // 사용자 정보에 따라 마이뮤직과 좋아요 리스트 불러오기
+  useEffect(() => {
+    if (authUser && authUser.no) {
+      setLoading(true);
+      Promise.all([loadMyMusicList(authUser.no), loadLikedSongs(authUser.no)])
+        .then(() => setLoading(false))
+        .catch(() => {
+          setLoading(false);
+          setError('데이터를 불러오는 중 오류가 발생했습니다.');
+        });
+    }
+  }, [authUser]);
 
   // 마이뮤직 리스트 API 호출
   const loadMyMusicList = async (userNo) => {
     try {
-      const response = await axios.get(`http://localhost:8888/api/mymusiclist/${userNo}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/mymusiclist/${userNo}`);
       if (response.status === 200) {
-        setMyMusicList(response.data); // 불러온 데이터로 상태 업데이트
+        setMyMusicList(response.data.map(song => ({ ...song, selected: false })));
       } else {
-        setError('Failed to fetch MyMusic list.');
+        setError('마이뮤직 리스트를 불러오지 못했습니다.');
       }
-    } catch (error) {
-      setError('Error fetching MyMusic list.');
+    } catch {
+      setError('마이뮤직 리스트를 불러오는 중 오류가 발생했습니다.');
     }
   };
 
+  // 좋아요한 곡 리스트 API 호출
+  const loadLikedSongs = async (userNo) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/like/list/${userNo}`);
+      if (response.status === 200) {
+        setLikedSongs(response.data);
+      } else {
+        setError('Failed to fetch liked songs.');
+      }
+    } catch (error) {
+      console.error('Error fetching liked songs:', error);
+      setError('Error fetching liked songs.');
+    }
+  };
+
+  const handlePlayAndAddToPlaylist = (musicNo, title, artist, fileUrl) => {
+    setSelectedSong({ musicNo, title, artist, fileUrl });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedSong(null);
+  };
+
+
+  // 탭 전환 핸들러
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  // 곡 이미지 URL 설정
+  const getImageUrl = (song) => {
+    return song.imageName || profileImage;
+  };
+
+  // 체크박스 변경 핸들러
+  const handleCheckboxChange = (mymusicNo) => {
+    setMyMusicList(prevList =>
+      prevList.map(song =>
+        song.mymusicNo === mymusicNo ? { ...song, selected: !song.selected } : song
+      )
+    );
+  };
+
+  // 선택된 곡 삭제
+  const deleteSelectedSongsFromMyMusic = () => {
+    const selectedSongs = myMusicList.filter(song => song.selected);
+    const musicNos = selectedSongs.map(song => song.musicNo);
+    if (musicNos.length > 0) {
+      axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/delete`, {
+        musicNos: musicNos,
+        userNo: authUser.no
+      })
+        .then(response => {
+          setMyMusicList(myMusicList.filter(song => !song.selected));
+        })
+        .catch(error => {
+          setError('Error deleting songs from MyMusic.');
+        });
+    }
+  };
+
   return (
     <div id="wrap-main">
-      {/* Header */}
       <Header />
 
-      <div id="wrap-body" className="clearfix">
+
+      <div id="wrap-body" className="clearfix ham">
+        {/* 사이드바 */}
         <div id="wrap-side">
           <div id="profile-box">
             <div className="profile-name">
-              <span>
-                <img src={logo} alt="프로필" />
-              </span>
+              <img src={profile} alt="" />
               <div className="profile-name-one">
-                <p><a href="#"><strong>진소영</strong> 님</a></p>
-                <a href="#">프로필수정</a>
+                <p><Link to="#"><strong></strong> 님</Link></p>
+                <Link to="#">프로필수정</Link>
               </div>
             </div>
             <div className="profile-edit">
-              <a href="#" className="button-left"><span>내정보</span></a>
-              <a href="#" className="button-right"><span>이용권내역</span></a>
+              <Link to="#" className="button-left"><span>내정보</span></Link>
+              <Link to="/user/utilize" className="button-right"><span>이용권내역</span></Link>
             </div>
           </div>
-
-          {/* 마이뮤직 리스트 */}
           <div id="profile-list">
-            <a href="#">
+            <Link to="#">
               <span>마이뮤직</span>
-            </a>
+            </Link>
             <div>
               <ul>
-                <li><a href="#" className="menu-item" onClick={() => handleTabClick('playlist')}><img src={searchIcon} alt="검색" /> 마이뮤직리스트</a></li>
-                <li><a href="#" className="menu-item" onClick={() => handleTabClick('likes')}><img src={searchIcon} alt="검색" /> 좋아요♥</a></li>
+                <li><Link to="#"><img src={searchIcon} alt="검색" /> 플레이 리스트</Link></li>
+                <li><Link to="#"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
               </ul>
             </div>
           </div>
         </div>
 
         <div id="wrap-main">
-          <div id="top-title">
-            <h2>마이뮤직</h2>
-            <p>홈  마이뮤직  마이뮤직리스트  <strong>마이뮤직리스트</strong></p>
+          <div id="top-title" className="userinfotitle">
+            <h2>내 정보</h2>
+            <ul className="Breadcrumbs">
+              <li><Link to="#">홈</Link> {'>'}</li>
+              <li><Link to="##">마이뮤직</Link> {'>'}</li>
+              <li><Link to="">내정보</Link> {'>'}</li>
+              <li><strong><Link to="#">기본정보 변경</Link></strong></li>
+            </ul>
           </div>
           <div id="top-ct-list" className="clearfix">
             <ul>
@@ -86,111 +186,133 @@ const MyMusic = () => {
           </div>
 
           <div id="wrap-main-content">
-            {/* 마이뮤직리스트 섹션 */}
-            {activeTab === 'playlist' && (
-              <div id="wrap-playlist">
-                <table id="playlist-table">
-                  <colgroup>
-                    <col style={{ width: '50px' }} />
-                    <col style={{ width: '50px' }} />
-                    <col style={{ width: '200px' }} />
-                    <col style={{ width: '75px' }} />
-                    <col style={{ width: '75px' }} />
-                  </colgroup>
-                  <thead>
-                    <tr>
-                      <th><input type="checkbox" /></th>
-                      <th>번호</th>
-                      <th>곡 정보</th>
-                      <th>듣기</th>
-                      <th>삭제</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {myMusicList.length > 0 ? (
-                      myMusicList.map((song, index) => (
-                        <tr key={song.mymusicNo}>
-                          <td><input type="checkbox" /></td>
-                          <td>{index + 1}</td>
-                          <td>
-                            <div className="song-info">
-                              <img src={albumCover} alt="앨범 커버" />
-                              <div>
-                                <p>{song.title}</p>
-                                <p>{song.artistName} | {song.genre}</p>
-                              </div>
-                            </div>
-                          </td>
-                          <td><button>듣기</button></td>
-                          <td><button>삭제</button></td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="5">마이뮤직 리스트가 없습니다.</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-
-                {/* 페이지네이션 */}
-                <div className="pagination">
-                  <span>&#60;</span>
-                  <span>1 / 5</span>
-                  <span>&#62;</span>
-                </div>
-
-                {/* 테이블 아래 버튼들 */}
-                <br />
-                <div className="action-buttons">
-                  <button>전체 듣기</button>
-                  <button>전체 삭제</button>
-                </div>
-              </div>
-            )}
-
-            {/* 좋아요 리스트 섹션 */}
-            {activeTab === 'likes' && (
-              <div id="wrap-likes">
-                <table id="likes-table">
-                  <thead>
-                    <tr>
-                      <th>번호</th>
-                      <th>곡 정보</th>
-                      <th>듣기</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>
-                        <div className="song-info">
-                          <img src={albumCover} alt="앨범 커버" />
-                          <div>
-                            <p>예시곡</p>
-                            <p>가수명 | 앨범명</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td><button>듣기</button></td>
-                    </tr>
-                    {/* 더 많은 노래 추가 */}
-                  </tbody>
-                </table>
-
-                {/* 페이지네이션 */}
-                <div className="pagination">
-                  <span>&#60;</span>
-                  <span>1 / 5</span>
-                  <span>&#62;</span>
-                </div>
-              </div>
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <>
+                {activeTab === 'playlist' && (
+                  <div className="my-music-playlist">
+                    <table className="my-music-table">
+                      <colgroup>
+                        <col style={{ width: '10%' }} />
+                        <col style={{ width: '60%' }} />
+                        <col style={{ width: '30%' }} />
+                      </colgroup>
+                      <tbody>
+                        {myMusicList.length > 0 ? (
+                          myMusicList.map((song, index) => (
+                            <tr key={song.mymusicNo || `playlist-${index}`}>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  checked={!!song.selected}
+                                  onChange={() => handleCheckboxChange(song.mymusicNo)}
+                                />
+                              </td>
+                              <td>
+                                <div className="song-info">
+                                  <img
+                                    src={getImageUrl(song)}
+                                    alt="앨범 커버"
+                                    className="song-album-image"
+                                  />
+                                  <div className="song-details">
+                                    <p>{song.title}</p>
+                                    <p>{song.artistName} | {song.genre}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <button
+                                  onClick={() => handlePlayAndAddToPlaylist(
+                                    song.musicNo,
+                                    song.title,
+                                    song.artistName,
+                                    song.fileUrl
+                                  )}
+                                  className="jelly-button"
+                                >
+                                  듣기
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="4">마이뮤직 리스트가 없습니다.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                    <div className="my-music-footer">
+                      <button className="jelly-delete-button" onClick={deleteSelectedSongsFromMyMusic}>
+                        선택 삭제
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {activeTab === 'likes' && (
+                  <div className="my-music-likes">
+                    <table className="my-music-table">
+                      <colgroup>
+                        <col style={{ width: '10%' }} />
+                        <col style={{ width: '60%' }} />
+                        <col style={{ width: '30%' }} />
+                      </colgroup>
+                      <tbody>
+                        {likedSongs.length > 0 ? (
+                          likedSongs.map((song, index) => (
+                            <tr key={song.musicNo || `liked-${index}`}>
+                              <td>{index + 1}</td>
+                              <td>
+                                <div className="song-info">
+                                  <img src={getImageUrl(song)} alt="앨범 커버" className="song-album-image" />
+                                  <div className="song-details">
+                                    <p>{song.title}</p>
+                                    <p>{song.artistName} | {song.genre}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <button
+                                  onClick={() => handlePlayAndAddToPlaylist(
+                                    song.musicNo,
+                                    song.title,
+                                    song.artistName,
+                                    song.fileUrl
+                                  )}
+                                  className="jelly-button"
+                                >
+                                  듣기
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="3">좋아요 한 곡이 없습니다.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
+        {/* 모달 컴포넌트 사용 */}
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          {selectedSong && (
+            <MusicPlayer
+              modalTitle={selectedSong.title}
+              modalArtist={selectedSong.artist}
+              modalFileUrl={selectedSong.fileUrl}
+              useModal={true}
+            />
+          )}
+        </Modal>
       </div>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
