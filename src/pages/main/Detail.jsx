@@ -306,6 +306,7 @@ const handleReplyToggle = (parentNo) => {
                                                 <div key={reply.commentNo} className="reply-item">
                                                     <p><strong>{reply.userName}</strong> <span>{reply.createdDate}</span></p>
                                                     <p>{reply.reContent}</p>
+                                                    <button className="delete-btn">삭제</button>
                                                 </div>
                                             ))
                                         ) : (
