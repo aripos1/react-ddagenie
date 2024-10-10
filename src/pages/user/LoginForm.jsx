@@ -88,7 +88,7 @@ const JoinForm = () => {
             {/* 헤더 */}
             <header id="headerbar">
                 <div className="logo">
-                    <img src={logo} alt="Ddagenie 로고" />
+                    <Link to="/"><img src={logo} alt="Ddagenie 로고" /></Link>
                 </div>
                 <nav className="join-nav">
                     <ul>
@@ -158,9 +158,6 @@ const JoinForm = () => {
                     <p>Copyright © Ddagenie Music Corp. All rights reserved.</p>
                 </div>
             </main>
-
-            {/* 푸터 */}
-            <footer></footer>
         </div>
     );
 };
