@@ -238,7 +238,7 @@ const MusicList = () => {
                                             </span>
                                         </td>
                                         <td>
-                                            <Link to="#" className="cover" onClick={() => fnViewAlbumLayer(song.imageName)}>
+                                        <Link to={`/main/detail/${song.musicNo}`} className="cover" onClick={() => fnViewAlbumLayer(song.imageName)}>
                                                 <span className="mask"></span>
                                                 <img
                                                     src={getImageUrl(song)}

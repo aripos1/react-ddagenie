@@ -7,7 +7,7 @@ import chartimage from '../../assets/images/cuteddagenie.png';
 import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
 import Header from '../include/Header';
-
+import { Link } from 'react-router-dom';
 const Index = () => {
     const navigate = useNavigate();
     const [topLikedSongs, setTopLikedSongs] = useState([]);
@@ -39,7 +39,7 @@ const Index = () => {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/main`);
             if (response.data.result === 'success') {
                 setBannerImages(response.data.apiData.slice(0, 10)); // 최대 10개의 배너 이미지
-                
+
             } else {
                 console.error('Error fetching banner images');
             }
@@ -47,7 +47,7 @@ const Index = () => {
             console.error("Error fetching banner images:", error);
         }
     };
-    
+
     useEffect(() => {
         fetchTopLikedSongs(); // 인기 순위 곡 API 호출
         fetchBannerImages(); // 배너 이미지 API 호출
@@ -138,8 +138,8 @@ const Index = () => {
         }
     };
 
-     // 이미지 클릭 시 음악 상세 페이지로 이동
-     const handleImageClick = (musicNo) => {
+    // 이미지 클릭 시 음악 상세 페이지로 이동
+    const handleImageClick = (musicNo) => {
         navigate(`/main/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
     };
 
@@ -151,7 +151,7 @@ const Index = () => {
             <div className="container">
                 {/* 최신 음악 배너 */}
                 <div className="banner-section">
-                <h2>최신음악</h2>
+                    <h2>최신음악</h2>
                     <div className="banner-container">
                         {bannerImages.map((music, index) => (
                             <div className="banner-item" key={music.musicNo} onClick={() => handleImageClick(music.musicNo)}>
@@ -163,12 +163,7 @@ const Index = () => {
                             </div>
                         ))}
                     </div>
-                    {/* 페이지네이션 */}
-                    <div className="pagination">
-                        <span>&#60;</span>
-                        <span>1 / 6</span>
-                        <span>&#62;</span>
-                    </div>
+
                 </div>
 
                 {/* 광고 배너 섹션 */}
@@ -205,12 +200,15 @@ const Index = () => {
                                     <td>{index + 1}</td>
                                     <td>
                                         <div className="song-info">
-                                            <img
-                                                src={getImageUrl(song)}
-                                                alt={song.title}
-                                                className="song-cover"
-                                                onError={(e) => { e.target.src = chartimage; }} // 이미지 로드 실패 시 대체 이미지 사용
-                                            />
+                                            <Link to={`/main/detail/${song.musicNo}`}>
+                                                <img
+                                                    src={getImageUrl(song)}
+                                                    alt={song.title}
+                                                    className="song-cover"
+                                                    onError={(e) => { e.target.src = chartimage; }} // 이미지 로드 실패 시 대체 이미지 사용
+                                                />
+                                            </Link>
+
                                             <div className="song-details">
                                                 <span className="song-title">{song.title}</span>
                                                 <span className="artist">{song.artistName}</span>

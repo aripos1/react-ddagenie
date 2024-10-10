@@ -36,7 +36,7 @@ const Detail = () => {
             if (no) {
                 try {
                     // 음악 정보 가져오기
-                    const musicResponse = await axios.get(`http://localhost:8888/api/music/${no}`, {
+                    const musicResponse = await axios.get(`http://localhost:8888/api/detail/${no}`, {
                         headers: { "Content-Type": "application/json; charset=utf-8" }
                     });
 
@@ -243,7 +243,7 @@ const handleReplyToggle = (parentNo) => {
                             <div className="buttons">
                                 <button className="button-play">듣기</button>
                                 <button className="button-add">담기</button>
-                                <span className="like-count">좋아요 수: {likeCount}</span>
+                               
                             </div>
                         </div>
                     </div>
@@ -283,6 +283,7 @@ const handleReplyToggle = (parentNo) => {
                             <button className="comment-submit" onClick={handleCommentSubmit}>
                                 댓글 등록
                             </button>
+                            
                         </div>
 
                         {/* 댓글 목록 */}
@@ -292,6 +293,7 @@ const handleReplyToggle = (parentNo) => {
                             <div className="comment-item" key={comment.commentNo}>
                                 <p><strong>{comment.userName}</strong> <span>{comment.createdDate}</span></p>
                                 <p>{comment.reContent}</p>
+                                <button className="delete-btn">삭제</button>
                                 <button className="reply-toggle" onClick={() => handleReplyToggle(comment.commentNo)}>
                                     {comment.isReplyVisible ? '대댓글 숨기기' : '대댓글 보기'}
                                 </button>
@@ -321,6 +323,7 @@ const handleReplyToggle = (parentNo) => {
                                             <button className="reply-submit" onClick={(e) => handleReplySubmit(e, comment.commentNo)}>
                                                 대댓글 등록
                                             </button>
+                                            
                                         </div>
                                     </div>
                                 )}
