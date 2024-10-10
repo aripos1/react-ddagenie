@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img2.png';
 
+
+
 const Sidebar = ({ name, profile }) => {
     return (
         <div id="wrap-side">

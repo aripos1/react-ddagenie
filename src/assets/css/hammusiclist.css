@@ -23,12 +23,13 @@
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.ham .musiclist .listTitle {
+.ham .musiclist #top-title {
     display: flex;
     align-items: center;
-    width: 700px;
-    margin-left: 20px;
+    width: 900px;
+    margin: 10px 0 10px 20px;
     padding-top: 30px;
+    border: none;;
 }
 
 .ham .musiclist .Breadcrumbs {

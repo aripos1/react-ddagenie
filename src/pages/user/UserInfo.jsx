@@ -31,6 +31,8 @@ const UserInfo = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [deleteProfile, setDeleteProfile] = useState(false);
 
+    
+
 
     // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
