@@ -1,8 +1,8 @@
 /* 페이지 전체 컨테이너 */
 .page-main-container {
-    width: 80%; /* 또는 원하는 적당한 너비로 설정 */
-    max-width: 1200px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 */
-    margin: 20px auto; /* 수평 중앙 정렬 */
+    width: 100%; /* 또는 원하는 적당한 너비로 설정 */
+    max-width: 1300px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 */
+    margin: 20px 0px 20px -30px; /* 수평 중앙 정렬 */
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -31,14 +31,15 @@
 }
 
 .album-info h1 {
-    font-size: 24px;
+    font-size: 40px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 .album-info p {
-    font-size: 14px;
+    font-size: 20px;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 /* 버튼 스타일 */
@@ -122,7 +123,7 @@
 }
 
 .comment-input {
-    width: 100%;
+    width: 89%;
     height: 60px;
     padding: 10px;
     border: 1px solid #ccc;
