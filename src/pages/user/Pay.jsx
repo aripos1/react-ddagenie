@@ -36,7 +36,7 @@ const Pay = () => {
 
         axios({
             method: 'get', 			// put, post, delete                   
-            url: `http://localhost:8888/api/product/${no}`,
+            url: `${process.env.REACT_APP_API_URL}/api/product/${no}`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                               //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
@@ -84,7 +84,7 @@ const Pay = () => {
 
         axios({
             method: 'post', 			// put, post, delete                   
-            url: 'http://localhost:8888/api/product',
+            url: `${process.env.REACT_APP_API_URL}/api/product`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                               //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put

@@ -1,7 +1,7 @@
 //import 라이브러리
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams  } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -11,41 +11,96 @@ import Header from '../include/Header';
 import ItemMusic from './ItemMusic';
 import '../../assets/css/musicAdmin.css';
 
+import searchLogo from '../../assets/images/search.png';
+import profileImg from '../../assets/images/cuteddagenie.png';
+
 
 
 const MusicAdmin = () => {
 
-    /*---라우터 관련-------------------------------*/
+    
     const [musicList, setMusicList] = useState([]);
+    
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+    const p = parseInt(searchParams.get('p')) || 1; // 페이지를 정수로 변환
+    const k = searchParams.get('k') || ''; // 키워드
 
-    /*---일반 변수--------------------------------*/
+    const [keyword, setKeyword] = useState(k);
+    const [prev, setPrev] = useState(false);
+    const [next, setNext] = useState(false);
 
-    /*---일반 메소드 -----------------------------*/
-    const getMusicList = ()=>{
+    const [totalCount, setTotalCount] = useState(0); // 전체 음악 개수 추가
+    const [pageSize] = useState(10); // 페이지당 음악 개수
 
-        axios({
+    
+    // 페이지 클릭 시 startPageBtnNo와 endPageBtnNo 계산
+    const calculatePageButtons = () => {
+        const totalPages = Math.ceil(totalCount / pageSize); // 총 페이지 수 계산
 
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/musicAdmins`,
+        return {
+            startPage: Math.max(1, p - 2), // 현재 페이지를 중심으로 2개 버튼 표시
+            endPage: Math.min(totalPages, p + 2), // 총 페이지 수를 넘지 않도록 설정
+        };
+    };
 
-            responseType: 'json' //수신타입
-        }).then(response => {
-            console.log(response.data); //수신데이타
-            
-            setMusicList(response.data.apiData);
+    // 페이징 숫자 반복
+    const arrLoop = () => {
+
+        const { startPage, endPage } = calculatePageButtons();
+        const newArray = [];
+        for (let i = startPage; i <= endPage; i++) {
+            newArray.push(
+                <li key={i}>
+                    <Link id="btn_page" to={`/admin/musicadmin?p=${i}&k=${keyword}`} className={p === i ? 'active' : ''}>
+                        {i}
+                    </Link>
+                </li>
+            );
+        }
+
+        return newArray;
+    };
 
 
-        }).catch(error => {
-            console.log(error);
 
-        });
+    // 검색 키워드 입력
+    const handleKeyword = (e) => {
+        setKeyword(e.target.value);
+    }
 
+    // 검색 버튼 클릭
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setSearchParams({ p: 1, k: keyword }); // 검색 시 페이지를 1로 설정
+        //getMusicList();	
 
     }
 
-    /*---훅(useEffect)+이벤트(handle)메소드-------*/
+
+
+
+    const getMusicList = () => {
+        const criteria = { crtpage: p, keyword: keyword };
+        //console.log(criteria);
+        axios({
+            method: 'get',
+            url: `${process.env.REACT_APP_API_URL}/api/musicAdmins`,
+            params: criteria,
+            responseType: 'json',
+        }).then(response => {
+
+            const apiData = response.data.apiData || {};
+            setMusicList(apiData.musicList || []);
+            setTotalCount(apiData.totalCount || 0); // 전체 음악 개수 업데이트
+            setPrev(apiData.prev || false);
+            setNext(apiData.next || false);
+
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
     useEffect( ()=>{
 
         console.log("마운트 온");
@@ -53,7 +108,7 @@ const MusicAdmin = () => {
         getMusicList();
 
 
-    }, [] );
+    }, [p, keyword] ); // p와 keyword가 변경될 때마다 데이터 로드
 
 
 
@@ -83,7 +138,7 @@ const MusicAdmin = () => {
                         <div id="profile-box" >
                             <div className="profile-name" >
                                 <span>
-                                    <img src="../../assets/images/cuteddagenie.png" />
+                                    <img src={profileImg} />
                                 </span>
                                 <div className="profile-name-one">
                                     <p><Link to="" rel="noreferrer noopener"><strong>진소영</strong> 님</Link></p>
@@ -104,45 +159,51 @@ const MusicAdmin = () => {
                             </a>
                             <div>
                                 <ul>
-                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 아티스트 관리</Link></li>
-                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 음원 관리</Link></li>
-                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src="../../assets/images/search.png" /> 결제 관리</Link></li>
+                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src={searchLogo} /> 아티스트 관리</Link></li>
+                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src={searchLogo} /> 음원 관리</Link></li>
+                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src={searchLogo} /> 결제 관리</Link></li>
                                 </ul>
                             </div>
                         </div>
                         {/* <!-- /마이뮤직 리스트--> */}
                     </div>
                     <div id="wrap-main">
-                        <div id="top-title">
-                            <h2>음원리스트</h2>
-                        </div>
 
                         <div id="musicAdmin">
 
+
+                            <div id="top-title">
+                                <h2>음원리스트</h2>
+                                <h4>관리자님 어서오세요*^^*</h4>
+                            </div>
+
                             <div className="container">
+
                                 <div className="header">
-                                    <input type="text" id="search" placeholder="검색할 내용을 입력하세요" />
-                                    <button type="submit" id="btn_search">검색</button>
+                                    <form onSubmit={handleSearch}>
+                                        <input type="text" id="search" value={keyword} onChange={handleKeyword} placeholder="검색할 내용을 입력하세요" />
+                                    </form>
 
                                     <Link to='/admin/musicinsert' ><input type="button" id="btn_insert" value="음원등록" /></Link>
                                 </div>
                         
                                 <table>
-                                    <thead>
+                                    <thead>     
                                         <tr>
-                                            <th>제목</th>
-                                            <th>아티스트(가수)</th>
-                                            <th>장르</th>
-                                            <th>발매일</th>
-                                            <th>음원내용</th>
-                                            <th>수정</th>
-                                            <th>삭제</th>
+                                            <th >No</th>
+                                            <th >제목</th>
+                                            <th >아티스트</th>
+                                            <th >장르</th>
+                                            <th >발매일</th>
+                                            <th >음원내용</th>
+                                            <th >수정</th>
+                                            <th >삭제</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         
 
-                                        { musicList.map( ( musicVo ) => { 
+                                        { Array.isArray(musicList) && musicList.map( ( musicVo ) => { 
 
                                             return(
                                                 <ItemMusic key={musicVo.musicNo}
@@ -156,6 +217,18 @@ const MusicAdmin = () => {
 
                                     </tbody>
                                 </table>
+
+
+
+                                <div id="paging">
+
+                                    <span>{prev && <Link id="direction1" to={`/admin/musicadmin?p=${p - 1}&k=${keyword}`}>◀</Link>}</span>
+                                    <span><ul>{arrLoop()}</ul></span>
+                                    <span>{next && <Link id="direction2" to={`/admin/musicadmin?p=${p + 1}&k=${keyword}`}>▶</Link>}</span>
+                                    <div className="clear"></div>
+                                </div>
+
+
                             </div>
 
                         </div>

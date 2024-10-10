@@ -4,17 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import '../../assets/css/all.css';
 import '../../assets/css/index.css';
 import chartimage from '../../assets/images/cuteddagenie.png';
-import coverimage from '../../assets/images/logo.webp';
 import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
 import Header from '../include/Header';
+import { Link } from 'react-router-dom';
+import Modal from '../music/Modal'; // 모달 컴포넌트 import
+import MusicPlayer from '../music/MusicPlayer'; // MusicPlayer 컴포넌트 import
 
 const Index = () => {
     const navigate = useNavigate();
     const [topLikedSongs, setTopLikedSongs] = useState([]);
     const [bannerImages, setBannerImages] = useState([]); // 배너 이미지 상태 추가
     const [authUser, setAuthUser] = useState(null); // 로그인된 유저 상태 추가
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedSong, setSelectedSong] = useState(null);
+    const [myMusic, setMyMusic] = useState([]);
+    const [playlist, setPlaylist] = useState([]); // MusicPlayer에 전달할 재생목록
     // 로그인 유저 정보 가져오기 (localStorage)
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
@@ -26,7 +31,7 @@ const Index = () => {
     // API에서 인기순위(좋아요 순위) 곡을 가져오는 함수
     const fetchTopLikedSongs = async () => {
         try {
-            const response = await axios.get('http://localhost:8888/api/top-liked-songs');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/top-liked-songs`);
             setTopLikedSongs(response.data);
         } catch (error) {
             console.error("Error fetching top liked songs:", error);
@@ -37,10 +42,10 @@ const Index = () => {
     //배너에 10개씩 띄우는 함수
     const fetchBannerImages = async () => {
         try {
-            const response = await axios.get('http://localhost:8888/api/main');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/main`);
             if (response.data.result === 'success') {
                 setBannerImages(response.data.apiData.slice(0, 10)); // 최대 10개의 배너 이미지
-                
+
             } else {
                 console.error('Error fetching banner images');
             }
@@ -48,7 +53,7 @@ const Index = () => {
             console.error("Error fetching banner images:", error);
         }
     };
-    
+
     useEffect(() => {
         fetchTopLikedSongs(); // 인기 순위 곡 API 호출
         fetchBannerImages(); // 배너 이미지 API 호출
@@ -73,60 +78,62 @@ const Index = () => {
         }
     };
 
-    // 팝업 창 열기 함수 (곡 정보 전달)
-    const openPlayerPopup = (title, artist, fileUrl) => {
-        const popupWidth = 735;
-        const popupHeight = 460;
-        const popupOptions = `width=${popupWidth},height=${popupHeight},resizable=yes,scrollbars=no`;
 
-        // 팝업 창에 곡 정보 전달
-        const popupUrl = `/music/musicplayer?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&fileUrl=${encodeURIComponent(fileUrl)}`;
-        window.open(popupUrl, 'Music Player', popupOptions);
-    };
 
-    // 노래 재생 + 재생목록에 추가
-    const handlePlayAndAddToPlaylist = async (musicNo, title, artist, fileUrl) => {
+    // 곡 재생 및 플레이리스트에 추가하는 함수
+    const handlePlayAndAddToPlaylist = async (musicNo, title, artistName, fileUrl) => {
         if (!authUser) {
             alert("로그인 해주세요.");
             return;
         }
 
+        const newSong = {
+            musicNo,
+            title,
+            artist: artistName,
+            fileUrl,
+        };
+
+        setPlaylist((prevPlaylist) => [...prevPlaylist, newSong]);
+        setSelectedSong(newSong);
+        setIsModalOpen(true);
+
         try {
-            // 재생목록에 곡 추가
-            const response = await axios.post('http://localhost:8888/api/playlist/add', {
-                userNo: authUser.no, // 로그인된 유저의 사용자 번호
-                musicNo: musicNo,
-                title: title,
-                artist: artist,
-                fileUrl: fileUrl
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
+                userNo: authUser.no,
+                musicNo,
+                title,
+                artist: artistName,
+                fileUrl,
             });
 
             if (response.status === 200) {
                 console.log('곡이 재생목록에 추가되었습니다:', response.data);
-
-                // 곡 추가 후 팝업을 열어 곡을 재생
-                openPlayerPopup(title, artist, fileUrl);
             } else {
-                console.error('재생목록에 곡 추가 실패');
+                console.error('Failed to add song to playlist on the server.');
             }
         } catch (error) {
-            console.error('Error adding song to playlist:', error);
+            console.error('Error adding song to playlist on the server:', error);
         }
     };
 
+    // 모달 닫기
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedSong(null);
+    };
+
     // 마이뮤직에 곡 추가 함수
-    const handleAddToMyMusic = async (musicNo, title, artist) => {
+    const handleAddToMyMusic = async (musicNo) => {
         if (!authUser) {
             alert("로그인 해주세요.");
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:8888/api/mymusic/add', {
-                userNo: authUser.no, // 로그인된 유저의 사용자 번호
-                musicNo: musicNo,
-                title: title,
-                artist: artist
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
+                userNo: authUser.no,
+                musicNos: [musicNo], // 배열 형태로 전송
             });
 
             if (response.status === 200) {
@@ -139,8 +146,10 @@ const Index = () => {
         }
     };
 
-     // 이미지 클릭 시 음악 상세 페이지로 이동
-     const handleImageClick = (musicNo) => {
+
+
+    // 이미지 클릭 시 음악 상세 페이지로 이동
+    const handleImageClick = (musicNo) => {
         navigate(`/main/detail/${musicNo}`); // 해당 음악 번호에 맞는 상세 페이지로 이동
     };
 
@@ -152,7 +161,7 @@ const Index = () => {
             <div className="container">
                 {/* 최신 음악 배너 */}
                 <div className="banner-section">
-                <h2>최신음악</h2>
+                    <h2>최신음악</h2>
                     <div className="banner-container">
                         {bannerImages.map((music, index) => (
                             <div className="banner-item" key={music.musicNo} onClick={() => handleImageClick(music.musicNo)}>
@@ -164,17 +173,14 @@ const Index = () => {
                             </div>
                         ))}
                     </div>
-                    {/* 페이지네이션 */}
-                    <div className="pagination">
-                        <span>&#60;</span>
-                        <span>1 / 6</span>
-                        <span>&#62;</span>
-                    </div>
+
                 </div>
 
                 {/* 광고 배너 섹션 */}
                 <div className="ad-banner" >
+                   <Link to="https://seoulmusicfestival.co.kr/kor/index.php">
                     <img src={banner} style={{ width: '1000px' }} alt="광고 배너 이미지" />
+                    </Link>
                 </div>
 
                 {/* 인기 순위 리스트 */}
@@ -182,9 +188,10 @@ const Index = () => {
                     <div className="ranking-header">
                         <h2>인기순위</h2>
                         <button
-                            className="icon-btn player-btn"
-                            onClick={() => openPlayerPopup()}
+                            className="icon-btn play-btn"
+                            onClick={() => setIsModalOpen(true)}
                         >
+                            ▶
                         </button>
                     </div>
                     <table className="playlist">
@@ -206,12 +213,9 @@ const Index = () => {
                                     <td>{index + 1}</td>
                                     <td>
                                         <div className="song-info">
-                                            <img
-                                                src={getImageUrl(song)}
-                                                alt={song.title}
-                                                className="song-cover"
-                                                onError={(e) => { e.target.src = chartimage; }} // 이미지 로드 실패 시 대체 이미지 사용
-                                            />
+                                            <Link to={`/main/detail/${song.musicNo}`}>
+                                                <img src={getImageUrl(song)} alt={song.title} className="song-cover" onError={(e) => { e.target.src = chartimage; }} />
+                                            </Link>
                                             <div className="song-details">
                                                 <span className="song-title">{song.title}</span>
                                                 <span className="artist">{song.artistName}</span>
@@ -240,7 +244,6 @@ const Index = () => {
                                         >
                                             +
                                         </button>
-
                                     </td>
                                 </tr>
                             ))}
@@ -248,10 +251,20 @@ const Index = () => {
                     </table>
                 </div>
             </div>
-
+            {/* 모달 사용 */}
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <MusicPlayer
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    playlist={playlist}
+                    initialSong={selectedSong}
+                    myMusic={myMusic}
+                    setMyMusic={setMyMusic}
+                />
+            </Modal>
             {/* Footer 컴포넌트 삽입 */}
             <Footer />
-        </div>
+        </div >
     );
 };
 

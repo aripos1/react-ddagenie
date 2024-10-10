@@ -28,6 +28,7 @@ const Utilize = () => {
     
     const authUser = JSON.parse(localStorage.getItem('authUser'));
     const userNo = authUser.no;
+    const ticketStatus = authUser.ticket_status;
     
     
     
@@ -42,7 +43,7 @@ const Utilize = () => {
 
         axios({
             method: 'get', 			// put, post, delete                   
-            url: 'http://localhost:8888/api/pay/user?userNo='+userNo,
+            url: `${process.env.REACT_APP_API_URL}/api/pay/${userNo}`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                               //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
@@ -176,7 +177,7 @@ console.log(dayDifference)
                         <div id="top-ct-list">
                             <ul>
                                 <li><Link to="#">이용권 상세내역</Link></li>
-                                <li><Link to="/user/deleteForm">이용권 해지/취소 신청</Link></li>
+                                <li><Link to={`/user/deleteForm/${userNo}`}>이용권 해지/취소 신청</Link></li>
                             </ul>
                         </div>
                         
@@ -184,10 +185,17 @@ console.log(dayDifference)
                             <div id="date-coupon">
                                 <div id="coupon-title">음악감상 잔여일</div>
                                 <div id="coupon-count">
-                                {dayDifference >= 0 ? (
-                                    <span>{dayDifference} 일</span> 
-                                    ) : (
-                                    <span>이용권이 없습니다</span>)}
+                                {ticketStatus !== '해지요청' ? (
+                                    dayDifference >= 0 ? (
+                                        <span>{dayDifference} 일</span>
+                                        
+                                        ) : (
+                                        <span>이용권이 없습니다</span>)
+                                ) : (
+                                    <span>해지 진행중입니다.</span>
+                                )}
+
+                                    
                                     
                                     {dayDifference >= 0  ? (
                                         <button onClick={check_ticketState}>음악감상 이용권구매</button>

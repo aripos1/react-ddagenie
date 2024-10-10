@@ -19,6 +19,9 @@ const Payment = () => {
     /* ---라우터 관련 ------ */
 
     const [productList,setProductList] = useState([]);
+    const [goodsName, setGoodsName] = useState('');
+    const authUser = JSON.parse(localStorage.getItem('authUser'));
+    const [userNo, setUserNo] = useState('');
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     
@@ -30,7 +33,7 @@ const Payment = () => {
 
         axios({
             method: 'get', 			// put, post, delete                   
-            url: 'http://localhost:8888/api/products',
+            url: `${process.env.REACT_APP_API_URL}/api/products`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                               //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
@@ -46,6 +49,8 @@ const Payment = () => {
             console.log(response.data.apiData);
 
             setProductList(response.data.apiData);
+            setUserNo(authUser.no)
+            
 
             
         }).catch(error => {
@@ -53,10 +58,11 @@ const Payment = () => {
         });
 
     };
+    console.log(userNo)
 
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     
-
+    
 
         //문법임. 여기안에 담겨진다.
         
@@ -89,12 +95,12 @@ const Payment = () => {
                             <p>홈 | 마이뮤직 | 이용권구매 | <strong>BEST 이용권</strong></p>
                         </div>
                         <div id="select-usePayment">
-                            <Link to='#' id="use-payment-my">사용중인 이용권</Link>
+                            <Link to='/user/utilize' id="use-payment-my">사용중인 이용권</Link>
                             {/* <span>사용중인 이용권이 없습니다.</span>
                             <p>이용권을 구매하고 다양한 혜택을 누리세요!</p> */}
-                            <span>1일 이용권 사용중입니다.</span>
+                            <span>사용중인 이용권이 없습니다.</span>
                             <p>지금바로 다양한 음악들을 만나보세요!</p>
-                            <Link to="#"><button id="delete-move-button">이용권 해지/설정</button></Link>
+                            <Link to={`/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
                         </div>
                         {productList.map((productVo)=>{
                             return(

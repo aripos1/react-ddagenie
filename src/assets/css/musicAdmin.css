@@ -1,6 +1,18 @@
 @charset "UTF-8";
 
 
+#musicAdmin #top-title, #musicInsert #top-title, #musicUpdate #top-title, #artistInsert #top-title {
+	width: 700px;
+	text-align: center;
+	border: none;
+}
+
+#musicAdmin h4, #musicInsert h4, #musicUpdate h4, #artistInsert h4 {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+
 
 /* ################################################# */
 /* MusicAdmin */
@@ -9,12 +21,15 @@
 
 #musicAdmin .container {
 	margin: 20px;
+	width: 680px;
 }
 #musicAdmin .header {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
 }
+
+
 #musicAdmin .header input[type="text"] {
 	width: 300px;
 	padding: 8px;
@@ -22,72 +37,73 @@
 	border-radius: 4px;
 }
 #musicAdmin .header button {
-	background-color: #4CAF50;
+	background-color: #0095FF;
 	color: white;
 	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 }
-
 #musicAdmin .header input[type="button"] {
 	border: none;
 	border-radius: 5px;
-	background-color: #4CAF50;
+	background-color: #0095FF;
 	padding: 10px 20px;
 	color: white;
 	float: right;
 	cursor: pointer;
 }
-
 #musicAdmin .header button:hover {
-	background-color: #45a049;
+	background-color: #007bb5;
 }
+
 
 
 #musicAdmin table {
 	width: 100%;
 	border-collapse: collapse;
-}
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 테이블에 그림자 추가 */
 
+}
+#musicAdmin table>thead {
+    background-color: #f2f2f2; 
+}
 #musicAdmin table>thead>tr {
-    border-top: 2px solid #808080; 
+    border: 2px solid #808080; 
     border-bottom: 2px solid #808080;
     background-color: #DDDDDD; 
     padding: 0px;
 }
-
-
 #musicAdmin table>thead>tr>th {
     padding: 10px 0px 10px 0px;
     font-weight: bold; 
+	text-align: center;
+	border-bottom: 2px solid #808080;
 }
-
 #musicAdmin table>tbody>tr { 
     border-bottom: 1px solid #808080;
 }
-
 #musicAdmin table>tbody>tr:hover { 
-	background-color: #cbf77b; 
+	background-color: #e6f7ff; 
 }
-
 #musicAdmin table>tbody>tr>td {
     padding: 10px 0px 10px 0px;
 	text-align: center;
+	border-bottom: 1px solid #ddd;
 }
 
 
 
-
-
-
-
-#musicAdmin .action-btn {
-	background-color: #008CBA;
+#musicAdmin .action-btn, #musicAdmin .delete-btn {
 	color: white;
 	padding: 5px 10px;
 	text-decoration: none;
 	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+}
+#musicAdmin .action-btn{
+	background-color: #0095FF;
 }
 #musicAdmin .action-btn:hover {
 	background-color: #007bb5;
@@ -98,6 +114,40 @@
 #musicAdmin .delete-btn:hover {
 	background-color: #da190b;
 }
+
+
+
+
+
+#musicAdmin #paging {
+	margin-top: 20px;
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+#musicAdmin #paging ul {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    margin: 0 10px; /* 좌우 여백 설정 */
+    display: flex; /* Flexbox 사용 */
+}
+
+#musicAdmin #paging li {
+    margin: 0 5px; /* 각 페이지 버튼 간의 간격 */
+}
+
+#musicAdmin #paging a {
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    padding: 5px 10px; /* 버튼 여백 */
+}
+
+
+
+
+
+
+
 
 
 /* ################################################# */
@@ -136,14 +186,14 @@
 #musicInsert button {
 	width: 100%;
 	padding: 10px;
-	background-color: #4CAF50;
+	background-color: #0095FF;
 	color: white;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 }
 #musicInsert button:hover {
-	background-color: #45a049;
+	background-color: #0283DF;
 }
 #musicInsert .back-btn {
 	background-color: #555;
@@ -190,14 +240,14 @@
 #musicUpdate button {
 	width: 100%;
 	padding: 10px;
-	background-color: #4CAF50;
+	background-color: #0095FF;
 	color: white;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 }
 #musicUpdate button:hover {
-	background-color: #45a049;
+	background-color: #0283DF;
 }
 #musicUpdate .back-btn {
 	background-color: #555;
@@ -216,13 +266,14 @@
 	font-weight: bold;
 	margin-top: 10px;
 	display: block;
+	width: 100%;
 
 }
 
 #artistInsert input[type="text"] {
-	width: 100%;
+	width: 400px;
 	padding: 8px;
-	margin-top: 5px;
+	margin-top: 10px;
 	margin-bottom: 20px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
@@ -230,14 +281,32 @@
 }
 
 #artistInsert .bts-artistname {
-	width: 100%;
+	width: 420px;
 	padding: 10px;
-	background-color: #4CAF50;
+	background-color: #0095FF;
 	color: white;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 
+}
+
+
+#artistInsert button {
+	width: 420px;
+	padding: 10px;
+	background-color: #0095FF;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#artistInsert .back-btn {
+	background-color: #555;
+	margin-top: 10px;
+}
+#artistInsert .back-btn:hover {
+	background-color: #333;
 }
 
 
