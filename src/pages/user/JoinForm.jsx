@@ -126,8 +126,8 @@ const JoinForm = () => {
         <>
             <div id="wrap-main" className="ham">
                 <header id="headerbar">
-                    <div className="logo">
-                        <img src={logo} alt="Ddagenie 로고" />
+                <div className="logo">
+                        <Link to="/"><img src={logo} alt="Ddagenie 로고" /></Link>
                     </div>
                     <nav className="join-nav">
                         <ul>

@@ -200,8 +200,8 @@ const UserInfo = () => {
                         </Link>
                         <div>
                             <ul>
-                                <li><Link to="#"><img src={searchIcon} alt="검색" /> 플레이 리스트</Link></li>
-                                <li><Link to="#"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
+                                <li><Link to="/user/mymusic"><img src={searchIcon} alt="검색" /> 마이뮤직리스트</Link></li>
+                                <li><Link to="/user/mymusic#"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -212,8 +212,8 @@ const UserInfo = () => {
                     <div id="top-title" className="userinfotitle">
                         <h2>내 정보</h2>
                         <ul className="Breadcrumbs">
-                            <li><Link to="#">홈</Link> {'>'}</li>
-                            <li><Link to="##">마이뮤직</Link> {'>'}</li>
+                            <li><Link to="/">홈</Link> {'>'}</li>
+                            <li><Link to="/user/mymusic">마이뮤직</Link> {'>'}</li>
                             <li><Link to="">내정보</Link> {'>'}</li>
                             <li><strong><Link to="#">기본정보 변경</Link></strong></li>
                         </ul>

@@ -18,14 +18,22 @@ const Header = () => {
     const navigate = useNavigate();
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )---*/
+    // 로그인 상태 관리
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // 로그인한 사용자 이름
+    const [username, setUsername] = useState('');
+    // 프로필 이미지
+    const [profileImage, setProfileImage] = useState(defaultProfile);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-    const [username, setUsername] = useState(''); // 로그인한 사용자 이름
-    const [profileImage, setProfileImage] = useState(defaultProfile); // 프로필 이미지
+    /*리액트 warning 메시지 무시*/
     // eslint-disable-next-line no-unused-vars
     const [token, setToken] = useState(localStorage.getItem('token'));
     // eslint-disable-next-line no-unused-vars
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
+    /* //리액트 warning 메시지 무시*/
+
+    // 검색창 관련 : 검색어 상태
+    const [searchQuery, setSearchQuery] = useState("");
 
     //소영 : 이용권 잔여시간 계산용
     const [dayDifference, setDayDifference] = useState(null);
@@ -175,12 +183,31 @@ const Header = () => {
         navigate('/login');
     };
 
+     /* 검색창 관련 */
+    // 검색어 입력 시 상태 업데이트
+    const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    // 검색 버튼 클릭 또는 엔터 입력 시 검색 처리
+    const handleSearch = () => {
+        // 검색어를 리스트 페이지로 전달
+        navigate(`/musiclist?query=${searchQuery}`);
+    };
+
+    // 엔터 키로 검색 실행
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     return (
         <div id="wrap-head" className='ham'>
             <div id="wrap-header">
                 <div id="purchase-button">
                     <img src={walletIcon} alt="지갑 아이콘" />
-                    <Link to={""} className="headBuy">이용권구매</Link>
+                    <Link to={"/user/payment"} className="headBuy">이용권구매</Link>
                 </div>
                 <div className="header-main">
                     <div className="header-left">
@@ -189,14 +216,17 @@ const Header = () => {
                         </span>
                         <div id="search-wrap">
                             <input
+                                id='sc-fd'
                                 type="search"
-                                id="sc-fd"
+                                value={searchQuery}
+                                onChange={handleSearchInputChange}
+                                onKeyDown={handleKeyDown}
                                 className="ipt-search"
                                 maxLength="200"
                                 autoComplete="off"
-                                placeholder="가을에 듣기 좋은 감성 발라드"
+                                placeholder="아티스트 또는 곡 제목을 검색하세요"
                             />
-                            <input type="submit" className="btn-submit" value="" />
+                            <button onClick={handleSearch} className="btn-submit"></button>
                         </div>
                     </div>
                 </div>
@@ -205,7 +235,7 @@ const Header = () => {
                     <ul className="menu clearfix">
                         <li><Link to="/musiclist" className="gnb-menu">따지니차트</Link></li>
                         <li><Link to="#" className="gnb-menu">최신음악</Link></li>
-                        <li><Link to="#" className="gnb-menu">장르음악</Link></li>
+                        <li><Link to="/musiclist" className="gnb-menu">장르음악</Link></li>
                     </ul>
 
                     <ul className="gnb-my">
