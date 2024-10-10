@@ -9,6 +9,7 @@ import Modal from './Modal'; // 모달 컴포넌트 import
 import MusicPlayer from './MusicPlayer'; // MusicPlayer 컴포넌트 import
 import Header from '../include/Header';
 import Footer from '../include/Footer';
+import Sidebar from '../include/Aside'; // Sidebar 컴포넌트 import
 import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img2.png';
 
@@ -140,33 +141,8 @@ const MyMusic = () => {
 
 
       <div id="wrap-body" className="clearfix ham">
-        {/* 사이드바 */}
-        <div id="wrap-side">
-          <div id="profile-box">
-            <div className="profile-name">
-              <img src={profile} alt="" />
-              <div className="profile-name-one">
-                <p><Link to="#"><strong></strong> 님</Link></p>
-                <Link to="#">프로필수정</Link>
-              </div>
-            </div>
-            <div className="profile-edit">
-              <Link to="#" className="button-left"><span>내정보</span></Link>
-              <Link to="/user/utilize" className="button-right"><span>이용권내역</span></Link>
-            </div>
-          </div>
-          <div id="profile-list">
-            <Link to="#">
-              <span>마이뮤직</span>
-            </Link>
-            <div>
-              <ul>
-                <li><Link to="#"><img src={searchIcon} alt="검색" /> 플레이 리스트</Link></li>
-                <li><Link to="#"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        {/* Sidebar 컴포넌트 호출 */}
+        <Sidebar name={authUser?.name} profile={profile} />
 
         <div id="wrap-main">
           <div id="top-title" className="userinfotitle">
