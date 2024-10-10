@@ -72,7 +72,6 @@ const Detail = () => {
         fetchData();
     }, [no]);
 
-    // 댓글 등록 처리
     const handleCommentSubmit = (event) => {
         event.preventDefault();
 
@@ -106,7 +105,9 @@ const Detail = () => {
                         ...commentData,
                         commentNo: response.data.comment_no // 새 댓글의 ID
                     };
-                    setComments(prevComments => [...prevComments, newCommentData]);
+                    // 새 댓글을 맨 위에 추가
+                    setComments(prevComments => [newCommentData, ...prevComments]);
+                    navigate(0);
                 }
             })
             .catch(error => {
@@ -177,8 +178,10 @@ const Detail = () => {
                                 };
                             }
                             return comment;
+
                         });
                     });
+                    navigate(0);
                 } else {
                     console.error('대댓글 등록 실패:', response.data.message);
                 }
@@ -229,7 +232,7 @@ const Detail = () => {
         if (!window.confirm("댓글을 삭제하시겠습니까?")) {
             return;
         }
-    
+
         axios.delete(`${process.env.REACT_APP_API_URL}/api/comments/delete/${commentNo}`)
             .then(response => {
                 if (response.data.result === 'success') {
@@ -246,28 +249,28 @@ const Detail = () => {
         if (!window.confirm("대댓글을 삭제하시겠습니까?")) {
             return;
         }
-    
+
         axios.delete(`${process.env.REACT_APP_API_URL}/api/comments/reply/delete/${commentNo}`, {
             data: { parentNo }  // 부모 댓글 번호
         })
-        .then(response => {
-            if (response.data.result === 'success') {
-                setComments(prevComments => prevComments.map(comment => {
-                    if (comment.commentNo === parentNo) {
-                        return {
-                            ...comment,
-                            replies: comment.replies.filter(reply => reply.commentNo !== commentNo) // 해당 대댓글 삭제
-                        };
-                    }
-                    return comment;
-                }));
-            } else {
-                console.error('대댓글 삭제 실패:', response.data.message);
-            }
-        })
-        .catch(error => {
-            console.error('대댓글 삭제 오류:', error);
-        });
+            .then(response => {
+                if (response.data.result === 'success') {
+                    setComments(prevComments => prevComments.map(comment => {
+                        if (comment.commentNo === parentNo) {
+                            return {
+                                ...comment,
+                                replies: comment.replies.filter(reply => reply.commentNo !== commentNo) // 해당 대댓글 삭제
+                            };
+                        }
+                        return comment;
+                    }));
+                } else {
+                    console.error('대댓글 삭제 실패:', response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('대댓글 삭제 오류:', error);
+            });
     };
 
     return (
