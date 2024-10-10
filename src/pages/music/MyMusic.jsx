@@ -13,7 +13,6 @@ import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img2.png';
 
 
-
 const MyMusic = () => {
   const [activeTab, setActiveTab] = useState('playlist');
   const [myMusicList, setMyMusicList] = useState([]);
@@ -25,6 +24,7 @@ const MyMusic = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
+  const [playlist, setPlaylist] = useState([]); // MusicPlayer에 전달할 재생목록
   // 사용자 정보 로드
   useEffect(() => {
     const storedUser = localStorage.getItem('authUser');
@@ -86,16 +86,46 @@ const MyMusic = () => {
     }
   };
 
-  const handlePlayAndAddToPlaylist = (musicNo, title, artist, fileUrl) => {
-    setSelectedSong({ musicNo, title, artist, fileUrl });
+  // 곡 재생 및 모달 열기
+  const handlePlayAndAddToPlaylist = async (musicNo, title, artistName, fileUrl) => {
+    const newSong = {
+      musicNo,
+      title,
+      artist: artistName,
+      fileUrl,
+    };
+
+    // 곡 정보를 로컬 상태에 추가
+    setPlaylist((prevPlaylist) => [...prevPlaylist, newSong]);
+    console.log('Added song to playlist:', newSong);
+    setSelectedSong(newSong);
     setIsModalOpen(true);
+
+    // 서버에 곡 추가 요청 보내기
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
+        userNo: authUser.no,
+        musicNo,
+        title,
+        artist: artistName,
+        fileUrl,
+      });
+
+      if (response.status === 200) {
+        console.log('Server response:', response.data);
+      } else {
+        console.error('Failed to add song to playlist on the server.');
+      }
+    } catch (error) {
+      console.error('Error adding song to playlist on the server:', error);
+    }
   };
 
+  // 모달 닫기
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedSong(null);
   };
-
 
   // 탭 전환 핸들러
   const handleTabClick = (tab) => {
@@ -137,7 +167,6 @@ const MyMusic = () => {
   return (
     <div id="wrap-main">
       <Header />
-
 
       <div id="wrap-body" className="clearfix ham">
         {/* 사이드바 */}
@@ -301,16 +330,15 @@ const MyMusic = () => {
             )}
           </div>
         </div>
-        {/* 모달 컴포넌트 사용 */}
+
+        {/* 모달 사용 */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          {selectedSong && (
-            <MusicPlayer
-              modalTitle={selectedSong.title}
-              modalArtist={selectedSong.artist}
-              modalFileUrl={selectedSong.fileUrl}
-              useModal={true}
-            />
-          )}
+          <MusicPlayer
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            playlist={playlist}
+            initialSong={selectedSong}
+          />
         </Modal>
       </div>
       <Footer />
