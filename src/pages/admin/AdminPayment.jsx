@@ -61,13 +61,15 @@ const AdminPayment = () => {
 
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
     
-    const handleDelOk = (userNo)=>{
+    const handleDelOk = (payNo,userNo)=>{
         // console.log("kk")
-        // console.log(userNo)
+        //console.log(payNo)
+        //console.log(userNo)
 
         axios({
+            
             method: 'put', 			// put, post, delete                   
-            url: `${process.env.REACT_APP_API_URL}/api/user/deleteOk/${userNo}`,
+            url: `${process.env.REACT_APP_API_URL}/api/user/deleteOk/${payNo}/${userNo}`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
                                                                                               //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
@@ -85,15 +87,15 @@ const AdminPayment = () => {
             if(response.data.result === 'success'){
             
             // authUser 업데이트
-                authUser.ticket_status = '해지완료';
-                authUser.paymentFinish = null;
-                localStorage.setItem('authUser', JSON.stringify(authUser));
+                // authUser.ticket_status = '해지완료';
+                // authUser.paymentFinish = null;
+                // localStorage.setItem('authUser', JSON.stringify(authUser));
                 alert('해지가 완료되었습니다')
                 
                 
             }
-            console.log('바뀐값 가져옴??')
-            console.log(ticketStatus)
+            // console.log('바뀐값 가져옴??')
+            // console.log(ticketStatus)
             
             
             
@@ -103,6 +105,7 @@ const AdminPayment = () => {
 
         //authUser.ticketStatus = '해지완료'
         //localStorage.setItem('authUser', JSON.stringify(authUser));
+        getDeleteList();
     }
 
         //문법임. 여기안에 담겨진다.
@@ -193,11 +196,15 @@ const AdminPayment = () => {
                                                 <td>{delUserVo.goodsName}</td>
                                                 <td>{delUserVo.paymentStart}</td>
                                                 <td>{delUserVo.ticketStatus}</td>
-                                                {ticketStatus !== '해지완료' ? (
-                                                    <td><button type="button" onClick={()=>{handleDelOk(delUserVo.userNo)}}>해지승인</button></td>
-                                                    ) : (
-                                                        <td>처리완료</td>
-                                                    )}
+                                                {(delUserVo.ticketStatus === '해지요청') ? (
+                                                    <td><button type="button" onClick={()=>{handleDelOk(delUserVo.payNo,delUserVo.userNo)}}>해지승인</button></td>
+                                                ) : (
+                                                    <td>처리완료</td>
+                                                ) }
+                                                
+                                                    
+                                                
+                                                    
                                                     
                                             </tr>
                                         )
