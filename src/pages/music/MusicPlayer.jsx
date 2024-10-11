@@ -450,6 +450,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
         );
     }
     return (
+        <div className="center-wrapper">
         <div className="popup-player">
             <div className="player-left">
                 <div className="logo">
@@ -557,6 +558,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
                     </div>
                 )}
             </div>
+        </div>
         </div>
     );
 };

@@ -1,4 +1,12 @@
 @charset "utf-8";
+.center-wrapper {
+    height: 100vh; /* 전체 화면 높이 사용 */
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    background-color: #f2f2f7; /* 배경색 설정 (원하는 색상으로 변경 가능) */
+}
+
 
 /* player.css */
 body {
@@ -13,22 +21,19 @@ body {
 
 .popup-player {
     display: flex;
-    width: 700px;
-    height: 400px;
-    border: 1px solid #3F454C;
-    /* 짙은 그레이 */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    width: 725px;
+    height: 450px;
+    border: 1px solid #d1d1d6; /* 애플 스타일의 밝은 그레이 */
+    border-radius: 20px; /* 애플 느낌을 위한 둥근 모서리 */
     overflow: hidden;
-    background-color: #2C2A34;
-
-    /* 어두운 보라색 */
+    background-color: #ffffff; /* 화이트 배경 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
+
 
 .player-left {
     flex: 1;
-    background-color: #3F454C;
-    /* 짙은 그레이 */
+    background-color:ffffff;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -73,49 +78,39 @@ body {
 
 .track-details {
     display: flex;
-    flex-direction: row;
-    text-align: left;
-    margin-right: 10px;
-    /* 타이틀과 좋아요 아이콘 간의 간격 */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
 }
-
 
 .track-details h2 {
     font-size: 18px;
+    font-weight: 600;
     margin: 5px 0;
-    color: #E7E9E7;
-    /* 연한 그레이 */
+    color: #333333; /* 진한 그레이 */
 }
+
 
 .track-details p {
     font-size: 14px;
-    margin: 0;
-    color: #8C999C;
-    /* 연한 회색 */
+    color: #8e8e93; /* 애플 스타일의 연한 그레이 */
 }
 
+
 .like-icon {
-    font-size: 24px;
-    /* 하트 크기를 조정 */
+    font-size: 22px;
     cursor: pointer;
-    /* 클릭할 수 있도록 포인터 커서 적용 */
     display: inline-block;
     width: 30px;
-    /* 너비 조정 */
     height: 30px;
-    /* 높이 조정 */
     line-height: 30px;
-    /* 텍스트 정렬을 위한 높이 */
     text-align: center;
-    /* 하트를 가운데 정렬 */
-
 }
 
 .like-icon.liked {
-    color: red;
-    /* 좋아요가 눌린 상태일 때 빨간색 */
+    color: #ff3b30; /* 애플 스타일의 빨간색 */
 }
-
 
 .controls {
     width: 100%;
@@ -151,8 +146,8 @@ body {
 .playlist-right {
     flex: 1;
     padding: 10px;
-    background-color: #fcfffc;
-    border-left: 1px solid #3F454C;
+    background-color: #f2f2f7; /* 애플 스타일의 배경색 */
+    border-left: 1px solid #d1d1d6;
     display: flex;
     flex-direction: column;
     height: 95%;
@@ -233,14 +228,11 @@ body {
 
 /* 체크박스와 글자 간격, 크기 조정 */
 input[type="checkbox"] {
-    margin-right: 10px;
-    /* 간격을 줄임 */
-    width: 16px;
-    /* 체크박스 크기를 줄임 */
-    height: 16px;
-    /* 체크박스 크기를 줄임 */
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    accent-color: #007aff; /* 애플 스타일의 파란색 */
     cursor: pointer;
-    accent-color: #007AFF;
 }
 
 
@@ -249,22 +241,14 @@ input[type="checkbox"] {
 #my-music li {
     display: flex;
     align-items: center;
-    /* 체크박스와 텍스트 수직 중앙 정렬 */
-    justify-content: flex-start;
-    padding: 8px 12px;
-    /* padding을 줄여서 크기를 더 컴팩트하게 */
-    background-color: white;
-    border-radius: 8px;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    border-radius: 10px;
     margin-bottom: 10px;
-    /* 항목 간의 간격 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    /* 부드러운 그림자 */
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    color: #000;
-    font-size: 14px;
-    /* 글씨 크기를 줄임 */
-    text-align: left;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
 
 .playlist li:last-child {
     border-bottom: none;
@@ -272,12 +256,12 @@ input[type="checkbox"] {
 
 .playlist li:hover,
 #my-music li:hover {
-    background-color: #F2F2F7;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    background-color: #e5e5ea; /* 애플 스타일의 hover 색상 */
+    transform: translateY(-2px); /* 살짝 떠오르는 효과 */
 }
 
 
-.playlist-footer,
+/* .playlist-footer,
 .my-music-footer {
     position: absolute;
     bottom: 0;
@@ -285,43 +269,40 @@ input[type="checkbox"] {
     height: 35px;
     width: 90%;
 
+} */
+
+.playlist-footer,
+.my-music-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
 }
 
 /* 버튼 스타일 */
 .playlist-controls button,
 .playlist-footer button,
 .my-music-footer button {
-    background-color: #007AFF;
+    background-color: #007aff; /* 애플 스타일의 파란색 */
     color: white;
     border: none;
-    padding: 6px 12px;
-    /* 버튼 크기를 줄이기 위해 padding을 줄임 */
-    border-radius: 6px;
-    /* 더 작고 둥근 모서리 */
+    padding: 8px 16px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 12px;
-    /* 글씨 크기를 줄임 */
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* 부드러운 그림자 */
-    margin-right: 5px;
-    /* 버튼 간의 간격을 적당히 둠 */
+    font-size: 14px;
+    transition: background-color 0.2s ease;
 }
 
 .playlist-controls button:hover,
 .playlist-footer button:hover,
 .my-music-footer button:hover {
-    background-color: #005FCC;
-    /* 호버 시 색상 변화 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    /* 호버 시 그림자 효과 */
+    background-color: #005fcc;
 }
 
 .footer-pagination {
-    position: absolute;
+    display: flex;
     align-items: center;
-    right: 5px;
-    bottom: 7px;
+    justify-content: center;
+    color: #3f3f41;
 }
 
 .footer-pagination p {
@@ -340,10 +321,21 @@ ul#my-music li {
 #my-music li div {
     display: flex;
     flex-direction: column;
-    text-align: left;
-    font-size: 14px;
-    /* 텍스트 크기를 줄임 */
+    flex-grow: 1; /* 공간을 채워 제목과 가수를 정렬 */
 }
+.playlist li div p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500; /* 애플 스타일의 폰트 두께 */
+    color: #333333; /* 진한 그레이 */
+}
+
+.playlist li div p + p {
+    font-size: 14px;
+    color: #8e8e93; /* 애플 스타일의 연한 그레이 */
+    margin-top: 2px;
+}
+
 
 /* 리스트 스크롤바 크기 조정 */
 .playlist::-webkit-scrollbar,
