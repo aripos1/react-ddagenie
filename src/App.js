@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ProfileProvider } from './pages/include/ProfileContext';  // 만든 ProfileProvider 가져오기
-
 import MusicPlayer from './pages/music/MusicPlayer';
 import MyMusic from './pages/music/MyMusic';
 import Index from './pages/main/Index.jsx';
@@ -29,32 +27,30 @@ import Introduce from './pages/main/Introduce.jsx';
 function App() {
   return (
     <div>
-      <ProfileProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Index />} />
-            <Route path='/musiclist' element={<MusicList />} />
-            <Route path='/music/musicplayer' element={<MusicPlayer />} />
-            <Route path='/user/mymusic' element={<MyMusic />} />
-            <Route path='/user/pay/:no' element={<Pay />} />
-            <Route path='/login' element={<LoginForm />} />
-            <Route path='/signup' element={<JoinForm />} />
-            <Route path='/joinok' element={<JoinComplete />} />
-            <Route path='/user/info' element={<UserInfo />} />
-            <Route path='/admin/musicadmin' element={<MusicAdmin />} />
-            <Route path='/admin/musicinsert' element={<MusicInsert />} />
-            <Route path='/admin/artistinsert' element={<ArtistInsert />} />
-            <Route path='/admin/musicupdate/:no' element={<MusicUpdate />} />
-            <Route path='/user/payment' element={<Payment />} />
-            <Route path='/user/Utilize' element={<Utilize />} />
-            <Route path='/user/deleteForm/:userNo' element={<JdeleteForm />} />
-            <Route path='/admin/adminPayment' element={<AdminPayment />} />
-            <Route path='/main/detail/:no' element={<Detail />} />
-            <Route path='/main/welcome' element={<Introduce />} />
-
-          </Routes>
-        </BrowserRouter>
-      </ProfileProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Index />} />
+          <Route path='/musiclist' element={<MusicList />} />
+          <Route path='/music/musicplayer' element={<MusicPlayer />} />
+          <Route path='/user/mymusic' element={<MyMusic />} />
+          <Route path='/user/pay/:no' element={<Pay />} />
+          <Route path='/login' element={<LoginForm />} />
+          <Route path='/signup' element={<JoinForm />} />
+          <Route path='/joinok' element={<JoinComplete />} />
+          <Route path='/user/info' element={<UserInfo />} />
+          <Route path='/admin/musicadmin' element={<MusicAdmin />} />
+          <Route path='/admin/musicinsert' element={<MusicInsert />} />
+          <Route path='/admin/artistinsert' element={<ArtistInsert />} />
+          <Route path='/admin/musicupdate/:no' element={<MusicUpdate />} />
+          <Route path='/user/payment' element={<Payment />} />
+          <Route path='/user/Utilize' element={<Utilize />} />
+          <Route path='/user/deleteForm/:userNo' element={<JdeleteForm />} />
+          <Route path='/admin/adminPayment' element={<AdminPayment />} />
+          <Route path='/main/detail/:no' element={<Detail/>}/>
+          <Route path='/main/welcome' element={<Introduce/>}/>
+          
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
