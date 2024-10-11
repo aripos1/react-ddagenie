@@ -195,8 +195,8 @@ const AdminPayment = () => {
                                                 <td>{delUserVo.id}</td>
                                                 <td>{delUserVo.goodsName}</td>
                                                 <td>{delUserVo.paymentStart}</td>
-                                                <td>{delUserVo.ticketStatus}</td>
-                                                {(delUserVo.ticketStatus === '해지요청') ? (
+                                                <td>{delUserVo.terminationStatus}</td>
+                                                {(delUserVo.terminationStatus === '해지요청') ? (
                                                     <td><button type="button" onClick={()=>{handleDelOk(delUserVo.payNo,delUserVo.userNo)}}>해지승인</button></td>
                                                 ) : (
                                                     <td>처리완료</td>
