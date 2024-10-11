@@ -11,37 +11,44 @@
 
 
 /* 앨범 섹션 */
-.album-section {
+.listalbum-section {
     display: flex;
     margin-bottom: 30px;
 }
 
-.album-cover {
+.listalbum-cover {
     width: 30%;
     margin-right: 20px;
 }
 
-.album-cover .album-img {
+.listalbum-cover .album-img {
     width: 100%;
     border-radius: 8px;
 }
 
-.album-info {
+.listalbum-info {
     width: 70%;
 }
 
-.album-info h1 {
+.listalbum-info h1 {
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 10px;
+    margin-left: 200px;
 }
 
 .album-info p {
     font-size: 20px;
     margin-bottom: 5px;
-    text-align: left;
+    text-align: left !important;  /* !important로 우선 순위 강제 */
+    display: block;               /* 블록 요소로 변환 */
 }
 
+.listalbum-info .sing-info{
+    margin-left: 75px;
+    margin-top: 30px;
+
+}
 /* 버튼 스타일 */
 
 .buttons .button-play {
@@ -72,7 +79,8 @@
 }
 
 .buttons{
-    margin-right: -20px ;
+    margin-left: 250px ;
+    margin-top: 50px;
 }
 
 .buttons .button-play:hover::before {
@@ -146,7 +154,7 @@
 }
 
 .album-covers-container .cover-item {
-    width: 16%;
+    width: 13%;
     float: left;
     margin-right: 10px;
     text-align: center;

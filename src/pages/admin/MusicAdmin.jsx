@@ -161,7 +161,7 @@ const MusicAdmin = () => {
 
                         
                                 <div className="header">
-                                        <input type="text" id="search" value={keyword} onChange={handleKeyword} placeholder="검색할 내용을 입력하세요" />
+                                    <input type="text" id="search" value={keyword} onChange={handleKeyword} placeholder="검색할 내용을 입력하세요" />
                                     
 
                                     <Link to='/admin/musicinsert' ><input type="button" id="btn_insert" value="음원등록" /></Link>

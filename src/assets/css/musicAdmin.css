@@ -123,39 +123,43 @@ margin-top: 0;
 
 
 
-#musicAdmin #paging {
+#musicAdmin #paging, #artistInsert #paging {
 	margin-top: 20px;
     display: flex;
     align-items: center; /* 수직 정렬 */
     justify-content: center; /* 수평 중앙 정렬 */
 }
 
-#musicAdmin #paging ul {
+#musicAdmin #paging ul, #artistInsert #paging ul {
     list-style: none; /* 기본 리스트 스타일 제거 */
     padding: 0; /* 기본 패딩 제거 */
     margin: 0 10px; /* 좌우 여백 설정 */
     display: flex; /* Flexbox 사용 */
 }
 
-#musicAdmin #paging li {
+#musicAdmin #paging li, #artistInsert #paging li {
     margin: 0 5px; /* 각 페이지 버튼 간의 간격 */
 }
 
-#musicAdmin #paging a, #musicAdmin #paging button  {
+#musicAdmin #paging a, #musicAdmin #paging button,
+#artistInsert #paging a, #artistInsert #paging button {
     text-decoration: none; /* 링크의 기본 밑줄 제거 */
     padding: 5px 10px; /* 버튼 여백 */
 	border:0;
 	background: none;
 	cursor: pointer;
 }
-#musicAdmin #paging button:hover {
+#musicAdmin #paging button:hover,
+#artistInsert #paging button:hover  {
 	font-weight: 600;
 }
-#musicAdmin #paging button.active {
+#musicAdmin #paging button.active,
+#artistInsert #paging button.active {
 	font-weight: 600;
 	color: #0095FF;
 
 }
+
 
 
 
@@ -276,7 +280,7 @@ margin-top: 0;
 /* ################################################# */
 /* ArtistInsert */
 
-#artistInsert .inner-container{
+#artistInsert .inner-container1, #artistInsert .inner-container2 {
 	margin-bottom: 60px;
 }
 
@@ -316,7 +320,7 @@ margin-top: 0;
 }
 
 
-#artistInsert button {
+#artistInsert .inner-container1 button {
 	width: 100%;
 	padding: 10px;
 	background-color: #0095FF;
@@ -325,14 +329,13 @@ margin-top: 0;
 	border-radius: 5px;
 	cursor: pointer;
 }
-#artistInsert .back-btn {
+#artistInsert .inner-container1 .back-btn {
 	background-color: #555;
 	margin-top: 10px;
 }
-#artistInsert .back-btn:hover {
+#artistInsert .inner-container1 .back-btn:hover {
 	background-color: #333;
 }
-
 
 
 

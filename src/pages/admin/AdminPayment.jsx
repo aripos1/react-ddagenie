@@ -1,6 +1,6 @@
 //import 라이브러리
 import React,{useEffect, useState} from 'react';
-import { Link, useAsyncError } from 'react-router-dom';
+import { Link, useAsyncError, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 //import 컴포넌트
@@ -9,6 +9,13 @@ import Footer from '../include/Footer';
 
 //import css
 import '../../assets/css/payment-admin.css';
+
+
+import Sidebar from '../include/AsideAdmin'; // Sidebar 컴포넌트 import
+/*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
+// 기본 프로필 이미지 import
+import profileImage from '../../assets/images/default_img2.png';
+
 
 
 
@@ -25,6 +32,10 @@ const AdminPayment = () => {
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     
+    /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
+    const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
+
+    const navigate = useNavigate();
 
 
     /*---일반 메소드 --------------------------------------------*/
@@ -121,7 +132,16 @@ const AdminPayment = () => {
     //3. 전송 (ajax 사용)
 
     useEffect(()=>{
-        getDeleteList();
+
+        if (authUser.roll == 0) {
+            getDeleteList();
+
+        } else {
+            alert('접근 권한이 없습니다');
+            navigate('/');
+        }
+
+
     },[]);
 
     return (
@@ -132,39 +152,14 @@ const AdminPayment = () => {
                     <Header />
 
                 
-                <div id="wrap-body" className="clearfix">
-                    <div id="wrap-side">
+                <div id="wrap-body" className="clearfix ham">
 
-                    <div id="profile-box" >
-                            <div className="profile-name" >
-                                <span>
-                                    <img src="../../assets/images/cuteddagenie.png" alt='' />
-                                </span>
-                                <div className="profile-name-one">
-                                    <p><Link to="#"><strong>진소영</strong> 님</Link></p>
-                                    <Link to="#">프로필수정</Link>
-                                </div>
-                            </div>
-                            <div className="profile-edit">
-                                <Link to="#" className="button-left"><span>내정보</span></Link>
-                                <Link to="#" className="button-right"><span>이용권내역</span></Link>
-                            </div>
-                        </div>
-                        {/* <!-- /프로필 --> */}
-                        {/* <!-- 마이뮤직 리스트--> */}
-                        <div id="profile-list">
-                            <a>
-                                <span>마이뮤직</span>
-                            </a>
-                            <div>
-                                <ul>
-                                    <li><Link to="#"><img src="../../assets/images/search.png" /> 플레이 리스트</Link></li>
-                                    <li><Link to="#"><img src="../../assets/images/search.png" /> 좋아요♥</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                        {/* <!-- /마이뮤직 리스트--> */}
-                    </div>
+
+
+                    {/* Admin Sidebar 컴포넌트 호출 */}
+                    <Sidebar name={authUser?.name} profile={profile} />
+                    {/* Admin Sidebar 컴포넌트 호출 */}
+
                     <div id="wrap-main">
                         <div id="top-title">
                             <h2>이용권 내역</h2>
