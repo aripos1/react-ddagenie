@@ -60,7 +60,6 @@ const ItemMusic = ( props ) => {
                     <td>{music.artistName}</td>
                     <td>{music.genre}</td>
                     <td>{formatDate(music.releasedDate)}</td>
-                    <td>{music.musicContent}</td>
                     <td><Link to={`/admin/musicupdate/${music.musicNo}`} className="action-btn" rel="noreferrer noopener">수정</Link></td>
                     <td><input type="button" value="삭제" className="delete-btn" onClick={handleDelete} /></td>
                 

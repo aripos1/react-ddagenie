@@ -32,15 +32,17 @@ const ArtistInsert = () => {
     const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
 
 
-
-
-
-    const [artistName, setArtistName] = useState('');
     const navigate = useNavigate();
+
+    const [artistList, setArtistList] = useState([]);
+    const [artistName, setArtistName] = useState('');
+    
 
     const handleArtistNameChange = (e) => {
         setArtistName(e.target.value);
     };
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -57,14 +59,37 @@ const ArtistInsert = () => {
             });
     };
 
+
+
     const backAdmin = () => {
         navigate('/admin/musicadmin');
     }
 
+
+    const getArtistList = () => {
+
+        axios({
+            method: 'get',
+            url: `${process.env.REACT_APP_API_URL}/api/artists`,
+
+            responseType: 'json',
+        }).then(response => {
+
+            console.log(response.data.apiData);
+
+            setArtistList(response.data.apiData);
+
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
+
+
     useEffect( ()=>{
 
         if (authUser.roll == 0) {
-
+            getArtistList();
 
         } else {
             alert('접근 권한이 없습니다');
@@ -115,27 +140,55 @@ const ArtistInsert = () => {
 
                             <div className="container">
 
-                                <form onSubmit={handleSubmit}>
+                                <div className="inner-container">
+                                    <form onSubmit={handleSubmit}>
 
-                                    <label htmlFor="artistName" >아티스트 이름</label>
-                                    <input
-                                        type="text"
-                                        id="artistName"
-                                        name="artistName"
-                                        value={artistName}
-                                        onChange={handleArtistNameChange}
-                                        placeholder="아티스트 이름을 입력하세요"
-                                        required
-                                    />
-                                    <div>
-                                        <button className="bts-artistname" type="submit">등록</button>
-                                        <button type="button" className="back-btn" onClick={backAdmin}>뒤로 가기</button>
-                                    </div>
-                                    
+                                        <label htmlFor="artistName" >아티스트 이름</label>
+                                        <input
+                                            type="text"
+                                            id="artistName"
+                                            name="artistName"
+                                            value={artistName}
+                                            onChange={handleArtistNameChange}
+                                            placeholder="아티스트 이름을 입력하세요"
+                                            required
+                                        />
+                                        <div>
+                                            <button className="bts-artistname" type="submit">등록</button>
+                                            <button type="button" className="back-btn" onClick={backAdmin}>뒤로 가기</button>
+                                        </div>
 
-                                </form>
+                                    </form>
+                                </div>
 
 
+                                <div className="inner-container">
+
+                                    <label htmlFor="artistName" >등록된 아티스트 목록</label>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>번호</th>
+                                                <th>아티스트이름</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            { artistList.map ( ( artist ) => { 
+
+                                                return(
+                                                    
+                                                    <tr>
+                                                        <td>{artist.artistNo}</td>
+                                                        <td>{artist.artistName}</td>
+                                                    </tr>
+
+                                            ) } ) } 
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
 
                             </div>
                             

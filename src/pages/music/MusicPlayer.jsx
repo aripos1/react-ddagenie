@@ -43,6 +43,22 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
         }
     }, []);
 
+    // 유저 정보를 통해 이용권 상태 로드 (최초 한 번만)
+    // useEffect(() => {
+    //     if (isLoggedIn && authUser && authUser.no && !subscriptionChecked) {
+    //         axios.get(`${process.env.REACT_APP_API_URL}/api/subscription-status/${authUser.no}`)
+    //             .then(response => {
+    //                 setIsSubscribed(response.data.isSubscribed);
+    //                 setSubscriptionChecked(true); // 이용권 상태가 확인되었음을 표시
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error fetching subscription status:', error);
+    //                 setIsSubscribed(false); // 오류 발생 시 이용권 없음으로 설정
+    //             });
+    //     }
+    // }, [isLoggedIn, authUser, subscriptionChecked]);
+
+
     useEffect(() => {
         if (isLoggedIn && authUser && authUser.no) {
             console.log('authUser.no:', authUser.no);  // userNo 확인
@@ -52,6 +68,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             console.log("authUser or no is undefined");
         }
     }, [isLoggedIn, authUser]);
+
 
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
@@ -202,6 +219,18 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
 
     // s3 곡 재생
     const playSong = (song, index) => {
+        // // 이용권이 체크되지 않았으면 곡 재생을 하지 않음
+        // if (!subscriptionChecked) {
+        //     alert('이용권 상태를 확인 중입니다. 잠시 후 다시 시도해 주세요.');
+        //     return;
+        // }
+
+        // // 이용권이 없으면 재생하지 않음
+        // if (!isSubscribed) {
+        //     alert('이용권이 필요합니다. 이용권을 구매해 주세요.');
+        //     return;
+        // }
+
         let songPath = song.fileName || song.filePath;
 
         if (!songPath || typeof songPath !== 'string') {
@@ -231,7 +260,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
 
 
 
-    // 현재 곡이 종료되면 자동으로 다음 곡 재생
+    // 현재 곡이 종료되면 자동으로 다음 곡 재생 (무한 재생 포함)
     const handleSongEnd = () => {
         if (currentSongIndex !== null && currentSongIndex !== undefined) {
             let nextIndex = currentSongIndex + 1;
@@ -239,22 +268,28 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
                 nextIndex = 0; // 마지막 곡 이후면 첫 번째 곡으로 돌아감
             }
             const nextSong = playlist[nextIndex];
-            playSong(nextSong.filePath, nextIndex); // 다음 곡 재생
+            playSong(nextSong, nextIndex);
         }
     };
-    const handlePlayAndAddToPlaylist = (musicNo, title, artistName, fileUrl) => {
-        const newSong = {
-            musicNo,
-            title,
-            artistName,
-            fileUrl,
-        };
 
-        // 곡 정보를 재생 목록에 추가하고 모달을 오픈
-        setPlaylist((prevPlaylist) => [...prevPlaylist, newSong]);
-        setSelectedSong(newSong);
-        setIsModalOpen(true);
-    };
+    // // 서버에서 이용권 상태가 변경될 수 있으므로 일정 간격으로 상태를 재확인
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         if (authUser && authUser.no) {
+    //             axios.get(`${process.env.REACT_APP_API_URL}/api/subscription-status/${authUser.no}`)
+    //                 .then(response => {
+    //                     setIsSubscribed(response.data.isSubscribed);
+    //                 })
+    //                 .catch(error => {
+    //                     console.error('Error fetching updated subscription status:', error);
+    //                 });
+    //         }
+    //     }, 60000); // 1분마다 이용권 상태 재확인
+
+    //     return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 정리
+    // }, [authUser]);
+
+
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
         axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {

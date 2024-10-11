@@ -175,7 +175,6 @@ const MusicAdmin = () => {
                                             <th >아티스트</th>
                                             <th >장르</th>
                                             <th >발매일</th>
-                                            <th >음원내용</th>
                                             <th >수정</th>
                                             <th >삭제</th>
                                         </tr>
