@@ -150,7 +150,7 @@ const Header = () => {
 
     }
 
-
+   
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
@@ -176,6 +176,17 @@ const Header = () => {
         dateReckoding();
 
     }, []);
+
+    // 구매 버튼 클릭 시 처리
+    const handlePurchaseClick = (e) => {
+        if (!authUser || !authUser.no) {
+            e.preventDefault(); // 링크 기본 동작 막기
+            alert('로그인부터 해주세요');
+            navigate('/login'); // 로그인 페이지로 이동
+        } else {
+            navigate('/user/payment'); // 이용권 구매 페이지로 이동
+        }
+    };
 
     const handleLogout = () => {
         console.log('로그아웃');
@@ -214,7 +225,7 @@ const Header = () => {
             <div id="wrap-header">
                 <div id="purchase-button">
                     <img src={walletIcon} alt="지갑 아이콘" />
-                    <Link to={"/user/payment"} className="headBuy">이용권구매</Link>
+                    <Link to={"/user/payment"} className="headBuy"  onClick={handlePurchaseClick}>이용권구매</Link>
                 </div>
                 <div className="header-main">
                     <div className="header-left">
