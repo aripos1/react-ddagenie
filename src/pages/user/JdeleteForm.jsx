@@ -26,6 +26,7 @@ const JdeleteForm = () => {
     const [paymentFinish,setPaymentFinish] = useState('');
     const [ticketStatus,setTicketStatus] = useState('');
     const [goodsName,setGoodsName] = useState('');
+    const [payNo, setPayNo] = useState('');
     const [terminationStatus, setTerminationStatus] = useState('');
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
     const navigate = useNavigate();
@@ -76,6 +77,7 @@ const JdeleteForm = () => {
                 setPaymentFinish(response.data.apiData.paymentFinish);
                 setTicketStatus(response.data.apiData.ticketStatus);
                 setGoodsName(response.data.apiData.goodsName);
+                setPayNo(response.data.apiData.payNo);
                 
                 console.log("티켓스테터스")
                 
@@ -93,7 +95,7 @@ const JdeleteForm = () => {
     };console.log(ticketStatus);
 
         //해지신청
-        const handleDelete = ()=>{
+        const handleDelete = (payNo)=>{
             
             // setTerminationStatus('해지요청');
             
@@ -102,7 +104,7 @@ const JdeleteForm = () => {
 
             method: 'put', // put, post, delete
 
-            url: `${process.env.REACT_APP_API_URL}/api/user/${userNo}`,//get delete
+            url: `${process.env.REACT_APP_API_URL}/api/user/${userNo}/${payNo}`,//get delete
 
             //headers: { "Content-Type": "application/json; charset=utf-8" }, // post put
             //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
@@ -124,7 +126,7 @@ const JdeleteForm = () => {
                 authUser.ticket_status = '해지요청'
                 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
-                
+                navigate('/user/utilize')
                 
                 
             }
@@ -227,7 +229,7 @@ const JdeleteForm = () => {
                                         <td>{ticketStatus}</td>
                                         <td className="not-background">
                                         {ticketStatus !== '해지요청' ? (
-                                            <button className="sy-btn-delete" type="submin" onClick={handleDelete} >해지신청</button>
+                                            <button className="sy-btn-delete" type="submin" onClick={()=>{handleDelete(payNo)}} >해지신청</button>
                                             ) : (
                                                 <span></span>
                                             )} 

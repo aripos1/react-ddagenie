@@ -3,7 +3,7 @@ import { Link, useLocation  } from 'react-router-dom';
 import axios from 'axios';
 
 // import Header from '../include/Header';
-import Header from '../include/Header_search';
+import Header from '../include/Header';
 import Footer from '../include/Footer';
 
 import '../../assets/css/all.css';

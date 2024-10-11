@@ -70,6 +70,7 @@ const JoinForm = () => {
                 // }
                 localStorage.setItem("token", token);
                 localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+                console.log('////////')
                 console.log(response.data.apiData)
                 navigate('/');
             } else if (response.data.message === "탈퇴 회원") {

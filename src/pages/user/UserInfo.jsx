@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
 
-import Header from '../include/Header_search';
+import Header from '../include/Header';
 import Footer from '../include/Footer';
 
 //css
