@@ -1,25 +1,26 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../assets/css/all.css';
-import '../../assets/css/index.css';
+import { Link } from 'react-router-dom';
+
+//배너,헤더,푸터, css
 import chartimage from '../../assets/images/cuteddagenie.png';
 import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
 import Header from '../include/Header';
-import { Link } from 'react-router-dom';
-import Modal from '../music/Modal'; // 모달 컴포넌트 import
-import MusicPlayer from '../music/MusicPlayer'; // MusicPlayer 컴포넌트 import
+
+// import Modal from '../music/Modal'; // 모달 컴포넌트 import
+// import MusicPlayer from '../music/MusicPlayer'; // MusicPlayer 컴포넌트 import
 
 const Index = () => {
     const navigate = useNavigate();
     const [topLikedSongs, setTopLikedSongs] = useState([]);
     const [bannerImages, setBannerImages] = useState([]); // 배너 이미지 상태 추가
     const [authUser, setAuthUser] = useState(null); // 로그인된 유저 상태 추가
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedSong, setSelectedSong] = useState(null);
-    const [myMusic, setMyMusic] = useState([]);
-    const [playlist, setPlaylist] = useState([]); // MusicPlayer에 전달할 재생목록
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [selectedSong, setSelectedSong] = useState(null);
+    // const [myMusic, setMyMusic] = useState([]);
+    // const [playlist, setPlaylist] = useState([]); // MusicPlayer에 전달할 재생목록
     // 로그인 유저 정보 가져오기 (localStorage)
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
@@ -215,12 +216,6 @@ const Index = () => {
                 <div className="ranking-section">
                     <div className="ranking-header">
                         <h2>인기순위</h2>
-                        <button
-                            className="icon-btn play-btn"
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            ▶
-                        </button>
                     </div>
                     <table className="playlist">
                         <colgroup>

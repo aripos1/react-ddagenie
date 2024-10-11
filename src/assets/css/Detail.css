@@ -1,6 +1,6 @@
 /* 페이지 전체 컨테이너 */
 .page-main-container {
-    width: 100%; /* 또는 원하는 적당한 너비로 설정 */
+    width: 100%; /* 원하는 적당한 너비로 설정 */
     max-width: 1300px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 */
     margin: 20px 0px 20px -30px; /* 수평 중앙 정렬 */
     background-color: #fff;
