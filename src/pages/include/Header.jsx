@@ -148,6 +148,7 @@ const Header = () => {
 
         } else {
             console.log('종료일자 없음');
+            console.log(dayDifference)
             setFinishTime(null);
         }
 
