@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Test from './pages/Test';
 import MusicPlayer from './pages/music/MusicPlayer';
 import MyMusic from './pages/music/MyMusic';
 import Index from './pages/main/Index.jsx';
@@ -30,7 +29,6 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/test' element={<Test />} />
           <Route path='/' element={<Index />} />
           <Route path='/musiclist' element={<MusicList />} />
           <Route path='/music/musicplayer' element={<MusicPlayer />} />
