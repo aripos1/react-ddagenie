@@ -28,7 +28,7 @@ const Sidebar = ({ name, profile }) => {
                 <div>
                     <ul>
                         <li><Link to="/user/mymusic"><img src={searchIcon} alt="검색" /> 마이뮤직리스트</Link></li>
-                        <li><Link to="/user/mymusic#"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
+                        <li><Link to="/user/mymusic?tab=likes"><img src={searchIcon} alt="검색" /> 좋아요♥</Link></li>
                     </ul>
                 </div>
             </div>
