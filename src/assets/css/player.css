@@ -362,3 +362,20 @@ ul#my-music li {
 #my-music::-webkit-scrollbar-track {
     background-color: #E0E0E5;
 }
+
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.player audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.player h2, .player p {
+    margin: 10px 0;
+    text-align: center;
+}

@@ -15,7 +15,7 @@ const Footer = () => {
             <div id="wrap-foot" className="footer">
                 <div className="ft-head clearfix">
                     <ul>
-                        <li><Link to="#">회사소개</Link></li>
+                        <li><Link to="/main/welcome">회사소개</Link></li>
                         <li><Link to="#">이용약관</Link></li>
                         <li><Link to="#">개인정보처리방침</Link></li>
                         <li><Link to="#">청소년보호정책</Link></li>
