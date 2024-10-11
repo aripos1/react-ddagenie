@@ -11,7 +11,7 @@ import '../../assets/css/header.css';
 //images
 import walletIcon from '../../assets/images/wallet.png';
 import logo from '../../assets/images/cuteddagenie.png';
-import defaultProfile from '../../assets/images/default_img2.png'; // 기본 프로필 이미지
+import defaultProfile from '../../assets/images/default_img2.png'; // 기본 프로필 이미지  
 
 const Header = () => {
     /*---라우터 관련-------------------------------*/
