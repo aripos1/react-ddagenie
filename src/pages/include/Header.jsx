@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { differenceInDays } from 'date-fns';
 import axios from 'axios';
 
+import { useProfile } from '../include/ProfileContext';  // 컨텍스트에서 프로필 상태 가져오기
+
+
 //css
 import '../../assets/css/all.css';
 import '../../assets/css/header.css';
@@ -23,7 +26,8 @@ const Header = () => {
     // 로그인한 사용자 이름
     const [username, setUsername] = useState('');
     // 프로필 이미지
-    const [profileImage, setProfileImage] = useState(defaultProfile);
+    const { profileImage } = useProfile();  // 컨텍스트에서 프로필 이미지 가져옴
+    const defaultProfile = '../../assets/images/default_img2.png';
 
     /*리액트 warning 메시지 무시*/
     // eslint-disable-next-line no-unused-vars
@@ -57,7 +61,7 @@ const Header = () => {
         window.open(popupUrl, 'Music Player', popupOptions);
     };
 
-    const dateReckoding = ()=>{
+    const dateReckoding = () => {
         console.log('123456789')
 
 
@@ -88,20 +92,20 @@ const Header = () => {
 
                 console.log(authUser.ticket_status)
 
-                if( authUser.ticket_status === "해지요청"){
+                if (authUser.ticket_status === "해지요청") {
                     console.log('해지요청 if문');
                     console.log('해지요청중인 이용권 입니다.');
                 }
-                
-                if( authUser.ticket_status === "해지완료"){
+
+                if (authUser.ticket_status === "해지완료") {
                     console.log('해지완료 if문');
                     console.log('해지완료된 이용권입니다.');
 
                     setDayDifference(-1);
                     // authUser.ticket_status = '이용중'
-                    
+
                     // localStorage.setItem('authUser', JSON.stringify(authUser));
-                
+
                 }
 
 
@@ -166,11 +170,7 @@ const Header = () => {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
             setUsername(user.name); // 사용자 이름 설정
-            // 파일 경로와 파일 이름을 조합하여 프로필 이미지 경로 설정
-            const profileImageUrl = user.saveName
-                ? `${process.env.REACT_APP_API_URL}/upload/${user.saveName}`
-                : defaultProfile;
-            setProfileImage(profileImageUrl);
+
         } else {
             setIsLoggedIn(false);
         }
@@ -255,7 +255,7 @@ const Header = () => {
                         {isLoggedIn ? (
                             // 로그인한 상태
                             <>
-                                <li> 
+                                <li>
                                     {authUser.roll === 0 && (
                                         <Link to="/admin/musicadmin" className="btn login-join-btn">관리자 페이지</Link>
                                     )}
@@ -265,7 +265,7 @@ const Header = () => {
                                 <li className='logout'><button className="btn login-join-btn logout" onClick={handleLogout}>로그아웃</button></li>
                                 <li>
                                     <Link to="/user/info" className="btn-profile">
-                                        <img src={profileImage} alt={`${username}님`} onError={(e) => { e.target.src = defaultProfile; }} />
+                                        <img src={profileImage || defaultProfile} alt="Profile" />
                                     </Link>
                                 </li>
 
