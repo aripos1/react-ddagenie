@@ -69,7 +69,7 @@ const MyMusic = () => {
   // 좋아요한 곡 리스트 API 호출
   const loadLikedSongs = async (userNo) => {
     try {
-      const response = await axios.get(`h${process.env.REACT_APP_API_URL}/api/like/list/${userNo}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/like/list/${userNo}`);
       if (response.status === 200) {
         setLikedSongs(response.data);
       } else {

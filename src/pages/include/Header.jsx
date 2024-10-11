@@ -87,18 +87,23 @@ const Header = () => {
                 console.log('5465531531531351616~~~~~~~~~~~~~~')
 
                 console.log(authUser.ticket_status)
-                if (!(authUser.ticket_status === "해지요청" || authUser.ticket_status === "해지완료")) {
-                    // console.log('dd');
-                    console.log('사용가능한 이용권입니다.');
-                    authUser.ticket_status = '이용중'
 
-                    localStorage.setItem('authUser', JSON.stringify(authUser));
-                } else if (authUser.ticket_status === '해지완료') {
-                    console.log('해지완료요')
-                    setDayDifference(-1);
-                } else if (authUser.ticket_status === '해지요청') {
-                    console.log('해지요청중')
+                if( authUser.ticket_status === "해지요청"){
+                    console.log('해지요청 if문');
+                    console.log('해지요청중인 이용권 입니다.');
                 }
+                
+                if( authUser.ticket_status === "해지완료"){
+                    console.log('해지완료 if문');
+                    console.log('해지완료된 이용권입니다.');
+
+                    setDayDifference(-1);
+                    // authUser.ticket_status = '이용중'
+                    
+                    // localStorage.setItem('authUser', JSON.stringify(authUser));
+                
+                }
+
 
 
             } else {

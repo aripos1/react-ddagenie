@@ -28,10 +28,11 @@ const JdeleteForm = () => {
     const { userNo } = useParams();
 
     // 가져온 값들 넣기
-    const [paymentStart, setPaymentStart] = useState('');
-    const [paymentFinish, setPaymentFinish] = useState('');
-    const [ticketStatus, setTicketStatus] = useState('');
-    const [goodsName, setGoodsName] = useState('');
+    const [paymentStart,setPaymentStart] = useState('');
+    const [paymentFinish,setPaymentFinish] = useState('');
+    const [ticketStatus,setTicketStatus] = useState('');
+    const [goodsName,setGoodsName] = useState('');
+    const [payNo, setPayNo] = useState('');
     const [terminationStatus, setTerminationStatus] = useState('');
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
     const navigate = useNavigate();
@@ -84,7 +85,8 @@ const JdeleteForm = () => {
                 setPaymentFinish(response.data.apiData.paymentFinish);
                 setTicketStatus(response.data.apiData.ticketStatus);
                 setGoodsName(response.data.apiData.goodsName);
-
+                setPayNo(response.data.apiData.payNo);
+                
                 console.log("티켓스테터스")
 
             } else {
@@ -100,17 +102,17 @@ const JdeleteForm = () => {
 
     }; console.log(ticketStatus);
 
-    //해지신청
-    const handleDelete = () => {
-
-        // setTerminationStatus('해지요청');
-
-        //서버로 전송
+        //해지신청
+        const handleDelete = (payNo)=>{
+            
+            // setTerminationStatus('해지요청');
+            
+            //서버로 전송
         axios({
 
             method: 'put', // put, post, delete
 
-            url: `${process.env.REACT_APP_API_URL}/api/user/${userNo}`,//get delete
+            url: `${process.env.REACT_APP_API_URL}/api/user/${userNo}/${payNo}`,//get delete
 
             //headers: { "Content-Type": "application/json; charset=utf-8" }, // post put
             //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
@@ -132,9 +134,9 @@ const JdeleteForm = () => {
                 authUser.ticket_status = '해지요청'
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
-
-
-
+                navigate('/user/utilize')
+                
+                
             }
 
 
@@ -200,23 +202,23 @@ const JdeleteForm = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    {(ticketStatus === '이용중' || ticketStatus === '해지요청') ? (
-                                        <tr className="table-line">
-                                            <td>{goodsName}</td>
-                                            <td>{paymentStart}</td>
-                                            <td>{paymentFinish}</td>
-                                            <td>{ticketStatus}</td>
-                                            <td className="not-background">
-                                                {ticketStatus !== '해지요청' ? (
-                                                    <button className="sy-btn-delete" type="submin" onClick={handleDelete} >해지신청</button>
-                                                ) : (
-                                                    <span></span>
-                                                )}
-
-                                            </td>
-
-                                        </tr>
+                                    
+                                {(ticketStatus === '이용중' || ticketStatus === '해지요청')? (
+                                    <tr className="table-line">
+                                        <td>{goodsName}</td>
+                                        <td>{paymentStart}</td>
+                                        <td>{paymentFinish}</td>
+                                        <td>{ticketStatus}</td>
+                                        <td className="not-background">
+                                        {ticketStatus !== '해지요청' ? (
+                                            <button className="sy-btn-delete" type="submin" onClick={()=>{handleDelete(payNo)}} >해지신청</button>
+                                            ) : (
+                                                <span></span>
+                                            )} 
+                                            
+                                        </td>
+                                        
+                                    </tr>
                                     ) : (
                                         <tr>
                                             <td colSpan="5">해지/취소 가능한 이용권이 없습니다</td>

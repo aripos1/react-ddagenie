@@ -86,10 +86,10 @@ const AdminPayment = () => {
             
             // authUser 업데이트
                 authUser.ticket_status = '해지완료';
+                authUser.paymentFinish = null;
                 localStorage.setItem('authUser', JSON.stringify(authUser));
                 alert('해지가 완료되었습니다')
-                setAuthUser(JSON.parse(localStorage.getItem('authUser')))
-                setTicketStatus('해지완료')
+                
                 
             }
             console.log('바뀐값 가져옴??')
@@ -193,7 +193,7 @@ const AdminPayment = () => {
                                                 <td>{delUserVo.goodsName}</td>
                                                 <td>{delUserVo.paymentStart}</td>
                                                 <td>{delUserVo.ticketStatus}</td>
-                                                {ticketStatus == '해지완료' ? (
+                                                {ticketStatus !== '해지완료' ? (
                                                     <td><button type="button" onClick={()=>{handleDelOk(delUserVo.userNo)}}>해지승인</button></td>
                                                     ) : (
                                                         <td>처리완료</td>

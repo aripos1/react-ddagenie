@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import Footer from '../include/Footer';
 import Header from '../include/Header';
+
+import '../../assets/css/musicAdmin.css';
+
+// import searchLogo from '../../assets/images/search.png';
+// import profileImg from '../../assets/images/cuteddagenie.png';
+
 
 import Sidebar from '../include/AsideAdmin'; // Sidebar 컴포넌트 import
 /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
 // 기본 프로필 이미지 import
 import profileImage from '../../assets/images/default_img2.png';
 
-import '../../assets/css/musicAdmin.css';
 
 
 
-// import searchLogo from '../../assets/images/search.png';
-// import profileImg from '../../assets/images/cuteddagenie.png';
+
+
 
 const MusicInsert = () => {
+
+
     /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
     const authUser = JSON.parse(localStorage.getItem('authUser'));
     const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
@@ -27,7 +34,6 @@ const MusicInsert = () => {
 
     const [title, setTitle] = useState('');
     const [artistNo, setArtistNo] = useState('');
-    const [artistName, setArtistName] = useState(''); // 아티스트 이름 상태
     const [genre, setGenre] = useState('');
     const [releasedDate, setReleasedDate] = useState('');
     const [content, setContent] = useState('');
@@ -37,7 +43,10 @@ const MusicInsert = () => {
     const [artists, setArtists] = useState([]); // 아티스트 목록 상태
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
+
+        if (authUser.roll == 0) {
+
+            axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
             .then(response => {
                 console.log('API Response:', response.data);
                 if (response.data && Array.isArray(response.data.apiData)) {
@@ -51,7 +60,18 @@ const MusicInsert = () => {
                 console.error('Error fetching artists:', error);
                 setArtists([]);
             });
+            
+
+        } else {
+            alert('접근 권한이 없습니다');
+            navigate('/');
+        }
+
+
     }, []);
+
+
+
 
     const handleTitleChange = (e) => setTitle(e.target.value);
     const handleArtistChange = (e) => setArtistNo(e.target.value); // 아티스트 선택 시 업데이트
