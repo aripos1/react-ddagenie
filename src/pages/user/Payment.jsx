@@ -95,12 +95,12 @@ const Payment = () => {
                             <p>홈 | 마이뮤직 | 이용권구매 | <strong>BEST 이용권</strong></p>
                         </div>
                         <div id="select-usePayment">
-                            <Link to='/user/utilize' id="use-payment-my">사용중인 이용권</Link>
+                            <Link to={`${process.env.REACT_APP_API_URL}/user/utilize`} id="use-payment-my">사용중인 이용권</Link>
                             {/* <span>사용중인 이용권이 없습니다.</span>
                             <p>이용권을 구매하고 다양한 혜택을 누리세요!</p> */}
                             <span>사용중인 이용권이 없습니다.</span>
                             <p>지금바로 다양한 음악들을 만나보세요!</p>
-                            <Link to={`/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
+                            <Link to={`${process.env.REACT_APP_API_URL}/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
                         </div>
                         {productList.map((productVo)=>{
                             return(
