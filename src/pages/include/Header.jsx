@@ -256,6 +256,11 @@ const Header = () => {
                         {isLoggedIn ? (
                             // 로그인한 상태
                             <>
+                                <li> 
+                                    {authUser.roll === 0 && (
+                                        <Link to="/admin/musicadmin" className="btn login-join-btn">관리자 페이지</Link>
+                                    )}
+                                </li>
                                 <li><Link to="/user/info" className="btn login-join-btn">{username}님</Link></li>
                                 <li><Link to="/user/mymusic" className="btn login-join-btn">마이뮤직</Link></li>
                                 <li className='logout'><button className="btn login-join-btn logout" onClick={handleLogout}>로그아웃</button></li>

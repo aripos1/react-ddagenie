@@ -43,18 +43,98 @@
 }
 
 /* 버튼 스타일 */
-.buttons .button-play,
-.buttons .button-add
-{
-    background-color: #007bff;
-    color: #fff;
+
+.buttons .button-play {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    margin-right: 10px;
     cursor: pointer;
+    margin: 0 10px;
+    border-radius: 50%;
+    position: relative;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
+.buttons .button-play::before {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.3s;
+}
+
+.buttons{
+    margin-right: -20px ;
+}
+
+.buttons .button-play:hover::before {
+    background-color: #fff;
+}
+
+.buttons .button-play:hover{
+    background-color: #555;
+    transform: scale(1.1);
+}
+
+.buttons .button-add {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    border-radius: 50%;
+    position: relative;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+
+.buttons .button-add:hover {
+    background-color: #555;
+    transform: scale(1.1);
+}
+
+
+.buttons .button-add::before,
+.buttons .button-add::after {
+    content: "";
+    position: absolute;
+    background-color: #333;
+    transition: background-color 0.3s;
+}
+
+.buttons .button-add::before {
+    width: 24px;
+    height: 4px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.buttons .button-add::after {
+    width: 24px;
+    height: 4px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+/* Change the cross color on hover */
+.buttons .button-add:hover::before,
+.buttons .button-add:hover::after {
+    background-color: #fff;
+}
+
+  
 /* 다른 앨범 리스트 */
 .artist-album-list h2 {
     margin-bottom: 15px;
@@ -123,9 +203,9 @@
 }
 
 .comment-input {
-    width: 89%;
-    height: 60px;
-    padding: 10px;
+    width: 90%;
+    height: 50px;
+    padding: 13px;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 10px;
@@ -194,20 +274,23 @@
 }
 
 .reply-input {
-  width: 100%;
-  height: 60px;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    width: 90%;
+    height: 50px;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    resize: none;
 }
 
 .reply-submit {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 /* 대댓글 아이템 */
