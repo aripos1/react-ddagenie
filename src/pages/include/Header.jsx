@@ -11,11 +11,9 @@ import '../../assets/css/header.css';
 //images
 import walletIcon from '../../assets/images/wallet.png';
 import logo from '../../assets/images/cuteddagenie.png';
-import defaultProfileImage from '../../assets/images/default_img2.png';
+import defaultProfile from '../../assets/images/default_img2.png'; // 기본 프로필 이미지  
 
-const Header = ({ profileImage }) => {
-
-    const [profileImageUrl, setProfileImageUrl] = useState(defaultProfileImage);
+const Header = () => {
     /*---라우터 관련-------------------------------*/
     const navigate = useNavigate();
 
@@ -161,7 +159,9 @@ const Header = ({ profileImage }) => {
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
+
         const storedUser = localStorage.getItem('authUser');
+
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
@@ -174,18 +174,15 @@ const Header = ({ profileImage }) => {
         } else {
             setIsLoggedIn(false);
         }
+
+
+
+
+
         //소영 : 이용권 잔여시간 계산용
         dateReckoding();
 
     }, []);
-
-    useEffect(() => {
-        if (profileImage) {
-            setProfileImageUrl(`${profileImage}?timestamp=${new Date().getTime()}`);
-        } else {
-            setProfileImageUrl(defaultProfileImage);
-        }
-    }, [profileImage]);
 
     const handleLogout = () => {
         console.log('로그아웃');

@@ -19,16 +19,12 @@ import AdminPayment from './pages/admin/AdminPayment.jsx';
 import Detail from './pages/main/Detail.jsx';
 import ArtistInsert from './pages/admin/ArtistInsert.jsx';
 import Introduce from './pages/main/Introduce.jsx';
-import Header from './pages/include/Header';
+
+
+
+
 
 function App() {
-
-  // 프로필 이미지 상태 관리
-  const [profileImage, setProfileImage] = useState(null);
-
-  const updateProfileImage = (newImageUrl) => {
-    setProfileImage(newImageUrl);
-  };
   return (
     <div>
       <BrowserRouter>
