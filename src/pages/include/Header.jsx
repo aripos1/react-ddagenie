@@ -1,7 +1,7 @@
 //import 라이브러리
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {  differenceInDays } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 import axios from 'axios';
 
 //css
@@ -38,8 +38,8 @@ const Header = () => {
     //소영 : 이용권 잔여시간 계산용
     const [dayDifference, setDayDifference] = useState(null);
     const [finishTime, setFinishTime] = useState('');
-    
-    
+
+
 
     /*---일반 변수--------------------------------*/
     //디비시간 가져오기
@@ -51,9 +51,9 @@ const Header = () => {
     const dateReckoding = ()=>{
         console.log('123456789')
 
-        
 
-        if(authUser !== null && authUser.paymentFinish !== null){
+
+        if (authUser !== null && authUser.paymentFinish !== null) {
             //디비시간 가져오기
             setFinishTime(authUser.paymentFinish);
             //디비시간 가져오기 
@@ -66,36 +66,36 @@ const Header = () => {
             const paymentFinish = new Date(repaymentFinish);
             const currentDate = new Date();
 
-            const difference = differenceInDays(paymentFinish,currentDate)+1;
+            const difference = differenceInDays(paymentFinish, currentDate) + 1;
             setDayDifference(difference);
             console.log(dayDifference)
             // console.log(paymentFinish);
             // console.log(currentDate);
 
             //로그인한회원 >> 이용권 사용여부체크
-            if(dayDifference >= 0 ){
+            if (dayDifference >= 0) {
                 setAuthUser(JSON.parse(localStorage.getItem('authUser')))
                 console.log('5465531531531351616~~~~~~~~~~~~~~')
-                
+
                 console.log(authUser.ticket_status)
-                if( !(authUser.ticket_status === "해지요청" || authUser.ticket_status === "해지완료")){
+                if (!(authUser.ticket_status === "해지요청" || authUser.ticket_status === "해지완료")) {
                     // console.log('dd');
                     console.log('사용가능한 이용권입니다.');
                     authUser.ticket_status = '이용중'
-                    
+
                     localStorage.setItem('authUser', JSON.stringify(authUser));
-                }else if(authUser.ticket_status === '해지완료'){
+                } else if (authUser.ticket_status === '해지완료') {
                     console.log('해지완료요')
                     setDayDifference(-1);
-                }else if(authUser.ticket_status === '해지요청'){
+                } else if (authUser.ticket_status === '해지요청') {
                     console.log('해지요청중')
                 }
-                
 
-            }else{
+
+            } else {
                 // console.log('mm');
                 authUser.ticket_status = '이용완료'
-                
+
                 console.log('사용기한이 끝난 이용권입니다.')
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
@@ -107,54 +107,54 @@ const Header = () => {
                     method: 'put', 			// put, post, delete                   
                     url: `${process.env.REACT_APP_API_URL}/api/state/${userNo}`,
                     //headers: { "Authorization": `Bearer ${token}`}, // token
-                                                                                                      //get delete
+                    //get delete
                     //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
                     //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
-                
+
                     //params: guestbookVo, // get delete 쿼리스트링(파라미터)
                     //data: '',     // put, post,  JSON(자동변환됨)
                     //data: formData,           // 첨부파일  multipart방식
-                
+
                     responseType: 'json' //수신타입
                 }).then(response => {
                     console.log(response); //수신데이타
                     console.log(response.data.apiData);
-        
-                    if(response.data.apiData > 0){
+
+                    if (response.data.apiData > 0) {
                         alert('이용권 사용기한이 만료되었습니다.\n \n새로운 이용권 구매후 이용해주세요')
                     }
-                    
-                    
+
+
                 }).catch(error => {
                     console.log(error);
                 });
-                
+
 
             }
-            
-        }else{
+
+        } else {
             console.log('종료일자 없음');
             setFinishTime(null);
         }
-        
+
     }
-    
-    
-    
+
+
+
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
-        
+
         const storedUser = localStorage.getItem('authUser');
-        
+
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
             setUsername(user.name); // 사용자 이름 설정
             // 파일 경로와 파일 이름을 조합하여 프로필 이미지 경로 설정
-            const profileImageUrl = user.saveName 
-                ? `${process.env.REACT_APP_API_URL}/upload/${user.saveName}` 
+            const profileImageUrl = user.saveName
+                ? `${process.env.REACT_APP_API_URL}/upload/${user.saveName}`
                 : defaultProfile;
             setProfileImage(profileImageUrl);
         } else {
@@ -163,11 +163,11 @@ const Header = () => {
 
 
 
-    
+
 
         //소영 : 이용권 잔여시간 계산용
         dateReckoding();
-        
+
     }, []);
 
     const handleLogout = () => {
@@ -183,7 +183,7 @@ const Header = () => {
         navigate('/login');
     };
 
-     /* 검색창 관련 */
+    /* 검색창 관련 */
     // 검색어 입력 시 상태 업데이트
     const handleSearchInputChange = (e) => {
         setSearchQuery(e.target.value);
@@ -250,6 +250,7 @@ const Header = () => {
                                         <img src={profileImage} alt={`${username}님`} onError={(e) => { e.target.src = defaultProfile; }} />
                                     </Link>
                                 </li>
+
                             </>
                         ) : (
                             // 로그아웃 상태
@@ -261,6 +262,16 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
+            {/* 플로팅 뮤직 플레이어 버튼 */}
+            {isLoggedIn && (
+                <button
+                    className="floating-music-player-btn"
+                    onClick={() => openPlayerPopup(authUser.no)}
+                >
+                    <span className="icon">▶</span>
+                    <span className="text">따지니 플레이어</span>
+                </button>
+            )}
         </div>
     );
 };
