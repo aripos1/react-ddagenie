@@ -68,9 +68,9 @@ const Utilize = () => {
 
             setPayList(response.data.apiData);
             
-            authUser.ticket_status = response.data.apiData[0].ticketStatus;
+            //authUser.ticket_status = response.data.apiData[0].ticketStatus;
             //console.log(authUser.ticket_status)
-            localStorage.setItem('authUser', JSON.stringify(authUser));
+            //localStorage.setItem('authUser', JSON.stringify(authUser));
             dateReckoding();
 
         }).catch(error => {
