@@ -20,6 +20,9 @@ const Detail = () => {
     const [newComment, setNewComment] = useState(''); // 새 댓글 입력 상태
     const [replyContents, setReplyContents] = useState({}); // 댓글 번호별 대댓글 상태
     const [userNo, setUserNo] = useState(null); // 사용자 ID 상태
+    const [musicNo,setMusicNo]=useState('');
+    const [fileUrl,setFileUrl]=useState('');
+    const [artist,setArtist]=useState('');
     const navigate = useNavigate();
     const { no } = useParams();
 
@@ -57,6 +60,9 @@ const Detail = () => {
                         setMusiccontent(musicVo.musicContent);
                         setImagename(musicVo.imageName);
                         setArtistNo(musicVo.artistNo);
+                        setMusicNo(musicVo.musicNo);
+                        setArtist(musicVo.artist);
+                        setFileUrl(musicNo.fileUrl);
                         // 다른 곡 가져오기
                         const tracksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/music/artist/${musicVo.artistNo}/${no}`);
                         if (tracksResponse.data.result === 'success') {
@@ -279,6 +285,63 @@ const Detail = () => {
             });
     };
 
+    // 팝업 열기 (유저 넘버만 전달)
+    const openPlayerPopup = (userNo) => {
+        const popupOptions = `width=735,height=460,resizable=yes,scrollbars=no`;
+        const popupUrl = `/music/musicplayer?userNo=${encodeURIComponent(userNo)}`;
+        window.open(popupUrl, 'Music Player', popupOptions);
+    };
+
+    // 재생 + 재생목록에 추가
+    const handlePlayAndAddToPlaylist = async (musicNo) => {
+        if (!userNo) {
+            alert('로그인 해주세요.');
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
+                userNo: parseInt(userNo),  // 숫자로 변환
+                musicNo: parseInt(musicNo),  // 숫자로 변환
+                title:title,
+                artist:artist,
+                fileUrl:fileUrl
+            });
+
+            if (response.status === 200) {
+                openPlayerPopup(userNo);
+            } else {
+                console.error('재생목록에 곡 추가 실패');
+            }
+        } catch (error) {
+            console.error('Error adding song to playlist:', error);
+        }
+    };
+
+     // 마이뮤직에 곡 추가 함수
+     const handleAddToMyMusic = async (musicNo) => {
+        if (!userNo) {
+            alert("로그인 해주세요.");
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
+                userNo: userNo,
+                musicNos: [musicNo], // 배열 형태로 전송
+            });
+
+            if (response.status === 200) {
+                console.log('곡이 마이뮤직에 추가되었습니다:', response.data);
+            } else {
+                console.error('마이뮤직에 곡 추가 실패');
+            }
+        } catch (error) {
+            console.error('Error adding song to MyMusic:', error);
+        }
+    };
+
+
     return (
         <>
             <Header />
@@ -295,8 +358,26 @@ const Detail = () => {
                             <p>장르: {genre}</p><br/>
                             <p>발매일: {releasedDate}</p><br/>
                             <div className="buttons">
-                                <button className="button-play">듣기</button>
-                                <button className="button-add">담기</button>
+                                <button className="button-play"
+                                   
+                                   onClick={() => handlePlayAndAddToPlaylist(
+                                        musicNo,
+                                        title,
+                                        artistName,
+                                        fileUrl
+                                    )}
+                            
+                                >듣기</button>
+                                <button className="button-add"
+                                 
+                                 onClick={() => handleAddToMyMusic(
+                                    musicNo,
+                                    title,
+                                    artistName
+                                )}
+                                
+                                
+                                >담기</button>
 
                             </div>
                         </div>
