@@ -1,0 +1,55 @@
+@charset "utf-8"; 
+
+.admin-side>#profile-box>.profile-edit>.button-left:hover,
+.admin-side>#profile-box>.profile-edit>.button-center:hover,
+.admin-side>#profile-box>.profile-edit>.button-right:hover {
+font-weight: bold;
+color: #fff;
+}
+
+
+.admin-side>#profile-box>.profile-edit>.button-left, 
+.admin-side>#profile-box>.profile-edit>.button-center, 
+.admin-side>#profile-box>.profile-edit>.button-right {
+    width: 40%;
+    padding: 3px 0 3px 0;
+    font-size: 12px;
+    font-family: '굴림';
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex:center;
+    align-items: center;
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 (필요 시) */
+    height: 50px; /* 버튼 높이 예시 */
+    border: none;
+}
+
+.admin-side>#profile-box>.profile-edit>.button-left {
+    background-color: #6bced4;
+    border: 1px solid #61BDC6;
+    text-align: center;
+}
+.admin-side>#profile-box>.profile-edit>.button-center {
+    background-color: #f6f674;
+    border: 1px solid #f3d675;
+}
+.admin-side>#profile-box>.profile-edit>.button-right{
+    background-color: #f38175;
+    border: 1px solid #e07065;
+}
+
+.admin-side>#profile-box>.profile-edit>.button-left:hover {
+    background-color: #53bbbe;
+}
+.admin-side>#profile-box>.profile-edit>.button-center:hover {
+    background-color: #f3d675;
+}
+.admin-side>#profile-box>.profile-edit>.button-right:hover {
+    background-color: #e06358;
+}

@@ -161,10 +161,7 @@
 }
 
 /* 마우스를 가져다 대면 글자가 튀어나오는 효과 */
-.ham #wrap-header>#purchase-button>.headBuy:hover,
-.ham #wrap-header>.gnb .gnb-menu:hover,
-.ham #wrap-header>.gnb>.gnb-my>li .logout:hover,
-.ham #wrap-header>.gnb>.gnb-my>li .login-join-btn:hover {
+.ham #wrap-header>#purchase-button>.headBuy:hover {
     transform: translateY(-5px);  /* 글자가 위로 5px 떠오르는 효과 */
     text-shadow: 0 4px 10px rgba(74, 199, 253, 0.3), 
                  0 2px 5px rgba(5, 230, 255, 0.1);  /* 더 진한 그림자 추가 */

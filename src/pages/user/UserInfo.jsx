@@ -44,11 +44,11 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
     /*---훅(useEffect)+이벤트(handle)메소드------*/
     // 사용자 정보 불러오기 (마운트 시 실행)
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-
+        axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
         }).then(response => {
             if (response.data && response.data.apiData) {
                 const userVo = response.data.apiData;
@@ -58,22 +58,22 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                 setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
                 setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
 
-                // filePath와 saveName을 합쳐서 이미지 경로 생성
-                const imageUrl = `${process.env.REACT_APP_API_URL}/upload/${userVo.saveName}`;
-                setProfile(imageUrl || profileImage); // 파일 경로가 유효할 경우에만 이미지 표시
+                // 프로필 이미지 URL 설정
+                const imageUrl = userVo.saveName || profileImage;
+                setProfile(imageUrl);
+                updateProfileImage(imageUrl); // 헤더 및 사이드바 업데이트
             } else {
                 console.error('회원 정보가 없습니다.');
             }
         }).catch(error => {
             console.error('유저 정보 로딩 실패:', error);
         });
-    }, [token]);
+    }, [token,updateProfileImage]);
 
     //확인버튼 클릭 이벤트
     // 폼 제출 핸들러 (회원정보 수정)
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const formData = new FormData();
         formData.append('name', name);
         formData.append('password', pw);
@@ -100,11 +100,12 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
             method: 'put',
             url: `${process.env.REACT_APP_API_URL}/api/users/me`,
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "multipart/form-data"
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
             },
-            data: formData,
-        }).then(response => {
+            data: formData,  // formData 추가
+        })
+        .then(response => {
             if (response.data.result === 'success') {
                 alert('회원정보 수정 완료');
                 // 프로필 이미지가 변경되었을 때 헤더 업데이트
@@ -116,11 +117,10 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                 }
 
                 navigate('/');
-            } else {
-                alert('수정 실패');
             }
-        }).catch(error => {
-            console.error('회원정보 수정 실패:', error);
+        })
+        .catch(error => {
+            console.error('프로필 업데이트 실패:', error);
         });
     };
 
@@ -250,7 +250,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                                         <th>프로필 사진</th>
                                         <td>
                                             <div className="profile-photo">
-                                                <img src={profile} alt="" />
+                                                <img src={profile} alt="프로필 이미지" />
                                                 <input type="file" id='input-img' name="profile_image" onChange={handleProfileChange} />
                                                 <label>
                                                     <input
@@ -265,7 +265,6 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                                     </tr>
                                 </tbody>
                             </table>
-
                             {/* 제출 버튼 */}
                             <div className="submit-section">
                                 <button type="submit" className="btn-submit">확인</button>

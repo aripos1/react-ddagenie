@@ -109,7 +109,7 @@ const Payment = () => {
                                     <div className="product-back-div clearfix">
                                         <p className="product-name-date">스트리밍 플러스 티켓 {productVo.goodsName}</p>
                                         <p className="product-name-date">무제한 듣기 + 오프라인 재생</p>
-                                        <Link to={`http://localhost:3000/user/pay/${productVo.goodsNo}`}><button className="product-float">구매</button></Link>
+                                        <Link to={`${process.env.REACT_APP_API_URL}/user/pay/${productVo.goodsNo}`}><button className="product-float">구매</button></Link>
                                         <p className="float-p">{productVo.goodsPrice} 원</p>
                                     </div>
                                 </div>

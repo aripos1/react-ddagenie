@@ -33,7 +33,7 @@
 /* 프로필 이미지 설정 */
 .ham #profile-box>.profile-name img {
     width: 50%;
-    height: auto;
+    height: 50%;
     border-radius: 50%;
     object-fit: cover;
     margin-top: 30px;
@@ -236,3 +236,4 @@
 .ham .userinfo .btn-cancel:hover {
     background-color: #999;
 }
+
