@@ -91,6 +91,7 @@ const AdminPayment = () => {
                 // authUser.paymentFinish = null;
                 // localStorage.setItem('authUser', JSON.stringify(authUser));
                 alert('해지가 완료되었습니다')
+                getDeleteList();
                 
                 
             }
@@ -105,7 +106,7 @@ const AdminPayment = () => {
 
         //authUser.ticketStatus = '해지완료'
         //localStorage.setItem('authUser', JSON.stringify(authUser));
-        getDeleteList();
+        
     }
 
         //문법임. 여기안에 담겨진다.
