@@ -103,6 +103,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data',
             },
+            data: formData,  // formData 추가
         })
         .then(response => {
             if (response.data.result === 'success') {

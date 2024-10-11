@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -20,6 +20,7 @@ const JoinForm = () => {
     /*---라우터 관련-------------------------------*/
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
+    const [authUser, setAuthUser] = useState(null);  // authUser 상태 추가
 
     const navigate = useNavigate("");
 
@@ -70,6 +71,7 @@ const JoinForm = () => {
                 // }
                 localStorage.setItem("token", token);
                 localStorage.setItem("authUser", JSON.stringify(response.data.apiData));
+                setAuthUser(response.data.apiData);  // 로그인 성공 시 authUser 설정
                 console.log('////////')
                 console.log(response.data.apiData)
                 navigate('/');
@@ -83,6 +85,14 @@ const JoinForm = () => {
             alert('로그인 중 오류가 발생했습니다.');
         });
     };
+
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 localStorage에서 authUser 가져오기
+        const storedUser = localStorage.getItem('authUser');
+        if (storedUser) {
+            setAuthUser(JSON.parse(storedUser));
+        }
+    }, []);
 
     return (
         <div id="wrap-main" className="ham">
@@ -145,7 +155,18 @@ const JoinForm = () => {
 
                         {/* 광고 배너 */}
                         <div className="ad-banner">
-                            <Link to={"/user/payment"} className="headBuy"><img src={adBanner} alt="광고 배너" /></Link>
+                            <Link
+                                to={authUser ? "/user/payment" : "#"}
+                                className="headBuy"
+                                onClick={(e) => {
+                                    if (!authUser) {
+                                        e.preventDefault();  // 페이지 이동을 막음
+                                        alert("로그인을 해주세요.");
+                                    }
+                                }}
+                            >
+                                <img src={adBanner} alt="광고 배너" />
+                            </Link>
                         </div>
                     </div>
                 </div>
