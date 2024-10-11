@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import Test from './pages/Test';
 import MusicPlayer from './pages/music/MusicPlayer';
 import MyMusic from './pages/music/MyMusic';
@@ -20,15 +21,20 @@ import AdminPayment from './pages/admin/AdminPayment.jsx';
 import Detail from './pages/main/Detail.jsx';
 import ArtistInsert from './pages/admin/ArtistInsert.jsx';
 import Introduce from './pages/main/Introduce.jsx';
-
-
-
-
+import Header from './pages/include/Header';
 
 function App() {
+
+  // 프로필 이미지 상태 관리
+  const [profileImage, setProfileImage] = useState(null);
+
+  const updateProfileImage = (newImageUrl) => {
+    setProfileImage(newImageUrl);
+  };
   return (
     <div>
       <BrowserRouter>
+        <Header profileImage={profileImage} />
         <Routes>
           <Route path='/test' element={<Test />} />
           <Route path='/' element={<Index />} />
@@ -39,7 +45,8 @@ function App() {
           <Route path='/login' element={<LoginForm />} />
           <Route path='/signup' element={<JoinForm />} />
           <Route path='/joinok' element={<JoinComplete />} />
-          <Route path='/user/info' element={<UserInfo />} />
+          <Route path='/user/info' element={<UserInfo updateProfileImage={updateProfileImage} />}
+          />
           <Route path='/admin/musicadmin' element={<MusicAdmin />} />
           <Route path='/admin/musicinsert' element={<MusicInsert />} />
           <Route path='/admin/artistinsert' element={<ArtistInsert />} />
@@ -48,9 +55,9 @@ function App() {
           <Route path='/user/Utilize' element={<Utilize />} />
           <Route path='/user/deleteForm/:userNo' element={<JdeleteForm />} />
           <Route path='/admin/adminPayment' element={<AdminPayment />} />
-          <Route path='/main/detail/:no' element={<Detail/>}/>
-          <Route path='/main/welcome' element={<Introduce/>}/>
-          
+          <Route path='/main/detail/:no' element={<Detail />} />
+          <Route path='/main/welcome' element={<Introduce />} />
+
         </Routes>
       </BrowserRouter>
     </div>

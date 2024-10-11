@@ -30,9 +30,6 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
     const [selectedFile, setSelectedFile] = useState(null);
     const [deleteProfile, setDeleteProfile] = useState(false);
 
-    
-
-
     // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -44,18 +41,13 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
     // 프로필 사진 업로드 핸들러
     const handleProfileChange = (e) => {
         const file = e.target.files[0];
-        if (!deleteProfile && file) {
+        if (file) {
             setSelectedFile(file);
-
-            // 업로드된 파일 미리보기
             const reader = new FileReader();
             reader.onload = () => {
-                setProfile(reader.result); // 미리보기에 선택한 이미지 표시
+                setProfile(reader.result);
             };
             reader.readAsDataURL(file);
-        } else if (deleteProfile) {
-            setProfile(profileImage); // 체크박스 선택 시 디폴트 이미지로 변경
-            setSelectedFile(null); // 선택된 파일을 초기화
         }
     };
 
@@ -64,93 +56,67 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         setDeleteProfile(e.target.checked);
 
         if (e.target.checked) {
-            setProfile(profileImage); // 체크박스 선택 시 즉시 디폴트 이미지로 변경
-            setSelectedFile(null); // 선택된 파일 초기화
+            setProfile(profileImage);
+            setSelectedFile(null);
         }
     };
-
     /*---훅(useEffect)+이벤트(handle)메소드------*/
     // 사용자 정보 불러오기 (마운트 시 실행)
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-
+        axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
         }).then(response => {
             if (response.data && response.data.apiData) {
                 const userVo = response.data.apiData;
-                setName(userVo.name || '')
-                setId(userVo.id || '');  // id가 없을 경우 빈 문자열로 설정
-                setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
-                setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
-                setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
+                setName(userVo.name || '');
+                setId(userVo.id || '');
+                setPw(userVo.password || ''); // 비밀번호도 받아오기
+                setPhone(userVo.phone || '');
+                setAddress(userVo.address || '');
 
-                // filePath와 saveName을 합쳐서 이미지 경로 생성
-                const imageUrl = `${process.env.REACT_APP_API_URL}/upload/${userVo.saveName}`;
-                setProfile(imageUrl || profileImage); // 파일 경로가 유효할 경우에만 이미지 표시
+                // 프로필 이미지 URL 설정
+                const imageUrl = userVo.saveName || profileImage;
+                setProfile(imageUrl);
+                updateProfileImage(imageUrl); // 헤더 및 사이드바 업데이트
             } else {
                 console.error('회원 정보가 없습니다.');
             }
         }).catch(error => {
             console.error('유저 정보 로딩 실패:', error);
         });
-    }, [token]);
+    }, [token,updateProfileImage]);
 
     //확인버튼 클릭 이벤트
     // 폼 제출 핸들러 (회원정보 수정)
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('password', pw);
-        formData.append('phone', phone);
-        formData.append('address', address);
+        formData.append('profile', selectedFile);
 
-        // 삭제 체크박스가 선택된 경우 기본 이미지 설정
-        if (deleteProfile) {
-            formData.append('profile', null);  // 서버에서 기본 이미지를 설정하도록 null 값을 보냄
-
-        } else if (selectedFile) {
-            formData.append('profile', selectedFile); // 선택된 파일을 프로필로 설정
-        }
-
-        const user = {
-            name: name,
-            password: pw,
-            phone: phone,
-            address: address
-        };
-        formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
-
-        axios({
-            method: 'put',
-            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
+        axios.put(`${process.env.REACT_APP_API_URL}/api/users/me`, formData, {
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "multipart/form-data"
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
             },
-            data: formData,
-        }).then(response => {
+        })
+        .then(response => {
             if (response.data.result === 'success') {
-                alert('회원정보 수정 완료');
-                // 프로필 이미지가 변경되었을 때 헤더 업데이트
-                if (selectedFile) {
-                    const imageUrl = URL.createObjectURL(selectedFile);
-                    updateProfileImage(imageUrl);  // Header에서 프로필 이미지 업데이트
-                } else if (deleteProfile) {
-                    updateProfileImage(profileImage); // 기본 이미지로 변경
-                }
-
+                const imageUrl = response.data.apiData.profileImageUrl;
+                setProfile(imageUrl);
+                updateProfileImage(imageUrl); // App.js의 상태 업데이트
+                alert('프로필 업데이트 완료');
                 navigate('/');
-            } else {
-                alert('수정 실패');
             }
-        }).catch(error => {
-            console.error('회원정보 수정 실패:', error);
+        })
+        .catch(error => {
+            console.error('프로필 업데이트 실패:', error);
         });
     };
+
+
 
     //탈퇴창 관련
     const handleDeleteAccount = () => {
@@ -251,7 +217,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                                         <th>프로필 사진</th>
                                         <td>
                                             <div className="profile-photo">
-                                                <img src={profile} alt="" />
+                                                <img src={profile} alt="프로필 이미지" />
                                                 <input type="file" id='input-img' name="profile_image" onChange={handleProfileChange} />
                                                 <label>
                                                     <input
@@ -266,7 +232,6 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                                     </tr>
                                 </tbody>
                             </table>
-
                             {/* 제출 버튼 */}
                             <div className="submit-section">
                                 <button type="submit" className="btn-submit">확인</button>

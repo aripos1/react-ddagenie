@@ -11,9 +11,11 @@ import '../../assets/css/header.css';
 //images
 import walletIcon from '../../assets/images/wallet.png';
 import logo from '../../assets/images/cuteddagenie.png';
-import defaultProfile from '../../assets/images/default_img2.png'; // 기본 프로필 이미지  
+import defaultProfileImage from '../../assets/images/default_img2.png';
 
-const Header = () => {
+const Header = ({ profileImage }) => {
+
+    const [profileImageUrl, setProfileImageUrl] = useState(defaultProfileImage);
     /*---라우터 관련-------------------------------*/
     const navigate = useNavigate();
 
@@ -23,8 +25,8 @@ const Header = () => {
     // 로그인한 사용자 이름
     const [username, setUsername] = useState('');
     // 프로필 이미지
-    const [profileImage, setProfileImage] = useState(defaultProfile);
-
+    // const [profileImage, setProfileImage] = useState(defaultProfileImage);
+  
     /*리액트 warning 메시지 무시*/
     // eslint-disable-next-line no-unused-vars
     const [token, setToken] = useState(localStorage.getItem('token'));
@@ -57,7 +59,7 @@ const Header = () => {
         window.open(popupUrl, 'Music Player', popupOptions);
     };
 
-    const dateReckoding = ()=>{
+    const dateReckoding = () => {
         console.log('123456789')
 
 
@@ -87,23 +89,18 @@ const Header = () => {
                 console.log('5465531531531351616~~~~~~~~~~~~~~')
 
                 console.log(authUser.ticket_status)
+                if (!(authUser.ticket_status === "해지요청" || authUser.ticket_status === "해지완료")) {
+                    // console.log('dd');
+                    console.log('사용가능한 이용권입니다.');
+                    authUser.ticket_status = '이용중'
 
-                if( authUser.ticket_status === "해지요청"){
-                    console.log('해지요청 if문');
-                    console.log('해지요청중인 이용권 입니다.');
-                }
-                
-                if( authUser.ticket_status === "해지완료"){
-                    console.log('해지완료 if문');
-                    console.log('해지완료된 이용권입니다.');
-
+                    localStorage.setItem('authUser', JSON.stringify(authUser));
+                } else if (authUser.ticket_status === '해지완료') {
+                    console.log('해지완료요')
                     setDayDifference(-1);
-                    // authUser.ticket_status = '이용중'
-                    
-                    // localStorage.setItem('authUser', JSON.stringify(authUser));
-                
+                } else if (authUser.ticket_status === '해지요청') {
+                    console.log('해지요청중')
                 }
-
 
 
             } else {
@@ -159,30 +156,32 @@ const Header = () => {
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
-
         const storedUser = localStorage.getItem('authUser');
-
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
-            setUsername(user.name); // 사용자 이름 설정
+            setUsername(user.name);
+
             // 파일 경로와 파일 이름을 조합하여 프로필 이미지 경로 설정
             const profileImageUrl = user.saveName
-                ? `${process.env.REACT_APP_API_URL}/upload/${user.saveName}`
-                : defaultProfile;
-            setProfileImage(profileImageUrl);
+                ? user.saveName  // S3에서 반환된 이미지 URL 사용
+                : defaultProfileImage;
+            // setProfileImage(profileImageUrl);
         } else {
             setIsLoggedIn(false);
         }
-
-
-
-
-
         //소영 : 이용권 잔여시간 계산용
         dateReckoding();
 
     }, []);
+
+    useEffect(() => {
+        if (profileImage) {
+            setProfileImageUrl(`${profileImage}?timestamp=${new Date().getTime()}`);
+        } else {
+            setProfileImageUrl(defaultProfileImage);
+        }
+    }, [profileImage]);
 
     const handleLogout = () => {
         console.log('로그아웃');
@@ -256,17 +255,16 @@ const Header = () => {
                         {isLoggedIn ? (
                             // 로그인한 상태
                             <>
-                                <li> 
-                                    {authUser.roll === 0 && (
-                                        <Link to="/admin/musicadmin" className="btn login-join-btn">관리자 페이지</Link>
-                                    )}
-                                </li>
                                 <li><Link to="/user/info" className="btn login-join-btn">{username}님</Link></li>
                                 <li><Link to="/user/mymusic" className="btn login-join-btn">마이뮤직</Link></li>
                                 <li className='logout'><button className="btn login-join-btn logout" onClick={handleLogout}>로그아웃</button></li>
                                 <li>
                                     <Link to="/user/info" className="btn-profile">
-                                        <img src={profileImage} alt={`${username}님`} onError={(e) => { e.target.src = defaultProfile; }} />
+                                        <img
+                                            src={profileImageUrl}
+                                            alt={`${username}님`}
+                                            onError={(e) => { e.target.src = defaultProfileImage; }}
+                                        />
                                     </Link>
                                 </li>
 
