@@ -22,11 +22,13 @@ const Pay = () => {
     const [paymentMethod, setPaymentMethod] = useState('');
     const navigate = useNavigate();
     
-    
+    useEffect(() => {
+        console.log('authUser:', authUser);
+    }, []);
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
     const authUser = JSON.parse(localStorage.getItem('authUser'));
-
+    console.log('authUser:', authUser);
 
     /*---일반 메소드 --------------------------------------------*/
 
