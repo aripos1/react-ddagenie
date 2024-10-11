@@ -3,7 +3,7 @@
 
 .ham .musiclist th,
 .ham .musiclist td {
-    width:unset;
+    width: unset;
     margin: 0;
     padding: 0;
     border: 0;
@@ -23,12 +23,13 @@
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.ham .musiclist .listTitle {
+.ham .musiclist #top-title {
     display: flex;
     align-items: center;
-    width:700px;
-    margin-left: 20px;
+    width: 900px;
+    margin: 10px 0 10px 20px;
     padding-top: 30px;
+    border: none;;
 }
 
 .ham .musiclist .Breadcrumbs {
@@ -59,6 +60,13 @@
 .ham .musiclist .music-list-wrap .list-wrap thead {
     padding-right: 1px;
     width: 90%;
+}
+
+.ham .musiclist .music-list-wrap .list-wrap .list:nth-child(odd){
+    background-color: #f9f9f9; /* 홀수 줄 배경색 (살짝 음영) */
+}
+.ham .musiclist .music-list-wrap .list-wrap .list:nth-child(even){
+    background-color: #ffffff; /* 짝수 줄 배경색 (하얀색) */
 }
 
 /*툴바 세팅*/
@@ -131,7 +139,9 @@
     background-position: -21px 0;
 }
 
-.ham .musiclist button, input[type="reset"], input[type="submit"] {
+.ham .musiclist button,
+input[type="reset"],
+input[type="submit"] {
     -webkit-appearance: button;
     cursor: pointer;
 }
@@ -160,24 +170,58 @@
     background-color: #bcc8d0;
 }
 
+.ham .musiclist #genre-buttons {
+    position: relative;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.ham .musiclist #genre-buttons button {
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #27282d;
+    background-color: #fff;
+    cursor: pointer;
+    margin-right: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ham .musiclist #genre-buttons button:hover {
+    background-color: #7FCBFF;
+    color: #ffffff;
+}
+
 /* ul의 기본 패딩 및 마진 제거 */
 /* ul에 flexbox 적용 */
 .ham .musiclist #top-ct-list ul {
-    display: flex; /* flexbox로 ul 내부 li를 가로로 배치 */
-    justify-content: space-between; /* li 간 간격을 균등하게 배치 */
-    list-style: none; /* 기본 ul 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    margin: 0; /* 기본 마진 제거 */
+    display: flex;
+    /* flexbox로 ul 내부 li를 가로로 배치 */
+    justify-content: space-between;
+    /* li 간 간격을 균등하게 배치 */
+    list-style: none;
+    /* 기본 ul 스타일 제거 */
+    padding: 0;
+    /* 기본 패딩 제거 */
+    margin: 0;
+    /* 기본 마진 제거 */
 }
 
 /* li 스타일 */
 .ham .musiclist #top-ct-list ul li {
-    flex: 1; /* 각 li가 동일한 비율로 배치되도록 설정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
+    flex: 1;
+    /* 각 li가 동일한 비율로 배치되도록 설정 */
+    text-align: center;
+    /* 텍스트 가운데 정렬 */
     font-weight: bold;
     padding: 12px;
     background-color: #f9f9f9;
-    margin-right: 10px; /* li 간격 설정 */
+    margin-right: 10px;
+    /* li 간격 설정 */
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: background-color 0.3s ease;
@@ -191,17 +235,25 @@
 /* li hover 시 색상 변경 */
 .ham .musiclist #top-ct-list ul li:hover {
     background-color: #007bff;
-    color: white;
+    /* color: white; */
 }
 
+
 /* li 내부 a 태그 */
-.ham .musiclist #top-ct-list ul li a {
-    display: block; /* a 태그가 li 전체를 차지하게 설정 */
+.ham .musiclist #top-ct-list ul li button {
+    display: block;
     width: 100%;
     text-decoration: none;
-    color: #333;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
 }
- /* 페이징 버튼 관련 */
+
+
+/* 페이징 버튼 관련 */
 
 .ham .musiclist .page-nav {
     margin: 0 0 10px;
@@ -334,18 +386,22 @@
     width: 46px;
 }
 
-.ham .musiclist .music-list-wrap .select-check, .music-list-wrap .all-check {
+.ham .musiclist .music-list-wrap .select-check,
+.music-list-wrap .all-check {
     width: 17px;
     height: 17px;
 }
 
-.ham .musiclist input[type="checkbox"], input[type="radio"] {
+.ham .musiclist input[type="checkbox"],
+input[type="radio"] {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-.ham .musiclist input, textarea, select {
+.ham .musiclist input,
+textarea,
+select {
     font-family: inherit;
     font-size: inherit;
     vertical-align: middle;
@@ -386,6 +442,7 @@
     width: 48px;
     height: 48px;
 }
+
 .ham .musiclist .music-list-wrap .list-wrap .cover .mask {
     display: block;
     position: absolute;
@@ -420,14 +477,9 @@
     vertical-align: middle;
 }
 
-.ham .musiclist a {
-    transition: background-color .25s, position .25s, color .15s;
-    color: #444;
-    margin: 0;
-    padding: 0;
-    font-size: 100%;
-    text-decoration: none;
-}
+
+
+
 
 .ham .musiclist .ellipsis {
     padding-right: 1px;

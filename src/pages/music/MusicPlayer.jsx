@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../assets/css/all.css';
 import '../../assets/css/player.css';
 import profileImage from '../../assets/images/default_img2.png';
+import Modal from './Modal';
 
 const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, useModal = false }) => {
     const [activeTab, setActiveTab] = useState('playlist');
@@ -26,55 +27,31 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     const [currentArtist, setCurrentArtist] = useState('');
     const [currentImage, setCurrentImage] = useState(profileImage);
     const fileUrl = query.get('fileUrl') || null;
-    const queryTitle = query.get('title') || 'Unknown Title';
-    const queryArtist = query.get('artist') || 'Unknown Artist';
-    const queryFileUrl = query.get('fileUrl') || null;
+    const [selectedSong, setSelectedSong] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-
-
-    const resolvedTitle = useModal ? modalTitle : queryTitle;
-    const resolvedArtist = useModal ? modalArtist : queryArtist;
-    const resolvedFileUrl = useModal ? modalFileUrl : queryFileUrl;
-
-    // 모달의 드래그 시작
-    const handleMouseDown = (e) => {
-        setIsDragging(true);
-        setStartPosition({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y,
-        });
-    };
-
-    // 드래그 시 위치 업데이트
-    const handleMouseMove = (e) => {
-        if (isDragging) {
-            const newX = e.clientX - startPosition.x;
-            const newY = e.clientY - startPosition.y;
-            setPosition({ x: newX, y: newY });
-        }
-    };
-
-    // 드래그 종료
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
-            console.log("User information from localStorage:", parsedUser); // 로그인 유저 정보 확인
-            setIsLoggedIn(true);  // 로그인 상태 설정
-            setAuthUser(parsedUser);  // authUser 정보 설정
+            setIsLoggedIn(true);
+            setAuthUser(parsedUser);
         } else {
-            console.log("No user found in localStorage");
-            setIsLoggedIn(false); // 로그인 상태 해제
+            setIsLoggedIn(false);
             setAuthUser(null);
         }
     }, []);
+
+    useEffect(() => {
+        if (isLoggedIn && authUser && authUser.no) {
+            console.log('authUser.no:', authUser.no);  // userNo 확인
+            loadPlaylist(authUser.no); // 유저 번호로 재생목록 로드
+            loadMyMusic(authUser.no);  // 유저 번호로 마이뮤직 로드
+        } else {
+            console.log("authUser or no is undefined");
+        }
+    }, [isLoggedIn, authUser]);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
@@ -87,22 +64,6 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             setAuthUser(null);
         }
     }, []);
-    useEffect(() => {
-        if (audioRef.current && modalFileUrl) {
-            audioRef.current.src = modalFileUrl;
-            audioRef.current.play();
-        }
-    }, [modalFileUrl]);
-
-    useEffect(() => {
-        if (isLoggedIn && authUser && authUser.no) {
-            console.log('authUser.no:', authUser.no);  // userNo 확인
-            loadPlaylist(authUser.no); // 유저 번호로 재생목록 로드
-            loadMyMusic(authUser.no);  // 유저 번호로 마이뮤직 로드
-        } else {
-            console.log("authUser or no is undefined");
-        }
-    }, [isLoggedIn, authUser]);
 
     useEffect(() => {
         const songPath = fileUrl || (filePath ? `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(filePath)}` : null);
@@ -116,6 +77,15 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
         }
     }, [fileUrl, filePath]);
 
+    useEffect(() => {
+        if (isOpen && audioRef.current && selectedSong) {
+            audioRef.current.src = selectedSong.fileUrl; // 선택된 곡의 파일 URL 설정
+            audioRef.current.play().catch((error) => {
+                console.error('자동 재생 실패:', error);
+            });
+        }
+    }, [isOpen, selectedSong]);
+
     // 좋아요 상태 및 개수 로드
     useEffect(() => {
         if (currentSong?.musicNo && authUser) {
@@ -126,6 +96,11 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
         console.log('Liked state changed:', liked);
     }, [liked]);
     // 좋아요 상태 조회
+
+    useEffect(() => {
+        console.log('Updated playlist:', playlist);
+    }, [playlist]);
+
     const loadLikeStatus = (userNo, musicNo) => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/like/status/${userNo}/${musicNo}`)
             .then(response => {
@@ -267,7 +242,19 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             playSong(nextSong.filePath, nextIndex); // 다음 곡 재생
         }
     };
+    const handlePlayAndAddToPlaylist = (musicNo, title, artistName, fileUrl) => {
+        const newSong = {
+            musicNo,
+            title,
+            artistName,
+            fileUrl,
+        };
 
+        // 곡 정보를 재생 목록에 추가하고 모달을 오픈
+        setPlaylist((prevPlaylist) => [...prevPlaylist, newSong]);
+        setSelectedSong(newSong);
+        setIsModalOpen(true);
+    };
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
         axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
@@ -275,8 +262,11 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             musicNo: song.musicNo // 추가할 곡의 musicNo
         })
             .then(response => {
-                // 서버에 곡 추가 성공 시, 재생목록에 곡 추가
-                setPlaylist(prevPlaylist => [...prevPlaylist, { ...song, selected: false }]);
+                // 서버에 곡 추가 성공 시, 재생목록에 곡 추가 및 모달 오픈
+                const updatedSong = { ...song, selected: false };
+                setPlaylist(prevPlaylist => [...prevPlaylist, updatedSong]);
+                setSelectedSong(updatedSong); // 현재 선택된 곡 설정
+                setIsModalOpen(true); // 모달 열기
             })
             .catch(error => {
                 setError('Error adding song to playlist.');
@@ -408,27 +398,20 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             </div>
         );
     }
-
-    if (useModal) {
+    if (useModal && isOpen) {
         return (
-            <div className="modal-overlay" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
-                <div
-                    className="modal-content draggable"
-                    style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-                    onMouseDown={handleMouseDown}
-                >
-                    <button className="modal-close" onClick={onClose}>
-                        &times;
-                    </button>
-                    <div className="player">
-                        <h2>{modalTitle}</h2>
-                        <p>{modalArtist}</p>
-                        <audio ref={audioRef} controls>
-                            <source src={modalFileUrl} type="audio/mp3" />
-                        </audio>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <div className="player">
+                    <h2>{currentSong?.title || 'Unknown Title'}</h2>
+                    <p>{currentSong?.artistName || 'Unknown Artist'}</p>
+                    <audio ref={audioRef} controls>
+                        <source src={currentSong?.path || ''} type="audio/mp3" />
+                    </audio>
+                    <div className={`like-icon ${liked ? 'liked' : ''}`} onClick={toggleLike}>
+                        <span>&hearts;</span>
                     </div>
                 </div>
-            </div>
+            </Modal>
         );
     }
     return (

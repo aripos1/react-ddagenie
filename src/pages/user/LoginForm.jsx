@@ -89,7 +89,7 @@ const JoinForm = () => {
             {/* 헤더 */}
             <header id="headerbar">
                 <div className="logo">
-                    <img src={logo} alt="Ddagenie 로고" />
+                    <Link to="/"><img src={logo} alt="Ddagenie 로고" /></Link>
                 </div>
                 <nav className="join-nav">
                     <ul>
@@ -134,18 +134,18 @@ const JoinForm = () => {
 
                                 {/* 소셜 로그인 아이콘 */}
                                 <div className="social-login">
-                                    <Link to="#"><img src={naverIcon} alt="네이버 로그인" /></Link>
-                                    <Link to="#"><img src={kakaoIcon} alt="카카오 로그인" /></Link>
-                                    <Link to="#"><img src={facebookIcon} alt="페이스북 로그인" /></Link>
-                                    <Link to="#"><img src={twitterIcon} alt="트위터 로그인" /></Link>
-                                    <Link to="#"><img src={appleIcon} alt="애플 로그인" /></Link>
+                                    <Link to="https://www.naver.com"><img src={naverIcon} alt="네이버 로그인" /></Link>
+                                    <Link to="https://www.kakaocorp.com/page"><img src={kakaoIcon} alt="카카오 로그인" /></Link>
+                                    <Link to="https://www.facebook.com"><img src={facebookIcon} alt="페이스북 로그인" /></Link>
+                                    <Link to="https://x.com"><img src={twitterIcon} alt="트위터 로그인" /></Link>
+                                    <Link to="https://www.apple.com"><img src={appleIcon} alt="애플 로그인" /></Link>
                                 </div>
                             </form>
                         </div>
 
                         {/* 광고 배너 */}
                         <div className="ad-banner">
-                            <img src={adBanner} alt="광고 배너" />
+                            <Link to={"/user/payment"} className="headBuy"><img src={adBanner} alt="광고 배너" /></Link>
                         </div>
                     </div>
                 </div>
@@ -159,9 +159,6 @@ const JoinForm = () => {
                     <p>Copyright © Ddagenie Music Corp. All rights reserved.</p>
                 </div>
             </main>
-
-            {/* 푸터 */}
-            <footer></footer>
         </div>
     );
 };

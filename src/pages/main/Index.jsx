@@ -8,12 +8,18 @@ import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
 import Header from '../include/Header';
 import { Link } from 'react-router-dom';
+import Modal from '../music/Modal'; // 모달 컴포넌트 import
+import MusicPlayer from '../music/MusicPlayer'; // MusicPlayer 컴포넌트 import
+
 const Index = () => {
     const navigate = useNavigate();
     const [topLikedSongs, setTopLikedSongs] = useState([]);
     const [bannerImages, setBannerImages] = useState([]); // 배너 이미지 상태 추가
     const [authUser, setAuthUser] = useState(null); // 로그인된 유저 상태 추가
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedSong, setSelectedSong] = useState(null);
+    const [myMusic, setMyMusic] = useState([]);
+    const [playlist, setPlaylist] = useState([]); // MusicPlayer에 전달할 재생목록
     // 로그인 유저 정보 가져오기 (localStorage)
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
@@ -72,39 +78,65 @@ const Index = () => {
         }
     };
 
-    // 팝업 창 열기 함수 (곡 정보 전달)
-    const openPlayerPopup = (title, artist, fileUrl) => {
-        const popupWidth = 735;
-        const popupHeight = 460;
-        const popupOptions = `width=${popupWidth},height=${popupHeight},resizable=yes,scrollbars=no`;
 
-        // 팝업 창에 곡 정보 전달
-        const popupUrl = `/music/musicplayer?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&fileUrl=${encodeURIComponent(fileUrl)}`;
-        window.open(popupUrl, 'Music Player', popupOptions);
-    };
 
-    // 노래 재생 + 재생목록에 추가
-    const handlePlayAndAddToPlaylist = async (musicNo, title, artist, fileUrl) => {
+    // // 곡 재생 및 플레이리스트에 추가하는 함수
+    // const handlePlayAndAddToPlaylist = async (musicNo, title, artistName, fileUrl) => {
+    //     if (!authUser) {
+    //         alert("로그인 해주세요.");
+    //         return;
+    //     }
+
+    //     const newSong = {
+    //         musicNo,
+    //         title,
+    //         artist: artistName,
+    //         fileUrl,
+    //     };
+
+    //     setPlaylist((prevPlaylist) => [...prevPlaylist, newSong]);
+    //     setSelectedSong(newSong);
+    //     setIsModalOpen(true);
+
+    //     try {
+    //         const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
+    //             userNo: authUser.no,
+    //             musicNo,
+    //             title,
+    //             artist: artistName,
+    //             fileUrl,
+    //         });
+
+    //         if (response.status === 200) {
+    //             console.log('곡이 재생목록에 추가되었습니다:', response.data);
+    //         } else {
+    //             console.error('Failed to add song to playlist on the server.');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error adding song to playlist on the server:', error);
+    //     }
+    // };
+
+    // // 모달 닫기
+    // const closeModal = () => {
+    //     setIsModalOpen(false);
+    //     setSelectedSong(null);
+    // };
+    // 재생 + 재생목록에 추가
+    const handlePlayAndAddToPlaylist = async (musicNo) => {
         if (!authUser) {
-            alert("로그인 해주세요.");
+            alert('로그인 해주세요.');
             return;
         }
 
         try {
-            // 재생목록에 곡 추가
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
-                userNo: authUser.no, // 로그인된 유저의 사용자 번호
-                musicNo: musicNo,
-                title: title,
-                artist: artist,
-                fileUrl: fileUrl
+                userNo: authUser.no,
+                musicNo,
             });
 
             if (response.status === 200) {
-                console.log('곡이 재생목록에 추가되었습니다:', response.data);
-
-                // 곡 추가 후 팝업을 열어 곡을 재생
-                openPlayerPopup(title, artist, fileUrl);
+                openPlayerPopup(authUser.no);
             } else {
                 console.error('재생목록에 곡 추가 실패');
             }
@@ -113,8 +145,14 @@ const Index = () => {
         }
     };
 
+    // 팝업 열기 (유저 넘버만 전달)
+    const openPlayerPopup = (userNo) => {
+        const popupOptions = `width=735,height=460,resizable=yes,scrollbars=no`;
+        const popupUrl = `/music/musicplayer?userNo=${encodeURIComponent(userNo)}`;
+        window.open(popupUrl, 'Music Player', popupOptions);
+    };
     // 마이뮤직에 곡 추가 함수
-    const handleAddToMyMusic = async (musicNo, title, artist) => {
+    const handleAddToMyMusic = async (musicNo) => {
         if (!authUser) {
             alert("로그인 해주세요.");
             return;
@@ -122,10 +160,8 @@ const Index = () => {
 
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
-                userNo: authUser.no, // 로그인된 유저의 사용자 번호
-                musicNo: musicNo,
-                title: title,
-                artist: artist
+                userNo: authUser.no,
+                musicNos: [musicNo], // 배열 형태로 전송
             });
 
             if (response.status === 200) {
@@ -137,6 +173,8 @@ const Index = () => {
             console.error('Error adding song to MyMusic:', error);
         }
     };
+
+
 
     // 이미지 클릭 시 음악 상세 페이지로 이동
     const handleImageClick = (musicNo) => {
@@ -168,7 +206,9 @@ const Index = () => {
 
                 {/* 광고 배너 섹션 */}
                 <div className="ad-banner" >
-                    <img src={banner} style={{ width: '1000px' }} alt="광고 배너 이미지" />
+                    <Link to="https://seoulmusicfestival.co.kr/kor/index.php">
+                        <img src={banner} style={{ width: '1000px' }} alt="광고 배너 이미지" />
+                    </Link>
                 </div>
 
                 {/* 인기 순위 리스트 */}
@@ -176,9 +216,10 @@ const Index = () => {
                     <div className="ranking-header">
                         <h2>인기순위</h2>
                         <button
-                            className="icon-btn player-btn"
-                            onClick={() => openPlayerPopup()}
+                            className="icon-btn play-btn"
+                            onClick={() => setIsModalOpen(true)}
                         >
+                            ▶
                         </button>
                     </div>
                     <table className="playlist">
@@ -201,12 +242,7 @@ const Index = () => {
                                     <td>
                                         <div className="song-info">
                                             <Link to={`/main/detail/${song.musicNo}`}>
-                                                <img
-                                                    src={getImageUrl(song)}
-                                                    alt={song.title}
-                                                    className="song-cover"
-                                                    onError={(e) => { e.target.src = chartimage; }} // 이미지 로드 실패 시 대체 이미지 사용
-                                                />
+                                                <img src={getImageUrl(song)} alt={song.title} className="song-cover" onError={(e) => { e.target.src = chartimage; }} />
                                             </Link>
 
                                             <div className="song-details">
@@ -237,7 +273,6 @@ const Index = () => {
                                         >
                                             +
                                         </button>
-
                                     </td>
                                 </tr>
                             ))}
@@ -246,9 +281,19 @@ const Index = () => {
                 </div>
             </div>
 
+            {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <MusicPlayer
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    playlist={playlist}
+                    initialSong={selectedSong}
+                    myMusic={myMusic}
+                    setMyMusic={setMyMusic}
+                />
+            </Modal> */}
             {/* Footer 컴포넌트 삽입 */}
             <Footer />
-        </div>
+        </div >
     );
 };
 
