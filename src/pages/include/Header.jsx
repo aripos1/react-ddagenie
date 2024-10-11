@@ -46,12 +46,9 @@ const Header = () => {
 
 
     /*---일반 메소드 -----------------------------*/
-    // 프로필 이미지 업데이트 함수
-    const updateProfileImage = (newImageUrl) => {
-        setProfileImage(newImageUrl);
-    };
 
-    const dateReckoding = () => {
+
+    const dateReckoding = ()=>{
         console.log('123456789')
 
 
@@ -253,6 +250,7 @@ const Header = () => {
                                         <img src={profileImage} alt={`${username}님`} onError={(e) => { e.target.src = defaultProfile; }} />
                                     </Link>
                                 </li>
+
                             </>
                         ) : (
                             // 로그아웃 상태
@@ -264,6 +262,16 @@ const Header = () => {
                     </ul>
                 </div>
             </div>
+            {/* 플로팅 뮤직 플레이어 버튼 */}
+            {isLoggedIn && (
+                <button
+                    className="floating-music-player-btn"
+                    onClick={() => openPlayerPopup(authUser.no)}
+                >
+                    <span className="icon">▶</span>
+                    <span className="text">따지니 플레이어</span>
+                </button>
+            )}
         </div>
     );
 };
