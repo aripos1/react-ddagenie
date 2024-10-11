@@ -20,7 +20,6 @@
 
 
 #musicAdmin .container {
-	margin: 20px;
 	width: 680px;
 }
 #musicAdmin .header {
@@ -62,38 +61,47 @@
 #musicAdmin table {
 	width: 100%;
 	border-collapse: collapse;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 테이블에 그림자 추가 */
-
 }
 #musicAdmin table>thead {
     background-color: #f2f2f2; 
 }
-#musicAdmin table>thead>tr {
+/* #musicAdmin table>thead>tr {
     border: 2px solid #808080; 
     border-bottom: 2px solid #808080;
-    background-color: #DDDDDD; 
     padding: 0px;
-}
+} */
 #musicAdmin table>thead>tr>th {
     padding: 10px 0px 10px 0px;
     font-weight: bold; 
 	text-align: center;
-	border-bottom: 2px solid #808080;
+	border:0;
+	font-size:15px;
+	background: #fff;
+	border-top: 2px solid #000;
+	
 }
-#musicAdmin table>tbody>tr { 
-    border-bottom: 1px solid #808080;
+#musicAdmin table tr { 
+    border-bottom: 1px solid #ddd;
 }
 #musicAdmin table>tbody>tr:hover { 
 	background-color: #e6f7ff; 
 }
 #musicAdmin table>tbody>tr>td {
-    padding: 10px 0px 10px 0px;
+    padding: 10px;
 	text-align: center;
-	border-bottom: 1px solid #ddd;
+	font-size:13px;
+	border:0;
+	word-break: keep-all;
 }
 
 
 
+#musicAdmin table tbody tr {
+	background-color: transparent;
+}
+#musicAdmin .delete-btn {
+margin-top: 0;
+}
 #musicAdmin .action-btn, #musicAdmin .delete-btn {
 	color: white;
 	padding: 5px 10px;
@@ -101,6 +109,7 @@
 	border-radius: 5px;
 	border: none;
 	cursor: pointer;
+	font-size:14px
 }
 #musicAdmin .action-btn{
 	background-color: #0095FF;
@@ -137,11 +146,21 @@
     margin: 0 5px; /* 각 페이지 버튼 간의 간격 */
 }
 
-#musicAdmin #paging a {
+#musicAdmin #paging a, #musicAdmin #paging button  {
     text-decoration: none; /* 링크의 기본 밑줄 제거 */
     padding: 5px 10px; /* 버튼 여백 */
+	border:0;
+	background: none;
+	cursor: pointer;
 }
+#musicAdmin #paging button:hover {
+	font-weight: 600;
+}
+#musicAdmin #paging button.active {
+	font-weight: 600;
+	color: #0095FF;
 
+}
 
 
 

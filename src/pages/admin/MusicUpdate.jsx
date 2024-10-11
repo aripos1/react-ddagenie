@@ -2,7 +2,6 @@
 
 import React, {useEffect, useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import Header from '../include/Header';
@@ -12,14 +11,25 @@ import Footer from '../include/Footer';
 
 import '../../assets/css/musicAdmin.css';
 
-import searchLogo from '../../assets/images/search.png';
-import profileImg from '../../assets/images/cuteddagenie.png';
+// import searchLogo from '../../assets/images/search.png';
+// import profileImg from '../../assets/images/cuteddagenie.png';
+
+import Sidebar from '../include/AsideAdmin'; // Sidebar 컴포넌트 import
+/*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
+// 기본 프로필 이미지 import
+import profileImage from '../../assets/images/default_img2.png';
 
 
 
 
 
 const MusicUpdate = () => {
+
+
+    /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
+    const authUser = JSON.parse(localStorage.getItem('authUser'));
+    const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
+
 
     /*---라우터 관련-------------------------------*/
 
@@ -83,24 +93,31 @@ const MusicUpdate = () => {
     //마운트 되었을때 
     useEffect( ()=>{
 
-        axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
-        .then(response => {
-            console.log('API Response:', response.data);
-            if (response.data && Array.isArray(response.data.apiData)) {
-                setArtists(response.data.apiData);
-            } else {
-                console.error('Error: Expected array but got', typeof response.data.apiData);
+        if (authUser.roll == 0) {
+            
+            axios.get(`${process.env.REACT_APP_API_URL}/api/artists`)
+            .then(response => {
+                console.log('API Response:', response.data);
+                if (response.data && Array.isArray(response.data.apiData)) {
+                    setArtists(response.data.apiData);
+                } else {
+                    console.error('Error: Expected array but got', typeof response.data.apiData);
+                    setArtists([]);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching artists:', error);
                 setArtists([]);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching artists:', error);
-            setArtists([]);
-        });
+            });
+    
+            console.log("read");
+            getMusicVo();
 
-        console.log("read");
-        getMusicVo();
-        
+
+        } else {
+            alert('접근 권한이 없습니다');
+            navigate('/');
+        }
 
 
     }, [] );
@@ -174,40 +191,17 @@ const MusicUpdate = () => {
 
 
                 {/* <!-- body --> */}
-                <div id="wrap-body" className="clearfix">
-                    <div id="wrap-side">
+                <div id="wrap-body" className="clearfix ham">
 
-                        <div id="profile-box" >
-                            <div className="profile-name" >
-                                <span>
-                                    <img src={profileImg} />
-                                </span>
-                                <div className="profile-name-one">
-                                    <p><Link to="" rel="noreferrer noopener"><strong>진소영</strong> 님</Link></p>
-                                    <Link to="" rel="noreferrer noopener">프로필수정</Link>
-                                </div>
-                            </div>
-                            <div className="profile-edit">
-                                <Link to="" className="button-left" rel="noreferrer noopener"><span>내정보</span></Link>
-                                <Link to="" className="button-right" rel="noreferrer noopener"><span>이용권내역</span></Link>
-                            </div>
-                        </div>
-                        {/* <!-- /프로필 --> */}
-                        {/* <!-- 마이뮤직 리스트--> */}
-                        <div id="profile-list">
-                            <a>
-                                <span>관리자 페이지</span>
-                            </a>
-                            <div>
-                                <ul>
-                                    <li><Link to="/admin/artistinsert" rel="noreferrer noopener"><img src={searchLogo} /> 아티스트 관리</Link></li>
-                                    <li><Link to="/admin/musicadmin" rel="noreferrer noopener"><img src={searchLogo} /> 음원 관리</Link></li>
-                                    <li><Link to="/admin/adminPayment" rel="noreferrer noopener"><img src={searchLogo} /> 결제 관리</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                        {/* <!-- /마이뮤직 리스트--> */}
-                    </div>
+
+
+                    {/* Admin Sidebar 컴포넌트 호출 */}
+                    <Sidebar name={authUser?.name} profile={profile} />
+                    {/* Admin Sidebar 컴포넌트 호출 */}
+
+
+
+
                     <div id="wrap-main">
 
                         <div id="musicUpdate">
