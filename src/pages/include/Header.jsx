@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { differenceInDays } from 'date-fns';
 import axios from 'axios';
 
+import { useProfile } from '../include/ProfileContext';  // 컨텍스트에서 프로필 상태 가져오기
+
+
 //css
 import '../../assets/css/all.css';
 import '../../assets/css/header.css';
@@ -25,8 +28,9 @@ const Header = ({ profileImage }) => {
     // 로그인한 사용자 이름
     const [username, setUsername] = useState('');
     // 프로필 이미지
-    // const [profileImage, setProfileImage] = useState(defaultProfileImage);
-  
+    const { profileImage } = useProfile();  // 컨텍스트에서 프로필 이미지 가져옴
+    const defaultProfile = '../../assets/images/default_img2.png';
+
     /*리액트 warning 메시지 무시*/
     // eslint-disable-next-line no-unused-vars
     const [token, setToken] = useState(localStorage.getItem('token'));
@@ -89,18 +93,23 @@ const Header = ({ profileImage }) => {
                 console.log('5465531531531351616~~~~~~~~~~~~~~')
 
                 console.log(authUser.ticket_status)
-                if (!(authUser.ticket_status === "해지요청" || authUser.ticket_status === "해지완료")) {
-                    // console.log('dd');
-                    console.log('사용가능한 이용권입니다.');
-                    authUser.ticket_status = '이용중'
 
-                    localStorage.setItem('authUser', JSON.stringify(authUser));
-                } else if (authUser.ticket_status === '해지완료') {
-                    console.log('해지완료요')
-                    setDayDifference(-1);
-                } else if (authUser.ticket_status === '해지요청') {
-                    console.log('해지요청중')
+                if (authUser.ticket_status === "해지요청") {
+                    console.log('해지요청 if문');
+                    console.log('해지요청중인 이용권 입니다.');
                 }
+
+                if (authUser.ticket_status === "해지완료") {
+                    console.log('해지완료 if문');
+                    console.log('해지완료된 이용권입니다.');
+
+                    setDayDifference(-1);
+                    // authUser.ticket_status = '이용중'
+
+                    // localStorage.setItem('authUser', JSON.stringify(authUser));
+
+                }
+
 
 
             } else {
@@ -145,6 +154,7 @@ const Header = ({ profileImage }) => {
 
         } else {
             console.log('종료일자 없음');
+            console.log(dayDifference)
             setFinishTime(null);
         }
 
@@ -160,13 +170,8 @@ const Header = ({ profileImage }) => {
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
-            setUsername(user.name);
+            setUsername(user.name); // 사용자 이름 설정
 
-            // 파일 경로와 파일 이름을 조합하여 프로필 이미지 경로 설정
-            const profileImageUrl = user.saveName
-                ? user.saveName  // S3에서 반환된 이미지 URL 사용
-                : defaultProfileImage;
-            // setProfileImage(profileImageUrl);
         } else {
             setIsLoggedIn(false);
         }
@@ -247,24 +252,24 @@ const Header = ({ profileImage }) => {
                 <div className="gnb" id="gnb">
                     <ul className="menu clearfix">
                         <li><Link to="/musiclist" className="gnb-menu">따지니차트</Link></li>
-                        <li><Link to="#" className="gnb-menu">최신음악</Link></li>
-                        <li><Link to="/musiclist" className="gnb-menu">장르음악</Link></li>
+
                     </ul>
 
                     <ul className="gnb-my">
                         {isLoggedIn ? (
                             // 로그인한 상태
                             <>
+                                <li>
+                                    {authUser.roll === 0 && (
+                                        <Link to="/admin/musicadmin" className="btn login-join-btn">관리자 페이지</Link>
+                                    )}
+                                </li>
                                 <li><Link to="/user/info" className="btn login-join-btn">{username}님</Link></li>
                                 <li><Link to="/user/mymusic" className="btn login-join-btn">마이뮤직</Link></li>
                                 <li className='logout'><button className="btn login-join-btn logout" onClick={handleLogout}>로그아웃</button></li>
                                 <li>
                                     <Link to="/user/info" className="btn-profile">
-                                        <img
-                                            src={profileImageUrl}
-                                            alt={`${username}님`}
-                                            onError={(e) => { e.target.src = defaultProfileImage; }}
-                                        />
+                                        <img src={profileImage || defaultProfile} alt="Profile" />
                                     </Link>
                                 </li>
 

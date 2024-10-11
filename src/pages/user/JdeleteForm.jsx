@@ -134,6 +134,7 @@ const JdeleteForm = () => {
                 authUser.ticket_status = '해지요청'
 
                 localStorage.setItem('authUser', JSON.stringify(authUser));
+                alert("해지요청이 완료되었습니다.")
                 navigate('/user/utilize')
                 
                 

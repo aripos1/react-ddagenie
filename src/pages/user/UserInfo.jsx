@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // axios 임포트
 
+import { useProfile } from '../include/ProfileContext';  // 컨텍스트 가져오기
+
 import Header from '../include/Header';
 import Footer from '../include/Footer';
 import Sidebar from '../include/Aside';
@@ -16,8 +18,8 @@ import '../../assets/css/userinfo.css';
 //images
 import profileImage from '../../assets/images/default_img2.png';
 
-const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 함수를 받음
-    /*---라우터관련-----*/
+const UserInfo = () => {
+    /*---라우터 관련-----*/
     const navigate = useNavigate();
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )--*/
@@ -30,15 +32,16 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
     const [selectedFile, setSelectedFile] = useState(null);
     const [deleteProfile, setDeleteProfile] = useState(false);
 
+    // useProfile() 훅을 사용해 프로필 이미지를 관리하는 함수 가져오기
+    const { setProfileImage } = useProfile();
+
     // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
 
     /*---일반변수--------------------------------*/
     const token = localStorage.getItem('token');
 
-    /*---일반메소드 -----------------------------*/
-
-    // 프로필 사진 업로드 핸들러
+    /*---프로필 이미지 업로드 핸들러-----------------------------*/
     const handleProfileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -60,8 +63,8 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
             setSelectedFile(null);
         }
     };
-    /*---훅(useEffect)+이벤트(handle)메소드------*/
-    // 사용자 정보 불러오기 (마운트 시 실행)
+
+    /*---회원정보 불러오기-------------------------------*/
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
             headers: {
@@ -72,10 +75,10 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
             if (response.data && response.data.apiData) {
                 const userVo = response.data.apiData;
                 setName(userVo.name || '');
-                setId(userVo.id || '');
-                setPw(userVo.password || ''); // 비밀번호도 받아오기
-                setPhone(userVo.phone || '');
-                setAddress(userVo.address || '');
+                setId(userVo.id || ''); // id가 없을 경우 빈 문자열로 설정
+                setPw(userVo.password || ''); // password가 없을 경우 빈 문자열로 설정
+                setPhone(userVo.phone || ''); // phone이 없을 경우 빈 문자열로 설정
+                setAddress(userVo.address || ''); // address가 없을 경우 빈 문자열로 설정
 
                 // 프로필 이미지 URL 설정
                 const imageUrl = userVo.saveName || profileImage;
@@ -89,14 +92,33 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         });
     }, [token,updateProfileImage]);
 
-    //확인버튼 클릭 이벤트
-    // 폼 제출 핸들러 (회원정보 수정)
+    /*---회원정보 수정 제출 핸들러-----------------------------*/
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('profile', selectedFile);
+        formData.append('name', name);
+        formData.append('password', pw);
+        formData.append('phone', phone);
+        formData.append('address', address);
 
-        axios.put(`${process.env.REACT_APP_API_URL}/api/users/me`, formData, {
+        // 삭제 체크박스가 선택된 경우 기본 이미지 설정
+        if (deleteProfile) {
+            formData.append('profile', null);  // 서버에서 기본 이미지를 설정하도록 null 값을 보냄
+        } else if (selectedFile) {
+            formData.append('profile', selectedFile); // 선택된 파일을 프로필로 설정
+        }
+
+        const user = {
+            name: name,
+            password: pw,
+            phone: phone,
+            address: address
+        };
+        formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
+
+        axios({
+            method: 'put',
+            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data',
@@ -104,10 +126,16 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         })
         .then(response => {
             if (response.data.result === 'success') {
-                const imageUrl = response.data.apiData.profileImageUrl;
-                setProfile(imageUrl);
-                updateProfileImage(imageUrl); // App.js의 상태 업데이트
-                alert('프로필 업데이트 완료');
+                alert('회원정보 수정 완료');
+                
+                // 프로필 이미지가 변경되었을 때 헤더 업데이트
+                if (selectedFile) {
+                    const imageUrl = URL.createObjectURL(selectedFile);
+                    setProfileImage(imageUrl);  // React Context를 사용해 Header에서 프로필 이미지 업데이트
+                } else if (deleteProfile) {
+                    setProfileImage(profileImage); // 기본 이미지로 변경
+                }
+
                 navigate('/');
             }
         })
@@ -116,14 +144,11 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         });
     };
 
-
-
-    //탈퇴창 관련
+    /*---회원 탈퇴 확인 핸들러-------------------------------*/
     const handleDeleteAccount = () => {
         setShowConfirm(true);
     };
 
-    // 탈퇴 확인 (탈퇴 처리)
     const handleConfirmYes = () => {
         axios({
             method: 'delete',  // 실제 탈퇴는 DELETE 메소드로 처리
@@ -156,7 +181,6 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
 
             <div id="wrap-body" className="clearfix ham">
                 {/* 사이드바 */}
-                {/* 공통 사이드바 */}
                 <Sidebar name={name} profile={profile} />
 
                 {/* 메인 섹션 */}
@@ -187,6 +211,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                             )}
                         </ul>
                     </div>
+
                     {/* 메인 컨텐츠 */}
                     <div id="wrap-maincontent">
                         <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -211,7 +236,6 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                                         </td>
                                     </tr>
                                 </thead>
-                                <br />
                                 <tbody>
                                     <tr>
                                         <th>프로필 사진</th>
