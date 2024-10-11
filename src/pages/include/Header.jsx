@@ -46,7 +46,16 @@ const Header = () => {
 
 
     /*---일반 메소드 -----------------------------*/
+    const openPlayerPopup = (userNo) => {
+        if (!userNo) {
+            alert('로그인 해주세요.');
+            return;
+        }
 
+        const popupOptions = 'width=735,height=460,resizable=yes,scrollbars=no';
+        const popupUrl = `/music/musicplayer?userNo=${encodeURIComponent(userNo)}`;
+        window.open(popupUrl, 'Music Player', popupOptions);
+    };
 
     const dateReckoding = ()=>{
         console.log('123456789')
