@@ -367,7 +367,7 @@ const Detail = () => {
                                         fileUrl
                                     )}
                             
-                                >듣기</button>
+                                > </button>
                                 <button className="button-add"
                                  
                                  onClick={() => handleAddToMyMusic(
@@ -377,7 +377,7 @@ const Detail = () => {
                                 )}
                                 
                                 
-                                >담기</button>
+                                ></button>
 
                             </div>
                         </div>
@@ -435,7 +435,7 @@ const Detail = () => {
                                     </button>
                                 )}
                                 <button className="reply-toggle" onClick={() => handleReplyToggle(comment.commentNo)}>
-                                    {comment.isReplyVisible ? '대댓글 숨기기' : '대댓글 보기'}
+                                    {comment.isReplyVisible ? '댓글 숨기기' : '댓글 보기'}
                                 </button>
 
                                 {/* 대댓글 출력 */}
@@ -464,12 +464,12 @@ const Detail = () => {
                                         <div id={`reply-form-${comment.commentNo}`} className="reply-form">
                                             <textarea
                                                 className="reply-input"
-                                                placeholder="대댓글을 입력하세요..."
+                                                placeholder="댓글을 입력하세요..."
                                                 value={replyContents[comment.commentNo] || ''}
                                                 onChange={(e) => handleReplyChange(comment.commentNo, e.target.value)}
                                             />
                                             <button className="reply-submit" onClick={(e) => handleReplySubmit(e, comment.commentNo)}>
-                                                대댓글 등록
+                                                댓글 등록
                                             </button>
 
                                         </div>
