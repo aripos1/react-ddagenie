@@ -95,12 +95,12 @@ const Payment = () => {
                             <p>홈 | 마이뮤직 | 이용권구매 | <strong>BEST 이용권</strong></p>
                         </div>
                         <div id="select-usePayment">
-                            <Link to={`${process.env.REACT_APP_API_URL}/user/utilize`} id="use-payment-my">사용중인 이용권</Link>
+                            <Link to='/user/utilize' id="use-payment-my">사용중인 이용권</Link>
                             {/* <span>사용중인 이용권이 없습니다.</span>
                             <p>이용권을 구매하고 다양한 혜택을 누리세요!</p> */}
                             <span>사용중인 이용권이 없습니다.</span>
                             <p>지금바로 다양한 음악들을 만나보세요!</p>
-                            <Link to={`${process.env.REACT_APP_API_URL}/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
+                            <Link to={`/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
                         </div>
                         {productList.map((productVo)=>{
                             return(
@@ -109,7 +109,7 @@ const Payment = () => {
                                     <div className="product-back-div clearfix">
                                         <p className="product-name-date">스트리밍 플러스 티켓 {productVo.goodsName}</p>
                                         <p className="product-name-date">무제한 듣기 + 오프라인 재생</p>
-                                        <Link to={`http://localhost:3000/user/pay/${productVo.goodsNo}`}><button className="product-float">구매</button></Link>
+                                        <Link to={`${process.env.REACT_APP_API_URL}/user/pay/${productVo.goodsNo}`}><button className="product-float">구매</button></Link>
                                         <p className="float-p">{productVo.goodsPrice} 원</p>
                                     </div>
                                 </div>
