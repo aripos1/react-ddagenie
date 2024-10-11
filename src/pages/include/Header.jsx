@@ -248,8 +248,7 @@ const Header = () => {
                 <div className="gnb" id="gnb">
                     <ul className="menu clearfix">
                         <li><Link to="/musiclist" className="gnb-menu">따지니차트</Link></li>
-                        <li><Link to="#" className="gnb-menu">최신음악</Link></li>
-                        <li><Link to="/musiclist" className="gnb-menu">장르음악</Link></li>
+
                     </ul>
 
                     <ul className="gnb-my">
