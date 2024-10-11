@@ -25,3 +25,5 @@ yarn-error.log*
 
 #헤더 검색창 작업용
 src\pages\include\Header_search.jsx
+
+.env

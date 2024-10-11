@@ -1,5 +1,5 @@
 //import 라이브러리
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -18,31 +18,31 @@ const Payment = () => {
 
     /* ---라우터 관련 ------ */
 
-    const [productList,setProductList] = useState([]);
+    const [productList, setProductList] = useState([]);
     const [goodsName, setGoodsName] = useState('');
     const authUser = JSON.parse(localStorage.getItem('authUser'));
     const [userNo, setUserNo] = useState('');
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
-    
+
 
 
     /*---일반 메소드 --------------------------------------------*/
 
-    const getProductList = ()=>{
+    const getProductList = () => {
 
         axios({
             method: 'get', 			// put, post, delete                   
             url: `${process.env.REACT_APP_API_URL}/api/products`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
-                                                                                              //get delete
+            //get delete
             //headers: { "Content-Type": "application/json; charset=utf-8" },  // post put
             //headers: { "Content-Type": "multipart/form-data" }, //첨부파일
-        
+
             //params: guestbookVo, // get delete 쿼리스트링(파라미터)
             //data: '',     // put, post,  JSON(자동변환됨)
             //data: formData,           // 첨부파일  multipart방식
-        
+
             responseType: 'json' //수신타입
         }).then(response => {
             console.log(response); //수신데이타
@@ -50,9 +50,9 @@ const Payment = () => {
 
             setProductList(response.data.apiData);
             setUserNo(authUser.no)
-            
 
-            
+
+
         }).catch(error => {
             console.log(error);
         });
@@ -61,14 +61,14 @@ const Payment = () => {
     console.log(userNo)
 
     /*---생명주기 + 이벤트 관련 메소드 ----------------------*/
-    
-    
 
-        //문법임. 여기안에 담겨진다.
-        
-        
-    
-    
+
+
+    //문법임. 여기안에 담겨진다.
+
+
+
+
 
 
     // 1.이벤트 잡기
@@ -77,17 +77,17 @@ const Payment = () => {
 
     //3. 전송 (ajax 사용)
 
-    useEffect(()=>{
+    useEffect(() => {
         getProductList();
-    },[]);
+    }, []);
 
 
 
     return (
         <>
             <div id="wrap-main">
-                
-                <Header />                
+
+                <Header />
                 <div id="wrap-body" className="clearfix">
                     <div id="">
                         <div id="top-title">
@@ -102,21 +102,23 @@ const Payment = () => {
                             <p>지금바로 다양한 음악들을 만나보세요!</p>
                             <Link to={`/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
                         </div>
-                        {productList.map((productVo)=>{
-                            return(
-                                <div id="all-product-area">    
+                        {productList.map((productVo) => {
+                            return (
+                                <div id="all-product-area">
                                     <p className="product-title">무제한 듣기 + 오프라인 재생</p>
                                     <div className="product-back-div clearfix">
                                         <p className="product-name-date">스트리밍 플러스 티켓 {productVo.goodsName}</p>
                                         <p className="product-name-date">무제한 듣기 + 오프라인 재생</p>
-                                        <Link to={`${process.env.REACT_APP_API_URL}/user/pay/${productVo.goodsNo}`}><button className="product-float">구매</button></Link>
+                                        <Link to={`/user/pay/${productVo.goodsNo}`}>
+                                            <button className="product-float">구매</button>
+                                        </Link>
                                         <p className="float-p">{productVo.goodsPrice} 원</p>
                                     </div>
                                 </div>
                             )
                         })}
-                            
-                        
+
+
                         {/* <div id="all-product-area">    
                             <p className="product-title">무제한 듣기 + 오프라인 재생</p>
                             <div className="product-back-div clearfix">
@@ -138,7 +140,7 @@ const Payment = () => {
                     </div>
                     {/* footer */}
                 </div>
-                
+
 
             </div>
         </>
