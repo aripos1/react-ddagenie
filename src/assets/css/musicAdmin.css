@@ -58,19 +58,14 @@
 
 
 
-#musicAdmin table {
+#musicAdmin table, #artistInsert table {
 	width: 100%;
 	border-collapse: collapse;
 }
-#musicAdmin table>thead {
+#musicAdmin table>thead, #artistInsert table>thead {
     background-color: #f2f2f2; 
 }
-/* #musicAdmin table>thead>tr {
-    border: 2px solid #808080; 
-    border-bottom: 2px solid #808080;
-    padding: 0px;
-} */
-#musicAdmin table>thead>tr>th {
+#musicAdmin table>thead>tr>th, #artistInsert table>thead>tr>th {
     padding: 10px 0px 10px 0px;
     font-weight: bold; 
 	text-align: center;
@@ -80,13 +75,13 @@
 	border-top: 2px solid #000;
 	
 }
-#musicAdmin table tr { 
+#musicAdmin table tr, #artistInsert table tr { 
     border-bottom: 1px solid #ddd;
 }
-#musicAdmin table>tbody>tr:hover { 
+#musicAdmin table>tbody>tr:hover, #artistInsert table>tbody>tr:hover { 
 	background-color: #e6f7ff; 
 }
-#musicAdmin table>tbody>tr>td {
+#musicAdmin table>tbody>tr>td, #artistInsert table>tbody>tr>td {
     padding: 10px;
 	text-align: center;
 	font-size:13px;
@@ -96,7 +91,7 @@
 
 
 
-#musicAdmin table tbody tr {
+#musicAdmin table tbody tr, #artistInsert table tbody tr {
 	background-color: transparent;
 }
 #musicAdmin .delete-btn {
@@ -281,16 +276,26 @@ margin-top: 0;
 /* ################################################# */
 /* ArtistInsert */
 
+#artistInsert .inner-container{
+	margin-bottom: 60px;
+}
+
+/* #artistInsert .inner-container table{
+	margin-top: 20px;
+} */
+
+
 #artistInsert label {
 	font-weight: bold;
 	margin-top: 10px;
+	margin-bottom: 20px;
 	display: block;
 	width: 100%;
 
 }
 
 #artistInsert input[type="text"] {
-	width: 400px;
+	width: 650px;
 	padding: 8px;
 	margin-top: 10px;
 	margin-bottom: 20px;
@@ -300,7 +305,7 @@ margin-top: 0;
 }
 
 #artistInsert .bts-artistname {
-	width: 420px;
+	width: 100%;
 	padding: 10px;
 	background-color: #0095FF;
 	color: white;
@@ -312,7 +317,7 @@ margin-top: 0;
 
 
 #artistInsert button {
-	width: 420px;
+	width: 100%;
 	padding: 10px;
 	background-color: #0095FF;
 	color: white;

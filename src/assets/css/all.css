@@ -31,6 +31,8 @@ a:hover {text-decoration: none; color: #000000; }
 }
 
 
+
+
 body{
     display: flex; /* Flexbox 사용 */
     justify-content: center; /* 수평 가운데 정렬 */
