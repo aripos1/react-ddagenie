@@ -71,6 +71,7 @@ const Utilize = () => {
             authUser.ticket_status = response.data.apiData[0].ticketStatus;
             //console.log(authUser.ticket_status)
             localStorage.setItem('authUser', JSON.stringify(authUser));
+            dateReckoding();
 
         }).catch(error => {
             console.log(error);
@@ -110,6 +111,11 @@ const Utilize = () => {
             console.log('11');
             setDayDifference(-1);
         }
+        if(authUser.ticket_status == '해지완료'){
+            setDayDifference(-1);
+        }
+    
+        
 
     }
     console.log(dayDifference)
@@ -125,8 +131,7 @@ const Utilize = () => {
 
     };
 
-
-
+    
 
 
 
@@ -138,7 +143,7 @@ const Utilize = () => {
     //3. 전송 (ajax 사용)
     useEffect(() => {
         getUserPayList();
-        dateReckoding();
+        
     }, []);
 
 
