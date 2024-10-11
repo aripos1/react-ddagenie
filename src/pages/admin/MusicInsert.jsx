@@ -175,7 +175,7 @@ const MusicInsert = () => {
                                         required
                                     >
                                         <option value="">아티스트를 선택하세요</option>
-                                        {artists.map(artist => (
+                                        {artists.map((artist) => (
                                             <option key={artist.artistNo} value={artist.artistNo}>
                                                 {artist.artistName}
                                             </option>
