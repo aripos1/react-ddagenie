@@ -23,12 +23,13 @@
 }
 
 /* 네비게이션 Breadcrumbs 스타일 */
-.ham .musiclist .listTitle {
+.ham .musiclist #top-title {
     display: flex;
     align-items: center;
-    width: 700px;
-    margin-left: 20px;
+    width: 900px;
+    margin: 10px 0 10px 20px;
     padding-top: 30px;
+    border: none;;
 }
 
 .ham .musiclist .Breadcrumbs {
@@ -59,6 +60,13 @@
 .ham .musiclist .music-list-wrap .list-wrap thead {
     padding-right: 1px;
     width: 90%;
+}
+
+.ham .musiclist .music-list-wrap .list-wrap .list:nth-child(odd){
+    background-color: #f9f9f9; /* 홀수 줄 배경색 (살짝 음영) */
+}
+.ham .musiclist .music-list-wrap .list-wrap .list:nth-child(even){
+    background-color: #ffffff; /* 짝수 줄 배경색 (하얀색) */
 }
 
 /*툴바 세팅*/
@@ -171,7 +179,7 @@ input[type="submit"] {
 .ham .musiclist #genre-buttons button {
     width: 100px;
     height: 30px;
-    border: 1px solid #a6afb6;
+    border: none;
     border-radius: 8px;
     font-size: 14px;
     color: #27282d;
@@ -180,6 +188,7 @@ input[type="submit"] {
     margin-right: 10px;
     text-align: center;
     transition: background-color 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .ham .musiclist #genre-buttons button:hover {
@@ -226,7 +235,7 @@ input[type="submit"] {
 /* li hover 시 색상 변경 */
 .ham .musiclist #top-ct-list ul li:hover {
     background-color: #007bff;
-    color: white;
+    /* color: white; */
 }
 
 

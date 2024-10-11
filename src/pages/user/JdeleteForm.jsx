@@ -1,16 +1,22 @@
 //import 라이브러리
-import React,{useEffect,  useState} from 'react';
-import { Link, useParams,useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
 //import 컴포넌트
+import Header from '../include/Header';
+import Footer from '../include/Footer';
 
+import Sidebar from '../include/Aside'; // Sidebar 컴포넌트 import
 
 //import css
 import '../../assets/css/jjinDeleteForm.css';
-import Header from '../include/Header';
-import Footer from '../include/Footer';
+
+/*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */ 
+// 기본 프로필 이미지 import
+import profileImage from '../../assets/images/default_img2.png';
+
 
 
 
@@ -19,13 +25,13 @@ import Footer from '../include/Footer';
 const JdeleteForm = () => {
 
     /* ---라우터 관련 ------ */
-    const {userNo} = useParams();
-    
+    const { userNo } = useParams();
+
     // 가져온 값들 넣기
-    const [paymentStart,setPaymentStart] = useState('');
-    const [paymentFinish,setPaymentFinish] = useState('');
-    const [ticketStatus,setTicketStatus] = useState('');
-    const [goodsName,setGoodsName] = useState('');
+    const [paymentStart, setPaymentStart] = useState('');
+    const [paymentFinish, setPaymentFinish] = useState('');
+    const [ticketStatus, setTicketStatus] = useState('');
+    const [goodsName, setGoodsName] = useState('');
     const [terminationStatus, setTerminationStatus] = useState('');
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
     const navigate = useNavigate();
@@ -34,7 +40,9 @@ const JdeleteForm = () => {
     //const [ticketStatus, setTicketStatus] = useState('');
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
-    
+
+    /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
+    const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
 
 
     /*---일반 메소드 --------------------------------------------*/
@@ -46,7 +54,7 @@ const JdeleteForm = () => {
     //console.log(ticketStatus);
 
     //해지 가능한 리스트 가져오기
-    const getDeleteList = ()=>{
+    const getDeleteList = () => {
         console.log(userNo);
 
         //서버로 전송
@@ -69,17 +77,17 @@ const JdeleteForm = () => {
 
             console.log(response); //수신데이타
             //console.log(response.data.apiData);
-            if(response.data.result === 'success'){
-                
+            if (response.data.result === 'success') {
+
                 console.log("성공")
                 setPaymentStart(response.data.apiData.paymentStart);
                 setPaymentFinish(response.data.apiData.paymentFinish);
                 setTicketStatus(response.data.apiData.ticketStatus);
                 setGoodsName(response.data.apiData.goodsName);
-                
+
                 console.log("티켓스테터스")
-                
-            }else{
+
+            } else {
                 console.log("실패")
             }
 
@@ -90,14 +98,14 @@ const JdeleteForm = () => {
 
         });
 
-    };console.log(ticketStatus);
+    }; console.log(ticketStatus);
 
-        //해지신청
-        const handleDelete = ()=>{
-            
-            // setTerminationStatus('해지요청');
-            
-            //서버로 전송
+    //해지신청
+    const handleDelete = () => {
+
+        // setTerminationStatus('해지요청');
+
+        //서버로 전송
         axios({
 
             method: 'put', // put, post, delete
@@ -118,17 +126,17 @@ const JdeleteForm = () => {
             console.log(response); //수신데이타
             console.log(response.data.apiData);
 
-            if(response.data.apiData > 0){
+            if (response.data.apiData > 0) {
                 console.log('해지요청완료')
 
                 authUser.ticket_status = '해지요청'
-                
+
                 localStorage.setItem('authUser', JSON.stringify(authUser));
-                
-                
-                
+
+
+
             }
-            
+
 
 
         }).catch(error => {
@@ -137,11 +145,11 @@ const JdeleteForm = () => {
 
         });
 
-        };
-        
-            
-        // setAuthUser(JSON.parse(localStorage.getItem('authUser')))
-    
+    };
+
+
+    // setAuthUser(JSON.parse(localStorage.getItem('authUser')))
+
 
 
     // 1.이벤트 잡기
@@ -150,46 +158,20 @@ const JdeleteForm = () => {
 
     //3. 전송 (ajax 사용)
 
-    useEffect(()=>{
+    useEffect(() => {
         getDeleteList();
-    },[]);
+    }, []);
 
 
     return (
         <>
             <div id="wrap-main">
-        
-                <Header />
-                <div id="wrap-body" className="clearfix">
-                    <div id="wrap-side">
 
-                        <div id="profile-box" >
-                            <div className="profile-name" >
-                                <span>
-                                    <img src="../../assets/images/cuteddagenie.png" alt='' />
-                                </span>
-                                <div className="profile-name-one">
-                                    <p><Link to="#"><strong>진소영</strong> 님</Link></p>
-                                    <Link to="#">프로필수정</Link>
-                                </div>
-                            </div>
-                            <div className="profile-edit">
-                                <Link to="#" className="button-left"><span>내정보</span></Link>
-                                <Link to="/user/utilize" className="button-right"><span>이용권내역</span></Link>
-                            </div>
-                        </div>
-                        <div id="profile-list">
-                            <a>
-                                <span>마이뮤직</span>
-                            </a>
-                            <div>
-                                <ul>
-                                    <li><Link to="#"><img src="../../assets/images/search.png" /> 플레이 리스트</Link></li>
-                                    <li><Link to="#"><img src="../../assets/images/search.png" /> 좋아요♥</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <Header />
+                <div id="wrap-body" className="clearfix ham">
+                    {/* Sidebar 컴포넌트 호출 */}
+                    <Sidebar name={authUser?.name} profile={profile} />
+
                     <div id="wrap-main">
                         <div id="top-title">
                             <h2>이용권 내역</h2>
@@ -204,10 +186,10 @@ const JdeleteForm = () => {
                         <div id="delete-list-table">
                             <table>
                                 <colgroup>
-                                    <col style={{ width: '400px'}} />
-                                    <col style={{ width: '100px'}} />
-                                    <col style={{ width: '100px'}} />
-                                    <col style={{ width: '100px'}} />
+                                    <col style={{ width: '400px' }} />
+                                    <col style={{ width: '100px' }} />
+                                    <col style={{ width: '100px' }} />
+                                    <col style={{ width: '100px' }} />
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -218,34 +200,34 @@ const JdeleteForm = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                                {(ticketStatus === '이용중' || ticketStatus === '해지요청')? (
-                                    <tr className="table-line">
-                                        <td>{goodsName}</td>
-                                        <td>{paymentStart}</td>
-                                        <td>{paymentFinish}</td>
-                                        <td>{ticketStatus}</td>
-                                        <td className="not-background">
-                                        {ticketStatus !== '해지요청' ? (
-                                            <button className="sy-btn-delete" type="submin" onClick={handleDelete} >해지신청</button>
-                                            ) : (
-                                                <span></span>
-                                            )} 
-                                            
-                                        </td>
-                                        
-                                    </tr>
+
+                                    {(ticketStatus === '이용중' || ticketStatus === '해지요청') ? (
+                                        <tr className="table-line">
+                                            <td>{goodsName}</td>
+                                            <td>{paymentStart}</td>
+                                            <td>{paymentFinish}</td>
+                                            <td>{ticketStatus}</td>
+                                            <td className="not-background">
+                                                {ticketStatus !== '해지요청' ? (
+                                                    <button className="sy-btn-delete" type="submin" onClick={handleDelete} >해지신청</button>
+                                                ) : (
+                                                    <span></span>
+                                                )}
+
+                                            </td>
+
+                                        </tr>
                                     ) : (
-                                    <tr>
-                                        <td colSpan="5">해지/취소 가능한 이용권이 없습니다</td>
-                                    </tr>
-                                )}
+                                        <tr>
+                                            <td colSpan="5">해지/취소 가능한 이용권이 없습니다</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
                         {/* <!--안내사항--> */}
                         <div id="guidelines-box">
-                            <h3>안내사항</h3><br/>
+                            <h3>안내사항</h3><br />
                             <p>안내사항</p>
                             <ul>
                                 <li>자동 결제 해지는 [지니 앱 또는 웹사이트 : 우측 상단 사람 아이콘 : 이용권 정보]에서 할 수 있습니다. 자동 결제를 해지하더라도 이용권 만료일까지 사용할 수 있습니다.</li>
@@ -272,7 +254,7 @@ const JdeleteForm = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <Footer />
 
             </div>
