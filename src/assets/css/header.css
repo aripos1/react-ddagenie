@@ -174,32 +174,36 @@
 
 .floating-music-player-btn {
     position: fixed;
-    top: 100px; /* 화면 아래에서 20px 위 */
-    right:290px; /* 화면 오른쪽에서 20px 왼쪽 */
-    background-color: #f08a5d;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 10px 15px; /* 텍스트와 아이콘 간의 여백 */
+    top: 180px;
+    right: 280px;
+    background-color: #FAFAFA; /* 애플 느낌의 밝은 톤 */
+    color: #333; /* 텍스트 색상 */
+    border: 1px solid #e0e0e0; /* 테두리를 가볍게 */
+    border-radius: 50px; /* 더 둥근 형태로 변경 */
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
     cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* 다른 요소들 위에 표시 */
-    transition: background-color 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .floating-music-player-btn:hover {
-    background-color: #d8735d;
+    background-color: #f2f2f2; /* 살짝 더 밝아지는 효과 */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15); /* 그림자 강화 */
 }
 
 .floating-music-player-btn .icon {
-    margin-right: 8px; /* 아이콘과 텍스트 간의 간격 */
-    font-size: 20px; /* 아이콘 크기 */
+    margin-right: 8px;
+    font-size: 24px; /* 아이콘 크기를 조금 더 키움 */
+    color: #333; /* 아이콘 색상 */
 }
 
 .floating-music-player-btn .text {
-    font-size: 16px; /* 텍스트 크기 */
+    font-size: 16px;
+    font-weight: 500; /* 애플 스타일의 약간 두꺼운 텍스트 */
+    color: #333;
 }
