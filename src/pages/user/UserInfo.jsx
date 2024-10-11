@@ -14,10 +14,9 @@ import '../../assets/css/jjinUtilize.css';
 import '../../assets/css/userinfo.css';
 
 //images
-import searchIcon from '../../assets/images/search.png';
 import profileImage from '../../assets/images/default_img2.png';
 
-const UserInfo = () => {
+const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 함수를 받음
     /*---라우터관련-----*/
     const navigate = useNavigate();
 
@@ -136,7 +135,15 @@ const UserInfo = () => {
         }).then(response => {
             if (response.data.result === 'success') {
                 alert('회원정보 수정 완료');
-                navigate('/user/info');
+                // 프로필 이미지가 변경되었을 때 헤더 업데이트
+                if (selectedFile) {
+                    const imageUrl = URL.createObjectURL(selectedFile);
+                    updateProfileImage(imageUrl);  // Header에서 프로필 이미지 업데이트
+                } else if (deleteProfile) {
+                    updateProfileImage(profileImage); // 기본 이미지로 변경
+                }
+
+                navigate('/');
             } else {
                 alert('수정 실패');
             }
