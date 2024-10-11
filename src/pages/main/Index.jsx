@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../assets/css/all.css';
-import '../../assets/css/index.css';
+import { Link } from 'react-router-dom';
+
+//배너,헤더,푸터, css
 import chartimage from '../../assets/images/cuteddagenie.png';
 import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
