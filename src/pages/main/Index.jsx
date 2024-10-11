@@ -8,7 +8,7 @@ import chartimage from '../../assets/images/cuteddagenie.png';
 import banner from '../../assets/images/music-festival.png';
 import Footer from '../include/Footer';
 import Header from '../include/Header';
-import { Link } from 'react-router-dom';
+
 // import Modal from '../music/Modal'; // 모달 컴포넌트 import
 // import MusicPlayer from '../music/MusicPlayer'; // MusicPlayer 컴포넌트 import
 
