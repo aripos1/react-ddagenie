@@ -348,15 +348,17 @@ const Detail = () => {
             <div id="wrap-body" className="clearfix">
                 <div className="page-main-container">
                     {/* 앨범 이미지와 정보 */}
-                    <div className="album-section">
-                        <div className="album-cover">
+                    <div className="listalbum-section">
+                        <div className="listalbum-cover">
                             <img src={imageName} alt="노래 이미지" className="album-img" />
                         </div>
-                        <div className="album-info">
+                        <div className="listalbum-info">
                             <h1>{title}</h1> <br/>
+                            <div className='sing-info'>
                             <p>아티스트: {artistName}</p><br/>
                             <p>장르: {genre}</p><br/>
                             <p>발매일: {releasedDate}</p><br/>
+                            </div>
                             <div className="buttons">
                                 <button className="button-play"
                                    
