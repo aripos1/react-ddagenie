@@ -182,20 +182,20 @@ const Utilize = () => {
                                 <div id="coupon-count">
                                     {ticketStatus !== '해지요청' ? (
                                         dayDifference >= 0 ? (
-                                            <span>{dayDifference} 일</span>
+                                            <div id='remain_date'><span>{dayDifference}</span> <b>일</b></div>
 
                                         ) : (
-                                            <span>이용권이 없습니다</span>)
+                                            <div className='noticket'><span className='noticket'>이용권이 없습니다</span></div>)
                                     ) : (
-                                        <span>해지 진행중입니다.</span>
+                                        <span className='bye_ing'>해지 진행중입니다.</span>
                                     )}
 
 
 
                                     {dayDifference >= 0 ? (
-                                        <button onClick={check_ticketState}>음악감상 이용권구매</button>
+                                        <button className='buy_ticket' onClick={check_ticketState}>음악감상 이용권구매</button>
                                     ) : (
-                                        <Link to='/user/payment'><button>음악감상 이용권구매</button></Link>)}
+                                        <Link to='/user/payment'><button className='buy_ticket'>음악감상 이용권구매</button></Link>)}
                                 </div>
                             </div>
                         </div>
@@ -206,16 +206,16 @@ const Utilize = () => {
                         <div id="sy-goods-list-table">
                             <table id="list-table">
                                 <colgroup>
-                                    <col style={{ width: '30px' }} />
-                                    <col style={{ width: '130px' }} />
-                                    <col style={{ width: '160px' }} />
+                                    {/* <col style={{ width: '30px' }} /> */}
+                                    <col style={{ width: '110px' }} />
+                                    <col style={{ width: '180px' }} />
                                     <col style={{ width: '130px' }} />
                                     <col style={{ width: '85px' }} />
                                     <col style={{ width: '85px' }} />
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>결제번호</th>
+                                        {/* <th>결제번호</th> */}
                                         <th>이용권명</th>
                                         <th>이용기간</th>
                                         <th>결제일/등록일</th>
@@ -230,7 +230,7 @@ const Utilize = () => {
                                             return (
 
                                                 <tr> {/* 각 요소에 고유한 key 추가 */}
-                                                    <td>{payVo.payNo}</td>
+                                                    {/* <td>{payVo.payNo}</td> */}
                                                     <td>{payVo.goodsName}</td>
                                                     <td>~ {payVo.paymentFinish}</td>
                                                     <td>{payVo.paymentStart}</td>

@@ -138,6 +138,7 @@
 .ham .userinfo .info-table>thead>tr>td #input-id {
     border: none;
     box-shadow: none;
+    outline: none;
 }
 
 .ham .userinfo .info-table>thead>tr>td #input-id:hover {
