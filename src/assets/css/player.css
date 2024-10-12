@@ -52,17 +52,19 @@ body {
 .album-info {
     display: flex;
     flex-direction: column;
-    /* 수직 정렬 */
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: center; /* 수평 가운데 정렬 */
+    justify-content: center; /* 수직 가운데 정렬 */
+    height: 100%; /* 부모 요소의 전체 높이 사용 */
+    text-align: center;
 }
-
-
-.album-info {
+.info-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: center;
+    height: 100%;
 }
+
 
 
 .album-art {
@@ -72,16 +74,13 @@ body {
     border-radius: 10px;
     border: 2px solid #717578;
     margin-top: 20px;
-    /* 이미지를 텍스트 밑으로 띄워 배치 */
+    /* 이미지를 수직 및 수평으로 완벽하게 가운데 배치 */
 }
 
 
 .track-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 20px; /* 앨범 아트 위의 텍스트와 여백 추가 */
     text-align: center;
-    margin-top: 10px;
 }
 
 .track-details h2 {
@@ -96,7 +95,6 @@ body {
     font-size: 14px;
     color: #8e8e93; /* 애플 스타일의 연한 그레이 */
 }
-
 
 .like-icon {
     font-size: 22px;
@@ -206,10 +204,11 @@ body {
     margin: 0;
     max-height: 200px;
     /* 최대 높이를 설정 */
-    overflow-y: auto;
+    overflow-y: auto;  /* 강제로 스크롤바 표시 */
     /* 높이를 넘으면 스크롤 표시 */
     border: 1px solid #E0E0E5;
     border-radius: 8px;
+    overflow-x: hidden; /* 가로 스크롤을 없앰 */
 }
 
 .playlist-controls {
@@ -229,8 +228,8 @@ body {
 /* 체크박스와 글자 간격, 크기 조정 */
 input[type="checkbox"] {
     margin-right: 12px;
-    width: 18px;
-    height: 18px;
+    width: 23px;
+    height: 23px;
     accent-color: #007aff; /* 애플 스타일의 파란색 */
     cursor: pointer;
 }
@@ -259,6 +258,24 @@ input[type="checkbox"] {
     background-color: #e5e5ea; /* 애플 스타일의 hover 색상 */
     transform: translateY(-2px); /* 살짝 떠오르는 효과 */
 }
+.playlist li:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+    transform: scale(1.02); /* 살짝 확대되는 효과 */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 재생 아이콘 */
+.playlist li:hover .play-icon {
+    opacity: 1; /* 마우스 올렸을 때 재생 아이콘 표시 */
+}
+.play-icon {
+    display: inline-block;
+    margin-left: 0px;
+    opacity: 0; /* 기본 상태에서는 보이지 않음 */
+    transition: opacity 0.2s ease;
+}
+
 
 
 /* .playlist-footer,
@@ -340,7 +357,7 @@ ul#my-music li {
 /* 리스트 스크롤바 크기 조정 */
 .playlist::-webkit-scrollbar,
 #my-music::-webkit-scrollbar {
-    width: 6px;
+    width: 10px;
     /* 스크롤바 너비를 줄임 */
 }
 

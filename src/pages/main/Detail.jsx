@@ -20,12 +20,12 @@ const Detail = () => {
     const [newComment, setNewComment] = useState(''); // 새 댓글 입력 상태
     const [replyContents, setReplyContents] = useState({}); // 댓글 번호별 대댓글 상태
     const [userNo, setUserNo] = useState(null); // 사용자 ID 상태
-    const [musicNo,setMusicNo]=useState('');
-    const [fileUrl,setFileUrl]=useState('');
-    const [artist,setArtist]=useState('');
+    const [musicNo, setMusicNo] = useState('');
+    const [fileUrl, setFileUrl] = useState('');
+    const [artist, setArtist] = useState('');
     const navigate = useNavigate();
     const { no } = useParams();
-
+    const [authUser, setAuthUser] = useState(null);
     // 사용자 로그인 상태 확인
     useEffect(() => {
         const authUser = JSON.parse(localStorage.getItem('authUser')); // authUser를 객체로 변환
@@ -33,56 +33,76 @@ const Detail = () => {
         setUserNo(loggedUserNo); // 상태에 저장
     }, []);
 
-    // 음악 정보와 댓글 목록 가져오기
+    // 로그인 유저 정보 가져오기 (localStorage)
     useEffect(() => {
-        const fetchData = async () => {
-            if (no) {
-                try {
-                    // 음악 정보 가져오기
-                    const musicResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/detail/${no}`, {
-                        headers: { "Content-Type": "application/json; charset=utf-8" }
+        const storedUser = localStorage.getItem('authUser');
+        if (storedUser) {
+            setAuthUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+
+// 음악 정보와 댓글 목록 가져오기
+useEffect(() => {
+    const fetchData = async () => {
+        if (no) {
+            try {
+                // 음악 정보 가져오기
+                const musicResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/detail/${no}`, {
+                    headers: { "Content-Type": "application/json; charset=utf-8" }
+                });
+                
+                // 전체 API 응답 확인
+                console.log('API Response:', musicResponse.data);
+                
+                if (musicResponse.data.result === 'success') {
+                    const musicVo = musicResponse.data.apiData;
+
+                    // releasedDate를 'YYYY년 MM월 DD일' 형식으로 변환
+                    const formattedReleasedDate = new Date(musicVo.releasedDate).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
                     });
-                    if (musicResponse.data.result === 'success') {
-                        const musicVo = musicResponse.data.apiData;
-                        
-                        // releasedDate를 'YYYY년 MM월 DD일' 형식으로 변환
-                        const formattedReleasedDate = new Date(musicVo.releasedDate).toLocaleDateString('ko-KR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        });
+
+                    setTitle(musicVo.title);
+                    setArtistname(musicVo.artistName);
+                    setGenre(musicVo.genre);
+                    setReleasedDate(formattedReleasedDate);
+
+                    // 좋아요 개수 콘솔 출력
+                    console.log('Like Count:', musicVo.likeCount);
+                    setLikecount(musicVo.likeCount);  // 쿼리에서 가져온 좋아요 개수 설정
                     
-                        setTitle(musicVo.title);
-                        setArtistname(musicVo.artistName);
-                        setGenre(musicVo.genre);
-                        setReleasedDate(formattedReleasedDate); // 변환된 날짜 설정
-                        setLikecount(musicVo.likeCount);
-                        setMusiccontent(musicVo.musicContent);
-                        setImagename(musicVo.imageName);
-                        setArtistNo(musicVo.artistNo);
-                        setMusicNo(musicVo.musicNo);
-                        setArtist(musicVo.artist);
-                        setFileUrl(musicNo.fileUrl);
-                        // 다른 곡 가져오기
-                        const tracksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/music/artist/${musicVo.artistNo}/${no}`);
-                        if (tracksResponse.data.result === 'success') {
-                            setOtherTracks(tracksResponse.data.apiData);
-                        }
+                    setMusiccontent(musicVo.musicContent);
+                    setImagename(musicVo.imageName);
+                    setArtistNo(musicVo.artistNo);
+                    setMusicNo(musicVo.musicNo);
+                    setFileUrl(musicVo.fileUrl); // 올바른 설정
 
-                        // 댓글 데이터 가져오기(대댓글 포함)
-                        const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`);
-                        if (commentsResponse.data.result === 'success') {
-                            setComments(commentsResponse.data.apiData);
-                        }
+                    // 다른 곡 가져오기
+                    const tracksResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/music/artist/${musicVo.artistNo}/${no}`);
+                    if (tracksResponse.data.result === 'success') {
+                        setOtherTracks(tracksResponse.data.apiData);
                     }
-                } catch (error) {
-                    console.error('API 호출 오류:', error);
-                }
-            }
-        };
 
-        fetchData();
-    }, [no]);
+                    // 댓글 데이터 가져오기
+                    const commentsResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/comments/${no}`);
+                    if (commentsResponse.data.result === 'success') {
+                        setComments(commentsResponse.data.apiData);
+                    }
+                } else {
+                    console.error('Failed to fetch music details:', musicResponse.data.message);
+                }
+            } catch (error) {
+                console.error('API 호출 오류:', error);
+            }
+        }
+    };
+
+    fetchData();
+}, [no]);
+
 
     const handleCommentSubmit = (event) => {
         event.preventDefault();
@@ -136,8 +156,8 @@ const Detail = () => {
     };
 
 
-     // 대댓글 등록 처리
-     const handleReplySubmit = (e, parentNo) => {
+    // 대댓글 등록 처리
+    const handleReplySubmit = (e, parentNo) => {
         e.preventDefault();
 
         if (!userNo) {
@@ -257,6 +277,7 @@ const Detail = () => {
                 console.error('댓글 삭제 오류:', error);
             });
     };
+
     const handleReplyDelete = (parentNo, commentNo) => {
         if (!window.confirm("대댓글을 삭제하시겠습니까?")) {
             return;
@@ -287,29 +308,34 @@ const Detail = () => {
 
     // 팝업 열기 (유저 넘버만 전달)
     const openPlayerPopup = (userNo) => {
-        const popupOptions = `width=735,height=460,resizable=yes,scrollbars=no`;
+        const width = window.innerWidth > 735 ? 735 : window.innerWidth - 20;
+        const height = window.innerHeight > 460 ? 460 : window.innerHeight - 20;
+        const popupOptions = `width=${width},height=${height},resizable=yes,scrollbars=no`;
         const popupUrl = `/music/musicplayer?userNo=${encodeURIComponent(userNo)}`;
         window.open(popupUrl, 'Music Player', popupOptions);
     };
 
-    // 재생 + 재생목록에 추가
+    // 재생 + 재생목록에 추가 (이용권 상태 체크 추가)
     const handlePlayAndAddToPlaylist = async (musicNo) => {
-        if (!userNo) {
+        if (!authUser) {
             alert('로그인 해주세요.');
+            return;
+        }
+
+        // 이용권 상태 확인
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지중") {
+            alert('이용권이 필요합니다.');
             return;
         }
 
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
-                userNo: parseInt(userNo),  // 숫자로 변환
-                musicNo: parseInt(musicNo),  // 숫자로 변환
-                title:title,
-                artist:artist,
-                fileUrl:fileUrl
+                userNo: authUser.no,
+                musicNo,
             });
 
             if (response.status === 200) {
-                openPlayerPopup(userNo);
+                openPlayerPopup(authUser.no);
             } else {
                 console.error('재생목록에 곡 추가 실패');
             }
@@ -317,21 +343,28 @@ const Detail = () => {
             console.error('Error adding song to playlist:', error);
         }
     };
-
-     // 마이뮤직에 곡 추가 함수
-     const handleAddToMyMusic = async (musicNo) => {
-        if (!userNo) {
+    // 마이뮤직에 추가 (이용권 상태 체크 추가)
+    const handleAddToMyMusic = async (musicNo, title, artistName) => {
+        if (!authUser) {
             alert("로그인 해주세요.");
+            return;
+        }
+
+        // 이용권 상태 확인
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지중") {
+            alert('이용권이 필요합니다.');
             return;
         }
 
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
-                userNo: userNo,
-                musicNos: [musicNo], // 배열 형태로 전송
+                userNo: authUser.no,
+                musicNos: [musicNo],
             });
 
             if (response.status === 200) {
+                // 곡 정보 포함 알림창 표시
+                alert(`🎉 "${title}" - ${artistName} 곡이 내 MY MUSIC에 추가됐어! 🚀`);
                 console.log('곡이 마이뮤직에 추가되었습니다:', response.data);
             } else {
                 console.error('마이뮤직에 곡 추가 실패');
@@ -340,8 +373,6 @@ const Detail = () => {
             console.error('Error adding song to MyMusic:', error);
         }
     };
-
-
     return (
         <>
             <Header />
@@ -353,34 +384,31 @@ const Detail = () => {
                             <img src={imageName} alt="노래 이미지" className="album-img" />
                         </div>
                         <div className="listalbum-info">
-                            <h1>{title}</h1> <br/>
+                            <h1>{title}</h1> <br />
                             <div className='sing-info'>
-                            <p>아티스트: {artistName}</p><br/>
-                            <p>장르: {genre}</p><br/>
-                            <p>발매일: {releasedDate}</p><br/>
+                                <p>아티스트: {artistName}</p><br />
+                                <p>장르: {genre}</p><br />
+                                <p>발매일: {releasedDate}</p><br />
                             </div>
                             <div className="buttons">
-                                <button className="button-play"
-                                   
-                                   onClick={() => handlePlayAndAddToPlaylist(
+                                <button className="icon-btn play-btn"
+
+                                    onClick={() => handlePlayAndAddToPlaylist(
                                         musicNo,
                                         title,
                                         artistName,
                                         fileUrl
                                     )}
-                            
-                                > </button>
-                                <button className="button-add"
-                                 
-                                 onClick={() => handleAddToMyMusic(
-                                    musicNo,
-                                    title,
-                                    artistName
-                                )}
-                                
-                                
-                                ></button>
+                                > ▶</button>
+                                <button className="icon-btn plus-btn"
 
+                                    onClick={() => handleAddToMyMusic(
+                                        musicNo,
+                                        title,
+                                        artistName
+                                    )}
+                                >+</button>
+                                <span className="like-count">❤️ {likeCount}</span> {/* 좋아요 개수 표시 */}
                             </div>
                         </div>
                     </div>

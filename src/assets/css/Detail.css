@@ -49,98 +49,81 @@
     margin-top: 30px;
 
 }
+
 /* 버튼 스타일 */
 
-.buttons .button-play {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    background-color: #e0e0e0;
-    border: none;
+.buttons {
+    display: flex;               /* 플렉스 박스 활성화 */
+    justify-content: center;     /* 가로축 가운데 정렬 */
+    align-items: center;         /* 세로축 가운데 정렬 */
+    gap: 10px;                   /* 버튼 사이 간격 설정 */
+    margin-top: 20px;            /* 버튼과 위 요소 간격 */
+}
+
+.icon-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background-color: #f0f0f5;
+    /* 애플 스타일의 밝은 배경 */
+    border: 1px solid #d1d1d6;
+    border-radius: 12px;
     cursor: pointer;
-    margin: 0 10px;
-    border-radius: 50%;
-    position: relative;
-    transition: background-color 0.3s, transform 0.3s;
-}
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 부드러운 그림자 */
+    margin-right: 8px;
+    /* 버튼 사이 간격 */
+  }
+  
 
-.buttons .button-play::before {
-    content: "";
-    display: block;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background-color: #000;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: background-color 0.3s;
-}
-
-.buttons{
-    margin-left: 250px ;
-    margin-top: 50px;
-}
-
-.buttons .button-play:hover::before {
-    background-color: #fff;
-}
-
-.buttons .button-play:hover{
-    background-color: #555;
-    transform: scale(1.1);
-}
-
-.buttons .button-add {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    background-color: #e0e0e0;
+  
+  .icon-btn:hover {
+    background-color: #e0e0e5;
+    /* 호버 시 밝아짐 */
+    transform: translateY(-2px);
+    /* 호버 시 살짝 올라가는 효과 */
+  }
+  
+  .icon-btn:active {
+    background-color: #d1d1d6;
+    /* 클릭 시 어두워짐 */
+    transform: translateY(0);
+    /* 클릭 시 원래 위치로 */
+  }
+  
+  .icon-btn.player-btn {
+    background-color: #007aff;
+    /* 애플 블루 */
+    color: #fff;
     border: none;
+    border-radius: 18px;
+    /* 둥근 모서리 */
+    padding: 6px 12px;
+    font-size: 0.9em;
+    /* 애플 스타일의 글씨 크기 */
+    font-weight: 600;
+    text-transform: uppercase;
+    /* 대문자로 변환 */
     cursor: pointer;
-    margin: 0 10px;
-    border-radius: 50%;
-    position: relative;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-
-.buttons .button-add:hover {
-    background-color: #555;
-    transform: scale(1.1);
-}
-
-
-.buttons .button-add::before,
-.buttons .button-add::after {
-    content: "";
-    position: absolute;
-    background-color: #333;
-    transition: background-color 0.3s;
-}
-
-.buttons .button-add::before {
-    width: 24px;
-    height: 4px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-}
-
-.buttons .button-add::after {
-    width: 24px;
-    height: 4px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(90deg);
-}
-
-/* Change the cross color on hover */
-.buttons .button-add:hover::before,
-.buttons .button-add:hover::after {
-    background-color: #fff;
-}
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .icon-btn.player-btn:hover {
+    background-color: #005ecb;
+    /* 호버 시 어두운 블루 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* 호버 시 그림자 확대 */
+  }
+  
+  .icon-btn.player-btn:active {
+    background-color: #004ba0;
+    /* 클릭 시 조금 더 진한 블루 */
+    transform: translateY(2px);
+    /* 클릭 시 살짝 눌리는 효과 */
+  }
 
   
 /* 다른 앨범 리스트 */
@@ -331,4 +314,11 @@
 /* 버튼 클릭 상태 */
 .delete-btn:active {
     background-color: #e60000; /* 클릭 시 더 어두운 빨간색 */
+}
+
+.like-count {
+    margin-left: 10px;
+    font-size: 18px;
+    color: red;
+    vertical-align: middle;
 }

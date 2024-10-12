@@ -16,88 +16,129 @@ import '../../assets/css/userinfo.css';
 //images
 import profileImage from '../../assets/images/default_img2.png';
 
-const UserInfo = () => {
+const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 함수를 받음
     /*---라우터관련-----*/
     const navigate = useNavigate();
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )--*/
+    const [authUser, setAuthUser] = useState(null); // authUser 상태 추가
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
-
     const [profile, setProfile] = useState(profileImage);
-    const [authUser, setAuthUser] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [deleteProfile, setDeleteProfile] = useState(false);
-    const token = localStorage.getItem('token');
+
     // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
 
     /*---일반변수--------------------------------*/
+    const token = localStorage.getItem('token');
+
     /*---일반메소드 -----------------------------*/
+
     /*---훅(useEffect)+이벤트(handle)메소드------*/
-
     // 사용자 정보 불러오기 (마운트 시 실행)
-    // 프로필 이미지 로드 함수
-    const getProfileImageUrl = (user) => {
-        let imagePath = user.saveName || user.profilePath;
 
-        if (!imagePath || typeof imagePath !== 'string') {
-            console.error('imagePath is null, undefined, or not a string:', imagePath);
-            return profileImage;
-        }
 
-        // S3 경로가 있으면 그대로 사용
-        if (imagePath.startsWith('http')) {
-            return imagePath;
-        } else {
-            const fileName = imagePath.split('\\').pop();
-            return `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
-        }
-    };
-
-    // 사용자 정보 로드
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
         if (storedUser) {
-            setAuthUser(JSON.parse(storedUser)); // authUser 상태에 저장
+            const parsedUser = JSON.parse(storedUser);
+            setAuthUser(parsedUser);
         }
+
+        axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+        }).then(response => {
+            if (response.data && response.data.apiData) {
+                const userVo = response.data.apiData;
+                setName(userVo.name || '');
+                setId(userVo.id || '');
+                setPw(userVo.password || '');
+                setPhone(userVo.phone || '');
+                setAddress(userVo.address || '');
+
+                const imageUrl = userVo.saveName || profileImage;
+                setProfile(imageUrl);
+                updateProfileImage(imageUrl);
+            } else {
+                console.error('회원 정보가 없습니다.');
+            }
+        }).catch(error => {
+            console.error('유저 정보 로딩 실패:', error);
+        });
     }, []);
 
-    useEffect(() => {
-        if (token) {  // token이 있을 때만 API 호출
-            axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-            }).then(response => {
-                if (response.data && response.data.apiData) {
-                    const userVo = response.data.apiData;
-                    setName(userVo.name || '');
-                    setId(userVo.id || '');  // id가 없을 경우 빈 문자열로 설정
-                    setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
-                    setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
-                    setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
-    
-                    // 프로필 이미지 로드
-                    const imageUrl = getProfileImageUrl(userVo);
-                    setProfile(imageUrl);
-    
-                   
-    
-                    
-                } else {
-                    console.error('회원 정보가 없습니다.');
-                }
-            }).catch(error => {
-                console.error('유저 정보 로딩 실패:', error);
-            });
+    //확인버튼 클릭 이벤트
+    // 폼 제출 핸들러 (회원정보 수정)
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('password', pw);
+        formData.append('phone', phone);
+        formData.append('address', address);
+
+        if (deleteProfile) {
+            formData.append('profile', null);
+        } else if (selectedFile) {
+            formData.append('profile', selectedFile);
         }
-    }, [token, authUser]);
-    
+
+        const user = {
+            name: name,
+            password: pw,
+            phone: phone,
+            address: address
+        };
+        formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
+
+        axios({
+            method: 'put',
+            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+            data: formData,
+        }).then(response => {
+            if (response.data.result === 'success') {
+                alert('회원정보 수정 완료');
+
+                // authUser 상태 확인 후 로컬 스토리지 업데이트
+                if (authUser) {
+                    const updatedUser = {
+                        ...authUser,
+                        name: name,
+                        phone: phone,
+                        address: address,
+                        saveName: profile
+                    };
+                    localStorage.setItem('authUser', JSON.stringify(updatedUser));
+
+                    navigate('/');
+                }
+
+                if (selectedFile) {
+                    const imageUrl = URL.createObjectURL(selectedFile);
+                    updateProfileImage(imageUrl);
+                } else if (deleteProfile) {
+                    updateProfileImage(profileImage);
+                }
+
+                navigate('/');
+            }
+        }).catch(error => {
+            console.error('프로필 업데이트 실패:', error);
+        });
+    };
 
     // 프로필 사진 업로드 핸들러
     const handleProfileChange = (e) => {
@@ -106,6 +147,7 @@ const UserInfo = () => {
             const file = e.target.files[0];
             if (file) {
                 setSelectedFile(file);
+
                 const reader = new FileReader();
                 reader.onload = () => {
                     setProfile(reader.result);  // 미리보기로 선택한 이미지 표시
@@ -116,67 +158,13 @@ const UserInfo = () => {
             // 삭제 체크박스가 변경되었을 때
             const isChecked = e.target.checked;
             setDeleteProfile(isChecked);
+
             if (isChecked) {
                 setProfile(profileImage);  // 체크박스 선택 시 기본 이미지로 변경
                 setSelectedFile(null);  // 선택된 파일 초기화
             }
         }
     };
-
-    //확인버튼 클릭 이벤트
-    // 폼 제출 핸들러 (회원정보 수정)
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('password', pw);
-        formData.append('phone', phone);
-        formData.append('address', address);
-
-        // 삭제 체크박스가 선택된 경우 기본 이미지 설정
-        if (deleteProfile) {
-            formData.append('profile', null);  // 서버에서 기본 이미지를 설정하도록 null 값을 보냄
-        } else if (selectedFile) {
-            formData.append('profile', selectedFile); // 선택된 파일을 프로필로 설정
-        }
-
-        // 서버에 전송할 유저 정보
-        const user = {
-            name: name,
-            password: pw,
-            phone: phone,
-            address: address
-        };
-
-        formData.append('user', new Blob([JSON.stringify(user)], { type: 'application/json' }));
-
-        axios({
-            method: 'put',
-            url: `${process.env.REACT_APP_API_URL}/api/users/me`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data',
-            },
-            data: formData,  // formData 추가
-        })
-            .then(response => {
-                if (response.data.result === 'success') {
-                    alert('회원정보 수정 완료');
-
-                    // 로컬 스토리지 및 authUser 상태에 업데이트
-                    const updatedUser = { ...authUser, name, saveName: selectedFile || authUser.saveName };
-                    setAuthUser(updatedUser);
-                    localStorage.setItem('authUser', JSON.stringify(updatedUser));
-
-                    navigate('/');
-                }
-            })
-            .catch(error => {
-                console.error('프로필 업데이트 실패:', error);
-            });
-    };
-
-
 
 
     //탈퇴창 관련
@@ -204,6 +192,7 @@ const UserInfo = () => {
             alert('탈퇴 처리 중 오류가 발생했습니다.');
         });
     };
+
     // 탈퇴 취소 핸들러
     const handleConfirmNo = () => {
         setShowConfirm(false);
@@ -234,6 +223,7 @@ const UserInfo = () => {
                         <ul>
                             <li><Link to="#">기본정보 변경</Link></li>
                             <li><button id="deleteAccountButton" onClick={handleDeleteAccount}>회원 탈퇴</button></li>
+
                             {/* 커스텀 확인 팝업 */}
                             {showConfirm && (
                                 <div id="custom-confirm" className="custom-confirm">
@@ -297,9 +287,11 @@ const UserInfo = () => {
                                 <button type="button" className="btn-cancel" onClick={() => navigate('/user/mymusic')}>취소</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
+
             {/* 푸터 */}
             <Footer />
         </div>
