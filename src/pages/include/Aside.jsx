@@ -2,37 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import searchIcon from '../../assets/images/search.png';
 import defaultProfileImage from '../../assets/images/default_img2.png';
-import '../../assets/css/aside.css';
 
 const Sidebar = ({ name, profile }) => {
-    const getProfileImageUrl = (profile) => {
-        let imagePath = profile || defaultProfileImage;
-
-        if (!imagePath || typeof imagePath !== 'string') {
-            return defaultProfileImage;
-        }
-
-        if (imagePath.startsWith('http')) {
-            return imagePath;
-        } else {
-            const fileName = imagePath.split('\\').pop();
-            return `${process.env.REACT_APP_API_URL}/upload/${fileName}`;
-        }
-    };
-
-    const profileImage = getProfileImageUrl(profile);
+    // 실제로 표시할 프로필 이미지, 프로필이 없으면 기본 이미지 사용
+    const profileImage = profile || defaultProfileImage;
 
     return (
         <div id="wrap-side">
             <div id="profile-box">
                 <div className="profile-name">
-                    <img
-                        src={profileImage}
-                        alt="Profile"
-                        onError={(e) => {
-                            console.log("Image failed to load:", e.target.src); // 로그 추가
-                            e.target.src = defaultProfileImage;
-                        }}
+                    <img 
+                        src={profileImage} 
+                        alt="Profile" 
+                        onError={(e) => e.target.src = defaultProfileImage} // 이미지 로드 실패 시 기본 이미지로 변경
                     />
                     <div className="profile-name-one">
                         <p>

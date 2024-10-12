@@ -50,7 +50,7 @@ const Utilize = () => {
         }
 
         axios({
-            method: 'get', 			// put, post, delete                   
+            method: 'get',          // put, post, delete                   
             url: `${process.env.REACT_APP_API_URL}/api/pay/${userNo}`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
             //get delete
@@ -73,6 +73,7 @@ const Utilize = () => {
                 console.log(authUser.ticket_status)
                 localStorage.setItem('authUser', JSON.stringify(authUser));
             }
+            
             
             dateReckoding();
 
