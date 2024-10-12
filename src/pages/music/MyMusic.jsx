@@ -31,12 +31,16 @@ const MyMusic = () => {
       setAuthUser(parsedUser);
       loadProfileImage(parsedUser);
     }
+    console.log('넌 뭐니? ',storedUser)
   }, []);
 
   // 프로필 이미지 로드
   const loadProfileImage = (user) => {
     if (user && user.saveName) {
-      setProfile(`${process.env.REACT_APP_API_URL}/upload/${user.saveName}`);
+      console.log('사진 불러오는거 확인용: ', user.saveName);
+      const imageUrl = `${user.saveName}`;
+      console.log("Profile image URL:", imageUrl); // 이 부분 추가
+      setProfile(imageUrl);
     } else {
       setProfile(profileImage);
     }
