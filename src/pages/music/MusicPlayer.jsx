@@ -241,17 +241,16 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     };
 
 
-
     // 현재 곡이 종료되면 자동으로 다음 곡 재생 (무한 재생 포함)
     const handleSongEnd = async () => {
         if (authUser && authUser.no) {
             try {
-                // 이용권 상태를 확인하는 API 호출
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/subscription-status/${authUser.no}`);
-                const { ticket_status } = response.data;
+                // 이용권 상태를 확인하는 API 호출 (올바른 경로로 수정)
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/ticket-status/${authUser.no}`);
+                const { ticketStatus } = response.data;
 
                 // "이용중" 또는 "해지요청"이 아닌 경우 알림 창을 띄우고 팝업 종료
-                if (ticket_status !== "이용중" && ticket_status !== "해지요청") {
+                if (ticketStatus !== "이용중" && ticketStatus !== "해지요청") {
                     alert('이용권이 만료되었습니다. 이용권을 구매해 주세요.');
                     window.close(); // 팝업 창을 종료
                     return;
@@ -273,6 +272,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             }
         }
     };
+
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
         axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {

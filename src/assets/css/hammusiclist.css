@@ -12,6 +12,8 @@
     /* vertical-align: middle; */
     background: transparent;
     text-align: center;
+    font-size: 14px; /* 기본 글씨 크기 조정 */
+    padding: 10px; /* 각 셀의 패딩 조정 */
 }
 
 .ham .musiclist {
@@ -61,6 +63,11 @@
 .ham .musiclist .music-list-wrap .list-wrap thead {
     padding-right: 1px;
     width: 90%;
+}
+
+.ham .musiclist .music-list-wrap .list-wrap td {
+    padding: 12px 8px; /* 셀 패딩을 더 크게 설정 */
+    vertical-align: middle; /* 텍스트 세로 가운데 정렬 */
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .list:nth-child(odd){
@@ -322,10 +329,12 @@ input[type="submit"] {
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .info {
-    position: relative;
-    width: auto;
-    line-height: 22px;
-    
+    display: flex;
+    flex-direction: column; /* 세로 정렬로 변경 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    text-align: left; /* 텍스트를 왼쪽 정렬 */
+    width: 100%;
+    padding-left: 10px;
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .info a {
@@ -334,17 +343,21 @@ input[type="submit"] {
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .info .title {
-    display: block;
-    max-width: 90%;
-    font-weight: bold;
-    color: #27282d;
+    font-size: 16px; /* 제목의 글자 크기 */
+    font-weight: bold; /* 제목 굵게 */
+    color: #27282d; /* 제목 색상 */
+    white-space: nowrap; /* 제목 줄바꿈 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis; /* 제목이 길면 말줄임표(...) 처리 */
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .info .artist {
-    width: auto !important;
-    max-width: 44%;
-    vertical-align: middle;
-    padding-right: 1px;
+    font-size: 14px; /* 가수 이름의 글자 크기 */
+    color: #8b8b8b; /* 가수 이름 색상 */
+    margin-top: 4px; /* 제목과의 간격 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden;
+    text-overflow: ellipsis; /* 가수가 길면 말줄임표(...) 처리 */
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .info .albumtitle {
@@ -417,7 +430,7 @@ select {
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .number {
-    font-size: 17px;
+    font-size: 20px;
     font-family: 'Arial';
     font-weight: bold;
     color: #bcc8d0;
@@ -426,28 +439,31 @@ select {
 
 .ham .musiclist .music-list-wrap .list-wrap .likes {
     display: block;
-    padding-top: 2px;
-    font-size: 9px;
+    padding-top: 5px;
+    font-size: 12px;
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .likes-none {
     display: inline-block;
-    width: 13px;
-    height: 12px;
-    background: url(../images/iconImg/list_180122.png) no-repeat -186px -58px;
+    width: 23px;
+    height: 23px;
+    background: url(../images/iconImg/list_180122.png)  no-repeat center center;
     vertical-align: middle;
+    background-size: 100% 100%; /* 이미지 크기를 컨테이너에 맞춤 */
+
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .number .likes .likeicon {
-    font-weight: 100;
-    color: #fff;
+    font-weight: 500;
+    color: red;
+    font-size: 13px;
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .cover {
     display: block;
     position: relative;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
 }
 
 .ham .musiclist .music-list-wrap .list-wrap .cover .mask {
@@ -480,13 +496,9 @@ select {
     border: 0;
     line-height: 0;
     text-indent: -9999px;
-    background: url(../images/iconImg/list_180122.png) transparent no-repeat 0 0;
+    background: url(../images/iconImg/button_+.png) transparent no-repeat 0 0;
     vertical-align: middle;
 }
-
-
-
-
 
 .ham .musiclist .ellipsis {
     padding-right: 1px;
@@ -523,10 +535,73 @@ select {
     vertical-align: top;
 }
 
-.ham .musiclist .music-list-wrap .list-wrap .btn-add {
-    background-position: -30px -21px;
-}
 
-.ham .musiclist .music-list-wrap .list-wrap .btn-album {
-    background-position: -60px -21px;
-}
+
+/* 버튼 스타일 */
+.icon-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background-color: #f0f0f5;
+    /* 애플 스타일의 밝은 배경 */
+    border: 1px solid #d1d1d6;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 부드러운 그림자 */
+    margin-right: 8px;
+    /* 버튼 사이 간격 */
+  }
+  
+  .icon-btn:last-child {
+    margin-right: 0;
+    /* 마지막 버튼에 오른쪽 마진 제거 */
+  }
+  
+  .icon-btn:hover {
+    background-color: #e0e0e5;
+    /* 호버 시 밝아짐 */
+    transform: translateY(-2px);
+    /* 호버 시 살짝 올라가는 효과 */
+  }
+  
+  .icon-btn:active {
+    background-color: #d1d1d6;
+    /* 클릭 시 어두워짐 */
+    transform: translateY(0);
+    /* 클릭 시 원래 위치로 */
+  }
+  
+  .icon-btn.player-btn {
+    background-color: #007aff;
+    /* 애플 블루 */
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    /* 둥근 모서리 */
+    padding: 6px 12px;
+    font-size: 0.9em;
+    /* 애플 스타일의 글씨 크기 */
+    font-weight: 600;
+    text-transform: uppercase;
+    /* 대문자로 변환 */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .icon-btn.player-btn:hover {
+    background-color: #005ecb;
+    /* 호버 시 어두운 블루 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* 호버 시 그림자 확대 */
+  }
+  
+  .icon-btn.player-btn:active {
+    background-color: #004ba0;
+    /* 클릭 시 조금 더 진한 블루 */
+    transform: translateY(2px);
+    /* 클릭 시 살짝 눌리는 효과 */
+  }
