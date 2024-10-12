@@ -170,3 +170,16 @@
 .my-music-footer button:hover {
     background-color: #c1271b;
 }
+
+#wrap-main-content .my-music-playlist .my-music-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#wrap-main-content .my-music-playlist .my-music-table tr td,
+#wrap-main-content .my-music-likes .my-music-table tr td {
+    text-align: center;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    border: none;
+}

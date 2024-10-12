@@ -487,7 +487,7 @@ const MusicList = () => {
                         <button className="btn btn-listen" title="재생" onClick={handlePlaySelectedSongs}>
                             듣기
                         </button>
-                        <button className="btn btn-add" title="추가" onClick={handleAddSelectedSongsToPlaylist}>
+                        <button className="btn btn-add" title="담기" onClick={handleAddSelectedSongsToPlaylist}>
                             <span className="hide">재생목록에 </span>담기
                         </button>
                         <div className="btns">
@@ -577,7 +577,7 @@ const MusicList = () => {
                                             </td>
                                             <td className="btns">
                                                 <button
-                                                    className="icon-btn plus-btn"
+                                                    className="icon-btn plus-btn" title="담기"
                                                     onClick={() => handleAddToMyMusic(song.musicNo, song.title, song.artistName)}  // 곡 정보 전달
                                                 >
                                                     +

@@ -221,7 +221,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                     </div>
                     <div id="top-ct-list">
                         <ul>
-                            <li><Link to="#">기본정보 변경</Link></li>
+                            <li><button id="#">기본정보 변경</button></li>
                             <li><button id="deleteAccountButton" onClick={handleDeleteAccount}>회원 탈퇴</button></li>
 
                             {/* 커스텀 확인 팝업 */}
