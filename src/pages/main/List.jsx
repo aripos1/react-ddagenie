@@ -96,7 +96,33 @@ const MusicList = () => {
             setLoading(false); // 로딩이 끝나면 false로 설정
         });
     };
+    // 마이뮤직에 추가 (이용권 상태 체크 추가)
+    const handleAddToMyMusic = async (musicNo, title, artistName) => {
+        if (!authUser) {
+            alert("로그인 해주세요.");
+            return;
+        }
 
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지요청") {
+            alert('이용권이 필요합니다.');
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
+                userNo: authUser.no,
+                musicNos: [musicNo],
+            });
+
+            if (response.status === 200) {
+                alert(`🎉 "${title}" - ${artistName} 곡이 내 MY MUSIC에 추가됐어! 🚀`);
+            } else {
+                console.error('마이뮤직에 곡 추가 실패');
+            }
+        } catch (error) {
+            console.error('Error adding song to MyMusic:', error);
+        }
+    };
     // TOP200 클릭 시 데이터 가져오는 함수
     const handleTop200Click = () => {
         const apiUrl = `${process.env.REACT_APP_API_URL}/api/musiclist`;
@@ -173,15 +199,14 @@ const MusicList = () => {
 
 
     // 팝업 창 열기 함수 (곡 정보 전달)
-    const openPlayerPopup = (title, artist, fileUrl) => {
-        const popupWidth = 735;
-        const popupHeight = 460;
-        const popupOptions = `width=${popupWidth},height=${popupHeight},resizable=yes,scrollbars=no`;
-
-        // 팝업 창에 곡 정보 전달
-        const popupUrl = `/music/musicplayer?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&fileUrl=${encodeURIComponent(fileUrl)}`;
+    const openPlayerPopup = (userNo) => {
+        const width = window.innerWidth > 735 ? 735 : window.innerWidth - 20;
+        const height = window.innerHeight > 460 ? 460 : window.innerHeight - 20;
+        const popupOptions = `width=${width},height=${height},resizable=yes,scrollbars=no`;
+        const popupUrl = `/music/musicplayer?userNo=${encodeURIComponent(userNo)}`;
         window.open(popupUrl, 'Music Player', popupOptions);
     };
+
 
     // 노래 재생 + 재생목록에 추가
     const handlePlayAndAddToPlaylist = (musicNo, title, artist, fileUrl) => {
@@ -189,6 +214,13 @@ const MusicList = () => {
             alert("로그인 해주세요.");
             return;
         }
+
+        // 이용권 상태 확인
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지요청") {
+            alert('이용권이 필요합니다.');
+            return;
+        }
+
         // 비동기 작업을 처리할 때 axios 요청에 대한 Promise를 처리
         axios({
             method: 'post',
@@ -249,6 +281,15 @@ const MusicList = () => {
 
     // 체크한 곡을 팝업 플레이 리스트에 추가 후 재생
     const handlePlaySelectedSongs = () => {
+        if (!authUser) {
+            alert("로그인 후 이용 가능합니다.");
+            return;
+        }
+    
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지요청") {
+            alert('이용권이 필요합니다.');
+            return;
+        }
         const selectedSongs = getCheckedSongs(); // 체크된 곡 가져오기
         if (selectedSongs.length === 0) {
             alert('재생할 곡을 선택하세요.');
@@ -304,7 +345,23 @@ const MusicList = () => {
 
     // 재생 목록에 선택된 곡 추가
     const handleAddSelectedSongsToPlaylist = () => {
+
+
+        if (!authUser) {
+            alert("로그인 후 이용 가능합니다.");
+            return;
+        }
+    
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지요청") {
+            alert('이용권이 필요합니다.');
+            return;
+        }
         const selectedSongs = getCheckedSongs();
+
+        if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지요청") {
+            alert('이용권이 필요합니다.');
+            return;
+        }
         if (selectedSongs.length === 0) {
             alert('추가할 곡을 선택하세요.');
             return;
@@ -431,7 +488,7 @@ const MusicList = () => {
                             듣기
                         </button>
                         <button className="btn btn-add" title="추가" onClick={handleAddSelectedSongsToPlaylist}>
-                            <span className="hide">재생목록에 </span>추가
+                            <span className="hide">재생목록에 </span>담기
                         </button>
                         <div className="btns">
                             <button className="btn btn-listen" title="TOP200 듣기" onClick={handlePlayTop200Songs}>
@@ -507,7 +564,7 @@ const MusicList = () => {
                                             </td>
                                             <td className="btns">
                                                 <button
-                                                    className="btn-basic btn-listen" title="재생"
+                                                    className="icon-btn play-btn" title="재생"
                                                     onClick={() => handlePlayAndAddToPlaylist(
                                                         song.musicNo,
                                                         song.title,
@@ -515,18 +572,15 @@ const MusicList = () => {
                                                         song.fileUrl
                                                     )}
                                                 >
-                                                    듣기
+                                                    ▶
                                                 </button>
                                             </td>
                                             <td className="btns">
                                                 <button
-                                                    type="button"
-                                                    className="btn-basic btn-album"
-                                                    title='담기'
-                                                    songid={song.musicNo}
-                                                    id={`add_my_album_${song.musicNo}`}
+                                                    className="icon-btn plus-btn"
+                                                    onClick={() => handleAddToMyMusic(song.musicNo, song.title, song.artistName)}  // 곡 정보 전달
                                                 >
-                                                    플레이리스트에 담기
+                                                    +
                                                 </button>
                                             </td>
                                         </tr>
@@ -584,7 +638,7 @@ const MusicList = () => {
                                             </td>
                                             <td className="btns">
                                                 <button
-                                                    className="btn-basic btn-listen" title="재생"
+                                                    className="icon-btn play-btn" title="재생"
                                                     onClick={() => handlePlayAndAddToPlaylist(
                                                         song.musicNo,
                                                         song.title,
@@ -592,18 +646,15 @@ const MusicList = () => {
                                                         song.fileUrl
                                                     )}
                                                 >
-                                                    듣기
+                                                    ▶
                                                 </button>
                                             </td>
                                             <td className="btns">
                                                 <button
-                                                    type="button"
-                                                    className="btn-basic btn-album"
-                                                    title='담기'
-                                                    songid={song.musicNo}
-                                                    id={`add_my_album_${song.musicNo}`}
+                                                    className="icon-btn plus-btn"
+                                                    onClick={() => handleAddToMyMusic(song.musicNo, song.title, song.artistName)}  // 곡 정보 전달
                                                 >
-                                                    플레이리스트에 담기
+                                                    +
                                                 </button>
                                             </td>
                                         </tr>
@@ -628,7 +679,7 @@ const MusicList = () => {
                             듣기
                         </button>
                         <button className="btn btn-add" title="추가" onClick={handleAddSelectedSongsToPlaylist}>
-                            <span className="hide">재생목록에 </span>추가
+                            <span className="hide">재생목록에 </span>담기
                         </button>
                         <div className="btns">
                             <button className="btn btn-listen" title="TOP200 듣기" onClick={handlePlayTop200Songs}>
