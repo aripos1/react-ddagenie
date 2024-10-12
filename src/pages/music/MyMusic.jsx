@@ -248,7 +248,7 @@ const MyMusic = () => {
                             </tr>
                           ))
                         ) : (
-                          <tr>
+                          <tr className='mymusiclist-stutus'>
                             <td colSpan="4">마이뮤직 리스트가 없습니다.</td>
                           </tr>
                         )}
@@ -304,7 +304,7 @@ const MyMusic = () => {
                             </tr>
                           ))
                         ) : (
-                          <tr>
+                          <tr  className='mymusiclist-stutus'>
                             <td colSpan="3">좋아요 한 곡이 없습니다.</td>
                           </tr>
                         )}

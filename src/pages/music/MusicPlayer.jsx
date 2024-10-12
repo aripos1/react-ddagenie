@@ -28,7 +28,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     const [currentImage, setCurrentImage] = useState(profileImage);
     const fileUrl = query.get('fileUrl') || null;
     const [selectedSong, setSelectedSong] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     // 로그인 상태 확인 및 유저 정보 설정
     useEffect(() => {
@@ -99,98 +99,6 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             console.log('Updated playlist:', playlist);
         }
     }, [playlist]);
-
-
-
-
-
-    // // 로그인 상태 확인 및 유저 정보 설정
-    // useEffect(() => {
-    //     const storedUser = localStorage.getItem('authUser');
-    //     if (storedUser) {
-    //         const parsedUser = JSON.parse(storedUser);
-    //         setIsLoggedIn(true);
-    //         setAuthUser(parsedUser);
-    //     } else {
-    //         setIsLoggedIn(false);
-    //         setAuthUser(null);
-    //     }
-    // }, []);
-
-    // // 유저 정보를 통해 이용권 상태 로드 (최초 한 번만)
-    // // useEffect(() => {
-    // //     if (isLoggedIn && authUser && authUser.no && !subscriptionChecked) {
-    // //         axios.get(`${process.env.REACT_APP_API_URL}/api/subscription-status/${authUser.no}`)
-    // //             .then(response => {
-    // //                 setIsSubscribed(response.data.isSubscribed);
-    // //                 setSubscriptionChecked(true); // 이용권 상태가 확인되었음을 표시
-    // //             })
-    // //             .catch(error => {
-    // //                 console.error('Error fetching subscription status:', error);
-    // //                 setIsSubscribed(false); // 오류 발생 시 이용권 없음으로 설정
-    // //             });
-    // //     }
-    // // }, [isLoggedIn, authUser, subscriptionChecked]);
-
-
-    // useEffect(() => {
-    //     if (isLoggedIn && authUser && authUser.no) {
-    //         console.log('authUser.no:', authUser.no);  // userNo 확인
-    //         loadPlaylist(authUser.no); // 유저 번호로 재생목록 로드
-    //         loadMyMusic(authUser.no);  // 유저 번호로 마이뮤직 로드
-    //     } else {
-    //         console.log("authUser or no is undefined");
-    //     }
-    // }, [isLoggedIn, authUser]);
-
-
-    // useEffect(() => {
-    //     const storedUser = localStorage.getItem('authUser');
-    //     if (storedUser) {
-    //         const parsedUser = JSON.parse(storedUser);
-    //         setIsLoggedIn(true);
-    //         setAuthUser(parsedUser);
-    //     } else {
-    //         setIsLoggedIn(false);
-    //         setAuthUser(null);
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     const songPath = fileUrl || (filePath ? `${process.env.REACT_APP_API_URL}/assets/musicfile/${encodeURIComponent(filePath)}` : null);
-
-    //     if (songPath) {
-    //         setCurrentSong(songPath); // 현재 재생 중인 곡 설정
-    //         if (audioRef.current) {
-    //             audioRef.current.src = songPath; // 오디오 태그에 파일 경로 설정
-    //             audioRef.current.play(); // 곡 자동 재생
-    //         }
-    //     }
-    // }, [fileUrl, filePath]);
-
-    // useEffect(() => {
-    //     if (isOpen && audioRef.current && selectedSong) {
-    //         audioRef.current.src = selectedSong.fileUrl; // 선택된 곡의 파일 URL 설정
-    //         audioRef.current.play().catch((error) => {
-    //             console.error('자동 재생 실패:', error);
-    //         });
-    //     }
-    // }, [isOpen, selectedSong]);
-
-    // // 좋아요 상태 및 개수 로드
-    // useEffect(() => {
-    //     if (currentSong?.musicNo && authUser) {
-    //         loadLikeStatus(authUser.no, currentSong.musicNo);
-    //     }
-    // }, [currentSong, authUser]);
-    // useEffect(() => {
-    //     console.log('Liked state changed:', liked);
-    // }, [liked]);
-    // // 좋아요 상태 조회
-
-    // useEffect(() => {
-    //     console.log('Updated playlist:', playlist);
-    // }, [playlist]);
 
     const loadLikeStatus = (userNo, musicNo) => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/like/status/${userNo}/${musicNo}`)
@@ -335,18 +243,36 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
 
 
     // 현재 곡이 종료되면 자동으로 다음 곡 재생 (무한 재생 포함)
-    const handleSongEnd = () => {
-        if (currentSongIndex !== null && currentSongIndex !== undefined) {
-            let nextIndex = currentSongIndex + 1;
-            if (nextIndex >= playlist.length) {
-                nextIndex = 0; // 마지막 곡 이후면 첫 번째 곡으로 돌아감
+    const handleSongEnd = async () => {
+        if (authUser && authUser.no) {
+            try {
+                // 이용권 상태를 확인하는 API 호출
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/subscription-status/${authUser.no}`);
+                const { ticket_status } = response.data;
+
+                // "이용중" 또는 "해지요청"이 아닌 경우 알림 창을 띄우고 팝업 종료
+                if (ticket_status !== "이용중" && ticket_status !== "해지요청") {
+                    alert('이용권이 만료되었습니다. 이용권을 구매해 주세요.');
+                    window.close(); // 팝업 창을 종료
+                    return;
+                }
+
+                // 현재 곡 인덱스가 존재할 때 다음 곡으로 넘어감
+                if (currentSongIndex !== null && currentSongIndex !== undefined) {
+                    let nextIndex = currentSongIndex + 1;
+                    if (nextIndex >= playlist.length) {
+                        nextIndex = 0; // 마지막 곡 이후면 첫 번째 곡으로 돌아감
+                    }
+                    const nextSong = playlist[nextIndex];
+                    playSong(nextSong, nextIndex);
+                }
+            } catch (error) {
+                console.error('이용권 상태 확인 중 오류 발생:', error);
+                alert('이용권 상태를 확인할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+                window.close(); // 오류 발생 시 팝업을 종료
             }
-            const nextSong = playlist[nextIndex];
-            playSong(nextSong, nextIndex);
         }
     };
-
-
     // 마이뮤직 리스트에서 클릭 시 플레이리스트에 저장
     const addToPlaylistFromMyMusic = (song) => {
         axios.post(`${process.env.REACT_APP_API_URL}/api/playlist/add`, {
@@ -358,7 +284,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
                 const updatedSong = { ...song, selected: false };
                 setPlaylist(prevPlaylist => [...prevPlaylist, updatedSong]);
                 setSelectedSong(updatedSong); // 현재 선택된 곡 설정
-                setIsModalOpen(true); // 모달 열기
+
             })
             .catch(error => {
                 setError('Error adding song to playlist.');

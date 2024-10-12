@@ -1,15 +1,12 @@
 /*배너 css*/
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+
 
 /* 최신 음악 배너 섹션 */
 .banner-section h2 {
   font-size: 1.8em;
   font-weight: 700;
-  color: #1d1d1f; /* 애플의 텍스트 컬러 */
+  color: #1d1d1f;
+  /* 애플의 텍스트 컬러 */
   text-align: center;
   margin-bottom: 20px;
 }
@@ -17,34 +14,52 @@
 .banner-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px; /* 애플 디자인에서 넉넉한 여백 */
+  gap: 20px;
+  /* 애플 디자인에서 넉넉한 여백 */
   justify-items: center;
   padding: 20px 0;
-  background-color: #ffffff; /* 배경색을 화이트로 변경 */
-  border-radius: 20px; /* 둥근 모서리 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  background-color: #ffffff;
+  /* 배경색을 화이트로 변경 */
+  border-radius: 20px;
+  /* 둥근 모서리 */
+
 }
+
+
 .banner-item {
+  position: relative;
   width: 100%;
   max-width: 220px;
-  background-color: #ffffff; /* 배경색을 화이트로 변경 */
-  border-radius: 14px; /* 애플 스타일 둥근 모서리 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08); /* 부드러운 그림자 */
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* 부드러운 전환 효과 */
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex; /* Flexbox 사용 */
+  flex-direction: column; /* 세로로 나열 */
+  justify-content: flex-end; /* 텍스트가 아래에 위치 */
+  align-items: center; /* 텍스트와 이미지 가운데 정렬 */
+  text-align: center; /* 텍스트 가운데 정렬 */
 }
+
 .banner-item:hover {
-  transform: translateY(-5px); /* 살짝 떠오르는 효과 */
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 확대 */
+  transform: translateY(-8px) scale(1.05);
+  /* 더 과감한 확대 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  /* 호버 시 그림자 더 크게 */
 }
 
 .banner-item img {
   width: 100%;
-  border-radius: 14px 14px 0 0; /* 위쪽만 둥글게 */
-  transition: transform 0.3s ease-in-out;
+  height: auto;
+  border-radius: 16px 16px 0 0;
+  transition: transform 0.4s ease;
 }
 
 .banner-item img:hover {
-  transform: scale(1.05); /* 이미지가 살짝 확대 */
+  transform: scale(1.1);
+  /* 이미지가 더 많이 확대 */
 }
 
 .banner-item .banner-content {
@@ -52,38 +67,45 @@
   text-align: center;
 }
 
-.banner-item .banner-title {
-  font-size: 1.1em;
+
+
+.banner-item .banner-artist {
+  font-size: 1rem;
   font-weight: 600;
   color: #1d1d1f;
   margin: 5px 0;
-}
-
-.banner-item .banner-artist {
-  font-size: 0.9em;
-  color: #888;
+  text-align: center; /* 가운데 정렬 */
+  display: block; /* 텍스트 깨짐 방지 */
+  overflow: hidden;
+  white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
+  text-overflow: ellipsis; /* 넘치는 텍스트는 말줄임 표시 */
 }
 
 .banner-item .icon-btn {
-  margin-top: 10px;
-  background-color: #007aff; /* 애플 블루 */
+  margin-top: 15px;
+  background-color: #ff4081;
+  /* 네온 핑크 버튼 */
   color: #ffffff;
-  border-radius: 18px;
-  padding: 8px 12px;
+  border-radius: 20px;
+  padding: 10px 15px;
   font-size: 0.9em;
+  font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .banner-item .icon-btn:hover {
-  background-color: #005ecb; /* 호버 시 어두운 블루 */
-  transform: translateY(-2px); /* 호버 시 살짝 올라감 */
+  background-color: #ff1e67;
+  /* 호버 시 더 진한 네온 핑크 */
+  transform: translateY(-4px);
+  /* 더 과감한 호버 효과 */
 }
 
 .banner-item .icon-btn:active {
-  background-color: #004ba0; /* 클릭 시 진한 블루 */
-  transform: translateY(0); /* 클릭 시 원래 위치 */
+  background-color: #d01754;
+  /* 클릭 시 어두운 핑크 */
+  transform: translateY(0);
+  /* 클릭 시 원래 위치 */
 }
-
 
 /* 광고 배너 섹션 */
 .ad-banner {

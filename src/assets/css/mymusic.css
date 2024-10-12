@@ -197,3 +197,13 @@
     cursor: pointer;
     transform: scale(1.2);
 }
+
+.my-music-table tbody tr td {
+    width: 700px; /* 셀의 높이를 늘려줍니다 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    vertical-align: middle; /* 세로 가운데 정렬 */
+    color: #888; /* 텍스트 색상 (선택 사항) */
+    font-size: 18px; /* 텍스트 크기 */
+    line-height: 1.5; /* 텍스트 줄 간격 */
+    padding: 20px; /* 내부 여백 */
+  }
