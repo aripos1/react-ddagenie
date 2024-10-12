@@ -21,6 +21,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
     const navigate = useNavigate();
 
     /*---상태관리 변수들(값이 변화면 화면 랜더링 )--*/
+    const [authUser, setAuthUser] = useState(null); // authUser 상태 추가
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
@@ -29,9 +30,6 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
     const [profile, setProfile] = useState(profileImage);
     const [selectedFile, setSelectedFile] = useState(null);
     const [deleteProfile, setDeleteProfile] = useState(false);
-
-    
-
 
     // 탈퇴관련 변수
     const [showConfirm, setShowConfirm] = useState(false);
@@ -43,7 +41,15 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
 
     /*---훅(useEffect)+이벤트(handle)메소드------*/
     // 사용자 정보 불러오기 (마운트 시 실행)
+
+
     useEffect(() => {
+        const storedUser = localStorage.getItem('authUser');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setAuthUser(parsedUser);
+        }
+
         axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
             headers: {
                 "Content-Type": "application/json",
@@ -52,26 +58,26 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         }).then(response => {
             if (response.data && response.data.apiData) {
                 const userVo = response.data.apiData;
-                setName(userVo.name || '')
-                setId(userVo.id || '');  // id가 없을 경우 빈 문자열로 설정
-                setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
-                setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
-                setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
+                setName(userVo.name || '');
+                setId(userVo.id || '');
+                setPw(userVo.password || '');
+                setPhone(userVo.phone || '');
+                setAddress(userVo.address || '');
 
-                // 프로필 이미지 URL 설정
                 const imageUrl = userVo.saveName || profileImage;
                 setProfile(imageUrl);
-                updateProfileImage(imageUrl); // 헤더 및 사이드바 업데이트
+                updateProfileImage(imageUrl);
             } else {
                 console.error('회원 정보가 없습니다.');
             }
         }).catch(error => {
             console.error('유저 정보 로딩 실패:', error);
         });
-    }, [token,updateProfileImage]);
+    }, [token, updateProfileImage]);
 
     //확인버튼 클릭 이벤트
     // 폼 제출 핸들러 (회원정보 수정)
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -80,12 +86,10 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         formData.append('phone', phone);
         formData.append('address', address);
 
-        // 삭제 체크박스가 선택된 경우 기본 이미지 설정
         if (deleteProfile) {
-            formData.append('profile', null);  // 서버에서 기본 이미지를 설정하도록 null 값을 보냄
-
+            formData.append('profile', null);
         } else if (selectedFile) {
-            formData.append('profile', selectedFile); // 선택된 파일을 프로필로 설정
+            formData.append('profile', selectedFile);
         }
 
         const user = {
@@ -103,23 +107,35 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data',
             },
-            data: formData,  // formData 추가
-        })
-        .then(response => {
+            data: formData,
+        }).then(response => {
             if (response.data.result === 'success') {
                 alert('회원정보 수정 완료');
-                // 프로필 이미지가 변경되었을 때 헤더 업데이트
+
+                // authUser 상태 확인 후 로컬 스토리지 업데이트
+                if (authUser) {
+                    const updatedUser = {
+                        ...authUser,
+                        name: name,
+                        phone: phone,
+                        address: address,
+                        saveName: profile
+                    };
+                    localStorage.setItem('authUser', JSON.stringify(updatedUser));
+
+                    navigate('/');
+                }
+
                 if (selectedFile) {
                     const imageUrl = URL.createObjectURL(selectedFile);
-                    updateProfileImage(imageUrl);  // Header에서 프로필 이미지 업데이트
+                    updateProfileImage(imageUrl);
                 } else if (deleteProfile) {
-                    updateProfileImage(profileImage); // 기본 이미지로 변경
+                    updateProfileImage(profileImage);
                 }
 
                 navigate('/');
             }
-        })
-        .catch(error => {
+        }).catch(error => {
             console.error('프로필 업데이트 실패:', error);
         });
     };
@@ -131,7 +147,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
             const file = e.target.files[0];
             if (file) {
                 setSelectedFile(file);
-    
+
                 const reader = new FileReader();
                 reader.onload = () => {
                     setProfile(reader.result);  // 미리보기로 선택한 이미지 표시
@@ -142,14 +158,14 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
             // 삭제 체크박스가 변경되었을 때
             const isChecked = e.target.checked;
             setDeleteProfile(isChecked);
-    
+
             if (isChecked) {
                 setProfile(profileImage);  // 체크박스 선택 시 기본 이미지로 변경
                 setSelectedFile(null);  // 선택된 파일 초기화
             }
         }
     };
-    
+
 
     //탈퇴창 관련
     const handleDeleteAccount = () => {
