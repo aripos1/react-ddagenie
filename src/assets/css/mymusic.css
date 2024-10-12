@@ -171,7 +171,8 @@
     background-color: #c1271b;
 }
 
-#wrap-main-content .my-music-playlist .my-music-table {
+#wrap-main-content .my-music-playlist .my-music-table,
+#wrap-main-content .my-music-likes .my-music-table {
     width: 100%;
     border-collapse: collapse;
 }
