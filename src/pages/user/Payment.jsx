@@ -6,6 +6,8 @@ import axios from 'axios';
 
 //import 컴포넌트
 import Header from '../include/Header';
+import Footer from '../include/Footer';
+import banner from '../../assets/images/title_product_best_5.0.png';
 
 //import css
 import '../../assets/css/payment.css'
@@ -89,7 +91,7 @@ const Payment = () => {
 
                 <Header />
                 <div id="wrap-body" className="clearfix">
-                    <div id="">
+                    <div id="wrap-payment">
                         <div id="top-title">
                             <h2>이용권 구매</h2>
                             <p>홈 | 마이뮤직 | 이용권구매 | <strong>BEST 이용권</strong></p>
@@ -101,6 +103,9 @@ const Payment = () => {
                             <span>사용중인 이용권이 없습니다.</span>
                             <p>지금바로 다양한 음악들을 만나보세요!</p>
                             <Link to={`/user/deleteForm/${userNo}`}><button id="delete-move-button">이용권 해지/설정</button></Link>
+                        </div>
+                        <div id='pay-banner'>
+                            <img className='pay-banner' src={banner}/>
                         </div>
                         {productList.map((productVo) => {
                             return (
@@ -138,10 +143,9 @@ const Payment = () => {
                             </div>
                         </div>*/}
                     </div>
-                    {/* footer */}
                 </div>
-
-
+                {/* Footer */}
+                <Footer />
             </div>
         </>
     );
