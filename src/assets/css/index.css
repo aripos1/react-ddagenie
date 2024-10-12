@@ -110,7 +110,7 @@
 }
 
 
-.playlist {
+.ranking-section .playlist {
   width: 100%;
   border-collapse: separate;
   /* 셀 간격을 줌 */

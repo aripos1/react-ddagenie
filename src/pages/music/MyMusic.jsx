@@ -95,9 +95,16 @@ const MyMusic = () => {
   };
 
   // 재생 + 재생목록에 추가
+  // 듣기 버튼 클릭 핸들러
   const handlePlayAndAddToPlaylist = async (musicNo) => {
     if (!authUser) {
       alert('로그인 해주세요.');
+      return;
+    }
+
+    // 이용권 상태 확인
+    if (authUser.ticket_status !== "이용중" && authUser.ticket_status !== "해지중") {
+      alert('이용권이 필요합니다.');
       return;
     }
 
@@ -224,12 +231,22 @@ const MyMusic = () => {
                                 </div>
                               </td>
                               <td>
-                                <button
-                                  onClick={() => handlePlayAndAddToPlaylist(song.musicNo)}
-                                  className="jelly-button"
-                                >
-                                  듣기
-                                </button>
+                                {authUser?.ticket_status === "이용중" || authUser?.ticket_status === "해지중" ? (
+                                  <button
+                                    onClick={() => handlePlayAndAddToPlaylist(song.musicNo)}
+                                    className="jelly-button"
+                                  >
+                                    듣기
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="jelly-button disabled"
+                                    onClick={() => alert('이용권이 필요합니다.')}
+                                    disabled
+                                  >
+                                    듣기
+                                  </button>
+                                )}
                               </td>
                             </tr>
                           ))
@@ -270,12 +287,22 @@ const MyMusic = () => {
                                 </div>
                               </td>
                               <td>
-                                <button
-                                  onClick={() => handlePlayAndAddToPlaylist(song.musicNo)}
-                                  className="jelly-button"
-                                >
-                                  듣기
-                                </button>
+                                {authUser?.ticket_status === "이용중" || authUser?.ticket_status === "해지중" ? (
+                                  <button
+                                    onClick={() => handlePlayAndAddToPlaylist(song.musicNo)}
+                                    className="jelly-button"
+                                  >
+                                    듣기
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="jelly-button disabled"
+                                    onClick={() => alert('이용권이 필요합니다.')}
+                                    disabled
+                                  >
+                                    듣기
+                                  </button>
+                                )}
                               </td>
                             </tr>
                           ))
