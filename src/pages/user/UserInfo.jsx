@@ -81,26 +81,14 @@ const UserInfo = () => {
                     setPw(userVo.password || '');  // password가 없을 경우 빈 문자열로 설정
                     setPhone(userVo.phone || '');  // phone이 없을 경우 빈 문자열로 설정
                     setAddress(userVo.address || '');  // address가 없을 경우 빈 문자열로 설정
-
+    
                     // 프로필 이미지 로드
                     const imageUrl = getProfileImageUrl(userVo);
                     setProfile(imageUrl);
-
-                    // authUser에 최신 사용자 정보 저장
-                    setAuthUser({
-                        ...authUser,
-                        name: userVo.name,
-                        saveName: userVo.saveName,
-                        profilePath: userVo.profilePath,
-                    });
-
-                    // 로컬 스토리지에도 업데이트된 사용자 정보 저장
-                    localStorage.setItem('authUser', JSON.stringify({
-                        ...authUser,
-                        name: userVo.name,
-                        saveName: userVo.saveName,
-                        profilePath: userVo.profilePath,
-                    }));
+    
+                   
+    
+                    
                 } else {
                     console.error('회원 정보가 없습니다.');
                 }
@@ -108,7 +96,8 @@ const UserInfo = () => {
                 console.error('유저 정보 로딩 실패:', error);
             });
         }
-    }, [token]);
+    }, [token, authUser]);
+    
 
     // 프로필 사진 업로드 핸들러
     const handleProfileChange = (e) => {

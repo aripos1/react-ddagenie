@@ -27,6 +27,7 @@ const Header = () => {
     const [token, setToken] = useState(localStorage.getItem('token'));
     // eslint-disable-next-line no-unused-vars
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('authUser')));
+    
     /* //리액트 warning 메시지 무시*/
 
     // 검색창 관련 : 검색어 상태
@@ -40,7 +41,7 @@ const Header = () => {
 
     /*---일반 변수--------------------------------*/
     //디비시간 가져오기
-
+    
 
     /*---일반 메소드 -----------------------------*/
     const openPlayerPopup = (userNo) => {
@@ -55,8 +56,9 @@ const Header = () => {
     };
 
     const dateReckoding = ()=>{
-        console.log('123456789')
-
+        console.log('123456789123456789123456789123456789123456789')
+        const userVo = JSON.parse(localStorage.getItem('authUser'))
+        console.log(userVo)
 
 
         if (authUser !== null && authUser.paymentFinish !== null) {
@@ -74,12 +76,13 @@ const Header = () => {
 
             const difference = differenceInDays(paymentFinish, currentDate) + 1;
             setDayDifference(difference);
-            console.log(dayDifference)
+            
             // console.log(paymentFinish);
-            // console.log(currentDate);
+            console.log('계산값은');
+            console.log(dayDifference)
 
             //로그인한회원 >> 이용권 사용여부체크
-            if (dayDifference >= 0) {
+            if (dayDifference >= 10) {
                 setAuthUser(JSON.parse(localStorage.getItem('authUser')))
                 console.log('5465531531531351616~~~~~~~~~~~~~~')
 
@@ -104,7 +107,7 @@ const Header = () => {
 
 
             } else {
-                // console.log('mm');
+                 console.log('mm');
                 authUser.ticket_status = '이용완료'
 
                 console.log('사용기한이 끝난 이용권입니다.')
@@ -115,7 +118,7 @@ const Header = () => {
 
                 //디비에 상태값 보내주기
                 axios({
-                    method: 'put', 			// put, post, delete                   
+                    method: 'put',          // put, post, delete                   
                     url: `${process.env.REACT_APP_API_URL}/api/state/${userNo}`,
                     //headers: { "Authorization": `Bearer ${token}`}, // token
                     //get delete
@@ -150,15 +153,14 @@ const Header = () => {
 
     }
 
-   
+
 
     /*---훅(useEffect)+이벤트(handle)메소드-------*/
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
-
+    
         const storedUser = localStorage.getItem('authUser');
-
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);
