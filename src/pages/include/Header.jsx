@@ -692,9 +692,8 @@ const Header = () => {
 
     // 로그인 상태 확인 (로컬스토리지에 저장된 authUser 확인)
     useEffect(() => {
-
+    
         const storedUser = localStorage.getItem('authUser');
-
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setIsLoggedIn(true);

@@ -43,8 +43,12 @@ const JdeleteForm = () => {
     /*---상태관리 변수들(값이 변화면 화면 랜더링)  ----------*/
 
     /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
-    const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
-
+    let profile;
+    if (authUser && authUser.saveName) {
+        profile = authUser.saveName;
+    } else {
+        profile = profileImage;
+    }
 
     /*---일반 메소드 --------------------------------------------*/
 

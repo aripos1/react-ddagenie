@@ -14,7 +14,7 @@ import Sidebar from '../include/Aside'; // Sidebar 컴포넌트 import
 //import css
 import '../../assets/css/jjinUtilize.css'
 
-/*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */ 
+/*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
 // 기본 프로필 이미지 import
 import profileImage from '../../assets/images/default_img2.png';
 
@@ -36,9 +36,13 @@ const Utilize = () => {
     const userNo = authUser.no;
     const ticketStatus = authUser.ticket_status;
 
-    /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */ 
-    const profile = authUser?.saveName ? `${process.env.REACT_APP_API_URL}/upload/${authUser.saveName}` : profileImage;
-
+    /*===== 프로필 이미지 설정 ===== : 사이드 바 프로필 사진 출력용 : */
+    let profile;
+    if (authUser && authUser.saveName) {
+        profile = authUser.saveName;
+    } else {
+        profile = profileImage;
+    }
 
 
     /*---일반 메소드 --------------------------------------------*/
@@ -50,7 +54,7 @@ const Utilize = () => {
         }
 
         axios({
-            method: 'get',          // put, post, delete                   
+            method: 'get', 			// put, post, delete                   
             url: `${process.env.REACT_APP_API_URL}/api/pay/${userNo}`,
             //headers: { "Authorization": `Bearer ${token}`}, // token
             //get delete
@@ -67,14 +71,13 @@ const Utilize = () => {
             console.log(response.data.apiData);
 
             setPayList(response.data.apiData);
-            
-            if(response.data.apiData.length > 0){
+
+            if (response.data.apiData.length > 0) {
                 authUser.ticket_status = response.data.apiData[0].ticketStatus;
                 console.log(authUser.ticket_status)
                 localStorage.setItem('authUser', JSON.stringify(authUser));
             }
-            
-            
+
             dateReckoding();
 
         }).catch(error => {
@@ -115,11 +118,11 @@ const Utilize = () => {
             console.log('11');
             setDayDifference(-1);
         }
-        if(authUser.ticket_status == '해지완료'){
+        if (authUser.ticket_status == '해지완료') {
             setDayDifference(-1);
         }
-    
-        
+
+
 
     }
     console.log(dayDifference)
@@ -135,7 +138,7 @@ const Utilize = () => {
 
     };
 
-    
+
 
 
 
@@ -147,7 +150,7 @@ const Utilize = () => {
     //3. 전송 (ajax 사용)
     useEffect(() => {
         getUserPayList();
-        
+
     }, []);
 
 

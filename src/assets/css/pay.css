@@ -1,0 +1,258 @@
+/* 전체 wrap 스타일 */
+.pay-wrap {
+    font-family: 'Noto Sans', sans-serif;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 결제 정보 상단 */
+.pay-wrap .pay{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.pay-wrap .pay #user-pay {
+    width: 710px;
+}
+
+.pay-wrap .pay #user-pay #top-title {
+    margin-bottom: 20px;
+}
+
+.pay-wrap .pay #user-pay #top-title h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.pay-wrap .pay #user-pay #top-title p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* 스마트 음악감상 정보 */
+.pay-wrap .pay #user-pay #smart-music-listen {
+    background-color: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.pay-wrap .pay #user-pay #smart-music-listen table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.pay-wrap .pay-total-list .pay-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid #ffffff;
+}
+
+.pay-wrap .pay-total-list  tr td{
+    height: 30px;
+    border: none;
+}
+
+.pay-wrap .box {
+    box-shadow: 0 0px 13px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.pay-wrap  .down-arrow {
+    padding-top: 20px;
+}
+.pay-wrap  .down-arrow img {
+    text-align: center;
+    vertical-align: middle;
+    width: 70px;
+    height: auto;
+}
+
+.pay-wrap  .down-arrow {
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.pay-wrap .pay-total-list .pay-table .tb-total{
+    font-size: 22px;
+}
+
+.pay-wrap .pay #user-pay .pay-total-list .tb-total {
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border: none;
+}
+
+.pay-wrap .pay #user-pay .pay-total-list .tb-one {
+    border: none;
+}
+
+.pay-wrap .pay #user-pay .pay-one-one {
+    font-weight: bold;
+    color: #555;
+    padding: 10px;
+}
+
+.pay-wrap .pay #user-pay .pay-one-two {
+    padding: 10px;
+    text-align: center;
+    color: #333;
+}
+
+/* 최종 결제 정보 섹션 */
+.pay-wrap .pay #user-pay .box {
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.pay-wrap .pay #user-pay .box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pay-wrap .pay #user-pay .box .tb-one,
+.pay-wrap .pay #user-pay .box .tb-two,
+.pay-wrap .pay #user-pay .box .tb-three {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.pay-wrap .pay #user-pay .box td {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.pay-wrap .pay #user-pay .box .pay-three-one {
+    color: #333;
+    font-size: 16px;
+}
+
+.pay-wrap .pay #user-pay .box .pay-three-two {
+    color: #1f8ceb;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+.pay-wrap .pay #user-pay .pay-one-one {
+    width: 20%;
+    font-weight: bold;
+    color: #555;
+}
+
+.pay-wrap .pay #user-pay .pay-three-two {
+    color: #ff4b4b;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pay-wrap .pay #user-pay #total-price-btn {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pay-wrap .pay #user-pay #total-price-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 결제수단 선택 섹션 */
+.pay-wrap .pay #user-pay #pay-all-box {
+    margin-top: 20px;
+}
+
+.pay-wrap .pay #user-pay #pay-choose-box {
+    padding: 20px;
+    border: 1px solid #e5e5e5;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.pay-wrap .pay #user-pay #pay-choose-box {
+    margin-bottom: 40px;
+}
+
+
+.pay-wrap .pay #user-pay #pay-choose-box p {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.pay-wrap .pay #user-pay #pay-choose-radio-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 25px 0 5px 25px;
+}
+
+
+
+.pay-wrap .pay #user-pay #pay-choose-radio-box label {
+    margin-right: 25px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.pay-wrap .pay #user-pay #pay-choose-radio-box input[type="radio"] {
+    margin-left: 5px;
+}
+
+/* 오른쪽 결제 요약 정보 */
+.pay-wrap .pay #user-pay #pay-summary {
+    width: 25%;
+    background-color: white;
+    border: 1px solid #e5e5e5;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.pay-wrap .pay #user-pay #pay-summary h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.pay-wrap .pay #user-pay #pay-summary p {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.pay-wrap .pay #user-pay #pay-summary .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff4b4b;
+}
+
+/* 결제하기 버튼 */
+.pay-wrap .pay #user-pay #pay-summary button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pay-wrap .pay #user-pay #pay-summary button:hover {
+    background-color: #0056b3;
+}

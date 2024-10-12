@@ -73,7 +73,7 @@ const UserInfo = ({ updateProfileImage }) => { // Header의 상태 업데이트 
         }).catch(error => {
             console.error('유저 정보 로딩 실패:', error);
         });
-    }, [token, updateProfileImage]);
+    }, []);
 
     //확인버튼 클릭 이벤트
     // 폼 제출 핸들러 (회원정보 수정)
