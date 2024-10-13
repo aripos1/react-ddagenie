@@ -105,28 +105,28 @@ const JoinForm = () => {
             method: 'post',
             url: `${process.env.REACT_APP_API_URL}/api/users/checkid?id=${id}`,
         })
-        .then(response => {
-            console.log(response);
-            console.log(response.data);
-            console.log(response.data.result);
+            .then(response => {
+                console.log(response);
+                console.log(response.data);
+                console.log(response.data.result);
 
-            if (response.data.result === 'success') {
-                alert('사용할 수 있는 ID입니다.');
-            } else {
-                alert(response.data.message);
-                setId('');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+                if (response.data.result === 'success') {
+                    alert('사용할 수 있는 ID입니다.');
+                } else {
+                    alert(response.data.message);
+                    setId('');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
 
     return (
         <>
             <div id="wrap-main" className="ham">
                 <header id="headerbar">
-                <div className="logo">
+                    <div className="logo">
                         <Link to="/"><img src={logo} alt="Ddagenie 로고" /></Link>
                     </div>
                     <nav className="join-nav">
@@ -171,8 +171,9 @@ const JoinForm = () => {
                             </div>
 
                             {/* 오류 메시지 출력 */}
-                            {errorMessage && <p className="error-message">{errorMessage}</p>}
-
+                            <div className='error-txt'>
+                                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                            </div>
                             {/* 주소 입력 */}
                             <div className="joinform-group">
                                 <label htmlFor="address"></label>

@@ -16,7 +16,7 @@ import twitterIcon from '../../assets/images/iconImg/icon_twitter@3x.png';
 import appleIcon from '../../assets/images/iconImg/icon_apple@3x.png';
 import adBanner from '../../assets/images/ban_18989_202442213563.jpg';
 
-const JoinForm = () => {
+const LoginForm = () => {
     /*---라우터 관련-------------------------------*/
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
@@ -184,4 +184,4 @@ const JoinForm = () => {
     );
 };
 
-export default JoinForm;
+export default LoginForm;
