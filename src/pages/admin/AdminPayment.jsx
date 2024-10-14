@@ -163,7 +163,6 @@ const AdminPayment = () => {
                     <div id="wrap-main">
                         <div id="top-title">
                             <h2>이용권 내역</h2>
-                            <p>홈 | 마이뮤직 | 이용권내역 | <strong>이용권 상세내역</strong></p>
                         </div>
                         <p id="admin-all-list-title">고객 결제 및 해지 처리</p>
                         <div>
