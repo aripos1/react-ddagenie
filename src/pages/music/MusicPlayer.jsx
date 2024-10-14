@@ -6,37 +6,39 @@ import '../../assets/css/player.css';
 import profileImage from '../../assets/images/cuteddagenie.png';
 import Modal from './Modal';
 
-const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, useModal = false }) => {
+const MusicPlayer = ({ isOpen, onClose = false }) => {
+
+    // 재생 탭 (playlist, myMusic 등)과 상태 관리
     const [activeTab, setActiveTab] = useState('playlist');
-    const [playlist, setPlaylist] = useState([]);
-    const [myMusic, setMyMusic] = useState([]);
-    const [liked, setLiked] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [authUser, setAuthUser] = useState(null);
-    const audioRef = useRef(null);
-    const [error, setError] = useState(null);
-    const [currentSong, setCurrentSong] = useState(null);
-    const [currentSongIndex, setCurrentSongIndex] = useState(null);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const query = new URLSearchParams(location.search);
-    const title = query.get('title') || 'Unknown Title';
-    const artist = query.get('artist') || 'Unknown Artist';
-    const filePath = query.get('filePath') || null;
-    const [currentTitle, setCurrentTitle] = useState('');
-    const [currentArtist, setCurrentArtist] = useState('');
-    const [currentImage, setCurrentImage] = useState(profileImage);
-    const fileUrl = query.get('fileUrl') || null;
-    const [selectedSong, setSelectedSong] = useState(null);
+    const [playlist, setPlaylist] = useState([]); // 재생목록
+    const [myMusic, setMyMusic] = useState([]); // 마이뮤직 목록
+    const [liked, setLiked] = useState(false); // 좋아요 상태
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
+    const [authUser, setAuthUser] = useState(null); // 인증된 유저 정보
+    const audioRef = useRef(null); // 오디오 태그 참조
+    const [error, setError] = useState(null); // 오류 상태
+    const [currentSong, setCurrentSong] = useState(null); // 현재 재생 중인 곡 정보
+    const [currentSongIndex, setCurrentSongIndex] = useState(null); // 현재 재생 중인 곡 인덱스
+    const navigate = useNavigate(); // 라우팅을 위한 navigate 함수
+    const location = useLocation(); // 현재 경로 정보
+    const query = new URLSearchParams(location.search); // URL의 쿼리 파라미터 추출
+    const title = query.get('title') || 'Unknown Title'; // 쿼리로 받은 곡 제목
+    const artist = query.get('artist') || 'Unknown Artist'; // 쿼리로 받은 가수 이름
+    const filePath = query.get('filePath') || null; // 쿼리로 받은 파일 경로
+    const [currentTitle, setCurrentTitle] = useState(''); // 현재 재생 중인 곡 제목 상태
+    const [currentArtist, setCurrentArtist] = useState(''); // 현재 재생 중인 가수 이름 상태
+    const [currentImage, setCurrentImage] = useState(profileImage); // 현재 앨범 이미지
+    const fileUrl = query.get('fileUrl') || null; // 쿼리로 받은 파일 URL
+    const [selectedSong, setSelectedSong] = useState(null); // 선택된 곡 상태
 
 
-    // 로그인 상태 확인 및 유저 정보 설정
+    // 로그인 여부 확인
     useEffect(() => {
         const storedUser = localStorage.getItem('authUser');
         if (storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setIsLoggedIn(true);
-            setAuthUser(parsedUser);
+            setAuthUser(parsedUser); // 로컬 스토리지에서 유저 정보를 불러옴
         } else {
             setIsLoggedIn(false);
             setAuthUser(null);
@@ -100,6 +102,12 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
         }
     }, [playlist]);
 
+    useEffect(() => {
+        const selectedSongs = myMusic.filter(song => song.selected);
+        console.log('현재 선택된 곡 목록:', selectedSongs);
+    }, [myMusic]);
+
+    // 좋아요 상태 로드
     const loadLikeStatus = (userNo, musicNo) => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/like/status/${userNo}/${musicNo}`)
             .then(response => {
@@ -112,7 +120,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             });
     };
 
-
+    // 좋아요 토글 함수
     const toggleLike = () => {
         if (!currentSong || !currentSong.musicNo || !authUser) {
             console.error('currentSong or musicNo or authUser is missing.');
@@ -180,6 +188,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     };
     console.log('Playlist:', playlist);
 
+    // 앨범 이미지 URL 가져오기
     const getImageUrl = (song) => {
         let imagePath = song.imageName || song.imagePath;
 
@@ -199,20 +208,8 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     };
 
 
-    // s3 곡 재생
+    // 곡 재생 함수
     const playSong = (song, index) => {
-        // // 이용권이 체크되지 않았으면 곡 재생을 하지 않음
-        // if (!subscriptionChecked) {
-        //     alert('이용권 상태를 확인 중입니다. 잠시 후 다시 시도해 주세요.');
-        //     return;
-        // }
-
-        // // 이용권이 없으면 재생하지 않음
-        // if (!isSubscribed) {
-        //     alert('이용권이 필요합니다. 이용권을 구매해 주세요.');
-        //     return;
-        // }
-
         let songPath = song.fileName || song.filePath;
 
         if (!songPath || typeof songPath !== 'string') {
@@ -295,6 +292,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         setError(null);
+
     };
 
     // 체크박스 변경 핸들러 (playlist 또는 myMusic)
@@ -310,9 +308,11 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
         }
     };
 
+
     // 선택된 곡 MyMusic에 추가
     const addToMyMusic = () => {
         const selectedSongs = playlist.filter(song => song.selected);
+        console.log('현재 선택된 곡:', selectedSongs);
         if (selectedSongs.length > 0) {
             axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/add`, {
                 musicNos: selectedSongs.map(song => song.musicNo),
@@ -350,6 +350,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
     // MyMusic에서 선택된 곡 삭제
     const deleteSelectedSongsFromMyMusic = () => {
         const selectedSongs = myMusic.filter(song => song.selected);
+        console.log('현재 선택된 곡:', selectedSongs);
         const musicNos = selectedSongs.map(song => song.musicNo);
         if (musicNos.length > 0) {
             axios.post(`${process.env.REACT_APP_API_URL}/api/mymusic/delete`, {
@@ -416,7 +417,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
             </div>
         );
     }
-    if (useModal && isOpen) {
+    if (isOpen) {
         return (
             <Modal isOpen={isOpen} onClose={onClose}>
                 <div className="player">
@@ -491,7 +492,7 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
                             <ul className="playlist">
                                 {playlist.map((song, index) => (
                                     <li
-                                        key={song.playlistNo}
+                                        key={song.playlistNo || index}  // playlistNo 또는 index를 고유 값으로 사용
                                         className={currentSongIndex === index ? 'playing-song' : ''}
                                         onClick={() => playSong(song, index)}
                                     >
@@ -505,7 +506,6 @@ const MusicPlayer = ({ isOpen, onClose, modalTitle, modalArtist, modalFileUrl, u
                                             <p>{song.title}</p>
                                             <p>{song.artistName}</p>
                                         </div>
-                                        {/* 재생 아이콘 추가 */}
                                         <span className="play-icon">▶</span>
                                     </li>
                                 ))}
