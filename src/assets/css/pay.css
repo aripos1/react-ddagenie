@@ -7,7 +7,7 @@
 }
 
 /* 결제 정보 상단 */
-.pay-wrap .pay{
+.pay-wrap .pay {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -54,7 +54,7 @@
     border: 1px solid #ffffff;
 }
 
-.pay-wrap .pay-total-list  tr td{
+.pay-wrap .pay-total-list tr td {
     height: 30px;
     border: none;
 }
@@ -63,23 +63,25 @@
     box-shadow: 0 0px 13px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
-.pay-wrap  .down-arrow {
+
+.pay-wrap .down-arrow {
     padding-top: 20px;
 }
-.pay-wrap  .down-arrow img {
+
+.pay-wrap .down-arrow img {
     text-align: center;
     vertical-align: middle;
     width: 70px;
     height: auto;
 }
 
-.pay-wrap  .down-arrow {
+.pay-wrap .down-arrow {
     width: 100%;
     height: auto;
     text-align: center;
 }
 
-.pay-wrap .pay-total-list .pay-table .tb-total{
+.pay-wrap .pay-total-list .pay-table .tb-total {
     font-size: 22px;
 }
 

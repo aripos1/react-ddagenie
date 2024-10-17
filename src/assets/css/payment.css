@@ -1,13 +1,14 @@
 @charset "UTF-8";
+
 /*타이틀*/
 #wrap-payment #top-title {
     width: 940px;
     max-width: 940px;
-    
+
     /* background-color: aquamarine; */
 }
 
-#wrap-payment #top-title p{
+#wrap-payment #top-title p {
     font-size: 11px;
     float: right;
     /* background-color: #85cbd2; */
@@ -16,33 +17,36 @@
 
 
 /*사용중인이용권*/
-#wrap-payment #select-usePayment{
+#wrap-payment #select-usePayment {
     background-color: #fafafa;
     padding: 23px 20px;
     border-top: 2px #cacad0 solid;
     border-bottom: 2px #cacad0 solid;
 }
-#wrap-payment #use-payment-my{
+
+#wrap-payment #use-payment-my {
     border: 1px #D5D5D5 solid;
     font-size: 13px;
     border-radius: 13px;
     padding: 3px 12px;
     background-color: #f7f7f7;
 }
-#wrap-payment #select-usePayment span{
+
+#wrap-payment #select-usePayment span {
     color: #0096ff;
     font-weight: bold;
     margin-left: 5px;
 }
 
-#wrap-payment #select-usePayment p{
+#wrap-payment #select-usePayment p {
     font-size: 11px;
     font-weight: bold;
     color: #979bb1;
     margin-top: 5px;
     margin-left: 132px;
 }
-#wrap-payment #delete-move-button{
+
+#wrap-payment #delete-move-button {
     border: 1px #000000 solid;
     font-weight: bold;
     padding: 10px 30px;
@@ -57,7 +61,7 @@
 
 
 /*이용권*/
-#wrap-payment .product-back-div{
+#wrap-payment .product-back-div {
     background-image: url(https://cdnimg.melon.co.kr/resource/image/web/cm/bg-gradiant-top.png);
     width: 900px;
     background-size: 100%;
@@ -65,19 +69,20 @@
     border-radius: 8px;
 
 }
-#wrap-payment .product-title{
+
+#wrap-payment .product-title {
     font-size: 25px;
     font-weight: bold;
     padding-left: 20px;
     margin-bottom: 5px;
 }
 
-#wrap-payment #all-product-area{
+#wrap-payment #all-product-area {
     padding: 25px 0 25px 5px;
 }
 
 /*이용권 타이틀*/
-#wrap-payment .product-back-div .product-name-date{
+#wrap-payment .product-back-div .product-name-date {
     font-size: 24px;
     font-weight: bold;
     padding-top: 10px;
@@ -86,10 +91,10 @@
 }
 
 /*금액, 구매하기버튼*/
-#wrap-payment .product-back-div .product-float{
+#wrap-payment .product-back-div .product-float {
     float: right;
     font-size: 25px;
-    
+
     padding: 7px 33px;
     border-radius: 50px;
     margin-right: 40px;
@@ -98,7 +103,7 @@
     color: #ffffff;
 }
 
-#wrap-payment .product-back-div .float-p{
+#wrap-payment .product-back-div .float-p {
     float: right;
     font-size: 30px;
     font-weight: bold;

@@ -57,7 +57,8 @@
     margin-top: 18px;
 }
 
-.button-left, .button-right {
+.button-left,
+.button-right {
     width: 40%;
     padding: 10px;
     font-size: 12px;
@@ -142,21 +143,29 @@
 /* ul의 기본 패딩 및 마진 제거 */
 /* ul에 flexbox 적용 */
 #top-ct-list ul {
-    display: flex; /* flexbox로 ul 내부 li를 가로로 배치 */
-    justify-content: space-between; /* li 간 간격을 균등하게 배치 */
-    list-style: none; /* 기본 ul 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    margin: 0; /* 기본 마진 제거 */
+    display: flex;
+    /* flexbox로 ul 내부 li를 가로로 배치 */
+    justify-content: space-between;
+    /* li 간 간격을 균등하게 배치 */
+    list-style: none;
+    /* 기본 ul 스타일 제거 */
+    padding: 0;
+    /* 기본 패딩 제거 */
+    margin: 0;
+    /* 기본 마진 제거 */
 }
 
 /* li 스타일 */
 #top-ct-list ul li {
-    flex: 1; /* 각 li가 동일한 비율로 배치되도록 설정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
+    flex: 1;
+    /* 각 li가 동일한 비율로 배치되도록 설정 */
+    text-align: center;
+    /* 텍스트 가운데 정렬 */
     font-weight: bold;
     padding: 12px;
     background-color: #f9f9f9;
-    margin-right: 10px; /* li 간격 설정 */
+    margin-right: 10px;
+    /* li 간격 설정 */
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: background-color 0.3s ease;
@@ -175,7 +184,8 @@
 
 /* li 내부 a 태그 */
 #top-ct-list ul li a {
-    display: block; /* a 태그가 li 전체를 차지하게 설정 */
+    display: block;
+    /* a 태그가 li 전체를 차지하게 설정 */
     width: 100%;
     text-decoration: none;
     color: #333;
@@ -223,7 +233,7 @@
     height: 30px;
     padding-bottom: 15px;
     font-size: 14px;
-    font-weight:normal;
+    font-weight: normal;
 
 }
 
@@ -262,7 +272,8 @@
     font-size: 14px;
 }
 
-#list-table th, #list-table td {
+#list-table th,
+#list-table td {
     padding: 12px;
     border: 1px solid #ddd;
     text-align: center;
@@ -300,5 +311,6 @@
 }
 
 #remain_date {
-    margin-bottom: 15px;;
+    margin-bottom: 15px;
+    ;
 }

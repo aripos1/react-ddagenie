@@ -51,7 +51,8 @@
     text-decoration: none;
     color: #252525;
     font-size: 14px;
-    display: inline-block; /* a 태그를 inline으로 유지 */
+    display: inline-block;
+    /* a 태그를 inline으로 유지 */
 }
 
 .ham #headerbar>.join-nav ul li a:hover {
@@ -117,13 +118,17 @@
 
 .ham .joinform-group>#agree {
     display: flex;
-    justify-content: center; /* 체크박스와 라벨을 수평 가운데 정렬 */
-    align-items: center;     /* 수직 정렬 */
-    width: 100%;  /* 부모 요소가 전체 너비를 차지하게 설정 */
+    justify-content: center;
+    /* 체크박스와 라벨을 수평 가운데 정렬 */
+    align-items: center;
+    /* 수직 정렬 */
+    width: 100%;
+    /* 부모 요소가 전체 너비를 차지하게 설정 */
 }
 
 .ham .joinform-group>#agree input[type="checkbox"] {
-    margin-right: 10px; /* 체크박스와 라벨 사이의 간격 */
+    margin-right: 10px;
+    /* 체크박스와 라벨 사이의 간격 */
 }
 
 .ham .joinform-group>#agree>label {
@@ -131,16 +136,18 @@
     padding: 0;
     width: auto;
     text-align: left;
-    white-space: nowrap; /* 텍스트가 세로로 나오지 않도록 설정 */
+    white-space: nowrap;
+    /* 텍스트가 세로로 나오지 않도록 설정 */
     display: inline-block;
 }
+
 .ham .joinForm>.joinform-container .error-txt {
     text-align: center;
     color: #FF0000;
 }
 
 .ham .joinForm>.joinform-container .error-txt .error-message {
-padding-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 /* 버튼 스타일 */

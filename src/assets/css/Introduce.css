@@ -1,24 +1,33 @@
 #main {
     display: flex;
-    align-items: flex-start; /* 텍스트와 이미지를 위쪽으로 정렬 */
+    align-items: flex-start;
+    /* 텍스트와 이미지를 위쪽으로 정렬 */
 }
 
-.text-xlarge{
+.text-xlarge {
     margin-top: 50px;
 }
+
 #profile-img {
-    width: 400px; /* 이미지 크기를 줄임 */
-    height: auto; /* 이미지 비율 유지 */
+    width: 400px;
+    /* 이미지 크기를 줄임 */
+    height: auto;
+    /* 이미지 비율 유지 */
     margin-top: 50px;
-    margin-right: 50px; /* 텍스트와 이미지 사이 간격 */
-    object-fit: cover; /* 이미지가 잘리더라도 크기 비율 유지 */
-    border-radius: 10px; /* 둥근 모서리로 이미지 디자인 */
+    margin-right: 50px;
+    /* 텍스트와 이미지 사이 간격 */
+    object-fit: cover;
+    /* 이미지가 잘리더라도 크기 비율 유지 */
+    border-radius: 10px;
+    /* 둥근 모서리로 이미지 디자인 */
 }
 
 #greetings {
-    max-width: 600px; /* 텍스트 영역 최대 너비 설정 */
+    max-width: 600px;
+    /* 텍스트 영역 최대 너비 설정 */
 }
 
 .clear {
-    clear: both; /* float 정리 (필요시 사용) */
+    clear: both;
+    /* float 정리 (필요시 사용) */
 }

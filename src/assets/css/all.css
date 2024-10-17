@@ -1,31 +1,85 @@
-@charset "utf-8"; 
+@charset "utf-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
 /*all.css*/
 /* 여백 초기화 */
-body, div, ul, li, dl, dt, ol, h1, h2, h3, h4, h5, h6, 
-input, fieldset, legend, p, select, table, th, td, tr,
-textarea, button, form {margin: 0; padding: 0;}
+body,
+div,
+ul,
+li,
+dl,
+dt,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+fieldset,
+legend,
+p,
+select,
+table,
+th,
+td,
+tr,
+textarea,
+button,
+form {
+    margin: 0;
+    padding: 0;
+}
 
-body	{font-size:10; color: #333; cursor: url(../images/iconImg/cursor-pointer.png), auto;}
+body {
+    font-size: 10;
+    color: #333;
+    cursor: url(../images/iconImg/cursor-pointer.png), auto;
+}
 
-ul, ol	{list-style-type: none; }
-a:link {text-decoration: none; color: #000000; }
-a:visited {text-decoration: none; color: #000000; }
-a:active {text-decoration: none; color: #000000; }
-a:hover {text-decoration: none; color: #000000; }
+ul,
+ol {
+    list-style-type: none;
+}
+
+a:link {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:active {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #000000;
+}
 
 
 /* .clearfix{*zoom:1;} */
-.clearfix::before, .clearfix::after {
-    display: block; 
-    content: ""; 
+.clearfix::before,
+.clearfix::after {
+    display: block;
+    content: "";
     line-height: 0;
 }
-.clearfix::after {clear: both;}
+
+.clearfix::after {
+    clear: both;
+}
 
 
 
 /*************************************************************/
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
 * {
     font-family: "Pretendard Variable", Pretendard, sans-serif;
 }
@@ -33,21 +87,24 @@ a:hover {text-decoration: none; color: #000000; }
 
 
 
-body{
-    display: flex; /* Flexbox 사용 */
-    justify-content: center; /* 수평 가운데 정렬 */
+body {
+    display: flex;
+    /* Flexbox 사용 */
+    justify-content: center;
+    /* 수평 가운데 정렬 */
     /*align-items: center; /* 수직 가운데 정렬 */
-   /* height: 100vh;  화면 높이의 100% */
+    /* height: 100vh;  화면 높이의 100% */
 }
 
 
-body #wrap-main{
+body #wrap-main {
     /* background-color:#333; */
     width: 1000px;
     /* background-color: #000000; */
-    
+
 }
-#wrap-head{
+
+#wrap-head {
     width: 100%;
     /* position: relative;  부모기준에서 조정가능하게함 */
     /* background-color: aqua; */
@@ -55,44 +112,47 @@ body #wrap-main{
     padding: 5px 0px;
     /* border-bottom: 2px #d2d2d2 solid; */
     margin: 0px auto;
-    
+
 }
-#wrap-body{
+
+#wrap-body {
     position: relative;
     width: 100%;
     max-width: 940px;
     /* background-color:blue; */
     margin: 0 auto;
 }
-#wrap-foot{
+
+#wrap-foot {
     width: 100%;
     /* background-color: aquamarine; */
     margin-top: 80px;
-    
+
 }
-#wrap-body #wrap-side{
+
+#wrap-body #wrap-side {
     /* background-color: antiquewhite; */
     float: left;
     width: 208px;
     padding: 20px 0px 0px 0px;
-    
+
 }
-#wrap-body #wrap-main{
+
+#wrap-body #wrap-main {
     /* background-color: coral; */
     float: right;
     width: 710px;
 
 }
-#wrap-body #top-title{
+
+#wrap-body #top-title {
     height: 28px;
     /*background-color: crimson;*/
-    padding:20px 0px;
-    
+    padding: 20px 0px;
+
 }
-#wrap-body #top-title h2{
+
+#wrap-body #top-title h2 {
     display: inline;
     vertical-align: bottom;
 }
-
-
-

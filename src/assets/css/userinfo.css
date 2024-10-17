@@ -84,7 +84,7 @@
 }
 
 .ham .userinfo #top-ct-list #deleteAccountButton {
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
 
 .ham .userinfo #top-ct-list>ul>.hidden {
@@ -286,4 +286,3 @@
 .ham .userinfo .btn-cancel:hover {
     background-color: #999;
 }
-

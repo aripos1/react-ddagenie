@@ -36,11 +36,16 @@
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   overflow: hidden;
   cursor: pointer;
-  display: flex; /* Flexbox 사용 */
-  flex-direction: column; /* 세로로 나열 */
-  justify-content: flex-end; /* 텍스트가 아래에 위치 */
-  align-items: center; /* 텍스트와 이미지 가운데 정렬 */
-  text-align: center; /* 텍스트 가운데 정렬 */
+  display: flex;
+  /* Flexbox 사용 */
+  flex-direction: column;
+  /* 세로로 나열 */
+  justify-content: flex-end;
+  /* 텍스트가 아래에 위치 */
+  align-items: center;
+  /* 텍스트와 이미지 가운데 정렬 */
+  text-align: center;
+  /* 텍스트 가운데 정렬 */
 }
 
 .banner-item:hover {
@@ -74,11 +79,15 @@
   font-weight: 600;
   color: #1d1d1f;
   margin: 5px 0;
-  text-align: center; /* 가운데 정렬 */
-  display: block; /* 텍스트 깨짐 방지 */
+  text-align: center;
+  /* 가운데 정렬 */
+  display: block;
+  /* 텍스트 깨짐 방지 */
   overflow: hidden;
-  white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
-  text-overflow: ellipsis; /* 넘치는 텍스트는 말줄임 표시 */
+  white-space: nowrap;
+  /* 텍스트가 한 줄로 표시되도록 설정 */
+  text-overflow: ellipsis;
+  /* 넘치는 텍스트는 말줄임 표시 */
 }
 
 .banner-item .icon-btn {

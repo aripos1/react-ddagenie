@@ -1,8 +1,11 @@
 /* 페이지 전체 컨테이너 */
 .page-main-container {
-    width: 100%; /* 원하는 적당한 너비로 설정 */
-    max-width: 1300px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 */
-    margin: 20px 0px 20px -30px; /* 수평 중앙 정렬 */
+    width: 100%;
+    /* 원하는 적당한 너비로 설정 */
+    max-width: 1300px;
+    /* 최대 너비를 설정하여 너무 넓어지지 않도록 */
+    margin: 20px 0px 20px -30px;
+    /* 수평 중앙 정렬 */
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -40,11 +43,13 @@
 .album-info p {
     font-size: 20px;
     margin-bottom: 5px;
-    text-align: left !important;  /* !important로 우선 순위 강제 */
-    display: block;               /* 블록 요소로 변환 */
+    text-align: left !important;
+    /* !important로 우선 순위 강제 */
+    display: block;
+    /* 블록 요소로 변환 */
 }
 
-.listalbum-info .sing-info{
+.listalbum-info .sing-info {
     margin-left: 75px;
     margin-top: 30px;
 
@@ -53,11 +58,16 @@
 /* 버튼 스타일 */
 
 .buttons {
-    display: flex;               /* 플렉스 박스 활성화 */
-    justify-content: center;     /* 가로축 가운데 정렬 */
-    align-items: center;         /* 세로축 가운데 정렬 */
-    gap: 10px;                   /* 버튼 사이 간격 설정 */
-    margin-top: 20px;            /* 버튼과 위 요소 간격 */
+    display: flex;
+    /* 플렉스 박스 활성화 */
+    justify-content: center;
+    /* 가로축 가운데 정렬 */
+    align-items: center;
+    /* 세로축 가운데 정렬 */
+    gap: 10px;
+    /* 버튼 사이 간격 설정 */
+    margin-top: 20px;
+    /* 버튼과 위 요소 간격 */
 }
 
 .icon-btn {
@@ -76,25 +86,25 @@
     /* 부드러운 그림자 */
     margin-right: 8px;
     /* 버튼 사이 간격 */
-  }
-  
+}
 
-  
-  .icon-btn:hover {
+
+
+.icon-btn:hover {
     background-color: #e0e0e5;
     /* 호버 시 밝아짐 */
     transform: translateY(-2px);
     /* 호버 시 살짝 올라가는 효과 */
-  }
-  
-  .icon-btn:active {
+}
+
+.icon-btn:active {
     background-color: #d1d1d6;
     /* 클릭 시 어두워짐 */
     transform: translateY(0);
     /* 클릭 시 원래 위치로 */
-  }
-  
-  .icon-btn.player-btn {
+}
+
+.icon-btn.player-btn {
     background-color: #007aff;
     /* 애플 블루 */
     color: #fff;
@@ -109,23 +119,23 @@
     /* 대문자로 변환 */
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .icon-btn.player-btn:hover {
+}
+
+.icon-btn.player-btn:hover {
     background-color: #005ecb;
     /* 호버 시 어두운 블루 */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     /* 호버 시 그림자 확대 */
-  }
-  
-  .icon-btn.player-btn:active {
+}
+
+.icon-btn.player-btn:active {
     background-color: #004ba0;
     /* 클릭 시 조금 더 진한 블루 */
     transform: translateY(2px);
     /* 클릭 시 살짝 눌리는 효과 */
-  }
+}
 
-  
+
 /* 다른 앨범 리스트 */
 .artist-album-list h2 {
     margin-bottom: 15px;
@@ -185,7 +195,7 @@
 
 .cover-item img:hover {
     transform: scale(1.05);
-  }
+}
 
 /* 댓글 입력 폼 */
 .comment-form {
@@ -204,7 +214,7 @@
     resize: none;
 }
 
-.comment-submit{
+.comment-submit {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -233,35 +243,38 @@
 
 /* 댓글 리스트 */
 .comment-section {
-  margin: 20px 0;
+    margin: 20px 0;
 }
 
 .comment-item {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
 }
 
 .comment-item p {
-  margin: 5px 0;
+    margin: 5px 0;
 }
 
 /* 대댓글 토글 버튼 */
 .reply-toggle {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 5px; 
-  float: right; /* 오른쪽으로 이동 */
-  position: relative; /* 위치를 조정하기 위해 추가 */
-  top: -40px; /* 위로 이동하기 위해 추가 */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    float: right;
+    /* 오른쪽으로 이동 */
+    position: relative;
+    /* 위치를 조정하기 위해 추가 */
+    top: -40px;
+    /* 위로 이동하기 위해 추가 */
 }
 
 /* 대댓글 입력 폼 */
 .reply-form {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .reply-input {
@@ -286,16 +299,18 @@
 
 /* 대댓글 아이템 */
 .reply-item {
-  margin-left: 20px;
-  border-left: 2px solid #007bff;
-  padding-left: 10px;
+    margin-left: 20px;
+    border-left: 2px solid #007bff;
+    padding-left: 10px;
 }
 
 
 /* 삭제 버튼 스타일 */
 .delete-btn {
-    background-color: #ff4d4d; /* 빨간색 배경 */
-    color: white; /* 흰색 글자 */
+    background-color: #ff4d4d;
+    /* 빨간색 배경 */
+    color: white;
+    /* 흰색 글자 */
     border: none;
     border-radius: 5px;
     padding: 8px 16px;
@@ -307,13 +322,16 @@
 
 /* 버튼 hover 상태 */
 .delete-btn:hover {
-    background-color: #ff1a1a; /* hover 시 더 진한 빨간색 */
-    transform: scale(1.05); /* 버튼 커지는 효과 */
+    background-color: #ff1a1a;
+    /* hover 시 더 진한 빨간색 */
+    transform: scale(1.05);
+    /* 버튼 커지는 효과 */
 }
 
 /* 버튼 클릭 상태 */
 .delete-btn:active {
-    background-color: #e60000; /* 클릭 시 더 어두운 빨간색 */
+    background-color: #e60000;
+    /* 클릭 시 더 어두운 빨간색 */
 }
 
 .like-count {

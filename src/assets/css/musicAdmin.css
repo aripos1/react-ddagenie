@@ -1,13 +1,19 @@
 @charset "UTF-8";
 
 
-#musicAdmin #top-title, #musicInsert #top-title, #musicUpdate #top-title, #artistInsert #top-title {
+#musicAdmin #top-title,
+#musicInsert #top-title,
+#musicUpdate #top-title,
+#artistInsert #top-title {
 	width: 700px;
 	text-align: center;
 	border: none;
 }
 
-#musicAdmin h4, #musicInsert h4, #musicUpdate h4, #artistInsert h4 {
+#musicAdmin h4,
+#musicInsert h4,
+#musicUpdate h4,
+#artistInsert h4 {
 	text-align: right;
 	margin-bottom: 10px;
 }
@@ -22,6 +28,7 @@
 #musicAdmin .container {
 	width: 680px;
 }
+
 #musicAdmin .header {
 	display: flex;
 	justify-content: space-between;
@@ -35,6 +42,7 @@
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
+
 #musicAdmin .header button {
 	background-color: #0095FF;
 	color: white;
@@ -43,6 +51,7 @@
 	border-radius: 5px;
 	cursor: pointer;
 }
+
 #musicAdmin .header input[type="button"] {
 	border: none;
 	border-radius: 5px;
@@ -52,69 +61,89 @@
 	float: right;
 	cursor: pointer;
 }
+
 #musicAdmin .header button:hover {
 	background-color: #007bb5;
 }
 
 
 
-#musicAdmin table, #artistInsert table {
+#musicAdmin table,
+#artistInsert table {
 	width: 100%;
 	border-collapse: collapse;
 }
-#musicAdmin table>thead, #artistInsert table>thead {
-    background-color: #f2f2f2; 
+
+#musicAdmin table>thead,
+#artistInsert table>thead {
+	background-color: #f2f2f2;
 }
-#musicAdmin table>thead>tr>th, #artistInsert table>thead>tr>th {
-    padding: 10px 0px 10px 0px;
-    font-weight: bold; 
+
+#musicAdmin table>thead>tr>th,
+#artistInsert table>thead>tr>th {
+	padding: 10px 0px 10px 0px;
+	font-weight: bold;
 	text-align: center;
-	border:0;
-	font-size:15px;
+	border: 0;
+	font-size: 15px;
 	background: #fff;
 	border-top: 2px solid #000;
-	
+
 }
-#musicAdmin table tr, #artistInsert table tr { 
-    border-bottom: 1px solid #ddd;
+
+#musicAdmin table tr,
+#artistInsert table tr {
+	border-bottom: 1px solid #ddd;
 }
-#musicAdmin table>tbody>tr:hover, #artistInsert table>tbody>tr:hover { 
-	background-color: #e6f7ff; 
+
+#musicAdmin table>tbody>tr:hover,
+#artistInsert table>tbody>tr:hover {
+	background-color: #e6f7ff;
 }
-#musicAdmin table>tbody>tr>td, #artistInsert table>tbody>tr>td {
-    padding: 10px;
+
+#musicAdmin table>tbody>tr>td,
+#artistInsert table>tbody>tr>td {
+	padding: 10px;
 	text-align: center;
-	font-size:13px;
-	border:0;
+	font-size: 13px;
+	border: 0;
 	word-break: keep-all;
 }
 
 
 
-#musicAdmin table tbody tr, #artistInsert table tbody tr {
+#musicAdmin table tbody tr,
+#artistInsert table tbody tr {
 	background-color: transparent;
 }
+
 #musicAdmin .delete-btn {
-margin-top: 0;
+	margin-top: 0;
 }
-#musicAdmin .action-btn, #musicAdmin .delete-btn {
+
+#musicAdmin .action-btn,
+#musicAdmin .delete-btn {
 	color: white;
 	padding: 5px 10px;
 	text-decoration: none;
 	border-radius: 5px;
 	border: none;
 	cursor: pointer;
-	font-size:14px
+	font-size: 14px
 }
-#musicAdmin .action-btn{
+
+#musicAdmin .action-btn {
 	background-color: #0095FF;
 }
+
 #musicAdmin .action-btn:hover {
 	background-color: #007bb5;
 }
+
 #musicAdmin .delete-btn {
 	background-color: #f44336;
 }
+
 #musicAdmin .delete-btn:hover {
 	background-color: #da190b;
 }
@@ -123,36 +152,52 @@ margin-top: 0;
 
 
 
-#musicAdmin #paging, #artistInsert #paging {
+#musicAdmin #paging,
+#artistInsert #paging {
 	margin-top: 20px;
-    display: flex;
-    align-items: center; /* 수직 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
+	display: flex;
+	align-items: center;
+	/* 수직 정렬 */
+	justify-content: center;
+	/* 수평 중앙 정렬 */
 }
 
-#musicAdmin #paging ul, #artistInsert #paging ul {
-    list-style: none; /* 기본 리스트 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    margin: 0 10px; /* 좌우 여백 설정 */
-    display: flex; /* Flexbox 사용 */
+#musicAdmin #paging ul,
+#artistInsert #paging ul {
+	list-style: none;
+	/* 기본 리스트 스타일 제거 */
+	padding: 0;
+	/* 기본 패딩 제거 */
+	margin: 0 10px;
+	/* 좌우 여백 설정 */
+	display: flex;
+	/* Flexbox 사용 */
 }
 
-#musicAdmin #paging li, #artistInsert #paging li {
-    margin: 0 5px; /* 각 페이지 버튼 간의 간격 */
+#musicAdmin #paging li,
+#artistInsert #paging li {
+	margin: 0 5px;
+	/* 각 페이지 버튼 간의 간격 */
 }
 
-#musicAdmin #paging a, #musicAdmin #paging button,
-#artistInsert #paging a, #artistInsert #paging button {
-    text-decoration: none; /* 링크의 기본 밑줄 제거 */
-    padding: 5px 10px; /* 버튼 여백 */
-	border:0;
+#musicAdmin #paging a,
+#musicAdmin #paging button,
+#artistInsert #paging a,
+#artistInsert #paging button {
+	text-decoration: none;
+	/* 링크의 기본 밑줄 제거 */
+	padding: 5px 10px;
+	/* 버튼 여백 */
+	border: 0;
 	background: none;
 	cursor: pointer;
 }
+
 #musicAdmin #paging button:hover,
-#artistInsert #paging button:hover  {
+#artistInsert #paging button:hover {
 	font-weight: 600;
 }
+
 #musicAdmin #paging button.active,
 #artistInsert #paging button.active {
 	font-weight: 600;
@@ -176,6 +221,7 @@ margin-top: 0;
 	margin: 0;
 	padding: 0;
 }
+
 #musicInsert .container {
 	max-width: 600px;
 	margin: 20px auto;
@@ -184,16 +230,23 @@ margin-top: 0;
 	border-radius: 5px;
 	background-color: white;
 }
+
 #musicInsert h2 {
 	text-align: center;
 	color: #333;
 }
+
 #musicInsert label {
 	font-weight: bold;
 	margin-top: 10px;
 	display: block;
 }
-#musicInsert input[type="text"], input[type="date"], input[type="time"], input[type="file"], select {
+
+#musicInsert input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+select {
 	width: 100%;
 	padding: 8px;
 	margin-top: 5px;
@@ -201,6 +254,7 @@ margin-top: 0;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
+
 #musicInsert button {
 	width: 100%;
 	padding: 10px;
@@ -210,13 +264,16 @@ margin-top: 0;
 	border-radius: 5px;
 	cursor: pointer;
 }
+
 #musicInsert button:hover {
 	background-color: #0283DF;
 }
+
 #musicInsert .back-btn {
 	background-color: #555;
 	margin-top: 10px;
 }
+
 #musicInsert .back-btn:hover {
 	background-color: #333;
 }
@@ -230,6 +287,7 @@ margin-top: 0;
 	margin: 0;
 	padding: 0;
 }
+
 #musicUpdate .container {
 	max-width: 600px;
 	margin: 20px auto;
@@ -238,16 +296,23 @@ margin-top: 0;
 	border-radius: 5px;
 	background-color: white;
 }
+
 #musicUpdate h2 {
 	text-align: center;
 	color: #333;
 }
+
 #musicUpdate label {
 	font-weight: bold;
 	margin-top: 10px;
 	display: block;
 }
-#musicUpdate input[type="text"], input[type="date"], input[type="time"], input[type="file"], select {
+
+#musicUpdate input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+select {
 	width: 100%;
 	padding: 8px;
 	margin-top: 5px;
@@ -255,6 +320,7 @@ margin-top: 0;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 }
+
 #musicUpdate button {
 	width: 100%;
 	padding: 10px;
@@ -264,13 +330,16 @@ margin-top: 0;
 	border-radius: 5px;
 	cursor: pointer;
 }
+
 #musicUpdate button:hover {
 	background-color: #0283DF;
 }
+
 #musicUpdate .back-btn {
 	background-color: #555;
 	margin-top: 10px;
 }
+
 #musicUpdate .back-btn:hover {
 	background-color: #333;
 }
@@ -280,7 +349,8 @@ margin-top: 0;
 /* ################################################# */
 /* ArtistInsert */
 
-#artistInsert .inner-container1, #artistInsert .inner-container2 {
+#artistInsert .inner-container1,
+#artistInsert .inner-container2 {
 	margin-bottom: 60px;
 }
 
@@ -334,16 +404,12 @@ margin-top: 0;
 	border-radius: 5px;
 	cursor: pointer;
 }
+
 #artistInsert .inner-container1 .back-btn {
 	background-color: #555;
 	margin-top: 10px;
 }
+
 #artistInsert .inner-container1 .back-btn:hover {
 	background-color: #333;
 }
-
-
-
-
-
-

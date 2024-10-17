@@ -596,6 +596,7 @@ import { differenceInDays } from 'date-fns';
 import axios from 'axios';
 
 import '../../assets/css/all.css';
+
 import '../../assets/css/header.css';
 
 import walletIcon from '../../assets/images/wallet.png';

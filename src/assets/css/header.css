@@ -11,7 +11,7 @@
     padding: 0 5px 0 0;
 }
 
-.ham #wrap-header>#purchase-button>.headBuy{
+.ham #wrap-header>#purchase-button>.headBuy {
     font-size: 12px;
     padding-left: 10px;
     color: #333;
@@ -73,9 +73,11 @@
 } */
 
 .ham #wrap-header .header-main .btn-submit {
-    position: absolute; /* 버튼을 자유롭게 이동시키기 위해 */
+    position: absolute;
+    /* 버튼을 자유롭게 이동시키기 위해 */
 
-    z-index: 2; /* 버튼이 다른 요소 위에 표시되도록 설정 */
+    z-index: 2;
+    /* 버튼이 다른 요소 위에 표시되도록 설정 */
     width: 43px;
     height: 36px;
     background-image: url(../images/search.png);
@@ -87,7 +89,8 @@
 .ham #wrap-header>.gnb>.gnb-my {
     font-size: 14px;
 }
-.ham .btn-profile img{
+
+.ham .btn-profile img {
     width: 50px;
     top: -45px;
     position: relative;
@@ -98,6 +101,7 @@
     background-image: url(../images/default_img.webp);
     background-size: cover;
 }
+
 .ham #wrap-header>.gnb>.gnb-my>.login-join-btn {
     background-color: transparent;
     color: #333;
@@ -106,16 +110,19 @@
     cursor: pointer;
     font-weight: bold;
 }
+
 .ham #wrap-header>.gnb>.gnb-my {
-    float: right;  
+    float: right;
 }
 
 .ham #wrap-header>.gnb>.gnb-my>li {
-    float: left; margin: 25px 0px 0px 10px;
+    float: left;
+    margin: 25px 0px 0px 10px;
 }
 
 .ham #wrap-header>.gnb>.gnb-my>li .login-join-btn {
-    padding: 4px 6px 4px 6px; font-size: 14px; 
+    padding: 4px 6px 4px 6px;
+    font-size: 14px;
 }
 
 .ham #wrap-header>.gnb>.gnb-my>li .logout {
@@ -156,14 +163,17 @@
 .ham #wrap-header>.gnb .gnb-menu,
 .ham #wrap-header>.gnb>.gnb-my>li .logout,
 .ham #wrap-header>.gnb>.gnb-my>li .login-join-btn {
-    text-shadow: 0 2px 5px rgba(0, 255, 251, 0.2);  /* 가벼운 그림자 */
+    text-shadow: 0 2px 5px rgba(0, 255, 251, 0.2);
+    /* 가벼운 그림자 */
 }
 
 /* 마우스를 가져다 대면 글자가 튀어나오는 효과 */
 .ham #wrap-header>#purchase-button>.headBuy:hover {
-    transform: translateY(-5px);  /* 글자가 위로 5px 떠오르는 효과 */
-    text-shadow: 0 4px 10px rgba(74, 199, 253, 0.3), 
-                 0 2px 5px rgba(5, 230, 255, 0.1);  /* 더 진한 그림자 추가 */
+    transform: translateY(-5px);
+    /* 글자가 위로 5px 떠오르는 효과 */
+    text-shadow: 0 4px 10px rgba(74, 199, 253, 0.3),
+        0 2px 5px rgba(5, 230, 255, 0.1);
+    /* 더 진한 그림자 추가 */
     transform: scale(1.2);
 }
 
@@ -172,34 +182,44 @@
     position: fixed;
     top: 180px;
     left: 270px;
-    background-color: #FAFAFA; /* 애플 느낌의 밝은 톤 */
-    color: #333; /* 텍스트 색상 */
-    border: 1px solid #e0e0e0; /* 테두리를 가볍게 */
-    border-radius: 50px; /* 더 둥근 형태로 변경 */
+    background-color: #FAFAFA;
+    /* 애플 느낌의 밝은 톤 */
+    color: #333;
+    /* 텍스트 색상 */
+    border: 1px solid #e0e0e0;
+    /* 테두리를 가볍게 */
+    border-radius: 50px;
+    /* 더 둥근 형태로 변경 */
     padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
     cursor: pointer;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    /* 부드러운 그림자 */
     z-index: 1000;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .floating-music-player-btn:hover {
-    background-color: #f2f2f2; /* 살짝 더 밝아지는 효과 */
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15); /* 그림자 강화 */
+    background-color: #f2f2f2;
+    /* 살짝 더 밝아지는 효과 */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+    /* 그림자 강화 */
 }
 
 .floating-music-player-btn .icon {
     margin-right: 8px;
-    font-size: 24px; /* 아이콘 크기를 조금 더 키움 */
-    color: #333; /* 아이콘 색상 */
+    font-size: 24px;
+    /* 아이콘 크기를 조금 더 키움 */
+    color: #333;
+    /* 아이콘 색상 */
 }
 
 .floating-music-player-btn .text {
     font-size: 16px;
-    font-weight: 500; /* 애플 스타일의 약간 두꺼운 텍스트 */
+    font-weight: 500;
+    /* 애플 스타일의 약간 두꺼운 텍스트 */
     color: #333;
 }

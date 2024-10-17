@@ -19,6 +19,7 @@
     font-size: 14px;
     margin: 0;
 }
+
 .Breadcrumbs li {
     margin-right: 5px;
 }
@@ -33,6 +34,7 @@
     max-width: 900px;
     margin: 0 auto;
 }
+
 /* 탭 스타일 */
 .mymusic #top-ct-list {
     display: flex;
@@ -152,7 +154,8 @@
 .mymusic table input[type="checkbox"] {
     cursor: pointer;
     transform: scale(1.2);
-    accent-color: #007aff; /* 체크박스 색상 */
+    accent-color: #007aff;
+    /* 체크박스 색상 */
 }
 
 /* 플레이리스트 하단 버튼 */

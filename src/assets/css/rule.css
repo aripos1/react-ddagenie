@@ -1,6 +1,6 @@
 /* 전체적인 중앙 정렬 및 스타일링 */
 #main {
-    
+
     padding: 30px;
 }
 
@@ -8,37 +8,65 @@
     font-size: 2.5em;
     font-weight: bold;
     margin-bottom: 30px;
-    
+
 }
 
 /* 각 항목에 대한 스타일 */
-#terms-1, #terms-2, #terms-3, #terms-4, #terms-5,
-#terms-6, #terms-7, #terms-8, #terms-9, #terms-10,
-#terms-11, #terms-12, #terms-appendix {
+#terms-1,
+#terms-2,
+#terms-3,
+#terms-4,
+#terms-5,
+#terms-6,
+#terms-7,
+#terms-8,
+#terms-9,
+#terms-10,
+#terms-11,
+#terms-12,
+#terms-appendix {
     margin-bottom: 20px;
     text-align: left;
 }
 
-#terms-1 h2, #terms-2 h2, #terms-3 h2, #terms-4 h2, 
-#terms-5 h2, #terms-6 h2, #terms-7 h2, #terms-8 h2,
-#terms-9 h2, #terms-10 h2, #terms-11 h2, #terms-12 h2 {
+#terms-1 h2,
+#terms-2 h2,
+#terms-3 h2,
+#terms-4 h2,
+#terms-5 h2,
+#terms-6 h2,
+#terms-7 h2,
+#terms-8 h2,
+#terms-9 h2,
+#terms-10 h2,
+#terms-11 h2,
+#terms-12 h2 {
     font-size: 1.5em;
     margin-top: 20px;
     color: #333;
 }
 
-#terms-1 p, #terms-2 p, #terms-3 p, #terms-4 p, 
-#terms-5 p, #terms-6 p, #terms-7 p, #terms-8 p, 
-#terms-9 p, #terms-10 p, #terms-11 p, #terms-12 p,
+#terms-1 p,
+#terms-2 p,
+#terms-3 p,
+#terms-4 p,
+#terms-5 p,
+#terms-6 p,
+#terms-7 p,
+#terms-8 p,
+#terms-9 p,
+#terms-10 p,
+#terms-11 p,
+#terms-12 p,
 #terms-appendix p {
     font-size: 1.1em;
     text-align: left;
     color: #555;
 }
 
-#terms-5 ul, #terms-10 ul {
+#terms-5 ul,
+#terms-10 ul {
     text-align: left;
     margin-left: 20px;
     font-size: 1.1em;
 }
-

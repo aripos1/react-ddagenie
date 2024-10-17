@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
-#top-title{
+#top-title {
     border-bottom: 2px #dedede solid;
 }
 
-#top-title p{
+#top-title p {
     font-size: 11px;
     float: right;
     /*background-color: #85cbd2;*/
@@ -14,27 +14,29 @@
 
 
 /*############################*/
-#admin-all-list-title{
+#admin-all-list-title {
     font-weight: bold;
     font-size: 18px;
     text-align: center;
     margin-top: 15px;
     margin-bottom: 20px;
-    
+
 }
 
-#admin-table-delete-list{
+#admin-table-delete-list {
     text-align: center;
     margin-left: 13px;
 }
 
-#admin-table-delete-list th,td{
+#admin-table-delete-list th,
+td {
     border: 1px #D5D5D5 solid;
     padding: 5px 8px;
     width: 135px;
-    
+
 }
-#admin-table-delete-list td button{
+
+#admin-table-delete-list td button {
     padding: 5px 15px;
     background-color: #fc4d4d;
     border: 1px #ffffff solid;
@@ -42,6 +44,6 @@
     color: #ffffff;
 }
 
-#admin-table-delete-list th{
+#admin-table-delete-list th {
     background-color: #e7e7e7;
 }
